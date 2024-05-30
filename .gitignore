@@ -477,3 +477,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+Java-Spring-Backend\src\main\resources\application.properties
