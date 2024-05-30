@@ -1,6 +1,6 @@
 
 ### dotenv ###
-.env
+*.env*
 
 ### Intellij+all ###
 
