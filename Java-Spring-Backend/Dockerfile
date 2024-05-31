@@ -7,6 +7,8 @@ WORKDIR /app
 # Copy the packaged jar file into the container
 COPY target/summer-0.0.1-SNAPSHOT.jar /app/myapp.jar
 
+COPY src/main/resources/application-dev.properties /app/application.properties
+
 # Expose the port that the application runs on
 EXPOSE 8080
 
