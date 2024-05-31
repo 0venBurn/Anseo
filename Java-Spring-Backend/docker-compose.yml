@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  myapp:
+    image: myapp:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - "8080"
+    networks:
+      - myapp-network
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - myapp
+    networks:
+      - myapp-network
+
+networks:
+  myapp-network:
+    driver: bridge
