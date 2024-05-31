@@ -10,8 +10,10 @@ COPY requirements.txt .
 # Install any dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application code into the container
 COPY . .
 
-# Specify the command to run the app
-CMD ["gunicorn", "-b", "0.0.0.0:8000", "run:app"]
+RUN mv .env.dev .env
+
+EXPOSE 8000
+
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "run:app"]

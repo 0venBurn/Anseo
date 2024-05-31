@@ -6,6 +6,9 @@ import "./App.css";
 function App() {
   const [count, setCount] = useState(0);
 
+  // Access the environment variable
+  let testVariable = import.meta.env.VITE_APP_TEST;
+
   return (
     <>
       <div>
@@ -27,6 +30,9 @@ function App() {
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
+      </p>
+      <p>
+        Test variable: {testVariable}
       </p>
     </>
   );
