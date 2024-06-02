@@ -1,6 +1,10 @@
 Have:
 -taxi busyness data
 -rental prices info 
+-legally operating business
+-metro data
+-census
+-abandonned
 
 to do-data:
 -find new data which may be pertinent to application(1 or 2 sets)
