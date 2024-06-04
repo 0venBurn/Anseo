@@ -1,82 +1,119 @@
 import React, { useState } from 'react';
 import { Button, IconButton } from '@mui/material';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/700.css';
-import { useNavigate, Link } from 'react-router-dom';
 
 const BoroughPage: React.FC = () => {
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string[]>([]);
   const navigate = useNavigate();
 
   const handleSelect = (option: string) => {
-    setSelected(option);
+    setSelected(prevSelected => {
+      if (prevSelected.includes(option)) {
+        return prevSelected.filter(item => item !== option);
+      } else if (prevSelected.length < 2) {
+        return [...prevSelected, option];
+      } else {
+        return prevSelected;
+      }
+    });
   };
 
   return (
-    <div className="relative h-screen bg-blue-400 text-white flex flex-col items-center justify-between">
-      <div className="w-full flex justify-between items-center py-4 border-b border-white">
-      <Link to="/" className="text-4xl font-bold ml-10">ANSEO</Link>
-        <div className="flex space-x-4 items-center mr-10">
+    <motion.div
+      initial={{ opacity: 0, x: -100 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 100 }}
+      transition={{ duration: 0.5 }}
+      className="relative h-screen bg-gray-100 text-black flex flex-col items-center justify-between"
+    >
+      <div className="w-full flex justify-between items-center py-4 px-10 bg-purple-900 text-white">
+        <div 
+          className="text-5xl font-bold text-orange-600 cursor-pointer"
+          onClick={() => navigate('/')}
+        >
+          ANSEO
+        </div>
+        <div className="flex space-x-4">
           <button className="text-2xl font-bold">ABOUT</button>
           <IconButton color="inherit">
             <AccountCircle />
           </IconButton>
         </div>
       </div>
-      <div className="flex flex-col items-center text-center mt-12">
-        <h1 className="text-5xl font-bold mb-10">What borough are you interested in?</h1>
-        <div className="grid grid-cols-2 gap-4">
-          {['Brooklyn', 'Manhatten', 'Queens', 'Bronx', 'Yonkers', 'New Jersey', 'Long Island', 'Midtown', 'Uptown', 'Jersey City'].map(option => (
+      <div className="flex flex-col items-center text-center mt-20 px-10">
+        <h1 className="text-3xl font-bold mb-20" style={{ fontFamily: 'Alegreya' }}>
+        2. Which boroughs are you most interested in for your business location? <span className="text-red-500">*</span>
+        </h1>
+        <div className="grid grid-cols-2 gap-4 mb-10">
+          {[
+            { label: 'Manhattan'},
+            { label: 'Brooklyn'},
+            { label: 'Queens' },
+            { label: 'The Bronx' },
+            { label: 'Staten Island' },
+            { label: 'No preference' },
+          ].map(option => (
             <button
-              key={option}
-              className={`w-48 h-16 py-4 px-8 rounded-full text-xl font-bold flex items-center justify-center ${
-                selected === option ? 'bg-purple-600' : 'bg-gray-400'
+              key={option.label}
+              className={`w-48 h-16 py-4 px-8 rounded-lg text-xl font-bold flex items-center justify-center border-2 ${
+                selected.includes(option.label) ? 'bg-purple-900 text-white' : 'bg-transparent text-purple-900'
               }`}
-              onClick={() => handleSelect(option)}
+              onClick={() => handleSelect(option.label)}
             >
-              {selected === option && <FavoriteIcon className="mr-2" />}
-              <span>{option}</span>
+              <span className="ml-2">{option.label}</span>
             </button>
           ))}
         </div>
+        <div className="flex justify-between w-full mt-10 px-80">
+          <Button 
+            variant="contained" 
+            sx={{
+              fontSize: '1.25rem',
+              padding: '0.75rem 2rem',
+              backgroundColor: '#f8b0a9',
+              color: 'black',
+              borderRadius: '50px',
+              '&:hover': {
+                backgroundColor: '#f89a93',
+              },
+            }}
+            onClick={() => navigate('/questions')}
+            startIcon={<ArrowBackIcon />}
+          >
+            Back
+          </Button>
+          <Button 
+            variant="contained" 
+            sx={{
+              fontSize: '1.25rem',
+              padding: '0.75rem 2rem',
+              backgroundColor: '#f16449',
+              color: 'white',
+              borderRadius: '50px',
+              '&:hover': {
+                backgroundColor: '#f14624',
+              },
+            }}
+            onClick={() => navigate('/submit')}
+            endIcon={<ArrowForwardIcon />}
+          >
+            Next
+          </Button>
+        </div>
       </div>
-      <div className="w-full flex justify-center items-center py-4 border-t border-white mt-10 space-x-10">
-        <Button 
-          variant="contained" 
-          sx={{
-            fontSize: '1.25rem',
-            padding: '0.75rem 2rem',
-            backgroundColor: 'white',
-            color: 'blue',
-            borderRadius: '50px',
-            '&:hover': {
-              backgroundColor: '#e0e0e0',
-            },
-          }}
-          onClick={() => navigate(-1)}
-        >
-          BACK
-        </Button>
-        <Button 
-          variant="contained" 
-          sx={{
-            fontSize: '1.25rem',
-            padding: '0.75rem 2rem',
-            backgroundColor: 'white',
-            color: 'blue',
-            borderRadius: '50px',
-            '&:hover': {
-              backgroundColor: '#e0e0e0',
-            },
-          }}
-          onClick={() => console.log('Button')}
-        >
-          NEXT
-        </Button>
+      <div className="absolute bottom-10 w-full flex justify-center space-x-2">
+        <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
+        <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
+        <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
+        <div className="w-3 h-3 border-2 border-purple-900 rounded-full"></div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
