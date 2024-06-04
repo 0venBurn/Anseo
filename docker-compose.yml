@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  java-backend:
+    build:
+      context: ./Java-Spring-backend
+      dockerfile: Dockerfile
+    expose:
+      - "8080"
+    networks:
+      - app-network
+
+  flask-api:
+    build:
+      context: ./Python-Flask-API
+      dockerfile: Dockerfile
+    expose:
+      - "8000"
+    networks:
+      - app-network
+
+  react-frontend:
+    build:
+      context: ./React-Frontend
+      dockerfile: Dockerfile
+    expose:
+      - "80"
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - java-backend
+      - flask-api
+      - react-frontend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
