@@ -62,3 +62,47 @@ We will handle sprints with the following approach:
 
 ## How to install and run
 
+### Requirements
+
+- Conda
+- Node
+- Docker Desktop
+- Maven
+- JVM
+
+#### React-Frontend
+
+- Navigate to the frontend directory at React-Frontend
+- Run npm install to install all dependencies and packages
+- To run local server type: "npm run dev" in your terminal
+- To run formatter type: "npm run format" in your terminal
+- To run linter type: "npm run lint" in your terminal
+- To run linter with fixes type: "npm run lint:fix" in your terminal
+- To build docker container config within this directory type: "docker build -t react-frontend ." in your terminal
+- -t in the previous code indicates the tag for the docker container 
+- To run the docker image just built within this directory type: "docker run -d -p 80:80 --name react-frontend in your terminal
+- -d indicates running the docker container in detached mode meaning the terminal will be clear 
+- -p indicates what host and container ports will be used. First -> Host, Second -> Container Port 
+- To build the docker compose build type "docker-compose build" in your terminal
+- To build docker container with type "docker-compose up" in your terminal
+- To stop the docker compose build type "docker-compose down" in your terminal
+- To restart the docker compose build type "docker-compose restart" in your terminal
+
+#### Python-Flask-API
+- Navigate to the Flask API directory at Python-Flask-API 
+- Create a conda environment by running the following code in your terminal
+- "conda create --name flask-api"
+- "conda activate flask-api"
+- "pip install -r requirements.txt"
+- To run the application on a local host type "python run.py" in your terminal
+- To build docker container config within this directory type: "docker build -t flask-api ." in your terminal
+- -t in the previous code indicates the tag for the docker container 
+- To run the docker image just built within this directory type: "docker run -d -p 8000:8000 --name react-frontend in your terminal
+- -d indicates running the docker container in detached mode meaning the terminal will be clear 
+- -p indicates what host and container ports will be used. First -> Host, Second -> Container Port 
+- To build the docker compose build type "docker-compose build" in your terminal
+- To build docker container with type "docker-compose up" in your terminal
+- To stop the docker compose build type "docker-compose down" in your terminal
+- To restart the docker compose build type "docker-compose restart" in your terminal
+
+#### Java-Spring-Backend
