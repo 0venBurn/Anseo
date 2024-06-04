@@ -536,3 +536,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# csv no in repo 
+*.csv
