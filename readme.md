@@ -5,6 +5,7 @@ Anseo is an innovative application designed to help business owners, entrepreneu
 
 ## Team
 Evan Byrne
+Tadgh Purcell
 Zikang Wang
 Niall Mckay
 Eamonn Walsh
