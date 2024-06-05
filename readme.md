@@ -81,13 +81,12 @@ We will handle sprints with the following approach:
 - To run linter with fixes type: "npm run lint:fix" in your terminal
 - To build docker container config within this directory type: "docker build -t react-frontend ." in your terminal
 - -t in the previous code indicates the tag for the docker container 
-- To run the docker image just built within this directory type: "docker run -d -p 80:80 --name react-frontend in your terminal
+- To run the docker image just built within this directory type: "docker run -d -p 80:80 react-frontend in your terminal
 - -d indicates running the docker container in detached mode meaning the terminal will be clear 
 - -p indicates what host and container ports will be used. First -> Host, Second -> Container Port 
-- To build the docker compose build type "docker-compose build" in your terminal
-- To build docker container with type "docker-compose up" in your terminal
-- To stop the docker compose build type "docker-compose down" in your terminal
-- To restart the docker compose build type "docker-compose restart" in your terminal
+- To build and run the docker-compose file type "docker-compose build" followed by "docker-compose up"
+- To stop the docker-compose file type "docker-compose down" in your terminal 
+
 
 #### Python-Flask-API
 - Navigate to the Flask API directory at Python-Flask-API 
@@ -98,12 +97,26 @@ We will handle sprints with the following approach:
 - To run the application on a local host type "python run.py" in your terminal
 - To build docker container config within this directory type: "docker build -t flask-api ." in your terminal
 - -t in the previous code indicates the tag for the docker container 
-- To run the docker image just built within this directory type: "docker run -d -p 8000:8000 --name react-frontend in your terminal
+- To run the docker image just built within this directory type: "docker run -d -p 8000:8000 flask-api" in your terminal
 - -d indicates running the docker container in detached mode meaning the terminal will be clear 
 - -p indicates what host and container ports will be used. First -> Host, Second -> Container Port 
-- To build the docker compose build type "docker-compose build" in your terminal
-- To build docker container with type "docker-compose up" in your terminal
-- To stop the docker compose build type "docker-compose down" in your terminal
-- To restart the docker compose build type "docker-compose restart" in your terminal
+- To build and run the docker-compose file type "docker-compose build" followed by "docker-compose up"
+- To stop the docker-compose file type "docker-compose down" in your terminal 
+
 
 #### Java-Spring-Backend
+- Navigate to the java spring directory at Java-Spring-Backend
+- Create the java application by typing "mvn clean package"
+- Run the java application by typing "mvn spring-boot:run"
+- To build docker container config within this directory type: "docker build -t spring-backend ." in your terminal
+- -t in the previous code indicates the tag for the docker container 
+- To run the docker image just built within this directory type: "docker run -d -p 8000:8000 spring-backend" in your terminal
+- -d indicates running the docker container in detached mode meaning the terminal will be clear 
+- -p indicates what host and container ports will be used. First -> Host, Second -> Container Port 
+- To build and run the docker-compose file type "docker-compose build" followed by "docker-compose up"
+- To stop the docker-compose file type "docker-compose down" in your terminal 
+
+#### Running all Docker containers 
+- Navigate to the root directory
+- To build and run the docker-compose file type "docker-compose build" followed by "docker-compose up"
+- To stop the docker-compose file type "docker-compose down" in your terminal 
