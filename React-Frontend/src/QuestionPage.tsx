@@ -6,8 +6,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/700.css';
+import '@fontsource/alegreya/400.css';
+import '@fontsource/alegreya/700.css';
 
 const QuestionPage: React.FC = () => {
   const [selected, setSelected] = useState<string[]>([]);
@@ -41,8 +41,9 @@ const QuestionPage: React.FC = () => {
           ANSEO
         </div>
         <div className="flex space-x-4">
-          <button className="text-2xl font-bold">ABOUT</button>
-          <IconButton color="inherit">
+          <button className="text-2xl font-bold" onClick={() => navigate('/about')}>ABOUT</button>
+          <IconButton color="inherit"
+          onClick={() => navigate('/login')}>
             <AccountCircle />
           </IconButton>
         </div>
