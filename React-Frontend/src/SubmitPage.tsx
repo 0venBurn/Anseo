@@ -1,10 +1,11 @@
 import React from 'react';
-import { Button } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/700.css';
+import '@fontsource/alegreya/400.css';
+import '@fontsource/alegreya/700.css';
 
 const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -25,19 +26,10 @@ const WelcomePage: React.FC = () => {
           ANSEO
         </div>
         <div className="flex space-x-4">
-          <Button 
-            variant="outlined" 
-            sx={{ borderColor: 'white', color: 'white', borderRadius: '20px', padding: '0.25rem 1rem' }}
-          >
-            Log In
-          </Button>
-          <Button 
-            variant="contained" 
-            color="error" 
-            sx={{ backgroundColor: 'red', color: 'white', borderRadius: '5px' }}
-          >
-            Sign Up
-          </Button>
+          <button className="text-2xl font-bold" onClick={() => navigate('/about')}>ABOUT</button>
+          <IconButton color="inherit" onClick={() => navigate('/login')}>
+            <AccountCircle />
+          </IconButton>
         </div>
       </div>
       <div className="flex flex-col items-center text-center mt-32">
@@ -48,7 +40,7 @@ const WelcomePage: React.FC = () => {
             variant="contained" 
             color="error" 
             sx={{ backgroundColor: '#F15C50', color: 'white', borderRadius: '5px', padding: '0.75rem 3rem' }}
-            onClick={() => console.log("...")}
+            onClick={() => navigate('/map')}
           >
             Submit
           </Button>
