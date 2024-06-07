@@ -2,3 +2,5 @@ flask
 gunicorn
 python-dotenv
 flask-cors
+pytest 
+pytest-flask
