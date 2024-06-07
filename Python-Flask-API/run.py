@@ -1,7 +1,7 @@
 """
 Run.py
 
-This module serves as an entry point for the application. 
+This module serves as an entry point for the application.
 It initializes and configures CORS(cross-origin resource sharing) based on environment variables.
 The application is set to run on host 0.0.0.0 and port 8000
 
@@ -9,9 +9,9 @@ Modules:
     app (Flask): The Flask application instance created by the create_app function from the app module.
     flask_cors.CORS: Flask extension for handling Cross-Origin Resource Sharing (CORS).
     os: Standard Python library for interacting with the operating system.
-    
+
 Environment Variables:
-    CORS_ALLOWED_ORIGINS (str): A comma-separated list of allowed origins for CORS. If set to "*", 
+    CORS_ALLOWED_ORIGINS (str): A comma-separated list of allowed origins for CORS. If set to "*",
                                 allows all origins.
 
 Usage:
