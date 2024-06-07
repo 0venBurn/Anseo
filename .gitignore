@@ -478,6 +478,11 @@ dist-ssr
 *.sln
 *.sw?
 Java-Spring-Backend\src\main\resources\*.properties
+\src\main\resources\*.properties
+
+Java-Spring-Backend/src/main/resources/*.properties
+/src/main/resources/*.properties
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
