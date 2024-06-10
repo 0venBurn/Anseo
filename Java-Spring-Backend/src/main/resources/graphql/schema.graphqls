@@ -1,0 +1,20 @@
+type TaxiZone {
+    zoneId: ID!
+    neighbourhood: String!
+    borough: String!
+    shapeLength: Float!
+    shapeArea: Float!
+    polygonCoords: String!
+}
+
+type ZipCode {
+    zipCode: ID!
+    geometry: String!
+}
+
+type Query {
+    zipCodes: [ZipCode]
+    zipCode(id: ID!): ZipCode
+    taxiZones: [TaxiZone]
+    taxiZone(zoneId: ID!): TaxiZone
+}

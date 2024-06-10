@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.summer.serializer.GeometrySerializer;
+import org.example.summer.geo.GeometrySerializer;
 import org.locationtech.jts.geom.MultiPolygon;
 
 @Entity
