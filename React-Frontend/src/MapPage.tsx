@@ -1,9 +1,10 @@
 import { useRef, useEffect, useState } from 'react';
 import mapboxgl, { LngLatLike } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { motion } from 'framer-motion';
-import { IconButton, Card, CardContent, Button, Typography } from '@mui/material';
+import { motion, AnimatePresence } from 'framer-motion';
+import { IconButton, Card, CardContent, Button, Typography, Grid, Box } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import './index.css'; 
 
@@ -49,8 +50,10 @@ const locations: Location[] = [
 ];
 
 const MapPage = () => {
-  const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const [map, setMap] = useState<mapboxgl.Map | null>(null);
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);  // Referencing the div element of a map container
+  const [map, setMap] = useState<mapboxgl.Map | null>(null); // The initial value is null, indicating that the map has not been initialized yet.
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null); // If there is no selected location, the value is null.
+  const [isClosing, setIsClosing] = useState(false); // The initial value is false, indicating that the details column is not closed.
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,7 +65,7 @@ const MapPage = () => {
         zoom: 10,
       });
 
-      map.on('load', () => {
+      map.on('load', () => {  //  When the map loading is complete
         locations.forEach(location => {
           new mapboxgl.Marker()
             .setLngLat(location.coordinates as LngLatLike)
@@ -73,8 +76,19 @@ const MapPage = () => {
       });
     };
 
-    if (!map) initializeMap();
+    if (!map) initializeMap(); // If the map has not been initialized yet, call the initializeMap function.
   }, [map]);
+
+  const handleLearnMore = (location: Location) => {  // Indicates the location where the user clicked.
+    setSelectedLocation(location); // Set the selected location as the current location.
+    setIsClosing(false); // Reset the isClosing status to false to ensure that the details bar can be opened correctly.
+  };
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => setSelectedLocation(null), 500); //Use the setTimeout function to delay the execution of setSelectedLocation (null) by 500 milliseconds,
+                                                      // and wait for the animation to complete before clearing the selected location.
+  };
 
   return (
     <div className="flex flex-col h-screen">
@@ -99,30 +113,92 @@ const MapPage = () => {
           transition={{ duration: 0.5 }}
           className="w-1/2 p-4 bg-gray-100 overflow-y-auto"
         >
-          {locations.map((location, index) => (
-            <Card key={index} className="mb-4">
-              <CardContent>
-                <Typography variant="h5" component="h2">
-                  {location.name}
-                </Typography>
-                <Typography color="textSecondary">
-                  {location.borough}
-                </Typography>
-                <Typography variant="body2" component="p">
-                  {location.description}
-                </Typography>
-                <Typography variant="body2" component="p">
-                  Rating: {location.rating}
-                </Typography>
-                <Button variant="contained" color="primary" className="mt-2">
-                  Learn More
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+          <Box p={2}> 
+            {/* Padding is 2 units  */}
+            <Grid container spacing={2}>
+              {/* The spacing between grid items is 2 units */}
+              {locations.map((location, index) => (
+                <Grid item xs={12} sm={6} key={index}>
+                  {/* xs={12} indicates that on a super small screen (phone), each grid item occupies 12 columns (an entire row). 
+                  sm={6} indicates that on a small screen (tablet), each grid item occupies 6 columns (half of the rows). */}
+                  <Card>
+                    <img src={`/img/${location.name.toLowerCase().replace(/ /g, '-')}.png`} alt={location.name} style={{ height: 200, objectFit: 'cover' }} />
+                    {/* Replace spaces with - */}
+                    <CardContent>
+                      <Typography variant="h6">{location.name}</Typography>
+                      <Typography variant="body2" color="textSecondary">{location.borough}</Typography>
+                      <Typography variant="body2">{location.description}</Typography>
+                      <Box display="flex" alignItems="center" mt={1}>
+                        <Typography variant="body2" style={{ marginRight: 4 }}>{location.rating.toFixed(2)}</Typography>
+                        <div>
+                          {Array.from({ length: 5 }).map((_, starIndex) => (
+                            // Create an array of length 5 and traverse to generate stars.
+                            <span key={starIndex} style={{ color: starIndex < Math.round(location.rating) ? '#FFD700' : '#CCC' }}>★</span>
+                            // Display golden or gray stars based on rating values.
+                          ))}
+                        </div>
+                      </Box>
+                      <Button variant="contained" style={{ backgroundColor: '#FF6347', color: '#FFF', marginTop: 16 }} onClick={() => handleLearnMore(location)}>Learn More</Button>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
         </motion.div>
         <div ref={mapContainerRef} className="w-1/2 h-full" />
       </div>
+      
+{/* detail column here */}
+      <AnimatePresence>
+        {/* <AnimatePresence>is used to control the entry and exit of components in animations */}
+        {selectedLocation && !isClosing && (
+          <motion.div
+            initial={{ x: '-100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '-100%' }}
+            transition={{ duration: 0.5 }}
+            className="fixed top-0 left-0 w-1/2 h-full bg-white shadow-lg p-6 z-50 overflow-y-auto"
+          >
+            <div className="flex justify-end">
+              <IconButton onClick={handleClose}>
+                <CloseIcon />
+              </IconButton>
+            </div>
+            <Typography variant="h4" component="h2" gutterBottom>
+              {selectedLocation.name}
+            </Typography>
+            <Typography variant="h6" color="textSecondary" gutterBottom>
+              {selectedLocation.borough}
+            </Typography>
+            <Box display="flex" alignItems="center" mt={1} mb={2}>
+              <Typography variant="body2" style={{ marginRight: 4 }}>{selectedLocation.rating.toFixed(2)}</Typography>
+              <div>
+                {Array.from({ length: 5 }).map((_, starIndex) => (
+                  <span key={starIndex} style={{ color: starIndex < Math.round(selectedLocation.rating) ? '#FFD700' : '#CCC' }}>★</span>
+                ))}
+              </div>
+            </Box>
+            <Typography variant="body1" paragraph>
+              {selectedLocation.description}
+            </Typography>
+            <Typography variant="body2" paragraph>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed ullamcorper morbi tincidunt ornare. Est placerat in egestas erat imperdiet sed. In arcu cursus euismod quis viverra nibh. Scelerisque viverra mauris in aliquam. Sodales neque sodales ut etiam sit. Sed augue lacus viverra vitae congue. Consectetur lorem donec massa sapien. Nisl purus in mollis nunc sed id semper. Semper feugiat nibh sed pulvinar. Sem viverra aliquet eget sit amet tellus. Nulla at volutpat diam ut.
+            </Typography>
+            <Typography variant="h5" component="h3" gutterBottom>
+              Why this location?
+            </Typography>
+            <ul className="list-disc pl-6">
+              <li><strong>Affordability:</strong> Price Range $$ - $$$</li>
+              <li><strong>Safety Score:</strong> lorem ipsum...</li>
+              <li><strong>ML Metric 1:</strong> lorem ipsum...</li>
+              <li><strong>ML Metric 2:</strong> lorem ipsum...</li>
+              <li><strong>ML Metric 3:</strong> lorem ipsum...</li>
+              <li>...</li>
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
