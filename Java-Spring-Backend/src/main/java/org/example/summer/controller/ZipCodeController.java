@@ -1,6 +1,6 @@
 package org.example.summer.controller;
 
-import org.example.summer.dao.ZipCodesRepository;
+import org.example.summer.dao.ZipCodeRepository;
 import org.example.summer.entity.ZipCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -14,10 +14,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/zipCodes")
 @CrossOrigin
-public class ZipCodesController {
+public class ZipCodeController {
 
     @Autowired
-    private ZipCodesRepository zipCodesRepository;
+    private ZipCodeRepository zipCodesRepository;
 
     @GetMapping("/all")
     public List<ZipCode> getAllZipCodes() {

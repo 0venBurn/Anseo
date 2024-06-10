@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Repository
 @CrossOrigin
-public interface ZipCodesRepository extends JpaRepository<ZipCode, Integer> {
+public interface ZipCodeRepository extends JpaRepository<ZipCode, Integer> {
 }

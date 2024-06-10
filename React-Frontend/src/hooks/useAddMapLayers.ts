@@ -1,9 +1,10 @@
 import { useEffect, useRef } from "react";
 import mapboxgl from 'mapbox-gl';
-import { TaxiZone } from "../types/TaxiZone";
+// import { TaxiZone } from "../types/TaxiZone";
+import { ZipCode } from "../types/ZipCode";
 import parseGeoJson from "../utils/GeoJsonParser";
 
-export const useAddMapLayers = (map: mapboxgl.Map | null, taxiZones: TaxiZone[], mapRef: HTMLDivElement | null) => {
+export const useAddMapLayers = (map: mapboxgl.Map | null, taxiZones: ZipCode[], mapRef: HTMLDivElement | null) => {
     const layersAddedRef = useRef(false);
 
     useEffect(() => {
@@ -11,18 +12,18 @@ export const useAddMapLayers = (map: mapboxgl.Map | null, taxiZones: TaxiZone[],
             const addLayers = () => {
                 if (taxiZones.length > 0) {
                     taxiZones.forEach(zone => {
-                        if (!map.getSource(`${zone.zoneId}`)) {
-                            map.addSource(`${zone.zoneId}`, {
+                        if (!map.getSource(`${zone.zipCode}`)) {
+                            map.addSource(`${zone.zipCode}`, {
                                 'type': 'geojson',
                                 'data': {
                                     'type': 'Polygon',
-                                    'coordinates': parseGeoJson(zone.polygonCoords)
+                                    'coordinates': parseGeoJson(zone.geometry)
                                 }
                             });
                             map.addLayer({
-                                'id': `${zone.zoneId}`,
+                                'id': `${zone.zipCode}`,
                                 'type': 'fill',
-                                'source': `${zone.zoneId}`,
+                                'source': `${zone.zipCode}`,
                                 'layout': {},
                                 'paint': {
                                     'fill-color': '#0080ff',
@@ -30,9 +31,9 @@ export const useAddMapLayers = (map: mapboxgl.Map | null, taxiZones: TaxiZone[],
                                 }
                             });
                             map.addLayer({
-                                'id': `Outline: ${zone.zoneId}`,
+                                'id': `Outline: ${zone.zipCode}`,
                                 'type': 'line',
-                                'source': `${zone.zoneId}`,
+                                'source': `${zone.zipCode}`,
                                 'layout': {},
                                 'paint': {
                                     'line-color': '#000',

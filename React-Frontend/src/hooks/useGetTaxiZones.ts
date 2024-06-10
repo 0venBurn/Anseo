@@ -8,14 +8,14 @@ export const useGetTaxiZones = (map: mapboxgl.Map | null, mapRef: HTMLDivElement
     useEffect(() => {
         const getTaxiZones = async () => {
             try {
-                const res = await fetch('http://localhost:8080/api/taxiZones/all');
+                const res = await fetch('http://localhost:8080/api/zipCodes/all');
                 if (!res.ok) {
-                    throw new Error('Taxi zones could not be found');
+                    throw new Error('Zip codes could not be found');
                 }
                 const data: TaxiZone[] = await res.json();
                 setTaxiZones(data);
             } catch (err) {
-                console.error('Error fetching taxi data:', err);
+                console.error('Error fetching zip codes:', err);
             } finally {
                 setLoading(false);
             }

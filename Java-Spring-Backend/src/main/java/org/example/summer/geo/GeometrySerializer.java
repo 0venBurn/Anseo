@@ -1,4 +1,4 @@
-package org.example.summer.serializer;
+package org.example.summer.geo;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
