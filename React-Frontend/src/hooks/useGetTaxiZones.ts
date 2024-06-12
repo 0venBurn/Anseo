@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
-import { TaxiZone } from "../types/TaxiZone";
+import { Zone } from "../types/GeoJson";
 
 export const useGetTaxiZones = (map: mapboxgl.Map | null, mapRef: HTMLDivElement | null) => {
-    const [taxiZones, setTaxiZones] = useState<TaxiZone[]>([]);
+    const [taxiZones, setTaxiZones] = useState<Zone[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const getTaxiZones = async () => {
             try {
-                const res = await fetch('http://localhost:8080/api/zipCodes/all');
+                const res = await fetch('../../nycGeo.json');
                 if (!res.ok) {
                     throw new Error('Zip codes could not be found');
                 }
-                const data: TaxiZone[] = await res.json();
-                setTaxiZones(data);
+                const data = await res.json();
+                setTaxiZones(data.features);
             } catch (err) {
                 console.error('Error fetching zip codes:', err);
             } finally {
