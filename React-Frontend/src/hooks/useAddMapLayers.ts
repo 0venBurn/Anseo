@@ -1,29 +1,27 @@
 import { useEffect, useRef } from "react";
 import mapboxgl from 'mapbox-gl';
-// import { TaxiZone } from "../types/TaxiZone";
-import { ZipCode } from "../types/ZipCode";
-import parseGeoJson from "../utils/GeoJsonParser";
+import { Zone } from "../types/GeoJson";
 
-export const useAddMapLayers = (map: mapboxgl.Map | null, taxiZones: ZipCode[], mapRef: HTMLDivElement | null) => {
-    const layersAddedRef = useRef(false);
+export const useAddMapLayers = (map: mapboxgl.Map | null, taxiZones: Zone[], mapRef: HTMLDivElement | null) => {
+    const layersAddedRef = useRef(false)
 
     useEffect(() => {
         if (map && !layersAddedRef.current) {
             const addLayers = () => {
                 if (taxiZones.length > 0) {
                     taxiZones.forEach(zone => {
-                        if (!map.getSource(`${zone.zipCode}`)) {
-                            map.addSource(`${zone.zipCode}`, {
+                        if (!map.getSource(`${zone.properties.zip_code}`)) {
+                            map.addSource(`${zone.properties.zip_code}`, {
                                 'type': 'geojson',
                                 'data': {
                                     'type': 'Polygon',
-                                    'coordinates': parseGeoJson(zone.geometry)
+                                    'coordinates': zone.geometry.coordinates
                                 }
                             });
                             map.addLayer({
-                                'id': `${zone.zipCode}`,
+                                'id': `${zone.properties.zip_code}`,
                                 'type': 'fill',
-                                'source': `${zone.zipCode}`,
+                                'source': `${zone.properties.zip_code}`,
                                 'layout': {},
                                 'paint': {
                                     'fill-color': '#0080ff',
@@ -31,9 +29,9 @@ export const useAddMapLayers = (map: mapboxgl.Map | null, taxiZones: ZipCode[], 
                                 }
                             });
                             map.addLayer({
-                                'id': `Outline: ${zone.zipCode}`,
+                                'id': `Outline: ${zone.properties.zip_code}`,
                                 'type': 'line',
-                                'source': `${zone.zipCode}`,
+                                'source': `${zone.properties.zip_code}`,
                                 'layout': {},
                                 'paint': {
                                     'line-color': '#000',
@@ -43,14 +41,16 @@ export const useAddMapLayers = (map: mapboxgl.Map | null, taxiZones: ZipCode[], 
                         }
                     });
                 } 
-                layersAddedRef.current = true; 
+                layersAddedRef.current = true;
             };
 
-            if (map.isStyleLoaded()) {
-                addLayers();
-            } else {
-                map.on('load', addLayers);
-            }
+            addLayers()
+
+            // if (map.isStyleLoaded()) {
+            //     addLayers()
+            // } else {
+            //     map.on('load', addLayers)
+            // }
         }
     }, [map, taxiZones, mapRef]);
 };

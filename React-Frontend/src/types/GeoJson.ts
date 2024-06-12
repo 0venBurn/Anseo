@@ -1,3 +1,14 @@
-export type Position = [number, number];
-export type Polygon = Position[];
-export type MultiPolygon = Polygon[];
+export interface Zone {
+    type: string;
+    geometry: Geometry;
+    properties: Properties;
+}
+    
+interface Geometry {
+    type: string;
+    coordinates: number[][][];
+}
+
+interface Properties {
+    zip_code: number;
+}

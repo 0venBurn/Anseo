@@ -7,7 +7,6 @@ mapboxgl.accessToken = environment.mapbox.accessToken
 export const useMapInit = (lat: number, lng: number, zoom: number) => {
     const mapRef = useRef<HTMLDivElement | null>(null);
     const map = useRef<mapboxgl.Map | null>(null);
-
     
     useEffect(() => {
         if (mapRef.current && !map.current) {
@@ -28,7 +27,7 @@ export const useMapInit = (lat: number, lng: number, zoom: number) => {
                 map.current = null;
             }
         };
-    }, [mapRef.current]);
+    }, []);
     
     return { mapRef, map };
 };
