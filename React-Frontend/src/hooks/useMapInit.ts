@@ -12,10 +12,10 @@ export const useMapInit = (lat: number, lng: number, zoom: number) => {
         if (mapRef.current && !map.current) {
             map.current = new mapboxgl.Map({
                 container: mapRef.current,
-                style: 'mapbox://styles/mapbox/streets-v12',
                 center: [lng, lat],
                 zoom,
                 pitchWithRotate: false,
+                style: 'mapbox://styles/tadghp/clxbpfz0f025901pce9n78onm/draft',
             });
 
             map.current.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
