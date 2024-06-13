@@ -22,7 +22,7 @@ const LandingPage: React.FC = () => {
         alt="Background" 
         className="absolute inset-0 w-full h-full object-cover opacity-80"
       />
-      <div className="absolute top-10 left-1/2 transform -translate-x-1/2 text-5xl font-bold text-orange-600" style={{ fontFamily: 'Fredoka-One' }}>ANSEO</div>
+      <div className="absolute top-10 left-1/2 transform -translate-x-1/2 text-5xl font-bold text-orange-600" style={{ fontFamily: 'Fredoka One' }}>ANSEO</div>
       <div className="absolute top-4 right-10 flex space-x-4">
         <Button 
           variant="outlined" 
