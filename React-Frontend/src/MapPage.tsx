@@ -1,5 +1,5 @@
-import { useRef, useEffect, useState } from 'react';
-import mapboxgl, { LngLatLike } from 'mapbox-gl';
+import { useState } from 'react';
+import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IconButton, Card, CardContent, Button, Typography, Grid, Box } from '@mui/material';
@@ -7,8 +7,10 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import './index.css'; 
+import { environment } from '../mapbox.config';
+import { Map } from './components/Map';  
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiemlrYW5nd2FuZyIsImEiOiJjbHgzYW9kdjQwdXQ3MnFxeDJyMHViMHpsIn0.6gvXZTqFPhuWhb0YZVc1PQ';
+mapboxgl.accessToken = environment.mapbox.accessToken;
 
 interface Location {
   name: string;
@@ -50,34 +52,9 @@ const locations: Location[] = [
 ];
 
 const MapPage = () => {
-  const mapContainerRef = useRef<HTMLDivElement | null>(null);  // Referencing the div element of a map container
-  const [map, setMap] = useState<mapboxgl.Map | null>(null); // The initial value is null, indicating that the map has not been initialized yet.
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null); // If there is no selected location, the value is null.
   const [isClosing, setIsClosing] = useState(false); // The initial value is false, indicating that the details column is not closed.
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const initializeMap = () => {
-      const map = new mapboxgl.Map({
-        container: mapContainerRef.current!,
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [-73.935242, 40.73061] as LngLatLike, 
-        zoom: 10,
-      });
-
-      map.on('load', () => {  //  When the map loading is complete
-        locations.forEach(location => {
-          new mapboxgl.Marker()
-            .setLngLat(location.coordinates as LngLatLike)
-            .addTo(map);
-        });
-
-        setMap(map);
-      });
-    };
-
-    if (!map) initializeMap(); // If the map has not been initialized yet, call the initializeMap function.
-  }, [map]);
 
   const handleLearnMore = (location: Location) => {  // Indicates the location where the user clicked.
     setSelectedLocation(location); // Set the selected location as the current location.
@@ -114,16 +91,11 @@ const MapPage = () => {
           className="w-1/2 p-4 bg-gray-100 overflow-y-auto"
         >
           <Box p={2}> 
-            {/* Padding is 2 units  */}
             <Grid container spacing={2}>
-              {/* The spacing between grid items is 2 units */}
               {locations.map((location, index) => (
                 <Grid item xs={12} sm={6} key={index}>
-                  {/* xs={12} indicates that on a super small screen (phone), each grid item occupies 12 columns (an entire row). 
-                  sm={6} indicates that on a small screen (tablet), each grid item occupies 6 columns (half of the rows). */}
                   <Card>
                     <img src={`/img/${location.name.toLowerCase().replace(/ /g, '-')}.png`} alt={location.name} style={{ height: 200, objectFit: 'cover' }} />
-                    {/* Replace spaces with - */}
                     <CardContent>
                       <Typography variant="h6">{location.name}</Typography>
                       <Typography variant="body2" color="textSecondary">{location.borough}</Typography>
@@ -132,9 +104,7 @@ const MapPage = () => {
                         <Typography variant="body2" style={{ marginRight: 4 }}>{location.rating.toFixed(2)}</Typography>
                         <div>
                           {Array.from({ length: 5 }).map((_, starIndex) => (
-                            // Create an array of length 5 and traverse to generate stars.
                             <span key={starIndex} style={{ color: starIndex < Math.round(location.rating) ? '#FFD700' : '#CCC' }}>★</span>
-                            // Display golden or gray stars based on rating values.
                           ))}
                         </div>
                       </Box>
@@ -146,12 +116,12 @@ const MapPage = () => {
             </Grid>
           </Box>
         </motion.div>
-        <div ref={mapContainerRef} className="w-1/2 h-full" />
+        <div className="w-1/2 h-full">
+          <Map /> 
+        </div>
       </div>
       
-{/* detail column here */}
       <AnimatePresence>
-        {/* <AnimatePresence>is used to control the entry and exit of components in animations */}
         {selectedLocation && !isClosing && (
           <motion.div
             initial={{ x: '-100%' }}

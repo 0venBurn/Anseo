@@ -35,7 +35,7 @@ const LoginPage: React.FC = () => {
             variant="contained" 
             color="error" 
             sx={{ backgroundColor: 'red', color: 'white', borderRadius: '5px' }}
-            onClick={() => navigate('/signup')}
+            onClick={() => navigate('/signin')}
           >
             Sign Up
           </Button>
