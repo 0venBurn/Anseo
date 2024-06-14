@@ -5,6 +5,7 @@ Anseo is an innovative application designed to help business owners, entrepreneu
 
 ## Team
 Evan Byrne
+Tadgh Purcell
 Zikang Wang
 Niall Mckay
 Eamonn Walsh
@@ -62,3 +63,60 @@ We will handle sprints with the following approach:
 
 ## How to install and run
 
+### Requirements
+
+- Conda
+- Node
+- Docker Desktop
+- Maven
+- JVM
+
+#### React-Frontend
+
+- Navigate to the frontend directory at React-Frontend
+- Run npm install to install all dependencies and packages
+- To run local server type: "npm run dev" in your terminal
+- To run formatter type: "npm run format" in your terminal
+- To run linter type: "npm run lint" in your terminal
+- To run linter with fixes type: "npm run lint:fix" in your terminal
+- To build docker container config within this directory type: "docker build -t react-frontend ." in your terminal
+- -t in the previous code indicates the tag for the docker container 
+- To run the docker image just built within this directory type: "docker run -d -p 80:80 react-frontend in your terminal
+- -d indicates running the docker container in detached mode meaning the terminal will be clear 
+- -p indicates what host and container ports will be used. First -> Host, Second -> Container Port 
+- To build and run the docker-compose file type "docker-compose build" followed by "docker-compose up"
+- To stop the docker-compose file type "docker-compose down" in your terminal 
+
+
+#### Python-Flask-API
+- Navigate to the Flask API directory at Python-Flask-API 
+- Create a conda environment by running the following code in your terminal
+- "conda create --name flask-api"
+- "conda activate flask-api"
+- "pip install -r requirements.txt"
+- To run the application on a local host type "python run.py" in your terminal
+- To build docker container config within this directory type: "docker build -t flask-api ." in your terminal
+- -t in the previous code indicates the tag for the docker container 
+- To run the docker image just built within this directory type: "docker run -d -p 8000:8000 flask-api" in your terminal
+- -d indicates running the docker container in detached mode meaning the terminal will be clear 
+- -p indicates what host and container ports will be used. First -> Host, Second -> Container Port 
+- To build and run the docker-compose file type "docker-compose build" followed by "docker-compose up"
+- To stop the docker-compose file type "docker-compose down" in your terminal 
+
+
+#### Java-Spring-Backend
+- Navigate to the java spring directory at Java-Spring-Backend
+- Create the java application by typing "mvn clean package"
+- Run the java application by typing "mvn spring-boot:run"
+- To build docker container config within this directory type: "docker build -t spring-backend ." in your terminal
+- -t in the previous code indicates the tag for the docker container 
+- To run the docker image just built within this directory type: "docker run -d -p 8000:8000 spring-backend" in your terminal
+- -d indicates running the docker container in detached mode meaning the terminal will be clear 
+- -p indicates what host and container ports will be used. First -> Host, Second -> Container Port 
+- To build and run the docker-compose file type "docker-compose build" followed by "docker-compose up"
+- To stop the docker-compose file type "docker-compose down" in your terminal 
+
+#### Running all Docker containers 
+- Navigate to the root directory
+- To build and run the docker-compose file type "docker-compose build" followed by "docker-compose up"
+- To stop the docker-compose file type "docker-compose down" in your terminal 
