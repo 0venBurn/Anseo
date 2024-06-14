@@ -8,6 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import './index.css'; 
 import { environment } from '../mapbox.config';
+
 import { Map } from './components/Map';  
 
 mapboxgl.accessToken = environment.mapbox.accessToken;
