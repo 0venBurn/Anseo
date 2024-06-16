@@ -1,0 +1,31 @@
+Have:
+-taxi busyness data
+-rental prices info 
+-legally operating business
+-metro data
+-census
+-abandonned
+
+to do-data:
+-find new data which may be pertinent to application(1 or 2 sets)
+
+to do-Analytics:
+-remove extreme outliers 
+-check logical integrity
+
+model:
+-figure out which data would be useful inputs
+-target feature if any.
+-supervised vs unsupervised, likely unsupervised due to amalgamation of dataset
+-features(WIP):
+-- location
+-- Peak busyness
+-- price in area
+-- type of business. ie late night vs early morning. retail vs b2b
+
+
+
+
+ideas:
+-assign busyness scores to each location
+-
