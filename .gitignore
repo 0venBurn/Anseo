@@ -10,6 +10,7 @@ Java-Spring-Backend/src/main/resources/*.properties
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+Java-Spring-Backend/src/main/resources/*.properties
 
 # AWS User-specific
 .idea/**/aws.xml
