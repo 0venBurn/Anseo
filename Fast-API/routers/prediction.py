@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends
-
 from schemas.prediction import PredictionRequest, PredictionResponse
 from services.prediction import PredictionService
 
