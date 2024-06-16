@@ -6,7 +6,7 @@ import "./index.css";
 import Header from "./components/WelcomePageHeader";
 import HeroSection from "./components/WelcomePageHeroSection";
 import ActionButton from "./components/WelcomePageActionButton";
-import ProgressIndicator from "./components/WelcomePageProgressIndicator";
+import ProgressIndicator from "./components/ProgressIndicator";
 
 /**
  * WelcomePage component that combines Header, HeroSection, ActionButton, and ProgressIndicator components
@@ -24,7 +24,7 @@ const WelcomePage: React.FC = () => {
       <Header />
       <HeroSection />
       <ActionButton />
-      <ProgressIndicator />
+      <ProgressIndicator currentStep={1} totalSteps={4} />
     </motion.div>
   );
 };
