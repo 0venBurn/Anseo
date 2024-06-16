@@ -1,41 +1,49 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import LandingPage from "./LandingPage";
+import QuestionPage from "./QuestionPage";
+import BoroughPage from "./BoroughPage";
+import WelcomePage from "./WelcomePage";
+import SubmitPage from "./SubmitPage";
+import "./index.css";
+import LoginPage from "./LoginPage";
+import SignInPage from "./SignInPage";
+import AboutPage from "./AboutPage";
+import MapPage from "./MapPage";
 
-
-function App() {
-  const [count, setCount] = useState(0);
+const App: React.FC = () => {
+  const location = useLocation();
 
   // Access the environment variable
   let testVariable = import.meta.env.VITE_APP_TEST;
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <p>
-        Test variable: {testVariable}
-      </p>
-    </>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/questions" element={<QuestionPage />} />
+        <Route path="/borough" element={<BoroughPage />} />
+        <Route path="/welcome" element={<WelcomePage />} />
+        <Route path="/submit" element={<SubmitPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signin" element={<SignInPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/map" element={<MapPage />} />
+      </Routes>
+    </AnimatePresence>
   );
-}
+};
 
-export default App;
+const AppWrapper: React.FC = () => (
+  <Router>
+    <App />
+  </Router>
+);
+
+export default AppWrapper;
