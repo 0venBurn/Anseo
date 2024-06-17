@@ -53,8 +53,8 @@ const QuestionPage1: React.FC = () => {
         handleSelect={handleSelect}
         options={options}
       />
-      <ProgressIndicator currentStep={2} totalSteps={3} />
-      <div className="flex justify-between w-1/2 mt-10 px-80 mb-10">
+      <ProgressIndicator currentStep={3} totalSteps={4} />
+      <div className="flex justify-between w-2/3 mt-10 px-80 mb-10">
         <BackButton path="/questions" />
         <NextButton path="/submit" />
       </div>

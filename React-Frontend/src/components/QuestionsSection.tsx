@@ -4,7 +4,7 @@ import React from "react";
 
 interface Option {
   label: string;
-  icon: JSX.Element;
+  icon?: JSX.Element;
 }
 
 interface QuestionSectionProps {
