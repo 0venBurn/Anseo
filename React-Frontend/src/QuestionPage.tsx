@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import "@fontsource/alegreya/400.css";
 import "@fontsource/alegreya/700.css";
-import Header from "./components/QuestionsHeader";
+import Header from "./components/HeaderWithProfileIcon";
 import QuestionSection from "./components/QuestionsSection";
 import BackButton from "./components/BackButton";
 import NextButton from "./components/NextButton";
@@ -53,8 +53,8 @@ const QuestionPage1: React.FC = () => {
         handleSelect={handleSelect}
         options={options}
       />
-      <ProgressIndicator currentStep={1} totalSteps={4} />
-      <div className="flex justify-between w-1/2 mt-10 px-80 mb-10">
+      <ProgressIndicator currentStep={2} totalSteps={4} />
+      <div className="flex justify-between w-2/3 mt-10 px-80 mb-10">
         <BackButton path="/welcome" />
         <NextButton path="/borough" />
       </div>
