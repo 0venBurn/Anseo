@@ -1,12 +1,23 @@
-import React from 'react';
-import { Button, Divider } from '@mui/material';
+import React, { useState } from 'react';
+import { Button, Divider, IconButton } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import CloseIcon from '@mui/icons-material/Close';
+import { useMediaQuery, useTheme } from '@mui/material';
 import '@fontsource/alegreya/400.css';
 import '@fontsource/alegreya/700.css';
+import './index.css';
 
 const AboutPage: React.FC = () => {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  const handleMenuToggle = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   return (
     <motion.div
@@ -16,31 +27,73 @@ const AboutPage: React.FC = () => {
       transition={{ duration: 0.5 }}
       className="relative min-h-screen bg-gray-100 text-black"
     >
-      <div className="sticky top-0 left-0 w-full bg-purple-900 text-white flex justify-between items-center py-4 px-10">
+      {/* Header */}
+      <div className="absolute top-0 left-0 w-full bg-blue-900 text-white flex justify-between items-center py-4 px-4 md:px-20">
         <div 
-          className="text-5xl font-bold text-orange-600 cursor-pointer"
+          className="text-3xl md:text-5xl font-bold text-orange-600 cursor-pointer" 
+          style={{ fontFamily: 'Fredoka One' }}
           onClick={() => navigate('/')}
         >
           ANSEO
         </div>
-        <div className="flex space-x-4">
+        <div className="flex space-x-4 items-center">
           <Button 
             variant="outlined" 
-            sx={{ borderColor: 'white', color: 'white', borderRadius: '20px', padding: '0.25rem 1rem' }}
-            onClick={() => navigate('/signin')}
+            sx={{ 
+              borderColor: 'white', 
+              color: 'white', 
+              borderRadius: '20px', 
+              padding: isMobile ? '0.15rem 0.75rem' : '0.25rem 1rem',
+              boxShadow: 'none',
+              fontSize: isMobile ? '0.75rem' : '1rem' 
+            }}
+            onClick={() => navigate('/login')}
           >
             Log In
           </Button>
           <Button 
             variant="contained" 
             color="error" 
-            sx={{ backgroundColor: 'red', color: 'white', borderRadius: '5px' }}
-            onClick={() => navigate('/signup')}
+            sx={{ 
+              backgroundColor: 'red', 
+              color: 'white', 
+              borderRadius: isMobile ? '20px' : '5px',
+              boxShadow: 'none',
+              fontSize: isMobile ? '0.75rem' : '1rem'
+            }}
+            onClick={() => navigate('/signin')}
           >
             Sign Up
           </Button>
+          {isMobile && (
+            <IconButton color="inherit" onClick={handleMenuToggle}>
+              {menuOpen ? <CloseIcon /> : <MenuIcon />}
+            </IconButton>
+          )}
         </div>
       </div>
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute top-16 left-0 w-full bg-blue-900 text-white flex flex-col items-center py-4"
+          >
+            <Button 
+              variant="text" 
+              sx={{ color: 'white', fontSize: '1rem' }}
+              onClick={() => {
+                navigate('/about');
+                setMenuOpen(false);
+              }}
+            >
+              About
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="flex flex-col items-center text-center mt-12">
         <h1 className="text-4xl font-bold mb-10" style={{ fontFamily: 'Alegreya' }}>Our Mission</h1>
         <p className="text-lg mb-10">Subheading for description or instructions</p>

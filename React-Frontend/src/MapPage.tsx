@@ -1,15 +1,15 @@
-import { useState } from 'react';
+import React, { useState} from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IconButton, Card, CardContent, Button, Typography, Grid, Box } from '@mui/material';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
+import { useMediaQuery, useTheme } from '@mui/material';
 import './index.css'; 
 import { environment } from '../mapbox.config';
-
-import { Map } from './components/Map';  
+import Map from './components/Map';  
 
 mapboxgl.accessToken = environment.mapbox.accessToken;
 
@@ -52,44 +52,104 @@ const locations: Location[] = [
   },
 ];
 
-const MapPage = () => {
-  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null); // If there is no selected location, the value is null.
-  const [isClosing, setIsClosing] = useState(false); // The initial value is false, indicating that the details column is not closed.
+const MapPage: React.FC = () => {
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
 
-  const handleLearnMore = (location: Location) => {  // Indicates the location where the user clicked.
-    setSelectedLocation(location); // Set the selected location as the current location.
-    setIsClosing(false); // Reset the isClosing status to false to ensure that the details bar can be opened correctly.
+  const handleLearnMore = (location: Location) => {
+    setSelectedLocation(location);
+    setIsClosing(false);
   };
 
   const handleClose = () => {
     setIsClosing(true);
-    setTimeout(() => setSelectedLocation(null), 500); //Use the setTimeout function to delay the execution of setSelectedLocation (null) by 500 milliseconds,
-                                                      // and wait for the animation to complete before clearing the selected location.
+    setTimeout(() => setSelectedLocation(null), 500);
+  };
+
+  const handleMenuToggle = () => {
+    setMenuOpen(!menuOpen);
   };
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="absolute top-0 left-0 w-full bg-purple-900 text-white flex justify-between items-center py-4 px-10">
+      {/* Header */}
+      <div className="absolute top-0 left-0 w-full bg-blue-900 text-white flex justify-between items-center py-4 px-4 md:px-20">
         <div 
-          className="text-5xl font-bold text-orange-600 cursor-pointer"
+          className="text-3xl md:text-5xl font-bold text-orange-600 cursor-pointer" 
+          style={{ fontFamily: 'Fredoka One' }}
           onClick={() => navigate('/')}
         >
           ANSEO
         </div>
-        <div className="flex space-x-4">
-          <button className="text-2xl font-bold" onClick={() => navigate('/about')}>ABOUT</button>
-          <IconButton color="inherit" onClick={() => navigate('/login')}>
-            <AccountCircleIcon />
-          </IconButton>
+        <div className="flex space-x-2 md:space-x-4 items-center">
+          <Button 
+            variant="outlined" 
+            sx={{ 
+              borderColor: 'white', 
+              color: 'white', 
+              borderRadius: '20px', 
+              padding: isMobile ? '0.15rem 0.75rem' : '0.25rem 1rem',
+              boxShadow: 'none',
+              fontSize: isMobile ? '0.75rem' : '1rem'
+            }}
+            onClick={() => navigate('/login')}
+          >
+            Log In
+          </Button>
+          <Button 
+            variant="contained" 
+            color="error" 
+            sx={{ 
+              backgroundColor: 'red', 
+              color: 'white', 
+              borderRadius: isMobile ? '20px' : '5px',
+              boxShadow: 'none',
+              fontSize: isMobile ? '0.75rem' : '1rem'
+            }}
+            onClick={() => navigate('/signin')}
+          >
+            Sign Up
+          </Button>
+          {isMobile && (
+            <IconButton color="inherit" onClick={handleMenuToggle}>
+              {menuOpen ? <CloseIcon /> : <MenuIcon />}
+            </IconButton>
+          )}
         </div>
       </div>
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute top-16 left-0 w-full bg-blue-900 text-white flex flex-col items-center py-4 z-50"
+          >
+            <Button 
+              variant="text" 
+              sx={{ color: 'white', fontSize: '1rem' }}
+              onClick={() => {
+                navigate('/about');
+                setMenuOpen(false);
+              }}
+            >
+              About
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* Desktop display location introduction on the left half */}
       <div className="flex flex-1 mt-20">
         <motion.div
           initial={{ x: -300 }}
           animate={{ x: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-1/2 p-4 bg-gray-100 overflow-y-auto"
+          className="hidden md:block w-1/2 p-4 bg-gray-100 overflow-y-auto"
         >
           <Box p={2}> 
             <Grid container spacing={2}>
@@ -117,19 +177,57 @@ const MapPage = () => {
             </Grid>
           </Box>
         </motion.div>
-        <div className="w-1/2 h-full">
-          <Map /> 
+        {/* Map for desktop on the right half*/}
+        <div className="w-full md:w-1/2 h-full z-10">
+          <Map />
         </div>
       </div>
-      
+      <div className="block md:hidden flex-1">
+        {/* Map for mobile display on the top half */}
+        <div className="w-full h-1/6 z-10">
+          <Map />
+        </div>
+        {/* Location on the bottom */}
+        <div className="text-center text-2xl py-2 bg-gray-100">
+          Your Results
+        </div>
+        <div className="w-full h-1/2 p-4 bg-gray-100 overflow-y-auto">
+          <Box p={2}>
+            <Grid container spacing={2}>
+              {locations.map((location, index) => (
+                <Grid item xs={12} key={index}>
+                  <Card>
+                    <img src={`/img/${location.name.toLowerCase().replace(/ /g, '-')}.png`} alt={location.name} style={{ height: 200, objectFit: 'cover' }} />
+                    <CardContent>
+                      <Typography variant="h6">{location.name}</Typography>
+                      <Typography variant="body2" color="textSecondary">{location.borough}</Typography>
+                      <Typography variant="body2">{location.description}</Typography>
+                      <Box display="flex" alignItems="center" mt={1}>
+                        <Typography variant="body2" style={{ marginRight: 4 }}>{location.rating.toFixed(2)}</Typography>
+                        <div>
+                          {Array.from({ length: 5 }).map((_, starIndex) => (
+                            <span key={starIndex} style={{ color: starIndex < Math.round(location.rating) ? '#FFD700' : '#CCC' }}>★</span>
+                          ))}
+                        </div>
+                      </Box>
+                      <Button variant="contained" style={{ backgroundColor: '#FF6347', color: '#FFF', marginTop: 16 }} onClick={() => handleLearnMore(location)}>Learn More</Button>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        </div>
+      </div>
+      {/* Detial column when clicked learn more */}
       <AnimatePresence>
         {selectedLocation && !isClosing && (
           <motion.div
-            initial={{ x: '-100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '-100%' }}
+            initial={isMobile ? { y: '100%' } : { x: '-100%' }}
+            animate={isMobile ? { y: 0 } : { x: 0 }}
+            exit={isMobile ? { y: '100%' } : { x: '-100%' }}
             transition={{ duration: 0.5 }}
-            className="fixed top-0 left-0 w-1/2 h-full bg-white shadow-lg p-6 z-50 overflow-y-auto"
+            className={`fixed bottom-0 ${isMobile ? 'left-0 w-full h-1/2' : 'left-0 w-1/2 h-full'} bg-white shadow-lg p-6 z-50 overflow-y-auto`}
           >
             <div className="flex justify-end">
               <IconButton onClick={handleClose}>
