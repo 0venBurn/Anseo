@@ -10,7 +10,14 @@ Java-Spring-Backend/src/main/resources/*.properties
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+
+
+# Java specific ignores
 Java-Spring-Backend/src/main/resources/*.properties
+Java-Spring-Backend/.classpath
+Java-Spring-Backend/.project
+Java-Spring-Backend/.factorypath
+
 
 # AWS User-specific
 .idea/**/aws.xml
@@ -142,6 +149,9 @@ coverage
 
 # nyc test coverage
 .nyc_output
+
+Java-Spring-Backend/src/main/resources/*.properties
+/src/main/resources/*.properties
 
 # Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
@@ -542,5 +552,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
 *.csv
