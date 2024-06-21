@@ -1,11 +1,11 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IconButton, Card, CardContent, Button, Typography, Grid, Box } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useMediaQuery, useTheme } from '@mui/material';
 import './index.css'; 
 import { environment } from '../mapbox.config';
@@ -19,6 +19,10 @@ interface Location {
   description: string;
   rating: number;
   coordinates: [number, number];
+}
+
+interface PredictionResponse {
+  predictions: { [zipcode: string]: number };
 }
 
 const locations: Location[] = [
@@ -59,6 +63,8 @@ const MapPage: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
+  const location = useLocation();
+  const { selectedBoroughs, predictions } = location.state as { selectedBoroughs: string[], predictions: PredictionResponse };
 
   const handleLearnMore = (location: Location) => {
     setSelectedLocation(location);
@@ -85,7 +91,7 @@ const MapPage: React.FC = () => {
         >
           ANSEO
         </div>
-        <div className="flex space-x-2 md:space-x-4 items-center">
+        <div className="flex space-x-4 md:space-x-4 items-center">
           <Button 
             variant="outlined" 
             sx={{ 
@@ -179,13 +185,13 @@ const MapPage: React.FC = () => {
         </motion.div>
         {/* Map for desktop on the right half*/}
         <div className="w-full md:w-1/2 h-full z-10">
-          <Map />
+          <Map selectedBoroughs={selectedBoroughs} predictions={predictions} />
         </div>
       </div>
       <div className="block md:hidden flex-1">
         {/* Map for mobile display on the top half */}
         <div className="w-full h-1/6 z-10">
-          <Map />
+          <Map selectedBoroughs={selectedBoroughs} predictions={predictions} />
         </div>
         {/* Location on the bottom */}
         <div className="text-center text-2xl py-2 bg-gray-100">

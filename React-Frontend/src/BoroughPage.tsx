@@ -47,13 +47,7 @@ const BoroughPage: React.FC = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -100 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 100 }}
-      transition={{ duration: 0.5 }}
-      className="relative h-screen bg-gray-100 text-black flex flex-col"
-    >
+    <>
       {/* Header */}
       <div className="absolute top-0 left-0 w-full bg-blue-900 text-white flex justify-between items-center py-4 px-4 md:px-20">
         <div 
@@ -121,7 +115,13 @@ const BoroughPage: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="flex flex-col items-center text-center mt-24 px-4 md:px-10 flex-grow md:mt-32">
+      <motion.div
+       initial={{ opacity: 0, x: -100 }}
+       animate={{ opacity: 1, x: 0 }}
+       exit={{ opacity: 0, x: 100 }}
+       transition={{ duration: 0.5 }}
+       className="flex flex-col items-center text-center mt-24 px-4 md:px-10 flex-grow md:mt-32"
+      >
         <h1 className="text-3xl font-bold mb-6 md:mb-12" style={{ fontFamily: 'Alegreya' }}>
           2. Which boroughs are you most interested in for your business location? <span className="text-red-500">*</span>
         </h1>
@@ -146,7 +146,7 @@ const BoroughPage: React.FC = () => {
           ))}
         </div>
         {error && <p className="text-red-500 mb-4">{error}</p>}
-        <div className="flex flex-col items-center w-full mt-6 md:mt-12">
+        <div className="flex flex-col items-center w-full mt-6 md:mt-24">
           <div className="flex justify-between w-full max-w-md px-4">
             <Button 
               variant="contained" 
@@ -190,8 +190,8 @@ const BoroughPage: React.FC = () => {
             <div className="w-3 h-3 border-2 border-purple-900 rounded-full"></div>
           </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </>
   );
 };
 

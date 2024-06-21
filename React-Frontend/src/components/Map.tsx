@@ -1,16 +1,24 @@
-import { useMapInit } from "../hooks/useMapInit";
-import { useAddMapLayers } from "../hooks/useAddMapLayers";
-import "../index.css";
+import React from 'react';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import { useMapInit } from '../hooks/useMapInit';
+import { useAddMapLayers } from '../hooks/useAddMapLayers';
+import '../index.css';
 
-export const Map = () => {
+interface PredictionResponse {
+  predictions: { [zipcode: string]: number };
+}
+
+interface MapProps {
+  selectedBoroughs: string[];
+  predictions: PredictionResponse;
+}
+
+const Map: React.FC<MapProps> = ({ selectedBoroughs, predictions }) => {
   const { mapRef, map } = useMapInit(40.7075272168033, -74.00663048205502, 10);
-  useAddMapLayers(map);
 
-  return (
-    <div
-      ref={mapRef}
-      className="map"
-      style={{ width: "100%", height: "100vh" }}
-    />
-  );
+  useAddMapLayers(map, selectedBoroughs, predictions);
+
+  return <div ref={mapRef} className="map w-full h-full md:h-screen" style={{ width: '100%', height: '100%' }} />;
 };
+
+export default Map;

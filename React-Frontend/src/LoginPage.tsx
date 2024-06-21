@@ -20,13 +20,8 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -100 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 100 }}
-      transition={{ duration: 0.5 }}
-      className="relative h-screen flex flex-col items-center justify-center text-black bg-gray-100"
-         // Gradient background
+    <div className="relative h-screen flex flex-col items-center justify-center text-black bg-gray-100"
+      // Gradient background
       style={{ 
         background: 'linear-gradient(135deg, #63A2BA, #929FE9, #D1CB14)', 
         backgroundSize: 'cover', 
@@ -100,14 +95,21 @@ const LoginPage: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="flex flex-col items-center text-center mt-32 bg-white bg-opacity-70 p-6 rounded-lg">
+      <motion.div
+        initial={{ opacity: 0, x: -100 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: 100 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col items-center text-center mt-32 bg-white bg-opacity-70 p-6 rounded-lg"
+        style={{ maxWidth: '400px' }}
+      >
         <h1 className="text-3xl font-bold mb-4">Create an account</h1>
         <p className="text-lg mb-6">Enter your email to sign up for this app</p>
         <TextField
           label="email@domain.com"
           variant="outlined"
           fullWidth
-          sx={{ mb: 3, maxWidth: '400px' }}
+          sx={{ mb: 3 }}
         />
         <Button 
           variant="contained" 
@@ -117,7 +119,7 @@ const LoginPage: React.FC = () => {
         >
           Sign up with email
         </Button>
-        <Divider sx={{ width: '400px', mb: 2 }}>or continue with</Divider>
+        <Divider sx={{ mb: 2 }}>or continue with</Divider>
         <Button 
           variant="outlined" 
           fullWidth
@@ -130,8 +132,8 @@ const LoginPage: React.FC = () => {
         <p className="text-sm mt-2">
           By clicking continue, you agree to our <a href="/terms" className="text-blue-500">Terms of Service</a> and <a href="/privacy" className="text-blue-500">Privacy Policy</a>
         </p>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 };
 
