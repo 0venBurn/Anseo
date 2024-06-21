@@ -18,20 +18,14 @@ const LandingPage: React.FC = () => {
   };
 //If menuOpen is currently false (menu closed), when called, menuOpen will become true (menu open).
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -100 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 100 }}
-      transition={{ duration: 0.5 }}
-      className="relative h-screen flex flex-col items-center justify-center text-black"
-    >
+    <>
       <img 
         src="../public/img/landing.png" 
         alt="Background" 
         className="absolute inset-0 w-full h-full object-cover opacity-80"
       />
       {/* Blue navigation bar, used in Mobile  */}
-      <div className="md:hidden absolute top-0 left-0 w-full bg-blue-900 text-white flex justify-between items-center py-4 px-4 md:px-20">
+      <div className="md:hidden absolute top-0 left-0 w-full bg-blue-900 text-white flex justify-between items-center py-4 px-4 md:px-20 z-50">
         <div 
           className="text-3xl md:text-5xl font-bold text-orange-600 cursor-pointer" style={{ fontFamily: 'Fredoka One' }}
           onClick={() => navigate('/')}
@@ -39,7 +33,7 @@ const LandingPage: React.FC = () => {
           ANSEO
         </div>
         {/* Mobile buttons and menu icons */}
-        <div className="flex md:hidden space-x-2 items-center">
+        <div className="flex md:hidden space-x-4 items-center">
           <Button 
             variant="outlined" 
             sx={{ 
@@ -98,6 +92,13 @@ const LandingPage: React.FC = () => {
         )}
       </AnimatePresence>
       {/* Desktop header */}
+    <motion.div
+      initial={{ opacity: 0, x: -100 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 100 }}
+      transition={{ duration: 0.5 }}
+      className="relative h-screen flex flex-col items-center justify-center text-black"
+    >  
       <div className="hidden md:block absolute top-10 left-1/2 transform -translate-x-1/2 text-5xl font-bold text-orange-600" style={{ fontFamily: 'Fredoka One' }}>ANSEO</div>
       <div className="hidden md:flex absolute top-4 right-10 flex space-x-4">
         <Button 
@@ -139,6 +140,7 @@ const LandingPage: React.FC = () => {
         </Button>
       </div>
     </motion.div>
+  </>
   );
 };
 
