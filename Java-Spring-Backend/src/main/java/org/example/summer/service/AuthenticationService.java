@@ -56,13 +56,13 @@ public class AuthenticationService {
      * @return the authentication response containing the JWT token.
      */
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        var user = (User) userService.loadUserByUsername(request.getEmail());
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
-        var user = (User) userService.loadUserByUsername(request.getEmail());
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
