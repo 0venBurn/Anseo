@@ -7,6 +7,7 @@ import org.example.summer.dto.RegisterRequest;
 import org.example.summer.dao.UserRepository;
 import org.example.summer.entity.Role;
 import org.example.summer.entity.User;
+import org.example.summer.exception.UserAlreadyExistsException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,7 +32,12 @@ public class AuthenticationService {
      * @param request the registration request containing the users details.
      * @return the authentication response containing the JWT token.
      */
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request)  {
+//        var dbUser = userService.loadUserByUsername(request.getEmail());
+//        if (dbUser != null) {
+//            throw new UserAlreadyExistsException("Username " + request.getEmail() + " already exists");
+//        }
+
         User user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())

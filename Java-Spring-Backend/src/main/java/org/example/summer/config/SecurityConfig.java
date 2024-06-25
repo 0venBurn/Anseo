@@ -42,6 +42,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizationRequests -> authorizationRequests
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/neighbourhoods/**").permitAll()
+                        .requestMatchers("/users/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

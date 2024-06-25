@@ -2,6 +2,7 @@
 
     import org.springframework.http.HttpStatus;
     import org.springframework.http.ResponseEntity;
+    import org.springframework.security.authentication.BadCredentialsException;
     import org.springframework.security.core.AuthenticationException;
     import org.springframework.security.core.userdetails.UsernameNotFoundException;
     import org.springframework.web.bind.annotation.*;
@@ -21,5 +22,8 @@
         public ResponseEntity<String> usernameNotFound(UsernameNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
+
+//        @ExceptionHandler(UserAlreadyExistsException.class)
+//        @ResponseStatus(HttpStatus)
     }
 
