@@ -5,17 +5,11 @@ interface PredictionResponse {
   predictions: { [zipcode: string]: number };
 }
 
+//  From green(low) to red (high)
 const getColorForProbability = (probability: number): string => {
-  if (probability > 0.9) return '#ff0000'; // 90%-100% red
-  if (probability > 0.8) return '#ff8000'; // 80%-90% orange
-  if (probability > 0.7) return '#ffff00'; // 70%-80% yellow
-  if (probability > 0.6) return '#80ff00'; // 60%-70% yellow green 
-  if (probability > 0.5) return '#00ff00'; // 50%-60% green
-  if (probability > 0.4) return '#00ff80'; // 40%-50% light green
-  if (probability > 0.3) return '#00ffff'; // 30%-40% blue green
-  if (probability > 0.2) return '#0080ff'; // 20%-30% blue
-  if (probability > 0.1) return '#0000ff'; // 10%-20% dark blue
-  return '#8000ff'; // 0%-10% purple
+  const g = Math.floor(255 * probability);
+  const r = Math.floor(255 * (1 - probability));
+  return `rgb(${r},${g},0)`;
 };
 
 export const useAddMapLayers = (
@@ -40,7 +34,7 @@ export const useAddMapLayers = (
         layout: {},
         paint: {
           'fill-color': '#0080ff',
-          'fill-opacity': 0.5
+          'fill-opacity': 0
         },
         filter
       });
@@ -53,7 +47,7 @@ export const useAddMapLayers = (
         layout: {},
         paint: {
           'line-color': '#000',
-          'line-width': 0.5
+          'line-width': 1
         },
         filter
       });
@@ -71,15 +65,15 @@ export const useAddMapLayers = (
               ...Object.keys(predictions.predictions).flatMap((zipcode) => [
                 // Convert the predictions. predictions object into an array containing key value pairs. 
                 // Each key value pair represents a postal code and its corresponding probability value
-                ['==', 'zipcode', zipcode],
+                ['==', ['to-string', ['get', 'zipcode']], zipcode],
                 // Build style syntax similar to Mapbox GL JS, 
                 // used to specify matching rules for conditional filters or style attributes
                 getColorForProbability(predictions.predictions[zipcode])
                 
               ]),
-              '#ffffff' // default color
+              '#ffffff' // default color white
             ],
-            'fill-opacity': 1
+            'fill-opacity': 0.5
           }
         });
       }

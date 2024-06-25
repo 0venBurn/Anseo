@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -19,44 +20,15 @@ interface Location {
   description: string;
   rating: number;
   coordinates: [number, number];
+  photoPath: string;
 }
 
 interface PredictionResponse {
   predictions: { [zipcode: string]: number };
 }
 
-const locations: Location[] = [
-  {
-    name: 'Bedford-Stuyvesant',
-    borough: 'Brooklyn',
-    description: "Bed-Stuy, a vibrant neighborhood full of historical importance, has kept its character even with waves of visitors and new residents. It's a place where block parties, murals and the stomping grounds of Notorious B.I.G. and Jay-Z are still celebrated.",
-    rating: 4.12,
-    coordinates: [-73.936, 40.686],
-  },
-  {
-    name: 'Greenwich Village',
-    borough: 'Manhattan',
-    description: "The epicenter of the city's 1960s counterculture movement, the tree-lined streets of Greenwich Village are now a hub of popular cafes, bars and restaurants. Jazz clubs and Off-Broadway Theaters can also be found amid the brownstones.",
-    rating: 4.03,
-    coordinates: [-74.000, 40.733],
-  },
-  {
-    name: 'Morris Park',
-    borough: 'The Bronx',
-    description: "Morris Park, located in the Bronx, is a lively neighborhood with a strong sense of community. Named after John Albert Morris, an early settler who purchased land in the area during the 19th century, Morris Park has a rich history and a distinct identity.",
-    rating: 3.78,
-    coordinates: [-73.856, 40.854],
-  },
-  {
-    name: 'Brighton Heights',
-    borough: 'Staten Island',
-    description: "Brighton Heights, Staten Island, is a neighborhood nestled in New York City's borough of Staten Island. It's positioned in the northeastern section of the island, offering its residents a tranquil suburban environment. To the south, Silver Lake borders the neighborhood.",
-    rating: 3.27,
-    coordinates: [-74.100, 40.627],
-  },
-];
-
 const MapPage: React.FC = () => {
+  const [locations, setLocations] = useState<Location[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   const [isClosing, setIsClosing] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -65,6 +37,31 @@ const MapPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedBoroughs, predictions } = location.state as { selectedBoroughs: string[], predictions: PredictionResponse };
+
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/neighbourhoods'); 
+        console.log('Response data:', response.data);
+        const embedded = response.data._embedded;
+        if (embedded && Array.isArray(embedded.neighbourhoods)) {
+          const locations = embedded.neighbourhoods.map((location: any) => ({
+            ...location,
+            rating: Math.random() * 5, // use random for now, can change later
+            coordinates: [-73.936, 40.686] as [number, number], // use fixed for now, can change later
+            photoPath: `/img/${location.name.toLowerCase().replace(/ /g, '-')}.png`
+          }));
+          setLocations(locations);
+        } else {
+          console.error('Unexpected data format:', response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching locations:', error);
+      }
+    };
+
+    fetchLocations();
+  }, []);
 
   const handleLearnMore = (location: Location) => {
     setSelectedLocation(location);
@@ -162,7 +159,7 @@ const MapPage: React.FC = () => {
               {locations.map((location, index) => (
                 <Grid item xs={12} sm={6} key={index}>
                   <Card>
-                    <img src={`/img/${location.name.toLowerCase().replace(/ /g, '-')}.png`} alt={location.name} style={{ height: 200, objectFit: 'cover' }} />
+                    <img src={location.photoPath} alt={location.name} style={{ height: 200, objectFit: 'cover' }} />
                     <CardContent>
                       <Typography variant="h6">{location.name}</Typography>
                       <Typography variant="body2" color="textSecondary">{location.borough}</Typography>
@@ -203,7 +200,7 @@ const MapPage: React.FC = () => {
               {locations.map((location, index) => (
                 <Grid item xs={12} key={index}>
                   <Card>
-                    <img src={`/img/${location.name.toLowerCase().replace(/ /g, '-')}.png`} alt={location.name} style={{ height: 200, objectFit: 'cover' }} />
+                    <img src={location.photoPath} alt={location.name} style={{ height: 200, objectFit: 'cover' }} />
                     <CardContent>
                       <Typography variant="h6">{location.name}</Typography>
                       <Typography variant="body2" color="textSecondary">{location.borough}</Typography>
