@@ -40,8 +40,6 @@ const SubmitPage: React.FC = () => {
         throw new Error('Network response was not ok');
       }
 
-      
-      console.log('POST request successful');
       const data = await response.json();
       navigate('/map', { state: { selectedBoroughs, predictions: data } });
 
