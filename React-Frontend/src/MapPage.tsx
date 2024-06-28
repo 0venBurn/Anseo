@@ -49,7 +49,7 @@ const MapPage: React.FC = () => {
             ...location,
             rating: Math.random() * 5, // use random for now, can change later
             coordinates: [-73.936, 40.686] as [number, number], // use fixed for now, can change later
-            photoPath: `/img/${location.name.toLowerCase().replace(/ /g, '-')}.png`
+            photoPath: `/img/${location.name}.jpg`
           }));
           setLocations(locations);
         } else {
