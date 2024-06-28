@@ -1,27 +1,22 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
-import LandingPage from "./LandingPage";
-import QuestionPage from "./QuestionPage";
-import BoroughPage from "./BoroughPage";
-import WelcomePage from "./WelcomePage";
-import SubmitPage from "./SubmitPage";
-import "./index.css";
-import LoginPage from "./LoginPage";
-import SignInPage from "./SignInPage";
-import AboutPage from "./AboutPage";
-import MapPage from "./MapPage";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import LandingPage from './LandingPage';
+import QuestionPage from './QuestionPage';
+import BoroughPage from './BoroughPage';
+import WelcomePage from './WelcomePage';
+import SubmitPage from './SubmitPage';
+import './index.css';
+import LoginPage from './LoginPage';
+import SignInPage from './SignInPage';
+import AboutPage from './AboutPage';
+import MapPage from './MapPage';
+import Test from './SubmitPageTest';
+import TargetPage from './TargetPage';
+import AreaPage from './AreaPage';
 
 const App: React.FC = () => {
   const location = useLocation();
-
-  // Access the environment variable
-  let testVariable = import.meta.env.VITE_APP_TEST;
 
   return (
     <AnimatePresence mode="wait">
@@ -35,6 +30,8 @@ const App: React.FC = () => {
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/map" element={<MapPage />} />
+        <Route path="/target" element={<TargetPage />} />
+        <Route path="/area" element={<AreaPage />} />
       </Routes>
     </AnimatePresence>
   );

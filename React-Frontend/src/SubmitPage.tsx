@@ -14,7 +14,24 @@ import './index.css';
 const SubmitPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { selectedBoroughs } = location.state || { selectedBoroughs: [] };
+  const {
+    businessType,
+    openHour,
+    closeHour,
+    budget,
+    selectedAgeGroups,
+    ageImportance,
+    selectedIncomeLevels,
+    incomeImportance,
+    targetGroup,
+    proximityImportance,
+    footfallImportance,
+    surroundingBusinessesImportance,
+    rentBudget,
+    selectedBoroughs,
+    areaType
+  } = location.state || {};
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const theme = useTheme();
@@ -27,13 +44,31 @@ const SubmitPage: React.FC = () => {
   const handleSubmit = async () => {
     setIsLoading(true);
 
+    const payload = {
+      businessType,
+      openHour,
+      closeHour,
+      budget,
+      selectedAgeGroups,
+      ageImportance,
+      selectedIncomeLevels,
+      incomeImportance,
+      targetGroup,
+      proximityImportance,
+      footfallImportance,
+      surroundingBusinessesImportance,
+      rentBudget,
+      selectedBoroughs,
+      areaType
+    };
+
     try {
       const response = await fetch('http://localhost:8000/api/v1/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(jsonData),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
@@ -175,6 +210,8 @@ const SubmitPage: React.FC = () => {
             </Button>
           </div>
           <div className="flex justify-center mt-4 space-x-2">
+            <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
+            <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
             <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
             <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
             <div className="w-3 h-3 bg-purple-900 rounded-full"></div>

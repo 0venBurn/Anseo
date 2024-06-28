@@ -121,6 +121,8 @@ const WelcomePage: React.FC = () => {
           <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
           <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
           <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
+          <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
+          <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
         </div>
       </motion.div>
 

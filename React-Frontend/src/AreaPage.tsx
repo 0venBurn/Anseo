@@ -1,21 +1,33 @@
 import React, { useState } from 'react';
-import { Button, IconButton, Select, MenuItem, Slider } from '@mui/material';
+import { Button, IconButton, Slider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useMediaQuery, useTheme } from '@mui/material';
 import '@fontsource/alegreya/400.css';
 import '@fontsource/alegreya/700.css';
 import './index.css';
 
-const QuestionPage: React.FC = () => {
-  const [businessType, setBusinessType] = useState<string | null>(null);
-  const [openHour, setOpenHour] = useState<number>(8); // Default to 8 AM
-  const [closeHour, setCloseHour] = useState<number>(18); // Default to 6 PM
-  const [budget, setBudget] = useState<number>(20); // Default budget value
+const AreaPage: React.FC = () => {
+  const location = useLocation();
+  const {
+    businessType,
+    openHour,
+    closeHour,
+    budget,
+    selectedAgeGroups,
+    ageImportance,
+    selectedIncomeLevels,
+    incomeImportance,
+    targetGroup
+  } = location.state || {};
+  const [proximityImportance, setProximityImportance] = useState<number>(0.5);
+  const [footfallImportance, setFootfallImportance] = useState<number>(0.5);
+  const [surroundingBusinessesImportance, setSurroundingBusinessesImportance] = useState<number>(0.5);
+  const [rentBudget, setRentBudget] = useState<number>(2500); // Default budget value
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const theme = useTheme();
@@ -27,12 +39,21 @@ const QuestionPage: React.FC = () => {
 
   const handleNext = () => {
     // Navigate to the next page with state
-    navigate('/target', {
+    navigate('/borough', {
       state: {
         businessType,
         openHour,
         closeHour,
-        budget
+        budget,
+        selectedAgeGroups,
+        ageImportance,
+        selectedIncomeLevels,
+        incomeImportance,
+        targetGroup,
+        proximityImportance,
+        footfallImportance,
+        surroundingBusinessesImportance,
+        rentBudget
       }
     });
   };
@@ -91,103 +112,81 @@ const QuestionPage: React.FC = () => {
         transition={{ duration: 0.5 }}
         className="flex flex-col items-center text-center mt-24 px-4 md:px-10 flex-grow md:mt-32"
       >
-        {/* Question 1: Business Type */}
+        {/* Question 1: Proximity to Public Transportation */}
         <div className="mb-10">
           <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Alegreya' }}>
-            1. What type of business are you planning to start? <span className="text-red-500">*</span>
-          </h1>
-          <div className="grid grid-cols-2 gap-4">
-            <button
-              className={`w-full h-16 py-4 px-8 rounded-lg text-xl font-bold flex items-center justify-center border-2 ${
-                businessType === 'Retail' ? 'bg-purple-900 text-white' : 'bg-transparent text-purple-900'
-              }`}
-              onClick={() => setBusinessType('Retail')}
-            >
-              Retail
-            </button>
-            <button
-              className={`w-full h-16 py-4 px-8 rounded-lg text-xl font-bold flex items-center justify-center border-2 ${
-                businessType === 'Restaurant/Cafe' ? 'bg-purple-900 text-white' : 'bg-transparent text-purple-900'
-              }`}
-              onClick={() => setBusinessType('Restaurant/Cafe')}
-            >
-              Restaurant/Cafe
-            </button>
-            <button
-              className={`w-full h-16 py-4 px-8 rounded-lg text-xl font-bold flex items-center justify-center border-2 ${
-                businessType === 'Service-based' ? 'bg-purple-900 text-white' : 'bg-transparent text-purple-900'
-              }`}
-              onClick={() => setBusinessType('Service-based')}
-            >
-              Service-based
-            </button>
-            <button
-              className={`w-full h-16 py-4 px-8 rounded-lg text-xl font-bold flex items-center justify-center border-2 ${
-                businessType === 'Office' ? 'bg-purple-900 text-white' : 'bg-transparent text-purple-900'
-              }`}
-              onClick={() => setBusinessType('Office')}
-            >
-              Office
-            </button>
-            <button
-              className={`w-full h-16 py-4 px-8 rounded-lg text-xl font-bold flex items-center justify-center border-2 ${
-                businessType === 'Other' ? 'bg-purple-900 text-white' : 'bg-transparent text-purple-900'
-              }`}
-              onClick={() => setBusinessType('Other')}
-            >
-              Other
-            </button>
-          </div>
-        </div>
-        
-        {/* Question 2: Operating Hours */}
-        <div className="mb-10">
-          <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Alegreya' }}>
-            2. Operating hours: <span className="text-red-500">*</span>
-          </h1>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block mb-2">Opens at:</label>
-              <Select
-                value={openHour}
-                onChange={(e) => setOpenHour(parseInt(String(e.target.value)))}
-                className="w-full rounded-lg py-2 px-4 text-xl font-bold border-2 bg-white"
-              >
-                {[...Array(24).keys()].map(hour => (
-                  <MenuItem key={hour} value={hour}>{hour}:00</MenuItem>
-                ))}
-              </Select>
-            </div>
-            <div>
-              <label className="block mb-2">Closes at:</label>
-              <Select
-                value={closeHour}
-                onChange={(e) => setCloseHour(parseInt(String(e.target.value)))}
-                className="w-full rounded-lg py-2 px-4 text-xl font-bold border-2 bg-white"
-              >
-                {[...Array(24).keys()].filter(hour => hour >= openHour).map(hour => (
-                  <MenuItem key={hour} value={hour}>{hour}:00</MenuItem>
-                ))}
-              </Select>
-            </div>
-          </div>
-        </div>
-        
-        {/* Question 3: Budget for Paying Employees */}
-        <div className="mb-10">
-          <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Alegreya' }}>
-            3. What is your budget for paying employees? (Specify hourly rates) <span className="text-red-500">*</span>
+            How important is proximity to public transportation for your business? <span className="text-red-500">*</span>
           </h1>
           <Slider
-            value={budget}
-            onChange={(e, newValue) => setBudget(newValue as number)}
+            value={proximityImportance}
+            onChange={(e, newValue) => setProximityImportance(newValue as number)}
             valueLabelDisplay="off"
-            min={10}
-            max={35}
-            step={1}
+            min={0}
+            max={1}
+            step={0.01}
             marks={[
-              { value: 10, label: '< $10' },
-              { value: 35, label: '$35' }
+              { value: 0, label: 'Not important' },
+              { value: 1, label: 'Important' }
+            ]}
+            className="w-full max-w-md"
+          />
+        </div>
+        
+        {/* Question 2: High Footfall */}
+        <div className="mb-10">
+          <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Alegreya' }}>
+            How important is high footfall? <span className="text-red-500">*</span>
+          </h1>
+          <Slider
+            value={footfallImportance}
+            onChange={(e, newValue) => setFootfallImportance(newValue as number)}
+            valueLabelDisplay="off"
+            min={0}
+            max={1}
+            step={0.01}
+            marks={[
+              { value: 0, label: 'Not important' },
+              { value: 1, label: 'Important' }
+            ]}
+            className="w-full max-w-md"
+          />
+        </div>
+        
+        {/* Question 3: Surrounding Businesses */}
+        <div className="mb-10">
+          <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Alegreya' }}>
+            How important is being surrounded by similar businesses? <span className="text-red-500">*</span>
+          </h1>
+          <Slider
+            value={surroundingBusinessesImportance}
+            onChange={(e, newValue) => setSurroundingBusinessesImportance(newValue as number)}
+            valueLabelDisplay="off"
+            min={0}
+            max={1}
+            step={0.01}
+            marks={[
+              { value: 0, label: 'Not important' },
+              { value: 1, label: 'Important' }
+            ]}
+            className="w-full max-w-md"
+          />
+        </div>
+
+        {/* Question 4: Budget for Monthly Rent */}
+        <div className="mb-10">
+          <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Alegreya' }}>
+            What is your budget for monthly rent (including utilities) for your business location? <span className="text-red-500">*</span>
+          </h1>
+          <Slider
+            value={rentBudget}
+            onChange={(e, newValue) => setRentBudget(newValue as number)}
+            valueLabelDisplay="off"
+            min={1000}
+            max={5000}
+            step={100}
+            marks={[
+              { value: 1000, label: '< $1000' },
+              { value: 5000, label: '$5000' }
             ]}
             className="w-full max-w-md"
           />
@@ -208,7 +207,19 @@ const QuestionPage: React.FC = () => {
                   backgroundColor: '#f89a93',
                 },
               }}
-              onClick={() => navigate('/welcome')}
+              onClick={() => navigate('/target', {
+                state: {
+                  businessType,
+                  openHour,
+                  closeHour,
+                  budget,
+                  selectedAgeGroups,
+                  ageImportance,
+                  selectedIncomeLevels,
+                  incomeImportance,
+                  targetGroup
+                }
+              })}
               startIcon={<ArrowBackIcon />}
             >
               Back
@@ -234,8 +245,8 @@ const QuestionPage: React.FC = () => {
           <div className="flex justify-center mt-4 space-x-2">
             <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
             <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
-            <div className="w-3 h-3 border-2 border-purple-900 rounded-full"></div>
-            <div className="w-3 h-3 border-2 border-purple-900 rounded-full"></div>
+            <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
+            <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
             <div className="w-3 h-3 border-2 border-purple-900 rounded-full"></div>
             <div className="w-3 h-3 border-2 border-purple-900 rounded-full"></div>
           </div>
@@ -245,4 +256,4 @@ const QuestionPage: React.FC = () => {
   );
 };
 
-export default QuestionPage;
+export default AreaPage;

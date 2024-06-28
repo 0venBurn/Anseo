@@ -5,22 +5,40 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CloseIcon from '@mui/icons-material/Close';
 import { useMediaQuery, useTheme } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import '@fontsource/alegreya/400.css';
 import '@fontsource/alegreya/700.css';
 import './index.css';
 
 const BoroughPage: React.FC = () => {
-  const [selected, setSelected] = useState<string[]>([]);
+  const location = useLocation();
+  const {
+    businessType,
+    openHour,
+    closeHour,
+    budget,
+    selectedAgeGroups,
+    ageImportance,
+    selectedIncomeLevels,
+    incomeImportance,
+    targetGroup,
+    proximityImportance,
+    footfallImportance,
+    surroundingBusinessesImportance,
+    rentBudget
+  } = location.state || {};
+  
+  const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
+  const [areaType, setAreaType] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  const handleSelect = (option: string) => {
-    setSelected(prevSelected => {
+  const handleSelectBorough = (option: string) => {
+    setSelectedBoroughs(prevSelected => {
       if (prevSelected.includes(option)) {
         return prevSelected.filter(item => item !== option);
       } else if (prevSelected.length < 2) {
@@ -32,13 +50,34 @@ const BoroughPage: React.FC = () => {
     setError(null);
   };
 
-  // If at least one administrative region is selected, navigate to the/submit page and 
-  // pass the selected administrative region as the status; Otherwise, set the error message.
+  const handleSelectAreaType = (option: string) => {
+    setAreaType(option);
+    setError(null);
+  };
+
   const handleSubmit = () => {
-    if (selected.length > 0) {
-      navigate('/submit', { state: { selectedBoroughs: selected } });
+    if (selectedBoroughs.length > 0 && areaType) {
+      navigate('/submit', {
+        state: {
+          businessType,
+          openHour,
+          closeHour,
+          budget,
+          selectedAgeGroups,
+          ageImportance,
+          selectedIncomeLevels,
+          incomeImportance,
+          targetGroup,
+          proximityImportance,
+          footfallImportance,
+          surroundingBusinessesImportance,
+          rentBudget,
+          selectedBoroughs,
+          areaType
+        }
+      });
     } else {
-      setError('You need to select at least one borough');
+      setError('You need to select at least one borough and an area type');
     }
   };
 
@@ -123,7 +162,7 @@ const BoroughPage: React.FC = () => {
        className="flex flex-col items-center text-center mt-24 px-4 md:px-10 flex-grow md:mt-32"
       >
         <h1 className="text-3xl font-bold mb-6 md:mb-12" style={{ fontFamily: 'Alegreya' }}>
-          2. Which boroughs are you most interested in for your business location? <span className="text-red-500">*</span>
+          1. Which boroughs are you most interested in for your business location? <span className="text-red-500">*</span>
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 w-full max-w-md md:mb-12">
           {[
@@ -137,9 +176,28 @@ const BoroughPage: React.FC = () => {
             <button
               key={option.label}
               className={`w-full h-16 py-4 px-8 rounded-lg text-xl font-bold flex items-center justify-center border-2 ${
-                selected.includes(option.label) ? 'bg-purple-900 text-white' : 'bg-transparent text-purple-900'
+                selectedBoroughs.includes(option.label) ? 'bg-purple-900 text-white' : 'bg-transparent text-purple-900'
               }`}
-              onClick={() => handleSelect(option.label)}
+              onClick={() => handleSelectBorough(option.label)}
+            >
+              <span className="ml-2">{option.label}</span>
+            </button>
+          ))}
+        </div>
+        <h1 className="text-3xl font-bold mb-6 md:mb-12" style={{ fontFamily: 'Alegreya' }}>
+          2. What type of area would you like to set up in? <span className="text-red-500">*</span>
+        </h1>
+        <div className="grid grid-cols-2 gap-4 mb-6 w-full max-w-md md:mb-12">
+          {[
+            { label: 'Residential'},
+            { label: 'Business oriented' },
+          ].map(option => (
+            <button
+              key={option.label}
+              className={`w-full h-16 py-4 px-8 rounded-lg text-xl font-bold flex items-center justify-center border-2 ${
+                areaType === option.label ? 'bg-purple-900 text-white' : 'bg-transparent text-purple-900'
+              }`}
+              onClick={() => handleSelectAreaType(option.label)}
             >
               <span className="ml-2">{option.label}</span>
             </button>
@@ -160,7 +218,23 @@ const BoroughPage: React.FC = () => {
                   backgroundColor: '#f89a93',
                 },
               }}
-              onClick={() => navigate('/questions')}
+              onClick={() => navigate('/area', {
+                state: {
+                  businessType,
+                  openHour,
+                  closeHour,
+                  budget,
+                  selectedAgeGroups,
+                  ageImportance,
+                  selectedIncomeLevels,
+                  incomeImportance,
+                  targetGroup,
+                  proximityImportance,
+                  footfallImportance,
+                  surroundingBusinessesImportance,
+                  rentBudget
+                }
+              })}
               startIcon={<ArrowBackIcon />}
             >
               Back
@@ -184,6 +258,8 @@ const BoroughPage: React.FC = () => {
             </Button>
           </div>
           <div className="flex justify-center mt-4 space-x-2">
+            <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
+            <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
             <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
             <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
             <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
