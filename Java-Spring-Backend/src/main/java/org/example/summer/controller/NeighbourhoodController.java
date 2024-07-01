@@ -3,9 +3,7 @@ package org.example.summer.controller;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.summer.dao.NeighbourhoodRepository;
-import org.example.summer.dao.UserRepository;
 import org.example.summer.entity.Neighbourhood;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -10,7 +10,6 @@
 
     @RestControllerAdvice
     public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
         @ExceptionHandler(AuthenticationException.class)
         @ResponseBody
         public ResponseEntity<String> handleAuthenticationException(Exception ex) {
@@ -23,7 +22,10 @@
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
-//        @ExceptionHandler(UserAlreadyExistsException.class)
-//        @ResponseStatus(HttpStatus)
+        @ExceptionHandler(UserAlreadyExistsException.class)
+        @ResponseStatus(HttpStatus.CONFLICT)
+        public ResponseEntity<String> userAlreadyExists(UserAlreadyExistsException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
     }
 

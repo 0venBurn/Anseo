@@ -17,7 +17,11 @@ import lombok.NoArgsConstructor;
 public class AuthenticationResponse {
 
     /**
-     * The JWT token generated after being passed into the builder function.
+     * The JWT token generated after being passed into the builder function and user details.
      */
-    private String token;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String accessToken;
+    private String refreshToken;
 }
