@@ -3,13 +3,16 @@ package org.example.summer.service;
 import lombok.RequiredArgsConstructor;
 import org.example.summer.dto.AuthenticationRequest;
 import org.example.summer.dto.AuthenticationResponse;
+import org.example.summer.dto.RefreshTokenRequest;
 import org.example.summer.dto.RegisterRequest;
 import org.example.summer.dao.UserRepository;
+import org.example.summer.entity.RefreshToken;
 import org.example.summer.entity.Role;
 import org.example.summer.entity.User;
 import org.example.summer.exception.UserAlreadyExistsException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +28,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final RefreshTokenService refreshTokenService;
 
     /**
      * Saves a new user to the database and generates a token for them.
@@ -32,25 +36,30 @@ public class AuthenticationService {
      * @param request the registration request containing the users details.
      * @return the authentication response containing the JWT token.
      */
-    public AuthenticationResponse register(RegisterRequest request)  {
-//        var dbUser = userService.loadUserByUsername(request.getEmail());
-//        if (dbUser != null) {
-//            throw new UserAlreadyExistsException("Username " + request.getEmail() + " already exists");
-//        }
+    public AuthenticationResponse register(RegisterRequest request) throws UserAlreadyExistsException {
+        var dbUser = userService.findByEmail(request.getEmail());
+        if (dbUser.isPresent()) {
+            throw new UserAlreadyExistsException("Username " + request.getEmail() + " already exists");
+        }
 
         User user = User.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
+                .firstname(request.getFirstName())
+                .lastname(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
         userRepository.save(user);
 
-        var jwtToken = jwtService.generateToken(user);
+        // refresh token created on signup
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(request.getEmail());
 
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .accessToken(jwtService.generateToken(user))
+                .refreshToken(refreshToken.getToken())
                 .build();
     }
 
@@ -61,17 +70,40 @@ public class AuthenticationService {
      * @param request the authentication request containing the users details.
      * @return the authentication response containing the JWT token.
      */
+    // need to handle token errors
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         var user = (User) userService.loadUserByUsername(request.getEmail());
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
-        var jwtToken = jwtService.generateToken(user);
+        // refresh token created here and added to table for user on login
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(request.getEmail());
+
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .firstName(user.getFirstname())
+                .lastName(user.getLastname())
+                .email(request.getEmail())
+                .accessToken(jwtService.generateToken(user))
+                .refreshToken(refreshToken.getToken())
                 .build();
+    }
+
+    public AuthenticationResponse refreshAccessToken(RefreshTokenRequest refreshTokenRequest) {
+        return refreshTokenService
+                .findByToken(refreshTokenRequest.getRefreshToken())
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(user -> {
+                    String accessToken = jwtService.generateToken(user);
+                    return AuthenticationResponse
+                            .builder()
+                            .accessToken(accessToken)
+                            .refreshToken(refreshTokenRequest.getRefreshToken())
+                            .build();
+                }).orElseThrow(() -> new RuntimeException("Refresh token not found in db."));
     }
 }

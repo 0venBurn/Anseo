@@ -3,9 +3,11 @@ package org.example.summer.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.summer.dto.AuthenticationRequest;
 import org.example.summer.dto.AuthenticationResponse;
+import org.example.summer.exception.UserAlreadyExistsException;
 import org.example.summer.service.AuthenticationService;
 import org.example.summer.dto.RegisterRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -41,12 +43,12 @@ public class AuthenticationController {
      * Registers a new user.
      *
      * @param request the register request containing user registration details.
-     * @return a ResponseEntity with status code 200 containing the authentication response.
+     * @return a ResponseEnt    ity with status code 200 containing the authentication response.
      */
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
-    ) {
+    ) throws UserAlreadyExistsException {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
@@ -56,7 +58,7 @@ public class AuthenticationController {
      * @param request the authentication request containing user login details.
      * @return a ResponseEntity with status code 200 containing the authentication response.
      */
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ) {
