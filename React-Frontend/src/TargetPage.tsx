@@ -4,7 +4,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useMediaQuery, useTheme } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import Header from './Header';
 import '@fontsource/alegreya/400.css';
@@ -19,14 +18,8 @@ const TargetPage: React.FC = () => {
   const [selectedIncomeLevel, setSelectedIncomeLevel] = useState<string>('');
   const [incomeImportance, setIncomeImportance] = useState<number>(0.5);
   const [targetGroup, setTargetGroup] = useState<string | null>(null);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = useNavigate();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  const handleMenuToggle = () => {
-    setMenuOpen(!menuOpen);
-  };
+  const navigate = useNavigate();
 
   const handleNext = () => {
     // Navigate to the next page with state
@@ -53,7 +46,7 @@ const TargetPage: React.FC = () => {
     setSelectedAgeGroup(event.target.value as string);
   };
 
-  // 可选择的年龄范围选项
+  // age options
   const ageOptions = [
     'Under 5 years',
     '5 to 9 years',
@@ -75,7 +68,7 @@ const TargetPage: React.FC = () => {
     '85 years and over'
   ];
 
-  // 可选择的收入水平选项
+  // income options
   const incomeOptions = [
     'annual_individual_earnings_Data_< $10,000',
     'annual_individual_earnings_Data_$10,000-$19,999',
@@ -152,7 +145,7 @@ const TargetPage: React.FC = () => {
               >
                 {incomeOptions.map((option) => (
                   <MenuItem key={option} value={option}>
-                    {option.split('_').slice(-1)[0]} {/* 只显示数字部分 */}
+                    {option.split('_').slice(-1)[0]} {/* only show the number */}
                   </MenuItem>
                 ))}
               </Select>

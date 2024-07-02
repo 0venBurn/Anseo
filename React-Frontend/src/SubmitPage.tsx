@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { Button, IconButton } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { Button} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import CloseIcon from '@mui/icons-material/Close';
-import { useMediaQuery, useTheme } from '@mui/material';
+import { motion} from 'framer-motion';
 import jsonData from './Json_sent_to_model.json';
 import Header from './Header';
 import '@fontsource/alegreya/400.css';
@@ -37,14 +34,9 @@ const SubmitPage: React.FC = () => {
     areaType
   } = location.state || {};
 
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  const handleMenuToggle = () => {
-    setMenuOpen(!menuOpen);
-  };
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const handleSubmit = async () => {
     setIsLoading(true);

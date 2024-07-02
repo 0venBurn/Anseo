@@ -1,24 +1,12 @@
-import React, { useState } from 'react';
-import { Button, TextField, Divider, IconButton } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import CloseIcon from '@mui/icons-material/Close';
-import { useMediaQuery, useTheme } from '@mui/material';
+import React from 'react';
+import { Button, TextField, Divider } from '@mui/material';
+import { motion} from 'framer-motion';
 import Header from './Header';
 import '@fontsource/alegreya/400.css';
 import '@fontsource/alegreya/700.css';
 import './index.css';
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate();
-  const [menuOpen, setMenuOpen] = useState(false);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-  const handleMenuToggle = () => {
-    setMenuOpen(!menuOpen);
-  };
 
   return (
     <>

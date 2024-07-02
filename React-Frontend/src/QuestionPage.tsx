@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { Button, IconButton, Select, MenuItem, Slider, FormControl, InputLabel } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
+import { Button, Select, MenuItem, Slider, FormControl, InputLabel } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useMediaQuery, useTheme } from '@mui/material';
 import Header from './Header';
 import '@fontsource/alegreya/400.css';
 import '@fontsource/alegreya/700.css';
@@ -17,14 +14,8 @@ const QuestionPage: React.FC = () => {
   const [openHour, setOpenHour] = useState<number>(8); // Default to 8 AM
   const [closeHour, setCloseHour] = useState<number>(18); // Default to 6 PM
   const [budget, setBudget] = useState<number>(20); // Default budget value
-  const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = useNavigate();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  const handleMenuToggle = () => {
-    setMenuOpen(!menuOpen);
-  };
+  const navigate = useNavigate();
 
   const handleNext = () => {
     // Navigate to the next page with state
