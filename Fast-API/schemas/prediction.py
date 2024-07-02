@@ -1,10 +1,10 @@
-from typing import Dict, List
+from typing import Dict, List, Union
 
 from pydantic import BaseModel
 
 
 class PredictionRequest(BaseModel):
-    data: Dict[str, float]
+    data: List[Union[int, str, List[str]]]
 
 
 class PredictionResponse(BaseModel):
