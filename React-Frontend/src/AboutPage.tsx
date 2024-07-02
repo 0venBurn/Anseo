@@ -1,93 +1,17 @@
-import React, { useState } from 'react';
-import { Button, Divider, IconButton } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import CloseIcon from '@mui/icons-material/Close';
-import { useMediaQuery, useTheme } from '@mui/material';
+import React from 'react';
+import { Divider} from '@mui/material';
+import { motion} from 'framer-motion';
+import Header from './Header';
 import '@fontsource/alegreya/400.css';
 import '@fontsource/alegreya/700.css';
 import './index.css';
 
 const AboutPage: React.FC = () => {
-  const navigate = useNavigate();
-  const [menuOpen, setMenuOpen] = useState(false);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  const handleMenuToggle = () => {
-    setMenuOpen(!menuOpen);
-  };
 
   return (
     <div className="relative min-h-screen bg-gray-100 text-black">
-      {/* Header */}
-      <div className="fixed top-0 left-0 w-full bg-blue-900 text-white flex justify-between items-center py-4 px-4 md:px-20 z-50">
-        <div 
-          className="text-3xl md:text-5xl font-bold text-orange-600 cursor-pointer" 
-          style={{ fontFamily: 'Fredoka One' }}
-          onClick={() => navigate('/')}
-        >
-          ANSEO
-        </div>
-        <div className="flex space-x-4 items-center">
-          <Button 
-            variant="outlined" 
-            sx={{ 
-              borderColor: 'white', 
-              color: 'white', 
-              borderRadius: '20px', 
-              padding: isMobile ? '0.15rem 0.75rem' : '0.25rem 1rem',
-              boxShadow: 'none',
-              fontSize: isMobile ? '0.75rem' : '1rem' 
-            }}
-            onClick={() => navigate('/login')}
-          >
-            Log In
-          </Button>
-          <Button 
-            variant="contained" 
-            color="error" 
-            sx={{ 
-              backgroundColor: 'red', 
-              color: 'white', 
-              borderRadius: isMobile ? '20px' : '5px',
-              boxShadow: 'none',
-              fontSize: isMobile ? '0.75rem' : '1rem'
-            }}
-            onClick={() => navigate('/signin')}
-          >
-            Sign Up
-          </Button>
-          {isMobile && (
-            <IconButton color="inherit" onClick={handleMenuToggle}>
-              {menuOpen ? <CloseIcon /> : <MenuIcon />}
-            </IconButton>
-          )}
-        </div>
-      </div>
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="absolute top-16 left-0 w-full bg-blue-900 text-white flex flex-col items-center py-4 z-50"
-          >
-            <Button 
-              variant="text" 
-              sx={{ color: 'white', fontSize: '1rem' }}
-              onClick={() => {
-                navigate('/about');
-                setMenuOpen(false);
-              }}
-            >
-              About
-            </Button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <Header />
       <motion.div
         initial={{ opacity: 0, x: -100 }}
         animate={{ opacity: 1, x: 0 }}

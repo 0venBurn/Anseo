@@ -8,9 +8,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useMediaQuery, useTheme } from '@mui/material';
-import './index.css'; 
+import Header from './Header';
+import './index.css';
 import { environment } from '../mapbox.config';
-import Map from './components/Map';  
+import Map from './components/Map';
 
 mapboxgl.accessToken = environment.mapbox.accessToken;
 
@@ -41,7 +42,7 @@ const MapPage: React.FC = () => {
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/neighbourhoods'); 
+        const response = await axios.get('http://localhost:8080/api/neighbourhoods');
         console.log('Response data:', response.data);
         const embedded = response.data._embedded;
         if (embedded && Array.isArray(embedded.neighbourhoods)) {
@@ -79,150 +80,90 @@ const MapPage: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      {/* Header */}
-      <div className="absolute top-0 left-0 w-full bg-blue-900 text-white flex justify-between items-center py-4 px-4 md:px-20">
-        <div 
-          className="text-3xl md:text-5xl font-bold text-orange-600 cursor-pointer" 
-          style={{ fontFamily: 'Fredoka One' }}
-          onClick={() => navigate('/')}
-        >
-          ANSEO
-        </div>
-        <div className="flex space-x-4 md:space-x-4 items-center">
-          <Button 
-            variant="outlined" 
-            sx={{ 
-              borderColor: 'white', 
-              color: 'white', 
-              borderRadius: '20px', 
-              padding: isMobile ? '0.15rem 0.75rem' : '0.25rem 1rem',
-              boxShadow: 'none',
-              fontSize: isMobile ? '0.75rem' : '1rem'
-            }}
-            onClick={() => navigate('/login')}
-          >
-            Log In
-          </Button>
-          <Button 
-            variant="contained" 
-            color="error" 
-            sx={{ 
-              backgroundColor: 'red', 
-              color: 'white', 
-              borderRadius: isMobile ? '20px' : '5px',
-              boxShadow: 'none',
-              fontSize: isMobile ? '0.75rem' : '1rem'
-            }}
-            onClick={() => navigate('/signin')}
-          >
-            Sign Up
-          </Button>
-          {isMobile && (
-            <IconButton color="inherit" onClick={handleMenuToggle}>
-              {menuOpen ? <CloseIcon /> : <MenuIcon />}
-            </IconButton>
-          )}
-        </div>
-      </div>
-      <AnimatePresence>
-        {menuOpen && (
+      <Header />
+      <div className="flex flex-1 mt-20">
+        {!isMobile && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="absolute top-16 left-0 w-full bg-blue-900 text-white flex flex-col items-center py-4 z-50"
+          initial={{ opacity: 0, x: -100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 100 }}
+          transition={{ duration: 0.5 }}
+          className="hidden md:block w-1/2 p-4 overflow-y-auto"
           >
-            <Button 
-              variant="text" 
-              sx={{ color: 'white', fontSize: '1rem' }}
-              onClick={() => {
-                navigate('/about');
-                setMenuOpen(false);
-              }}
-            >
-              About
-            </Button>
+            <Box p={2}>
+              <Grid container spacing={2}>
+                {locations.map((location, index) => (
+                  <Grid item xs={12} sm={6} key={index}>
+                    <Card>
+                      <img src={location.photoPath} alt={location.name} style={{ height: 200, objectFit: 'cover' }} />
+                      <CardContent>
+                        <Typography variant="h6">{location.name}</Typography>
+                        <Typography variant="body2" color="textSecondary">{location.borough}</Typography>
+                        <Typography variant="body2">{location.description}</Typography>
+                        <Box display="flex" alignItems="center" mt={1}>
+                          <Typography variant="body2" style={{ marginRight: 4 }}>{location.rating.toFixed(2)}</Typography>
+                          <div>
+                            {Array.from({ length: 5 }).map((_, starIndex) => (
+                              <span key={starIndex} style={{ color: starIndex < Math.round(location.rating) ? '#FFD700' : '#CCC' }}>★</span>
+                            ))}
+                          </div>
+                        </Box>
+                        <Button variant="contained" style={{ backgroundColor: '#FF6347', color: '#FFF', marginTop: 16 }} onClick={() => handleLearnMore(location)}>Learn More</Button>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
           </motion.div>
         )}
-      </AnimatePresence>
-      {/* Desktop display location introduction on the left half */}
-      <div className="flex flex-1 mt-20">
-        <motion.div
-          initial={{ x: -300 }}
-          animate={{ x: 0 }}
-          transition={{ duration: 0.5 }}
-          className="hidden md:block w-1/2 p-4 bg-gray-100 overflow-y-auto"
-        >
-          <Box p={2}> 
-            <Grid container spacing={2}>
-              {locations.map((location, index) => (
-                <Grid item xs={12} sm={6} key={index}>
-                  <Card>
-                    <img src={location.photoPath} alt={location.name} style={{ height: 200, objectFit: 'cover' }} />
-                    <CardContent>
-                      <Typography variant="h6">{location.name}</Typography>
-                      <Typography variant="body2" color="textSecondary">{location.borough}</Typography>
-                      <Typography variant="body2">{location.description}</Typography>
-                      <Box display="flex" alignItems="center" mt={1}>
-                        <Typography variant="body2" style={{ marginRight: 4 }}>{location.rating.toFixed(2)}</Typography>
-                        <div>
-                          {Array.from({ length: 5 }).map((_, starIndex) => (
-                            <span key={starIndex} style={{ color: starIndex < Math.round(location.rating) ? '#FFD700' : '#CCC' }}>★</span>
-                          ))}
-                        </div>
-                      </Box>
-                      <Button variant="contained" style={{ backgroundColor: '#FF6347', color: '#FFF', marginTop: 16 }} onClick={() => handleLearnMore(location)}>Learn More</Button>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-        </motion.div>
-        {/* Map for desktop on the right half*/}
-        <div className="w-full md:w-1/2 h-full z-10">
-          <Map selectedBoroughs={selectedBoroughs} predictions={predictions} />
-        </div>
+        {/* Map for desktop on the right half */}
+        {!isMobile && (
+          <div className="w-full md:w-1/2 h-full absolute top-0 right-0">
+            <Map selectedBoroughs={selectedBoroughs} predictions={predictions} />
+          </div>
+        )}
       </div>
-      <div className="block md:hidden flex-1">
-        {/* Map for mobile display on the top half */}
-        <div className="w-full h-1/6 z-10">
-          <Map selectedBoroughs={selectedBoroughs} predictions={predictions} />
+      {isMobile && (
+        <div className="block md:hidden flex-1">
+          {/* Map for mobile display on the top half */}
+          <div className="w-full h-80 z-10">
+            <Map selectedBoroughs={selectedBoroughs} predictions={predictions} />
+          </div>
+          {/* Location on the bottom */}
+          <div className="text-center text-2xl py-2 bg-gray-100">
+            Your Results
+          </div>
+          <div className="w-full h-1/2 p-4 bg-gray-100 overflow-y-auto">
+            <Box p={2}>
+              <Grid container spacing={2}>
+                {locations.map((location, index) => (
+                  <Grid item xs={12} key={index}>
+                    <Card>
+                      <img src={location.photoPath} alt={location.name} style={{ height: 200, objectFit: 'cover' }} />
+                      <CardContent>
+                        <Typography variant="h6">{location.name}</Typography>
+                        <Typography variant="body2" color="textSecondary">{location.borough}</Typography>
+                        <Typography variant="body2">{location.description}</Typography>
+                        <Box display="flex" alignItems="center" mt={1}>
+                          <Typography variant="body2" style={{ marginRight: 4 }}>{location.rating.toFixed(2)}</Typography>
+                          <div>
+                            {Array.from({ length: 5 }).map((_, starIndex) => (
+                              <span key={starIndex} style={{ color: starIndex < Math.round(location.rating) ? '#FFD700' : '#CCC' }}>★</span>
+                            ))}
+                          </div>
+                        </Box>
+                        <Button variant="contained" style={{ backgroundColor: '#FF6347', color: '#FFF', marginTop: 16 }} onClick={() => handleLearnMore(location)}>Learn More</Button>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          </div>
         </div>
-        {/* Location on the bottom */}
-        <div className="text-center text-2xl py-2 bg-gray-100">
-          Your Results
-        </div>
-        <div className="w-full h-1/2 p-4 bg-gray-100 overflow-y-auto">
-          <Box p={2}>
-            <Grid container spacing={2}>
-              {locations.map((location, index) => (
-                <Grid item xs={12} key={index}>
-                  <Card>
-                    <img src={location.photoPath} alt={location.name} style={{ height: 200, objectFit: 'cover' }} />
-                    <CardContent>
-                      <Typography variant="h6">{location.name}</Typography>
-                      <Typography variant="body2" color="textSecondary">{location.borough}</Typography>
-                      <Typography variant="body2">{location.description}</Typography>
-                      <Box display="flex" alignItems="center" mt={1}>
-                        <Typography variant="body2" style={{ marginRight: 4 }}>{location.rating.toFixed(2)}</Typography>
-                        <div>
-                          {Array.from({ length: 5 }).map((_, starIndex) => (
-                            <span key={starIndex} style={{ color: starIndex < Math.round(location.rating) ? '#FFD700' : '#CCC' }}>★</span>
-                          ))}
-                        </div>
-                      </Box>
-                      <Button variant="contained" style={{ backgroundColor: '#FF6347', color: '#FFF', marginTop: 16 }} onClick={() => handleLearnMore(location)}>Learn More</Button>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-        </div>
-      </div>
-      {/* Detial column when clicked learn more */}
+      )}
+      {/* Detail column when clicked learn more */}
       <AnimatePresence>
         {selectedLocation && !isClosing && (
           <motion.div

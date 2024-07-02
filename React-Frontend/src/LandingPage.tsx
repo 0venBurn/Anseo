@@ -27,7 +27,7 @@ const LandingPage: React.FC = () => {
       {/* Blue navigation bar, used in Mobile  */}
       <div className="md:hidden absolute top-0 left-0 w-full bg-blue-900 text-white flex justify-between items-center py-4 px-4 md:px-20 z-50">
         <div 
-          className="text-3xl md:text-5xl font-bold text-orange-600 cursor-pointer" style={{ fontFamily: 'Fredoka One' }}
+          className="text-3xl md:text-5xl font-bold cursor-pointer" style={{ fontFamily: 'Fredoka One',color: '#DEDA6D'  }}
           onClick={() => navigate('/')}
         >
           ANSEO
@@ -52,7 +52,7 @@ const LandingPage: React.FC = () => {
             variant="contained" 
             color="primary" 
             sx={{ 
-              backgroundColor: 'red', 
+              backgroundColor: '#DEDA6D', 
               color: 'white', 
               borderRadius: '20px',
               boxShadow: 'none',
@@ -99,7 +99,7 @@ const LandingPage: React.FC = () => {
       transition={{ duration: 0.5 }}
       className="relative h-screen flex flex-col items-center justify-center text-black"
     >  
-      <div className="hidden md:block absolute top-10 left-1/2 transform -translate-x-1/2 text-5xl font-bold text-orange-600" style={{ fontFamily: 'Fredoka One' }}>ANSEO</div>
+      <div className="hidden md:block absolute top-10 left-1/2 transform -translate-x-1/2 text-5xl font-bold" style={{ fontFamily: 'Fredoka One',color: '#DEDA6D' }}>ANSEO</div>
       <div className="hidden md:flex absolute top-4 right-10 flex space-x-4">
         <Button 
           variant="outlined" 
@@ -111,7 +111,7 @@ const LandingPage: React.FC = () => {
         <Button 
           variant="contained" 
           color="error" 
-          sx={{ backgroundColor: 'red', color: 'white', borderRadius: '5px' }}
+          sx={{ backgroundColor: '#DEDA6D', color: 'white', borderRadius: '5px' }}
           onClick={() => navigate('/signin')}
         >
           Sign Up
@@ -126,7 +126,7 @@ const LandingPage: React.FC = () => {
         <Button 
           variant="contained" 
           color="error" 
-          sx={{ fontFamily:'DM Mono', backgroundColor: 'red', color: 'white', borderRadius: '50px', padding: '0.5rem 2rem' }}
+          sx={{ fontFamily:'DM Mono', backgroundColor: '#DEDA6D', color: 'white', borderRadius: '50px', padding: '0.5rem 2rem' }}
           onClick={() => navigate('/welcome')}
         >
           Start Now

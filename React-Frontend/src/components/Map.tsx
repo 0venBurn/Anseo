@@ -18,7 +18,7 @@ const Map: React.FC<MapProps> = ({ selectedBoroughs, predictions }) => {
 
   useAddMapLayers(map, selectedBoroughs, predictions);
 
-  return <div ref={mapRef} className="map w-full h-full md:h-screen" style={{ width: '100%', height: '100%' }} />;
+  return <div ref={mapRef} className="map w-full h-full md:h-screen" />;
 };
 
 export default Map;
