@@ -9,7 +9,7 @@ import '@fontsource/alegreya/400.css';
 import '@fontsource/alegreya/700.css';
 import './index.css';
 
-const AreaPage: React.FC = () => {
+const ExtraPage: React.FC = () => {
   const location = useLocation();
   const {
     businessType,
@@ -20,20 +20,21 @@ const AreaPage: React.FC = () => {
     ageImportance,
     selectedIncomeLevel,
     incomeImportance,
-    targetGroup
+    targetGroup,
+    proximityImportance,
+    footfallImportance,
+    surroundingBusinessesImportance,
+    rentBudget
   } = location.state || {};
-  const [proximityImportance, setProximityImportance] = useState<number>(0.5);
-  const [footfallImportance, setFootfallImportance] = useState<number>(0.5);
-  const [surroundingBusinessesImportance, setSurroundingBusinessesImportance] = useState<number>(0.5);
-  const [rentBudget, setRentBudget] = useState<number>(2500); // Default budget value
+  const [genderRatio, setGenderRatio] = useState<number>(0.5);
+  const [employmentStatus, setEmploymentStatus] = useState<string | null>(null);
+  const [homeValue, setHomeValue] = useState<number>(3000); // Default home value
+  const [populationDensity, setPopulationDensity] = useState<number>(0.5); // Default population density
   const navigate = useNavigate();
 
   const handleNext = () => {
-    // Calculate the adjusted rent budget
-    const adjustedRentBudget = rentBudget / 5;
-
     // Navigate to the next page with state
-    navigate('/extra', {
+    navigate('/borough', {
       state: {
         businessType,
         openHour,
@@ -47,7 +48,11 @@ const AreaPage: React.FC = () => {
         proximityImportance,
         footfallImportance,
         surroundingBusinessesImportance,
-        rentBudget: adjustedRentBudget
+        rentBudget,
+        genderRatio,
+        employmentStatus,
+        homeValue,
+        populationDensity
       }
     });
   };
@@ -63,74 +68,54 @@ const AreaPage: React.FC = () => {
           transition={{ duration: 0.5 }}
           className="flex flex-col items-center text-center mt-24 px-4 md:px-10 flex-grow md:mt-32"
         >
-          {/* Question 1: Proximity to Public Transportation */}
+          {/* Question 1: Gender Ratio */}
           <div className="mb-10">
             <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Alegreya' }}>
-              How important is proximity to public transportation for your business? <span className="text-red-500">*</span>
+              1. What is the gender ratio? <span className="text-red-500">*</span>
             </h1>
             <Slider
-              value={proximityImportance}
-              onChange={(e, newValue) => setProximityImportance(newValue as number)}
+              value={genderRatio}
+              onChange={(e, newValue) => setGenderRatio(newValue as number)}
               valueLabelDisplay="off"
               min={0}
               max={1}
               step={0.01}
               marks={[
-                { value: 0, label: 'Not important' },
-                { value: 1, label: 'Important' }
+                { value: 0, label: 'All Men' },
+                { value: 1, label: 'All Women' }
               ]}
               className="w-full max-w-md"
             />
           </div>
           
-          {/* Question 2: High Footfall */}
+          {/* Question 2: Employment Status */}
           <div className="mb-10">
             <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Alegreya' }}>
-              How important is high footfall? <span className="text-red-500">*</span>
+              2. What is the employment status? <span className="text-red-500">*</span>
             </h1>
-            <Slider
-              value={footfallImportance}
-              onChange={(e, newValue) => setFootfallImportance(newValue as number)}
-              valueLabelDisplay="off"
-              min={0}
-              max={1}
-              step={0.01}
-              marks={[
-                { value: 0, label: 'Not important' },
-                { value: 1, label: 'Important' }
-              ]}
-              className="w-full max-w-md"
-            />
-          </div>
-          
-          {/* Question 3: Surrounding Businesses */}
-          <div className="mb-10">
-            <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Alegreya' }}>
-              How important is being surrounded by similar businesses? <span className="text-red-500">*</span>
-            </h1>
-            <Slider
-              value={surroundingBusinessesImportance}
-              onChange={(e, newValue) => setSurroundingBusinessesImportance(newValue as number)}
-              valueLabelDisplay="off"
-              min={0}
-              max={1}
-              step={0.01}
-              marks={[
-                { value: 0, label: 'Not important' },
-                { value: 1, label: 'Important' }
-              ]}
-              className="w-full max-w-md"
-            />
+            <div className="grid grid-cols-3 gap-4">
+              {['Full Time', 'Part Time', 'No Earnings'].map(option => (
+                <button
+                  key={option}
+                  className={`w-full h-16 py-4 px-8 rounded-lg text-xl font-bold flex items-center justify-center border-2 ${
+                    employmentStatus === option ? 'bg-purple-900 text-white' : 'bg-transparent text-purple-900'
+                  }`}
+                  onClick={() => setEmploymentStatus(option)}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Question 4: Budget for Monthly Rent */}
+          {/* Question 3: Home Value */}
           <div className="mb-10">
             <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Alegreya' }}>
-              What is your budget for monthly rent (including utilities) for your business location? <span className="text-red-500">*</span>
+              3. What is the home value? <span className="text-red-500">*</span>
             </h1>
             <Slider
-              value={rentBudget}
-              onChange={(e, newValue) => setRentBudget(newValue as number)}
+              value={homeValue}
+              onChange={(e, newValue) => setHomeValue(newValue as number)}
               valueLabelDisplay="off"
               min={1000}
               max={5000}
@@ -138,6 +123,26 @@ const AreaPage: React.FC = () => {
               marks={[
                 { value: 1000, label: '< $1000' },
                 { value: 5000, label: '$5000' }
+              ]}
+              className="w-full max-w-md"
+            />
+          </div>
+
+          {/* Question 4: Population Density */}
+          <div className="mb-10">
+            <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Alegreya' }}>
+              4. What is the population density? <span className="text-red-500">*</span>
+            </h1>
+            <Slider
+              value={populationDensity}
+              onChange={(e, newValue) => setPopulationDensity(newValue as number)}
+              valueLabelDisplay="off"
+              min={0}
+              max={1}
+              step={0.01}
+              marks={[
+                { value: 0, label: 'Low Density' },
+                { value: 1, label: 'High Density' }
               ]}
               className="w-full max-w-md"
             />
@@ -158,7 +163,7 @@ const AreaPage: React.FC = () => {
                     backgroundColor: '#f89a93',
                   },
                 }}
-                onClick={() => navigate('/target', {
+                onClick={() => navigate('/area', {
                   state: {
                     businessType,
                     openHour,
@@ -168,7 +173,11 @@ const AreaPage: React.FC = () => {
                     ageImportance,
                     selectedIncomeLevel,
                     incomeImportance,
-                    targetGroup
+                    targetGroup,
+                    proximityImportance,
+                    footfallImportance,
+                    surroundingBusinessesImportance,
+                    rentBudget
                   }
                 })}
                 startIcon={<ArrowBackIcon />}
@@ -208,4 +217,4 @@ const AreaPage: React.FC = () => {
   );
 };
 
-export default AreaPage;
+export default ExtraPage;

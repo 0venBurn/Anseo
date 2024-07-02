@@ -14,6 +14,7 @@ import MapPage from './MapPage';
 import Test from './SubmitPageTest';
 import TargetPage from './TargetPage';
 import AreaPage from './AreaPage';
+import ExtraPage from './ExtraPage';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -32,6 +33,7 @@ const App: React.FC = () => {
         <Route path="/map" element={<MapPage />} />
         <Route path="/target" element={<TargetPage />} />
         <Route path="/area" element={<AreaPage />} />
+        <Route path="/extra" element={<ExtraPage />} />
       </Routes>
     </AnimatePresence>
   );
