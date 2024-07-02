@@ -5,8 +5,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IconButton, Card, CardContent, Button, Typography, Grid, Box } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import MenuIcon from '@mui/icons-material/Menu';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useMediaQuery, useTheme } from '@mui/material';
 import Header from './Header';
 import './index.css';
@@ -32,10 +31,10 @@ const MapPage: React.FC = () => {
   const [locations, setLocations] = useState<Location[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   const [isClosing, setIsClosing] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const navigate = useNavigate();
+
   const location = useLocation();
   const { selectedBoroughs, predictions } = location.state as { selectedBoroughs: string[], predictions: PredictionResponse };
 
@@ -74,9 +73,6 @@ const MapPage: React.FC = () => {
     setTimeout(() => setSelectedLocation(null), 500);
   };
 
-  const handleMenuToggle = () => {
-    setMenuOpen(!menuOpen);
-  };
 
   return (
     <div className="flex flex-col h-screen">

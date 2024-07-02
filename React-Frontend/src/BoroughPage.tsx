@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { Button, IconButton } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import CloseIcon from '@mui/icons-material/Close';
-import { useMediaQuery, useTheme } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion} from 'framer-motion';
 import Header from './Header';
 import '@fontsource/alegreya/400.css';
 import '@fontsource/alegreya/700.css';
@@ -36,11 +33,11 @@ const BoroughPage: React.FC = () => {
   
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
   const [areaType, setAreaType] = useState<string | null>(null);
-  const [menuOpen, setMenuOpen] = useState(false);
+
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+
 
   const handleSelectBorough = (option: string) => {
     setSelectedBoroughs(prevSelected => {
@@ -90,9 +87,7 @@ const BoroughPage: React.FC = () => {
     }
   };
 
-  const handleMenuToggle = () => {
-    setMenuOpen(!menuOpen);
-  };
+
 
   return (
     <>

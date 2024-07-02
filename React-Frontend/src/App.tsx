@@ -11,7 +11,6 @@ import LoginPage from './LoginPage';
 import SignInPage from './SignInPage';
 import AboutPage from './AboutPage';
 import MapPage from './MapPage';
-import Test from './SubmitPageTest';
 import TargetPage from './TargetPage';
 import AreaPage from './AreaPage';
 import ExtraPage from './ExtraPage';
