@@ -73,26 +73,31 @@ const MapPage: React.FC = () => {
     setTimeout(() => setSelectedLocation(null), 500);
   };
 
-
   return (
     <div className="flex flex-col h-screen">
       <Header />
       <div className="flex flex-1 mt-20">
         {!isMobile && (
           <motion.div
-          initial={{ opacity: 0, x: -100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 100 }}
-          transition={{ duration: 0.5 }}
-          className="hidden md:block w-1/2 p-4 overflow-y-auto"
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 100 }}
+            transition={{ duration: 0.5 }}
+            className="hidden md:block w-2/3 overflow-y-auto"
           >
+            <div className="w-full" style={{ backgroundColor: '#E8EAF6', margin: 0, padding: 0 }}>
+              <div className="flex justify-between items-center text-2xl py-2 px-4" style={{ backgroundColor: '#E8EAF6' }}>
+                <span>Your Results</span>
+                <Button variant="outlined">Filters</Button>
+              </div>
+            </div>
             <Box p={2}>
               <Grid container spacing={2}>
                 {locations.map((location, index) => (
-                  <Grid item xs={12} sm={6} key={index}>
-                    <Card>
+                  <Grid item xs={12} sm={4} key={index}>
+                    <Card style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                       <img src={location.photoPath} alt={location.name} style={{ height: 200, objectFit: 'cover' }} />
-                      <CardContent>
+                      <CardContent style={{ backgroundColor: '#F5F5F5', flex: '1 0 auto' }}>
                         <Typography variant="h6">{location.name}</Typography>
                         <Typography variant="body2" color="textSecondary">{location.borough}</Typography>
                         <Typography variant="body2">{location.description}</Typography>
@@ -113,9 +118,9 @@ const MapPage: React.FC = () => {
             </Box>
           </motion.div>
         )}
-        {/* Map for desktop on the right half */}
+        {/* Map for desktop on the right one-third */}
         {!isMobile && (
-          <div className="w-full md:w-1/2 h-full absolute top-0 right-0">
+          <div className="w-full md:w-1/3 h-full absolute top-0 right-0">
             <Map selectedBoroughs={selectedBoroughs} predictions={predictions} />
           </div>
         )}
@@ -135,9 +140,9 @@ const MapPage: React.FC = () => {
               <Grid container spacing={2}>
                 {locations.map((location, index) => (
                   <Grid item xs={12} key={index}>
-                    <Card>
+                    <Card style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                       <img src={location.photoPath} alt={location.name} style={{ height: 200, objectFit: 'cover' }} />
-                      <CardContent>
+                      <CardContent style={{ flex: '1 0 auto' }}>
                         <Typography variant="h6">{location.name}</Typography>
                         <Typography variant="body2" color="textSecondary">{location.borough}</Typography>
                         <Typography variant="body2">{location.description}</Typography>
