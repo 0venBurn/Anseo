@@ -461,7 +461,7 @@ class PredictionService:
         # Get zipcodes mappings from csv
         zipcodes_df = pd.read_csv('./zipcodes.csv')
 
-        input_to_model = question_to_inputs(data)
+        input_to_model = question_to_inputs(list(data.values()))
 
         # Assuming clf is your classifier and it has been trained already
         # Reshape input_to_model to be 2D
