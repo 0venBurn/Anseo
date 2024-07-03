@@ -80,7 +80,7 @@ const Header: React.FC = () => {
             variant="contained"
             sx={{
               backgroundColor: '#DEDA6D',
-              color: 'black',
+              color: '#3B447A',
               borderRadius: '20px',
               boxShadow: 'none',
               fontSize: isMobile ? '0.75rem' : '1rem',
