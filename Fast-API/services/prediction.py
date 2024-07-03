@@ -4,20 +4,25 @@ import numpy as np
 import re
 
 def rent_range_matches(category, rent):
-        category = category.replace(',', '')
-        match = re.search(r'\$(\d+)-\$(\d+)', category)
-        if match:
-            low, high = int(match.group(1)), int(match.group(2))
-            return low <= rent <= high
-        match = re.search(r'< \$(\d+)', category)
-        if match:
-            return rent < int(match.group(1))
-        match = re.search(r'\$([\d,]+)\+', category)
-        if match:
-            return rent >= int(match.group(1).replace(',', ''))
-        return False
+    category = category.replace(',', '')
+    match = re.search(r'\$(\d+)-\$(\d+)', category)
+    if match:
+        low, high = int(match.group(1)), int(match.group(2))
+        return low <= rent <= high
+    match = re.search(r'< \$(\d+)', category)
+    if match:
+        return rent < int(match.group(1))
+    match = re.search(r'\$([\d,]+)\+', category)
+    if match:
+        return rent >= int(match.group(1).replace(',', ''))
+    return False
 
 def question_to_inputs(question):
+
+    #gender
+    gender_man= question[-6]
+    gender_woman = 1-gender_man
+
     # Modelling desired age for the user input
     age_categories = [
         "Under 5 years", "5 to 9 years", "10 to 14 years", "15 to 19 years",
@@ -26,27 +31,33 @@ def question_to_inputs(question):
         "60 to 64 years", "65 to 69 years", "70 to 74 years", "75 to 79 years",
         "80 to 84 years", "85 years and over"
     ]
-    peak = age_categories.index(question[10])
+
+    peak = age_categories.index(question[4])
     sample_size = 10000  # Number of samples
     std_dev = 0.5
     data = np.random.normal(loc=peak, scale=std_dev, size=sample_size)
     hist, bin_edges = np.histogram(data, bins=len(age_categories), density=True)
-    age_return_total = [x * question[0] for x in hist.tolist()]
-    age_inp = age_return_total * 3
+    age_return_total = [x * question[5] for x in hist.tolist()]
+    age_inp = [x * gender_man for x in age_return_total]+[x * gender_woman for x in age_return_total]+age_return_total
+    
     # Business count
-    if question[1] == 'Residential':
+    if question[-1] == 'Residential':
         business_count = 0.25
     else:
         business_count = 0.75
+    
     # Footfall
-    opening_hour = question[7]
-    closing_hour = question[4]
+    opening_hour = question[1]
+    closing_hour = question[2]
     footfall = [0 for _ in range(24)]
-    footfall[opening_hour:closing_hour] = [1 * question[5]] * (closing_hour - opening_hour)
+    footfall[opening_hour:closing_hour] = [1 * question[10]] * (closing_hour - opening_hour)
+    
     # Competitiveness
-    compete = question[13]
+    compete = question[10]
+    
     # Access to transport
-    access_to_transport = question[8]
+    access_to_transport = question[9]
+    
     # Income categories
     income_cats = [
         'annual_individual_earnings_Data_< $10,000',
@@ -59,13 +70,14 @@ def question_to_inputs(question):
         'annual_individual_earnings_Data_$75,000-$99,999',
         'annual_individual_earnings_Data_$100,000+'
     ]
-    income = [0 for _ in range(9)]
-    if 'Lower Income' in question[12]:
-        income[0:3] = [1 * question[6]] * 3
-    if 'Middle Income' in question[12]:
-        income[3:6] = [1 * question[6]] * 3
-    if 'High Income' in question[12]:
-        income[6:9] = [1 * question[6]] * 3
+   
+    sample_size = 10000  # Number of samples
+    std_dev = 0.5
+    data = np.random.normal(loc=4, scale=std_dev, size=sample_size)  # Replace '4' with your specific peak or mean index
+    hist, bin_edges = np.histogram(data, bins=len(income_cats), density=True)
+    income_return_total = [x * question[7] for x in hist.tolist()]
+    income_inp = income_return_total  # Adjust as per your specific logic
+   
     # Rent categories
     rent_categories = [
         'monthly_rent_including_utilities_studio_apt_Data_< $200',
@@ -93,11 +105,13 @@ def question_to_inputs(question):
         'monthly_rent_including_utilities_3plus_b_Data_$750-$999',
         'monthly_rent_including_utilities_3plus_b_Data_$1,000+'
     ]
-    input_rent = question[9]
+   
+    input_rent = question[12]
     sparse_array = np.zeros(len(rent_categories))
     for i, category in enumerate(rent_categories):
         if rent_range_matches(category, input_rent):
             sparse_array[i] = 1
+   
     # Family structure
     family_single = [
         'families_vs_singles_Data_Husband Wife Family Households',
@@ -105,10 +119,12 @@ def question_to_inputs(question):
         'families_vs_singles_Data_Singles',
         'families_vs_singles_Data_Singles With Roommate'
     ]
-    if question[14] == 'Families':
+   
+    if question[8] == 'Families':
         fam_list = [1, 0.6, 0, 0]
-    elif question[14] == 'Singles':
+    elif question[8] == 'Singles':
         fam_list = [0, 0.4, 1, 1]
+   
     # Industry mapping
     industry_options = [
         'Industry_Amusement Arcade', 'Industry_Amusement Device Permanent',
@@ -137,35 +153,51 @@ def question_to_inputs(question):
         'Industry_Ticket Seller Business', 'Industry_Tobacco Retail Dealer', 'Industry_Tow Truck Company',
         'Industry_Tow Truck Driver', 'Industry_Tow Truck Exemption'
     ]
+   
     industry_sparse_array = np.zeros(len(industry_options))
-    industry_input = question[3]
+    industry_input = question[0]
     for i, industry in enumerate(industry_options):
         if industry == industry_input:
             industry_sparse_array[i] = 1
             break
+   
+    #Population density
+    density = question[-3]
+   
+    #Home Value
+    value = question[-4]/10000
+   
+    #Employment
+    if question[-5] == "Full Time":
+        emp = [1,0,0]
+    elif question[-5] == 'Part Time':
+        emp = [0,1,0]
+    else:
+        emp = [0,0,1]
+    
     # Merge all the separate outputs into the input to model
     input_to_model = [
         compete,
         business_count,
-        np.random.rand(),  # lat (placeholder)
-        np.random.rand(),  # lng (placeholder)
-        np.random.rand(),  # population_density (placeholder)
-        np.random.rand(),  # housing_units (placeholder)
-        np.random.rand(),  # occupied_housing_units (placeholder)
-        np.random.rand(),  # median_home_value (placeholder)
+          # lng (placeholder)
+        density, # population_density (placeholder)
+        .5,
+         .5, # occupied_housing_units (placeholder)
+        value,  # median_home_value (placeholder)
         *age_inp,
-# population_by_gender_Data_Female (placeholder)
+        gender_man,
+        gender_woman,
+        # population_by_gender_Data_Female (placeholder)
         *fam_list,
         *sparse_array,
-        np.random.rand(),  # employment_status_Data_Worked Full-time With Earnings (placeholder)
-        np.random.rand(),  # employment_status_Data_Worked Part-time With Earnings (placeholder)
-        np.random.rand(),  # employment_status_Data_No Earnings (placeholder)
-        *income,
+        *emp, # employment_status_Data_No Earnings (placeholder)
+        *income_inp,
         access_to_transport,
         *footfall,
         *[0]*62,  # arrest counts (placeholders)
         *industry_sparse_array
     ]
+    
     return input_to_model
 
 column_names = [
@@ -429,7 +461,7 @@ class PredictionService:
         # Get zipcodes mappings from csv
         zipcodes_df = pd.read_csv('./zipcodes.csv')
 
-        input_to_model = question_to_inputs(data)
+        input_to_model = question_to_inputs(list(data.values()))
 
         # Assuming clf is your classifier and it has been trained already
         # Reshape input_to_model to be 2D
@@ -451,4 +483,5 @@ class PredictionService:
         return dict(zip(prediction_df['zipcode'], prediction_df['probability']))
 
     
+
 
