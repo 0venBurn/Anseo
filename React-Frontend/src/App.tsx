@@ -14,6 +14,8 @@ import MapPage from './MapPage';
 import TargetPage from './TargetPage';
 import AreaPage from './AreaPage';
 import ExtraPage from './ExtraPage';
+import PasswordPage from './PasswordPage';
+import TestPage from './SubmitPageTest';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -33,6 +35,8 @@ const App: React.FC = () => {
         <Route path="/target" element={<TargetPage />} />
         <Route path="/area" element={<AreaPage />} />
         <Route path="/extra" element={<ExtraPage />} />
+        <Route path="/password" element={<PasswordPage />} />
+        <Route path="/test" element={<TestPage />} />
       </Routes>
     </AnimatePresence>
   );
