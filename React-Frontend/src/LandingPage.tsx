@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import '@fontsource/alegreya/400.css';
 import '@fontsource/alegreya/700.css';
 import '@fontsource/fredoka-one';
+import '@fontsource/commissioner'
+import '@fontsource/inter';
 import './index.css';
 
 const LandingPage: React.FC = () => {
@@ -42,7 +44,8 @@ const LandingPage: React.FC = () => {
               borderRadius: '20px', 
               padding: '0.15rem 0.75rem',
               boxShadow: 'none',
-              fontSize: '0.75rem'
+              fontSize: '0.75rem',
+              fontfamily: 'Inter, sans-serif'
             }}
             onClick={() => navigate('/login')}
           >
@@ -53,10 +56,11 @@ const LandingPage: React.FC = () => {
             color="primary" 
             sx={{ 
               backgroundColor: '#DEDA6D', 
-              color: 'white', 
+              color: '#3B447A', 
               borderRadius: '20px',
               boxShadow: 'none',
-              fontSize: '0.75rem'
+              fontSize: '0.75rem',
+              fontfamily: 'Inter, sans-serif'
             }}
             onClick={() => navigate('/signin')}
           >
@@ -103,7 +107,7 @@ const LandingPage: React.FC = () => {
       <div className="hidden md:flex absolute top-4 right-10 flex space-x-4">
         <Button 
           variant="outlined" 
-          sx={{ borderColor: 'white', color: 'white', borderRadius: '20px', padding: '0.25rem 1rem' }}
+          sx={{ borderColor: 'white', color: 'white', borderRadius: '20px', padding: '0.25rem 1rem',fontfamily: 'Inter, sans-serif' }}
           onClick={() => navigate('/login')}
         >
           Log In
@@ -111,7 +115,7 @@ const LandingPage: React.FC = () => {
         <Button 
           variant="contained" 
           color="error" 
-          sx={{ backgroundColor: '#DEDA6D', color: 'white', borderRadius: '5px' }}
+          sx={{ backgroundColor: '#DEDA6D', color: '#3B447A', borderRadius: '5px' ,fontfamily: 'Inter, sans-serif'}}
           onClick={() => navigate('/signin')}
         >
           Sign Up
@@ -119,21 +123,21 @@ const LandingPage: React.FC = () => {
       </div>
       {/* Main contents */}
       <div className="relative z-10 flex flex-col items-center text-center mt-20">
-        <h1 className="text-5xl font-bold mb-20 " style={{ fontFamily: 'Alegreya' }}>The place to be.</h1>
-        <p className="text-2xl mb-6 ">Discover your ideal business location in New York<br />with tailored solutions for your unique business needs.</p>
+        <h1 className="text-5xl text-indigo-900 font-bold mb-20 " style={{ fontFamily: 'Alegreya' }}>The place to be.</h1>
+        <p className="text-2xl mb-6 text-indigo-900 ">Discover your ideal business location in New York<br />with tailored solutions for your unique business needs.</p>
       </div>
       <div className="relative z-10 flex space-x-4 mt-32 ">
         <Button 
           variant="contained" 
           color="error" 
-          sx={{ fontFamily:'DM Mono', backgroundColor: '#DEDA6D', color: 'white', borderRadius: '50px', padding: '0.5rem 2rem' }}
+          sx={{ fontFamily:'Commissioner', backgroundColor: '#DEDA6D', color: '#3B447A', borderRadius: '50px', padding: '0.5rem 2rem',fontWeight: 'bold'}}
           onClick={() => navigate('/welcome')}
         >
           Start Now
         </Button>
         <Button 
           variant="outlined" 
-          sx={{ fontFamily:'DM Mono', borderColor: 'rgba(255, 255, 255, 0.7)', color: 'black', backgroundColor: 'rgba(255, 255, 255, 0.5)', padding: '0.5rem 2rem', backdropFilter: 'blur(5px)' }}
+          sx={{ fontFamily:'Commissioner', borderColor: 'rgba(255, 255, 255, 0.7)', color: '#3B447A', backgroundColor: 'rgba(255, 255, 255, 0.5)', padding: '0.5rem 2rem', backdropFilter: 'blur(5px)',fontWeight: 'bold' }}
           onClick={() => navigate('/about')}
         >
           About
