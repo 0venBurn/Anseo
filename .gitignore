@@ -552,4 +552,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
 *.csv
+*.shp
+*.xml
+*.cpg
+*.dbf
+*.prj
+*.shx
+*.xlsx

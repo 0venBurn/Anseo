@@ -1,40 +1,44 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
-import LandingPage from './LandingPage';
-import QuestionPage from './QuestionPage';
-import BoroughPage from './BoroughPage';
-import WelcomePage from './WelcomePage';
-import SubmitPage from './SubmitPage';
-import './index.css';
-import LoginPage from './LoginPage';
-import SignInPage from './SignInPage';
-import AboutPage from './AboutPage';
-import MapPage from './MapPage';
-import TargetPage from './TargetPage';
-import AreaPage from './AreaPage';
-import ExtraPage from './ExtraPage';
+import "./App.css";
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+
+import HomePage from './pages/HomePage';
+import ErrorPage from "./pages/ErrorPage";
+import SignedIn from "./pages/SignedIn";
+import AuthenticationProvider from "./components/AuthenticationProvider";
+
+const AuthLayout = () => (
+  <AuthenticationProvider>
+    <Outlet />
+  </AuthenticationProvider>
+);
+
+const router = createBrowserRouter([
+  {
+    element: <AuthLayout/>,
+    errorElement: <ErrorPage />, 
+    children: [
+      {
+        path: "/",
+        element: <HomePage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/signedin",
+        element: <SignedIn />,
+        errorElement: <ErrorPage />,
+      }
+    ]
+  },
+]);
 
 const App: React.FC = () => {
-  const location = useLocation();
-
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/questions" element={<QuestionPage />} />
-        <Route path="/borough" element={<BoroughPage />} />
-        <Route path="/welcome" element={<WelcomePage />} />
-        <Route path="/submit" element={<SubmitPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signin" element={<SignInPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/map" element={<MapPage />} />
-        <Route path="/target" element={<TargetPage />} />
-        <Route path="/area" element={<AreaPage />} />
-        <Route path="/extra" element={<ExtraPage />} />
-      </Routes>
-    </AnimatePresence>
+    <div className="App">
+        <AuthenticationProvider>
+          <RouterProvider router={router}/>
+        </AuthenticationProvider>
+      </div>
   );
 };
 
