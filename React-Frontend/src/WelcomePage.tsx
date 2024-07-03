@@ -28,12 +28,12 @@ const WelcomePage: React.FC = () => {
           >
             Welcome to Anseo, the place to be.
           </h1>
-          <p className="text-2xl mb-6">
+          <p className="text-2xl mb-6 text-indigo-900">
             Discover your ideal business location in New York
             <br />
             with tailored solutions for your unique business needs.
           </p>
-          <p className="text-lg mb-6 max-w-2xl">
+          <p className="text-lg mb-6 max-w-2xl text-indigo-900">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Dictumst
             quisque sagittis purus sit amet volutpat consequat mauris. Orci eu
@@ -43,10 +43,11 @@ const WelcomePage: React.FC = () => {
             variant="contained"
             sx={{
               backgroundColor: '#DEDA6D',
-              color: 'black',
+              color: '#3B447A',
               borderRadius: '5px',
               padding: '0.75rem 3rem',
               boxShadow: 'none',
+              fontWeight: 'bold'
             }}
             onClick={() => navigate('/questions')}
           >

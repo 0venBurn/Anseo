@@ -42,26 +42,28 @@ const SubmitPage: React.FC = () => {
     setIsLoading(true);
 
     const payload = {
-      businessType,
-      openHour,
-      closeHour,
-      budget,
-      selectedAgeGroup,
-      ageImportance,
-      selectedIncomeLevel,
-      incomeImportance,
-      targetGroup,
-      proximityImportance,
-      footfallImportance,
-      surroundingBusinessesImportance,
-      rentBudget,
-      genderRatio,
-      employmentStatus,
-      homeValue,
-      populationDensity,
-      selectedBoroughs,
-      areaType
-    };
+      'data': {
+          businessType,
+          openHour,
+          closeHour,
+          budget,
+          selectedAgeGroup,
+          ageImportance,
+          selectedIncomeLevel,
+          incomeImportance,
+          targetGroup,
+          proximityImportance,
+          footfallImportance,
+          surroundingBusinessesImportance,
+          rentBudget,
+          genderRatio,
+          employmentStatus,
+          homeValue,
+          populationDensity,
+          selectedBoroughs,
+          areaType
+      }
+  };
 
     try {
       const response = await fetch('http://localhost:8000/api/v1/predict', {
@@ -69,12 +71,13 @@ const SubmitPage: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(jsonData),
+        body: JSON.stringify(payload),
       });
-
+      console.log(payload)
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
+      
 
       const data = await response.json();
       navigate('/map', { state: { selectedBoroughs, predictions: data } });
