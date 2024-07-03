@@ -4,8 +4,7 @@ from pydantic import BaseModel
 
 
 class PredictionRequest(BaseModel):
-    data: List[Union[float, int, str, List[str]]]
-
+    data: Dict[str, Union[int, float, str, List[str]]]
 
 class PredictionResponse(BaseModel):
     predictions: Dict[int, float]
