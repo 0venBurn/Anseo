@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
-import { Button, Slider } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import Header from './Header';
-import '@fontsource/alegreya/400.css';
-import '@fontsource/alegreya/700.css';
-import './index.css';
+import React, { useState } from "react";
+import { Button, Slider } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ProgressIndicator from "./components/ProgressIndicator";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useNavigate, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
+import Header from "./Header";
+import "@fontsource/alegreya/400.css";
+import "@fontsource/alegreya/700.css";
+import "./index.css";
+
+const currentStep = 3;
+const totalSteps = 6;
 
 const AreaPage: React.FC = () => {
   const location = useLocation();
@@ -20,11 +24,12 @@ const AreaPage: React.FC = () => {
     ageImportance,
     selectedIncomeLevel,
     incomeImportance,
-    targetGroup
+    targetGroup,
   } = location.state || {};
   const [proximityImportance, setProximityImportance] = useState<number>(0.5);
   const [footfallImportance, setFootfallImportance] = useState<number>(0.5);
-  const [surroundingBusinessesImportance, setSurroundingBusinessesImportance] = useState<number>(0.5);
+  const [surroundingBusinessesImportance, setSurroundingBusinessesImportance] =
+    useState<number>(0.5);
   const [rentBudget, setRentBudget] = useState<number>(2500); // Default budget value
   const navigate = useNavigate();
 
@@ -33,7 +38,7 @@ const AreaPage: React.FC = () => {
     const adjustedRentBudget = rentBudget / 5;
 
     // Navigate to the next page with state
-    navigate('/extra', {
+    navigate("/extra", {
       state: {
         businessType,
         openHour,
@@ -47,8 +52,8 @@ const AreaPage: React.FC = () => {
         proximityImportance,
         footfallImportance,
         surroundingBusinessesImportance,
-        rentBudget: adjustedRentBudget
-      }
+        rentBudget: adjustedRentBudget,
+      },
     });
   };
 
@@ -65,59 +70,77 @@ const AreaPage: React.FC = () => {
         >
           {/* Question 1: Proximity to Public Transportation */}
           <div className="mb-10">
-            <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Alegreya' }}>
-              How important is proximity to public transportation for your business? <span className="text-red-500">*</span>
+            <h1
+              className="text-3xl font-bold mb-6"
+              style={{ fontFamily: "Alegreya" }}
+            >
+              How important is proximity to public transportation for your
+              business? <span className="text-red-500">*</span>
             </h1>
             <Slider
               value={proximityImportance}
-              onChange={(e, newValue) => setProximityImportance(newValue as number)}
+              onChange={(e, newValue) =>
+                setProximityImportance(newValue as number)
+              }
               valueLabelDisplay="off"
               min={0}
               max={1}
               step={0.01}
               marks={[
-                { value: 0, label: 'Not important' },
-                { value: 1, label: 'Important' }
+                { value: 0, label: "Not important" },
+                { value: 1, label: "Important" },
               ]}
               className="w-full max-w-md"
             />
           </div>
-          
+
           {/* Question 2: High Footfall */}
           <div className="mb-10">
-            <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Alegreya' }}>
-              How important is high footfall? <span className="text-red-500">*</span>
+            <h1
+              className="text-3xl font-bold mb-6"
+              style={{ fontFamily: "Alegreya" }}
+            >
+              How important is high footfall?{" "}
+              <span className="text-red-500">*</span>
             </h1>
             <Slider
               value={footfallImportance}
-              onChange={(e, newValue) => setFootfallImportance(newValue as number)}
+              onChange={(e, newValue) =>
+                setFootfallImportance(newValue as number)
+              }
               valueLabelDisplay="off"
               min={0}
               max={1}
               step={0.01}
               marks={[
-                { value: 0, label: 'Not important' },
-                { value: 1, label: 'Important' }
+                { value: 0, label: "Not important" },
+                { value: 1, label: "Important" },
               ]}
               className="w-full max-w-md"
             />
           </div>
-          
+
           {/* Question 3: Surrounding Businesses */}
           <div className="mb-10">
-            <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Alegreya' }}>
-              How important is being surrounded by similar businesses? <span className="text-red-500">*</span>
+            <h1
+              className="text-3xl font-bold mb-6"
+              style={{ fontFamily: "Alegreya" }}
+            >
+              How important is being surrounded by similar businesses?{" "}
+              <span className="text-red-500">*</span>
             </h1>
             <Slider
               value={surroundingBusinessesImportance}
-              onChange={(e, newValue) => setSurroundingBusinessesImportance(newValue as number)}
+              onChange={(e, newValue) =>
+                setSurroundingBusinessesImportance(newValue as number)
+              }
               valueLabelDisplay="off"
               min={0}
               max={1}
               step={0.01}
               marks={[
-                { value: 0, label: 'Not important' },
-                { value: 1, label: 'Important' }
+                { value: 0, label: "Not important" },
+                { value: 1, label: "Important" },
               ]}
               className="w-full max-w-md"
             />
@@ -125,8 +148,12 @@ const AreaPage: React.FC = () => {
 
           {/* Question 4: Budget for Monthly Rent */}
           <div className="mb-10">
-            <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Alegreya' }}>
-              What is your budget for monthly rent (including utilities) for your business location? <span className="text-red-500">*</span>
+            <h1
+              className="text-3xl font-bold mb-6"
+              style={{ fontFamily: "Alegreya" }}
+            >
+              What is your budget for monthly rent (including utilities) for
+              your business location? <span className="text-red-500">*</span>
             </h1>
             <Slider
               value={rentBudget}
@@ -136,55 +163,49 @@ const AreaPage: React.FC = () => {
               max={5000}
               step={100}
               marks={[
-                { value: 1000, label: '< $1000' },
-                { value: 5000, label: '$5000' }
+                { value: 1000, label: "< $1000" },
+                { value: 5000, label: "$5000" },
               ]}
               className="w-full max-w-md"
             />
           </div>
-          
-          {/* Navigation Buttons */}
-          <div className="flex flex-col items-center w-full mt-6 md:mb-12">
-            <div className="flex justify-between w-full max-w-md px-4">
-              <Button 
-                variant="contained" 
+          <div className="w-full max-w-md mb-12">
+            <div className="flex items-center justify-between px-4">
+              <Button
+                variant="contained"
                 sx={{
-                  fontSize: '1.25rem',
-                  padding: '0.75rem 2rem',
-                  backgroundColor: '#D1D6F5',
-                  color: 'black',
-                  borderRadius: '50px',
-                  '&:hover': {
-                    backgroundColor: '#f89a93',
+                  fontFamily: "Commissioner",
+                  fontSize: "1.25rem",
+                  padding: "0.75rem 2rem",
+                  backgroundColor: "#D1D6F5",
+                  color: "black",
+                  borderRadius: "50px",
+                  "&:hover": {
+                    backgroundColor: "#f89a93",
                   },
                 }}
-                onClick={() => navigate('/target', {
-                  state: {
-                    businessType,
-                    openHour,
-                    closeHour,
-                    budget,
-                    selectedAgeGroup,
-                    ageImportance,
-                    selectedIncomeLevel,
-                    incomeImportance,
-                    targetGroup
-                  }
-                })}
+                onClick={() => navigate("/welcome")}
                 startIcon={<ArrowBackIcon />}
               >
                 Back
               </Button>
-              <Button 
-                variant="contained" 
+              <div className="mx-4">
+                <ProgressIndicator
+                  currentStep={currentStep}
+                  totalSteps={totalSteps}
+                />
+              </div>
+              <Button
+                variant="contained"
                 sx={{
-                  fontSize: '1.25rem',
-                  padding: '0.75rem 2rem',
-                  backgroundColor: '#DEDA6D',
-                  color: 'white',
-                  borderRadius: '50px',
-                  '&:hover': {
-                    backgroundColor: '#f14624',
+                  fontFamily: "Commissioner",
+                  fontSize: "1.25rem",
+                  padding: "0.75rem 2rem",
+                  backgroundColor: "#DEDA6D",
+                  color: "white",
+                  borderRadius: "50px",
+                  "&:hover": {
+                    backgroundColor: "#f14624",
                   },
                 }}
                 onClick={handleNext}
@@ -192,14 +213,6 @@ const AreaPage: React.FC = () => {
               >
                 Next
               </Button>
-            </div>
-            <div className="flex justify-center mt-4 space-x-2">
-              <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
-              <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
-              <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
-              <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
-              <div className="w-3 h-3 border-2 border-purple-900 rounded-full"></div>
-              <div className="w-3 h-3 border-2 border-purple-900 rounded-full"></div>
             </div>
           </div>
         </motion.div>
