@@ -457,7 +457,7 @@ class PredictionService:
     def __init__(self):
         self.model = joblib.load("./models/Pickle_Rick_the_third.pkl")
 
-    def predict_proba(self, data):
+    def predict(self, data):
         # Get zipcodes mappings from csv
         zipcodes_df = pd.read_csv('./zipcodes.csv')
 
@@ -471,7 +471,7 @@ class PredictionService:
         input_df = pd.DataFrame(input_to_model_reshaped, columns=column_names)
 
         # Predict using the model
-        prediction = self.model.predict_proba(input_df)
+        prediction = self.model.predict_log_proba(input_df)
 
         # Create a dataframe for the probability distribution
         prediction_df = pd.DataFrame(prediction[0], columns=['probability'])

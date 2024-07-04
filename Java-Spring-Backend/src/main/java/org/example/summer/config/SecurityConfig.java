@@ -56,6 +56,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/actuator/**").permitAll();
                     auth.requestMatchers("/error").permitAll();
                     auth.requestMatchers("/auth/**").permitAll();
+                    auth.requestMatchers("/listings").permitAll();
                     auth.requestMatchers("/neighbourhoods/**").permitAll();
                     auth.requestMatchers("/users/**").permitAll();
                     auth.anyRequest().authenticated();
