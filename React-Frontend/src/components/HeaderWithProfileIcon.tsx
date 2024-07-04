@@ -9,7 +9,7 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full flex justify-between items-center py-4 px-10 bg-purple-900 text-white">
+    <div className="w-full flex justify-between items-center py-4 px-10 bg-primary-dark text-white">
       <div
         className="text-5xl font-bold text-orange-600 cursor-pointer"
         onClick={() => navigate("/")}

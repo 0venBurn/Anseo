@@ -6,19 +6,19 @@ import TermsOfService from './components/Form/TermsOfService';
 import AuthenticationLayout from './layouts/AuthenticationLayout';
 import AuthenticationForm from './components/Form/AuthenticationForm';
 
-const LoginPage: React.FC = () => {
+const SignInPage: React.FC = () => {
   return (
     <AuthenticationLayout>
-       <AuthenticationHeader title='Welcome Back' subtitle='Enter your details to continue' />
-       <AuthenticationForm action='login' />
+        <AuthenticationHeader title='Create Your Account' subtitle='Enter your details to get started with Anseo' />
+        <AuthenticationForm action='register' />
           <Divider sx={{ mb: 2, width: '100%' }}>or</Divider>
             <GoogleAuthenticationButton />
-          <a href="/forgot-password" className="text-sm text-blue-500 mb-4 self-end">
-            Forgot Password?
-          </a>
+          <p className="text-sm mb-4">
+            Already have an account? <a href="/login" className="text-blue-500">Log In</a>
+          </p>
           <TermsOfService />
     </AuthenticationLayout>
   );
 };
 
-export default LoginPage;
+export default SignInPage;
