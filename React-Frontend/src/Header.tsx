@@ -1,17 +1,17 @@
 // Header.tsx
-import React, { useState } from 'react';
-import { Button, IconButton } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useMediaQuery, useTheme } from '@mui/material';
+import React, { useState } from "react";
+import { Button, IconButton } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
@@ -23,8 +23,8 @@ const Header: React.FC = () => {
         <div className="flex items-center">
           <div
             className="text-3xl md:text-5xl font-bold cursor-pointer"
-            style={{ fontFamily: 'Fredoka One',color:'#DEDA6D' }}
-            onClick={() => navigate('/')}
+            style={{ fontFamily: "Fredoka One", color: "#DEDA6D" }}
+            onClick={() => navigate("/")}
           >
             ANSEO
           </div>
@@ -32,30 +32,30 @@ const Header: React.FC = () => {
             <Button
               variant="text"
               sx={{
-                color: 'white',
-                fontSize: '1rem',
+                color: "white",
+                fontSize: "1rem",
               }}
-              onClick={() => navigate('/about')}
+              onClick={() => navigate("/about")}
             >
               About
             </Button>
             <Button
               variant="text"
               sx={{
-                color: 'white',
-                fontSize: '1rem',
+                color: "white",
+                fontSize: "1rem",
               }}
-              onClick={() => navigate('/link1')}
+              onClick={() => navigate("/link1")}
             >
               Link 1
             </Button>
             <Button
               variant="text"
               sx={{
-                color: 'white',
-                fontSize: '1rem',
+                color: "white",
+                fontSize: "1rem",
               }}
-              onClick={() => navigate('/link2')}
+              onClick={() => navigate("/link2")}
             >
               Link 2
             </Button>
@@ -65,27 +65,27 @@ const Header: React.FC = () => {
           <Button
             variant="outlined"
             sx={{
-              borderColor: 'white',
-              color: 'white',
-              borderRadius: '20px',
-              padding: isMobile ? '0.15rem 0.75rem' : '0.25rem 1rem',
-              boxShadow: 'none',
-              fontSize: isMobile ? '0.75rem' : '1rem',
+              borderColor: "white",
+              color: "white",
+              borderRadius: "20px",
+              padding: isMobile ? "0.15rem 0.75rem" : "0.25rem 1rem",
+              boxShadow: "none",
+              fontSize: isMobile ? "0.75rem" : "1rem",
             }}
-            onClick={() => navigate('/login')}
+            onClick={() => navigate("/login")}
           >
             Log In
           </Button>
           <Button
             variant="contained"
             sx={{
-              backgroundColor: '#DEDA6D',
-              color: '#3B447A',
-              borderRadius: '20px',
-              boxShadow: 'none',
-              fontSize: isMobile ? '0.75rem' : '1rem',
+              backgroundColor: "#DEDA6D",
+              color: "#3B447A",
+              borderRadius: "20px",
+              boxShadow: "none",
+              fontSize: isMobile ? "0.75rem" : "1rem",
             }}
-            onClick={() => navigate('/signup')}
+            onClick={() => navigate("/signup")}
           >
             Sign Up
           </Button>
@@ -102,16 +102,16 @@ const Header: React.FC = () => {
         {menuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
             className="absolute top-16 left-0 w-full bg-blue-900 text-white flex flex-col items-center py-4 z-10"
           >
             <Button
               variant="text"
-              sx={{ color: 'white', fontSize: '1rem' }}
+              sx={{ color: "white", fontSize: "1rem" }}
               onClick={() => {
-                navigate('/about');
+                navigate("/about");
                 setMenuOpen(false);
               }}
             >
@@ -119,9 +119,9 @@ const Header: React.FC = () => {
             </Button>
             <Button
               variant="text"
-              sx={{ color: 'white', fontSize: '1rem' }}
+              sx={{ color: "white", fontSize: "1rem" }}
               onClick={() => {
-                navigate('/link1');
+                navigate("/link1");
                 setMenuOpen(false);
               }}
             >
@@ -129,9 +129,9 @@ const Header: React.FC = () => {
             </Button>
             <Button
               variant="text"
-              sx={{ color: 'white', fontSize: '1rem' }}
+              sx={{ color: "white", fontSize: "1rem" }}
               onClick={() => {
-                navigate('/link2');
+                navigate("/link2");
                 setMenuOpen(false);
               }}
             >
