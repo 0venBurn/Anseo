@@ -21,7 +21,7 @@ export const useAddMapLayers = (
     if (map) {
       map.addSource('Layers', {
         type: 'vector',
-        url: 'mapbox://zikangwang.8dqtmqya'
+        url: 'mapbox://tadghp.0lsjggwr'
       });
 
       const filter = ['in', ['get', 'borough'], ['literal', selectedBoroughs]];

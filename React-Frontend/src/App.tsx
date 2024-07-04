@@ -8,7 +8,7 @@ import BoroughPage from './BoroughPage';
 import WelcomePage from './WelcomePage';
 import SubmitPage from './SubmitPage';
 import LoginPage from './LoginPage';
-import SignInPage from './SignInPage';
+import SignUpPage from './SignUpPage';
 import AboutPage from './AboutPage';
 import MapPage from './MapPage';
 import TargetPage from './TargetPage';
@@ -61,8 +61,8 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: "/signin",
-        element: <SignInPage />,
+        path: "/signup",
+        element: <SignUpPage />,
         errorElement: <ErrorPage />,
       },
       {
