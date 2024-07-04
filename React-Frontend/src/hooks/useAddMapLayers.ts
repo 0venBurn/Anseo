@@ -5,19 +5,27 @@ interface PredictionResponse {
   predictions: { [zipcode: string]: number };
 }
 
-//  From green(low) to red (high)
-const getColorForProbability = (probability: number): string => {
-  const g = Math.floor(255 * probability);
-  const r = Math.floor(255 * (1 - probability));
-  return `rgb(${r},${g},0)`;
-};
+interface ZipProbability {
+  zipcode: string;
+  probability: number;
+}
 
 export const useAddMapLayers = (
   map: mapboxgl.Map | null,
   selectedBoroughs: string[],
   predictions: PredictionResponse | null
 ) => {
+  const zipProbabilities: ZipProbability[] = []
   useEffect(() => {
+    if (predictions) {
+      for (const [zipcode, probability] of Object.entries(predictions.predictions)) {
+        zipProbabilities.push( {zipcode, probability})
+      }
+      zipProbabilities.sort((a, b) => a.probability - b.probability)
+    }
+
+    const sortedZipCodes: number[] = zipProbabilities.map((zip) => parseInt(zip.zipcode))
+  
     if (map) {
       map.addSource('Layers', {
         type: 'vector',
@@ -25,16 +33,28 @@ export const useAddMapLayers = (
       });
 
       const filter = ['in', ['get', 'borough'], ['literal', selectedBoroughs]];
-
+      
       map.addLayer({
         id: 'LayersFill',
         type: 'fill',
         source: 'Layers',
         'source-layer': 'neighbourhoods',
         layout: {},
-        paint: {
-          'fill-color': '#0080ff',
-          'fill-opacity': 0
+        paint: { 
+          'fill-color': [
+            'match',
+            ['get', 'zipcode'],
+            sortedZipCodes.slice(0, 20), '#FF0000',
+            sortedZipCodes.slice(20, 40), '#FF4040',
+            sortedZipCodes.slice(40, 60), '#FF8080',
+            sortedZipCodes.slice(60, 80), '#FFBFBF',
+            sortedZipCodes.slice(80, 100), '#FFFF00',
+            sortedZipCodes.slice(100, 120), '#BFFF00',
+            sortedZipCodes.slice(120, 140), '#80FF00',
+            sortedZipCodes.slice(140, 160), '#40FF00',
+            sortedZipCodes.slice(160, 180), '#00FF00',
+            '#008000',
+          ]
         },
         filter
       });
@@ -51,32 +71,6 @@ export const useAddMapLayers = (
         },
         filter
       });
-
-      if (predictions) {
-        map.addLayer({
-          id: 'LayersZipCodeFill',
-          type: 'fill',
-          source: 'Layers',
-          'source-layer': 'neighbourhoods',
-          layout: {},
-          paint: {
-            'fill-color': [
-              'case',
-              ...Object.keys(predictions.predictions).flatMap((zipcode) => [
-                // Convert the predictions. predictions object into an array containing key value pairs. 
-                // Each key value pair represents a postal code and its corresponding probability value
-                ['==', ['to-string', ['get', 'zipcode']], zipcode],
-                // Build style syntax similar to Mapbox GL JS, 
-                // used to specify matching rules for conditional filters or style attributes
-                getColorForProbability(predictions.predictions[zipcode])
-                
-              ]),
-              '#ffffff' // default color white
-            ],
-            'fill-opacity': 0.5
-          }
-        });
-      }
     }
-  }, [map, selectedBoroughs, predictions]);
+  }, [map, selectedBoroughs, predictions, zipProbabilities]);
 };
