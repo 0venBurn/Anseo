@@ -36,4 +36,6 @@ public class Listing {
     @Column(name = "lon")
     private String lng;
 
+    @Column(name = "neighbourhood_id")
+    private int neighbourhoodId;
 }
