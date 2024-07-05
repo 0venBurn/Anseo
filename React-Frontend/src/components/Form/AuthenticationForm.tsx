@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuthentication } from '../AuthenticationProvider'
 import AuthenticationInput from './AuthenticationInput'
 import AuthenticationButton from './AuthenticationButton'
-import React from 'react'
+
 interface AuthenticationFormProps {
     action: string
 }

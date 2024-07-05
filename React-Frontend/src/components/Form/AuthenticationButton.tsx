@@ -1,5 +1,4 @@
 import { Button } from '@mui/material';
-import React from 'react';
 
 interface AuthenticationButtonProps {
     text: string
