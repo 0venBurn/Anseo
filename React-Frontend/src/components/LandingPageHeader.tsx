@@ -19,32 +19,40 @@ const Header: React.FC = () => {
 
   return (
     // Container div for the header buttons with absolute positioning and spacing
-    <div className="absolute top-4 right-10 flex space-x-4">
-      {/* "Log in" button */}
-      <Button
-        variant="outlined"
-        sx={{
-          borderColor: "white", // White border colour
-          color: "white", // White text colour
-          borderRadius: "20px", // Rounded corner
-          padding: "0.25rem 1rem", // Padding inside the button
-        }}
-        onClick={() => navigate("/login")} // Navigate to log in on click
+    <div className="hidden md:block">
+      <div
+        className="hidden md:block absolute top-10 left-1/2 transform -translate-x-1/2 text-5xl font-bold"
+        style={{ fontFamily: "Fredoka One", color: "#DEDA6D" }}
       >
-        Log in
-      </Button>
-      {/* "Sign up" button */}
-      <Button
-        variant="contained"
-        color="error" // Red Colour
-        sx={{ backgroundcolor: "red", color: "white", borderRadius: "5px" }}
-        // backroundcolor: redbackground colour
-        // color: White text colour
-        // borderRadius: Rounded corners
-        onClick={() => navigate("/signin")} // Navigate to sign in on click
-      >
-        Sign up
-      </Button>
+        ANSEO
+      </div>
+      <div className="absolute top-4 right-10 flex space-x-4">
+        {/* "Log in" button */}
+        <Button
+          variant="outlined"
+          sx={{
+            borderColor: "white", // White border colour
+            color: "white", // White text colour
+            borderRadius: "20px", // Rounded corner
+            padding: "0.25rem 1rem", // Padding inside the button
+          }}
+          onClick={() => navigate("/login")} // Navigate to log in on click
+        >
+          Log in
+        </Button>
+        {/* "Sign up" button */}
+        <Button
+          variant="contained"
+          color="error" // Red Colour
+          sx={{ backgroundcolor: "red", color: "white", borderRadius: "5px" }}
+          // backroundcolor: redbackground colour
+          // color: White text colour
+          // borderRadius: Rounded corners
+          onClick={() => navigate("/signup")} // Navigate to sign in on click
+        >
+          Sign up
+        </Button>
+      </div>
     </div>
   );
 };

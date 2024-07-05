@@ -1,13 +1,16 @@
 // WelcomePage.tsx
-import React from 'react';
-import { Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import Header from './Header';
-import '@fontsource/alegreya/400.css';
-import '@fontsource/alegreya/700.css';
-import './index.css';
+import React from "react";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import Header from "./Header";
+import ProgressIndicator from "./components/ProgressIndicator";
+import "@fontsource/alegreya/400.css";
+import "@fontsource/alegreya/700.css";
+import "./index.css";
 
+const currentStep = 1;
+const totalSteps = 6;
 const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -23,9 +26,7 @@ const WelcomePage: React.FC = () => {
         className="relative h-screen flex items-start justify-between text-black bg-gray-100"
       >
         <div className="flex flex-col items-start text-left mt-40 ml-20 w-full max-w-full">
-          <h1
-            className="text-indigo-900 text-7xl font-bold font-['Alegreya'] mb-4 whitespace-nowrap"
-          >
+          <h1 className="text-indigo-900 text-7xl font-bold font-['Alegreya'] mb-4 whitespace-nowrap">
             Welcome to Anseo, the place to be.
           </h1>
           <p className="text-2xl mb-6 text-indigo-900">
@@ -42,14 +43,14 @@ const WelcomePage: React.FC = () => {
           <Button
             variant="contained"
             sx={{
-              backgroundColor: '#DEDA6D',
-              color: '#3B447A',
-              borderRadius: '5px',
-              padding: '0.75rem 3rem',
-              boxShadow: 'none',
-              fontWeight: 'bold'
+              backgroundColor: "#DEDA6D",
+              color: "#3B447A",
+              borderRadius: "5px",
+              padding: "0.75rem 3rem",
+              boxShadow: "none",
+              fontWeight: "bold",
             }}
-            onClick={() => navigate('/questions')}
+            onClick={() => navigate("/questions")}
           >
             Next
           </Button>
@@ -58,19 +59,18 @@ const WelcomePage: React.FC = () => {
           <div
             className="w-64 h-64 rounded-full"
             style={{
-              background: 'linear-gradient(135deg, #FF7E5F, #FFD194, #FFE29A, #B8CBB8, #6BC3B1)',
+              background:
+                "linear-gradient(135deg, #FF7E5F, #FFD194, #FFE29A, #B8CBB8, #6BC3B1)",
             }}
           ></div>
         </div>
 
         {/* Progress Indicator */}
         <div className="absolute bottom-10 flex space-x-2 left-1/2 transform -translate-x-1/2">
-          <div className="w-3 h-3 bg-purple-900 rounded-full"></div>
-          <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
-          <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
-          <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
-          <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
-          <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
+          <ProgressIndicator
+            currentStep={currentStep}
+            totalSteps={totalSteps}
+          />
         </div>
       </motion.div>
     </>
