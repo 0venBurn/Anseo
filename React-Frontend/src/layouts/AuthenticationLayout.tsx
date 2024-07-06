@@ -22,7 +22,6 @@ const AuthenticationLayout: React.FC<AuthenticationLayoutProps> = ({ children })
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 100 }}
           transition={{ duration: 0.5 }}
-          className="flex flex-col items-center text-center mt-32 bg-white p-12 rounded-lg mb-12 max-w-lg"
           >
             {children}
         </motion.div>

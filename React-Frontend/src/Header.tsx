@@ -72,7 +72,7 @@ const Header: React.FC = () => {
               boxShadow: "none",
               fontSize: isMobile ? "0.75rem" : "1rem",
             }}
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/sign-in")}
           >
             Log In
           </Button>
@@ -85,7 +85,7 @@ const Header: React.FC = () => {
               boxShadow: "none",
               fontSize: isMobile ? "0.75rem" : "1rem",
             }}
-            onClick={() => navigate("/signup")}
+            onClick={() => navigate("/sign-up")}
           >
             Sign Up
           </Button>

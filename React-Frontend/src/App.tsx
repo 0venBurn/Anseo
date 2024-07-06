@@ -7,7 +7,7 @@ import QuestionPage from './QuestionPage';
 import BoroughPage from './BoroughPage';
 import WelcomePage from './WelcomePage';
 import SubmitPage from './SubmitPage';
-import LoginPage from './LoginPage';
+import LoginPage from './SignInPage';
 import SignUpPage from './SignUpPage';
 import AboutPage from './AboutPage';
 import MapPage from './MapPage';
