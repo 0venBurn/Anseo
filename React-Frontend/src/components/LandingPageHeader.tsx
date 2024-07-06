@@ -36,7 +36,7 @@ const Header: React.FC = () => {
             borderRadius: "20px", // Rounded corner
             padding: "0.25rem 1rem", // Padding inside the button
           }}
-          onClick={() => navigate("/login")} // Navigate to log in on click
+          onClick={() => navigate("/sign-in")} // Navigate to log in on click
         >
           Log in
         </Button>
@@ -48,7 +48,7 @@ const Header: React.FC = () => {
           // backroundcolor: redbackground colour
           // color: White text colour
           // borderRadius: Rounded corners
-          onClick={() => navigate("/signup")} // Navigate to sign in on click
+          onClick={() => navigate("/sign-up")} // Navigate to sign in on click
         >
           Sign up
         </Button>

@@ -1,11 +1,12 @@
-import './index.css';
-import AuthenticationLayout from './layouts/AuthenticationLayout';
-import { SignUp } from "@clerk/clerk-react";
+import "./index.css";
+import AuthenticationLayout from "./layouts/AuthenticationLayout";
+import { SignIn } from "@clerk/clerk-react"
 
 const SignInPage: React.FC = () => {
   return (
     <AuthenticationLayout>
-         <SignUp appearance={{
+      
+      <SignIn appearance={{
     elements: {
         cardBox: "mt-32 mb-12",
         card: "gap-0",

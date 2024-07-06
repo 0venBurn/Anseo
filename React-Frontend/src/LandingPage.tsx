@@ -14,6 +14,7 @@ import LandingPageHeroSection from "./components/LandingPageHeroSection";
 import Header from "./components/LandingPageHeader";
 import MobileHeader from "./components/MobileHeader";
 import LandingPageActionButtons from "./components/LandingPageActionButtons";
+import { SignedIn, SignOutButton } from "@clerk/clerk-react";
 
 //Main component for the landing page
 const LandingPage: React.FC = () => {
@@ -52,6 +53,9 @@ const LandingPage: React.FC = () => {
 
         {/*Hero section*/}
         <LandingPageHeroSection />
+        <SignedIn>
+        <SignOutButton redirectUrl="http://localhost:3000"/>
+        </SignedIn>
 
         {/*Call to action (CTA) buttons*/}
         <LandingPageActionButtons />

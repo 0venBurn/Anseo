@@ -3,7 +3,6 @@ import { Button} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion} from 'framer-motion';
-import jsonData from './Json_sent_to_model.json';
 import Header from './Header';
 import '@fontsource/alegreya/400.css';
 import '@fontsource/alegreya/700.css';
