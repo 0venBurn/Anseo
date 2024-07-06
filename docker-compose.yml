@@ -3,7 +3,7 @@ version: '3.8'
 services:
   java-backend:
     build:
-      context: ./Java-Spring-backend
+      context: ./Java-Spring-Backend
       dockerfile: Dockerfile
     expose:
       - "8080"
