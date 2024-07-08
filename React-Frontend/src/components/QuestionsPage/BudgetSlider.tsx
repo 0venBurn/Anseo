@@ -1,5 +1,6 @@
 import React from "react";
 import { Slider } from "@mui/material";
+import QuestionLabel from "../Questionnaire/QuestionLabel";
 
 interface BudgetSliderProps {
   budget: number;
@@ -8,10 +9,7 @@ interface BudgetSliderProps {
 
 const BudgetSlider: React.FC<BudgetSliderProps> = ({ budget, setBudget }) => (
   <div className="mb-10 w-full max-w-md">
-    <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: "Alegreya" }}>
-      3. What is your budget for paying employees? (Specify hourly rates){" "}
-      <span className="text-red-500">*</span>
-    </h1>
+    <QuestionLabel label="What is your budget for paying employees? (Specify hourly rates)" />
     <Slider
       value={budget}
       onChange={(e, newValue) => setBudget(newValue as number)}

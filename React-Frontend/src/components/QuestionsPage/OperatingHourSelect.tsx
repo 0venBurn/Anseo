@@ -1,5 +1,6 @@
 import React from "react";
 import { Select, MenuItem } from "@mui/material";
+import QuestionLabel from "../Questionnaire/QuestionLabel";
 
 interface OperatingHoursSelectorProps {
   openHour: number;
@@ -15,9 +16,7 @@ const OperatingHoursSelector: React.FC<OperatingHoursSelectorProps> = ({
   setCloseHour,
 }) => (
   <div className="mb-10 w-full max-w-md">
-    <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: "Alegreya" }}>
-      2. Operating hours: <span className="text-red-500">*</span>
-    </h1>
+    <QuestionLabel label="Operating hours:" />
     <div className="grid grid-cols-2 gap-4">
       <div>
         <label className="block mb-2">Opens at:</label>

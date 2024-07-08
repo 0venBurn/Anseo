@@ -1,5 +1,6 @@
 import React from "react";
 import { Slider } from "@mui/material";
+import QuestionLabel from "../Questionnaire/QuestionLabel";
 
 interface SliderComponentProps {
   value: number;
@@ -21,9 +22,7 @@ const SliderComponent: React.FC<SliderComponentProps> = ({
   marks,
 }) => (
   <div className="mb-10">
-    <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: "Alegreya" }}>
-      {label} <span className="text-red-500">*</span>
-    </h1>
+    <QuestionLabel label={label} />
     <Slider
       value={value}
       onChange={(e, newValue) => setValue(newValue as number)}

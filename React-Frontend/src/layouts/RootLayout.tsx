@@ -1,5 +1,7 @@
 import { Outlet, useNavigate } from 'react-router-dom'
 import { ClerkProvider } from '@clerk/clerk-react'
+import QuestionnaireProvider from '../context/QuestionnaireProvider';
+import Header from '../Header';
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 const SIGN_IN_URL = import.meta.env.VITE_CLERK_SIGN_IN_URL;
@@ -20,9 +22,10 @@ export default function RootLayout() {
         signInUrl={SIGN_IN_URL}
         signUpUrl={SIGN_UP_URL}
     >
-      <main>
+      <QuestionnaireProvider>
+      <Header />
         <Outlet />
-      </main>
+      </QuestionnaireProvider>
     </ClerkProvider>
   )
 }

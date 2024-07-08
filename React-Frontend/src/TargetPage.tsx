@@ -1,45 +1,37 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
-import Header from "./Header";
+import { useNavigate } from "react-router-dom";
 import AgeGroupSelector from "./components/TargetPage/AgeGroupSelector";
 import ImportanceSlider from "./components/TargetPage/ImportanceSlider";
 import IncomeLevelSelector from "./components/TargetPage/IncomeLevelSelector";
 import TargetGroupSelector from "./components/TargetPage/TargetGroupSelector";
 import NavigationButtons from "./components/QuestionsPage/NavigationButtons";
-import "@fontsource/alegreya/400.css";
-import "@fontsource/alegreya/700.css";
 import "./index.css";
 import { SelectChangeEvent } from "@mui/material/Select";
+import QuestionnaireLayout from "./layouts/QuestionnaireLayout";
+import { useQuestionnaire } from "./context/QuestionnaireProvider";
 
 const currentStep = 3;
 const totalSteps = 6;
 
 const TargetPage: React.FC = () => {
-  const location = useLocation();
-  const { businessType, openHour, closeHour, budget } = location.state || {};
   const [selectedAgeGroup, setSelectedAgeGroup] = useState<string>("");
   const [ageImportance, setAgeImportance] = useState<number>(0.5);
   const [selectedIncomeLevel, setSelectedIncomeLevel] = useState<string>("");
   const [incomeImportance, setIncomeImportance] = useState<number>(0.5);
-  const [targetGroup, setTargetGroup] = useState<string | null>(null);
+  const [targetGroup, setTargetGroup] = useState<string>("");
 
+  const { data, answerQuestion } = useQuestionnaire();
   const navigate = useNavigate();
 
   const handleNext = () => {
-    navigate("/area", {
-      state: {
-        businessType,
-        openHour,
-        closeHour,
-        budget,
-        selectedAgeGroup,
-        ageImportance,
-        selectedIncomeLevel,
-        incomeImportance,
-        targetGroup,
-      },
-    });
+    answerQuestion("selectedAgeGroup", selectedAgeGroup);
+    answerQuestion("ageImportance", ageImportance);
+    answerQuestion("selectedIncomeLevel", selectedIncomeLevel);
+    answerQuestion("incomeImportance", incomeImportance);
+    answerQuestion("targetGroup", targetGroup);
+    answerQuestion("selectedAgeGroup", selectedAgeGroup);
+    console.log(data)
+    navigate("/area");
   };
 
   const handleAgeGroupSelect = (event: SelectChangeEvent<string>) => {
@@ -84,16 +76,7 @@ const TargetPage: React.FC = () => {
   ];
 
   return (
-    <>
-      <Header />
-      <div className="relative h-full flex flex-col items-center justify-center text-black bg-gray-100">
-        <motion.div
-          initial={{ opacity: 0, x: -100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 100 }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col items-center text-center mt-12 px-4 md:px-10 flex-grow md:mt-32"
-        >
+    <QuestionnaireLayout>
           <AgeGroupSelector
             selectedAgeGroup={selectedAgeGroup}
             handleAgeGroupSelect={handleAgeGroupSelect}
@@ -123,9 +106,7 @@ const TargetPage: React.FC = () => {
             totalSteps={totalSteps}
             handleNext={handleNext}
           />
-        </motion.div>
-      </div>
-    </>
+    </QuestionnaireLayout>
   );
 };
 
