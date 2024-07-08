@@ -11,6 +11,9 @@ export default {
       "bk-grey": "#F5F4FA",
       "yellow": "#DEDA6D",
       black: "#000000",
+      'blue': '#1976d2',
+      'faded-red': '#f89a93',
+      'question-btn-primary': '#D1D6F5'
     },
     extend: {
       fontFamily: {

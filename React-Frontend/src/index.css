@@ -6,6 +6,7 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
 html,
 body,
 #root {
@@ -25,4 +26,8 @@ body,
   body {
     overflow: visible;
   }
+}
+
+.cl-internal-180wb59 {
+  display: none;
 }
