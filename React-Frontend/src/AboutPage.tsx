@@ -1,13 +1,32 @@
-import React from 'react';
-import { Divider} from '@mui/material';
-import { motion} from 'framer-motion';
-import Header from './Header';
-import '@fontsource/alegreya/400.css';
-import '@fontsource/alegreya/700.css';
-import './index.css';
+// AboutPage.tsx
+import React from "react";
+import { motion } from "framer-motion";
+import Header from "./Header";
+import Mission from "./components/AboutPage/Mission";
+import Section from "./components/AboutPage/SectionComponent";
+import Footer from "./components/AboutPage/Footer";
+import "@fontsource/alegreya/400.css";
+import "@fontsource/alegreya/700.css";
+import "./index.css";
 
 const AboutPage: React.FC = () => {
-
+  const sections = [
+    {
+      title: "Data Driven Solutions",
+      content:
+        "At Anseo, we harness the power of comprehensive, multi-faceted data to guide your business location decisions in New York. Our platform analyzes a rich tapestry of information, from foot traffic patterns and local demographics to consumer spending habits and competitive landscapes. Whether you're opening a boutique in Brooklyn, a tech startup in Manhattan, or a manufacturing facility in Buffalo, we tailor our insights to your specific industry and goals. We examine historical performance data of similar businesses, considering factors such as optimal opening hours, peak customer times, and seasonal trends. Our algorithm processes data on local income levels, age distributions, and lifestyle preferences to help you pinpoint your ideal target customers. We also factor in zoning regulations, tax incentives, and future development plans to give you a complete picture of each location's potential. By synthesizing this diverse array of data points, Anseo empowers you to make informed decisions that maximize your chances of success, regardless of your business type or scale.",
+    },
+    {
+      title: "Algorithmic Results",
+      content:
+        "At Anseo, our cutting-edge algorithms form the backbone of our location intelligence platform. We employ advanced machine learning models and artificial intelligence to process vast amounts of data from diverse sources. Our algorithms analyze complex patterns in demographic trends, economic indicators, and business performance metrics across New York's varied landscape. By leveraging techniques such as predictive modeling, cluster analysis, and neural networks, we uncover hidden correlations and insights that might escape traditional analysis. Our system continuously learns and adapts, incorporating new data and refining its predictions to improve accuracy over time. Our proprietary scoring system weighs multiple factors simultaneously, providing a nuanced evaluation of each potential location. Through this sophisticated algorithmic approach, Anseo transforms raw data into actionable intelligence, enabling you to make location decisions with unprecedented precision and confidence.",
+    },
+    {
+      title: "Streamlined User Experience",
+      content:
+        "At Anseo, we've designed our platform with a focus on simplicity and efficiency, ensuring a streamlined user experience that caters to businesses of all sizes and technical expertise. Our intuitive interface guides you seamlessly through the process of finding your ideal location in New York. With just a few clicks, you can input your business type, preferences, and requirements, allowing our powerful algorithms to work their magic behind the scenes. We present complex data analyses in clear, visually appealing formats, including interactive maps, easy-to-read charts, and concise reports. Our dynamic filtering options let you refine your search in real-time, while customizable dashboards allow you to focus on the metrics that matter most to your business. We've eliminated jargon and technical complexity, translating data-driven insights into actionable recommendations. Whether you're a seasoned entrepreneur or a first-time business owner, Anseo's user-friendly platform empowers you to make informed decisions quickly and confidently, turning the daunting task of location selection into a smooth, enlightening journey.",
+    },
+  ];
 
   return (
     <div className="relative min-h-screen bg-gray-100 text-black">
@@ -18,48 +37,18 @@ const AboutPage: React.FC = () => {
         exit={{ opacity: 0, x: 100 }}
         transition={{ duration: 0.5 }}
         className="flex flex-col items-center text-center mt-24"
-        style={{ marginTop: '0px' }}  
+        style={{ marginTop: "0px" }}
       >
-        <h1 className="text-4xl font-bold mb-10 mt-20" style={{ fontFamily: 'Alegreya' }}>Our Mission</h1>
-        <p className="text-lg mb-10 mt-0">Subheading for description or instructions</p>
-        <div className="w-4/5 h-64 bg-gray-300 mb-6"></div>
-        <p className="w-4/5 mb-6 mt-0">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quam pellentesque nec nam aliquam sem et. Risus ultricies tristique nulla aliquet. Ullamcorper malesuada proin libero nunc consequat interdum varius sit amet. Nec sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Id leo vel nunc mi ipsum faucibus. Congue mauris rhoncus aenean vel elit scelerisque mauris. Id interdum velit laoreet id donec. Magna fermentum iaculis eu non diam phasellus. Pellentesque habitant morbi tristique senectus. Scelerisque felis imperdiet proin fermentum. Arcu ac tortor dignissim convallis aenean et tortor. Nisl suscipit adipiscing bibendum est. Ipsum nunc aliquet bibendum enim facilisis gravida neque. Dictum non consectetur a erat nam at. Consectetur adipiscing elit pellentesque habitant morbi. Leo duis ut diam quam. Lacus sed turpis tincidunt id aliquet.
-        </p>
-        <p className="w-4/5 mb-6 mt-0">
-          A scelerisque purus semper eget duis at tellus. Euismod elementum nisi quis eleifend quam. Imperdiet proin fermentum leo vel orci porta. Mattis ullamcorper velit sed ullamcorper morbi tincidunt ornare massa. Imperdiet massa tincidunt nunc pulvinar sapien et ligula. Ipsum nunc aliquet bibendum enim. Metus dictum at tempor commodo ullamcorper a. Odio morbi quis commodo odio aenean sed adipiscing diam. Viverra aliquet eget sit amet tellus. Vel risus commodo viverra maecenas accumsan lacus vel.
-        </p>
-        <Divider className="w-4/5 my-6" />
-        <h2 className="text-3xl font-bold mt-10 mb-10">Data Driven Solutions</h2>
-        <p className="w-4/5 mb-10">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed ullamcorper morbi tincidunt ornare. Est placerat in egestas erat imperdiet sed. In arcu cursus euismod quis viverra nibh. Scelerisque viverra mauris in aliquam. Sodales neque sodales ut etiam sit. Sed augue lacus viverra vitae congue. Consectetur lorem donec massa sapien. Nisl purus in mollis nunc sed id semper. Semper feugiat nibh sed pulvinar. Sem viverra aliquet eget sit amet tellus. Nulla at volutpat diam ut.
-        </p>
-        <Divider className="w-4/5 my-6" />
-        <h2 className="text-3xl font-bold mt-10 mb-10">Algorithmic Results</h2>
-        <p className="w-4/5 mb-10">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed ullamcorper morbi tincidunt ornare. Est placerat in egestas erat imperdiet sed. In arcu cursus euismod quis viverra nibh. Scelerisque viverra mauris in aliquam. Sodales neque sodales ut etiam sit. Sed augue lacus viverra vitae congue. Consectetur lorem donec massa sapien. Nisl purus in mollis nunc sed id semper. Semper feugiat nibh sed pulvinar. Sem viverra aliquet eget sit amet tellus. Nulla at volutpat diam ut.
-        </p>
-        <Divider className="w-4/5 my-6" />
-        <h2 className="text-3xl font-bold mt-10 mb-10">Streamlined User Experience</h2>
-        <p className="w-4/5 mb-10">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed ullamcorper morbi tincidunt ornare. Est placerat in egestas erat imperdiet sed. In arcu cursus euismod quis viverra nibh. Scelerisque viverra mauris in aliquam. Sodales neque sodales ut etiam sit. Sed augue lacus viverra vitae congue. Consectetur lorem donec massa sapien. Nisl purus in mollis nunc sed id semper. Semper feugiat nibh sed pulvinar. Sem viverra aliquet eget sit amet tellus. Nulla at volutpat diam ut.
-        </p>
+        <Mission />
+        {sections.map((section, index) => (
+          <Section
+            key={index}
+            title={section.title}
+            content={section.content}
+          />
+        ))}
       </motion.div>
-      <div className="w-full bg-gray-200 py-4 mt-12">
-        <div className="container mx-auto flex justify-between items-center px-10">
-          <div className="text-3xl font-bold text-orange-600">ANSEO</div>
-          <div className="flex space-x-4">
-            <a href="#" className="text-gray-600">Customer Support</a>
-            <a href="#" className="text-gray-600">About Anseo</a>
-            <a href="#" className="text-gray-600">Contact Us</a>
-            <a href="#" className="text-gray-600">FAQ</a>
-            <a href="#" className="text-gray-600">Terms & Conditions</a>
-          </div>
-        </div>
-      </div>
-      <div className="w-full bg-gray-100 py-4 text-center text-gray-600">
-        © 2024, Anseo.
-      </div>
+      <Footer />
     </div>
   );
 };

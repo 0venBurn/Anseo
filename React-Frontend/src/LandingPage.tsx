@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
-//Importing fonts (move to a more appropriate location later)
 import "@fontsource/alegreya/400.css";
 import "@fontsource/alegreya/700.css";
 import "@fontsource/fredoka-one";
@@ -54,7 +53,7 @@ const LandingPage: React.FC = () => {
         {/*Hero section*/}
         <LandingPageHeroSection />
         <SignedIn>
-        <SignOutButton redirectUrl="http://localhost:3000"/>
+          <SignOutButton redirectUrl="http://localhost:3000" />
         </SignedIn>
 
         {/*Call to action (CTA) buttons*/}
