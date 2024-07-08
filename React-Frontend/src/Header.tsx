@@ -39,26 +39,6 @@ const Header: React.FC = () => {
             >
               About
             </Button>
-            <Button
-              variant="text"
-              sx={{
-                color: "white",
-                fontSize: "1rem",
-              }}
-              onClick={() => navigate("/link1")}
-            >
-              Link 1
-            </Button>
-            <Button
-              variant="text"
-              sx={{
-                color: "white",
-                fontSize: "1rem",
-              }}
-              onClick={() => navigate("/link2")}
-            >
-              Link 2
-            </Button>
           </div>
         </div>
         <div className="flex space-x-4 items-center">
