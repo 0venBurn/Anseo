@@ -59,7 +59,7 @@ const BoroughPage: React.FC = () => {
 
   const handleNext = () => {
     if (selectedBoroughs.length > 0 && areaType) {
-      navigate("/test", {
+      navigate("/submit", {
         state: {
           businessType,
           openHour,

@@ -20,7 +20,6 @@ import TargetPage from './TargetPage';
 import AreaPage from './AreaPage';
 import ExtraPage from './ExtraPage';
 import PasswordPage from './PasswordPage';
-import TestPage from './SubmitPageTest';
 
 const router = createBrowserRouter([
   {
@@ -93,8 +92,8 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: "/test",
-        element: <TestPage />,
+        path: "/submit",
+        element: <SubmitPage />,
         errorElement: <ErrorPage />,
       }
     ]

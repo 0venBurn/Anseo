@@ -17,6 +17,7 @@ export default {
         alegreya: ["Alegreya", "serif"],
         commissioner: ["Commissioner", "sans-serif"],
         fredoka: ["Fredoka One", "cursive"],
+        inter: ["Inter", "sans-serif"],
       },
     },
   },
