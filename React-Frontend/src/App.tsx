@@ -15,7 +15,7 @@ import TargetPage from './TargetPage';
 import AreaPage from './AreaPage';
 import ExtraPage from './ExtraPage';
 import PasswordPage from './PasswordPage';
-import TestPage from './SubmitPageTest';
+import TestPage from './SubmitPage';
 
 import AuthenticationProvider from "./components/AuthenticationProvider";
 
