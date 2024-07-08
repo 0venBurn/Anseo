@@ -23,11 +23,10 @@ const ActionButtons: React.FC = () => {
     <div className="relative z-10 flex space-x-4 mt-10">
       <Button
         variant="contained"
-        color="error" // Red background colour
         sx={{
           fontFamily: "DM Mono",
-          backgroundColor: "red", // Red background colour
-          color: "white", // White text colour
+          backgroundColor: "yellow", // Red background colour
+          color: "black", // White text colour
           borderRadius: "50px", // Rounded Corners
           padding: "0.5rem 2rem", // Padding inside the button
         }}
