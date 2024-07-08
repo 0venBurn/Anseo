@@ -3,21 +3,21 @@
 // operating hours
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import Header from "./Header";
 import BusinessTypeSelector from "./components/QuestionsPage/BusinessTypeSelector";
 import OperatingHoursSelector from "./components/QuestionsPage/OperatingHourSelect";
 import BudgetSlider from "./components/QuestionsPage/BudgetSlider";
 import NavigationButtons from "./components/QuestionsPage/NavigationButtons";
-import "@fontsource/alegreya/400.css";
-import "@fontsource/alegreya/700.css";
 import "./index.css";
+import QuestionnaireLayout from "./layouts/QuestionnaireLayout";
+// import SelectBox from "./components/Questionnaire/SelectBox";
+import { useQuestionnaire } from "./context/QuestionnaireProvider";
 
 const QuestionPage: React.FC = () => {
-  const [businessType, setBusinessType] = useState<string | null>(null);
+  const [businessType, setBusinessType] = useState<string>("");
   const [openHour, setOpenHour] = useState<number>(8); // Default to 8 AM
   const [closeHour, setCloseHour] = useState<number>(18); // Default to 6 PM
   const [budget, setBudget] = useState<number>(20); // Default budget value
+  const { data, answerQuestion } = useQuestionnaire();
 
   const currentStep = 2;
   const totalSteps = 6;
@@ -25,15 +25,13 @@ const QuestionPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleNext = () => {
+    answerQuestion("businessType", businessType);
+    answerQuestion("openHour", openHour);
+    answerQuestion("closeHour", closeHour);
+    answerQuestion("budget", budget);
+    console.log(data)
     // Navigate to the next page with state
-    navigate("/target", {
-      state: {
-        businessType,
-        openHour,
-        closeHour,
-        budget,
-      },
-    });
+    navigate("/target");
   };
 
   const handleBusinessTypeSelect = (event: any) => {
@@ -106,44 +104,33 @@ const QuestionPage: React.FC = () => {
   ];
 
   return (
-    <>
-      <Header />
-      <div className="relative flex flex-col items-center justify-between text-black bg-gray-100 min-h-screen content-container">
-        <motion.div
-          initial={{ opacity: 0, x: -100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 100 }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col items-center text-center px-4 md:px-10 flex-grow "
-        >
-          <div className="flex flex-col items-center justify-center flex-grow">
-            <div className="mt-10  w-full">
+    <QuestionnaireLayout>
+              {/* <SelectBox 
+               questionLabel='What type of business are you planning to start?'
+               inputLabel='Business Type'
+               selectBoxLabel='Business Type'
+               value={businessType ? businessType.replace("Industry_", "") : ""}
+               handleChange={handleBusinessTypeSelect}
+               options={businessOptions}
+               /> */}
               <BusinessTypeSelector
                 businessType={businessType}
                 handleBusinessTypeSelect={handleBusinessTypeSelect}
                 businessOptions={businessOptions}
-              />
-            </div>
-            <div className="mt-10  w-full">
+              />            
               <OperatingHoursSelector
                 openHour={openHour}
                 closeHour={closeHour}
                 setOpenHour={setOpenHour}
                 setCloseHour={setCloseHour}
               />
-            </div>
-            <div className="mt-10  w-full">
               <BudgetSlider budget={budget} setBudget={setBudget} />
-            </div>
-          </div>
           <NavigationButtons
             currentStep={currentStep}
             totalSteps={totalSteps}
             handleNext={handleNext}
           />
-        </motion.div>
-      </div>
-    </>
+  </QuestionnaireLayout>
   );
 };
 

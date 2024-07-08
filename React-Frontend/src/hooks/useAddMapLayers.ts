@@ -44,17 +44,18 @@ export const useAddMapLayers = (
           'fill-color': [
             'match',
             ['get', 'zipcode'],
-            sortedZipCodes.slice(0, 20), '#FF0000',
-            sortedZipCodes.slice(20, 40), '#FF4040',
-            sortedZipCodes.slice(40, 60), '#FF8080',
-            sortedZipCodes.slice(60, 80), '#FFBFBF',
-            sortedZipCodes.slice(80, 100), '#FFFF00',
-            sortedZipCodes.slice(100, 120), '#BFFF00',
-            sortedZipCodes.slice(120, 140), '#80FF00',
-            sortedZipCodes.slice(140, 160), '#40FF00',
-            sortedZipCodes.slice(160, 180), '#00FF00',
-            '#008000',
-          ]
+            sortedZipCodes.slice(0, 20), '#e11d48',
+            sortedZipCodes.slice(20, 40), '#f43f5e',
+            sortedZipCodes.slice(40, 60), '#fb7185',
+            sortedZipCodes.slice(60, 80), '#fda4af',
+            sortedZipCodes.slice(80, 100), '#fecdd3',
+            sortedZipCodes.slice(100, 120), '#bbf7d0',
+            sortedZipCodes.slice(120, 140), '#86efac',
+            sortedZipCodes.slice(140, 160), '#4ade80',
+            sortedZipCodes.slice(160, 180),  '#22c55e',
+            '#16a34a',
+          ],
+          'fill-opacity': 0.5
         },
         filter
       });
@@ -67,7 +68,8 @@ export const useAddMapLayers = (
         layout: {},
         paint: {
           'line-color': '#000',
-          'line-width': 1
+          'line-opacity': 0.1,
+          'line-width': 0.25
         },
         filter
       });

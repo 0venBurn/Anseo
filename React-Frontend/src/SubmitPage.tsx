@@ -1,68 +1,29 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import './index.css';
+import AuthenticationButton from './components/AuthenticationButton';
+import { useQuestionnaire } from './context/QuestionnaireProvider';
 import { Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Header from './Header';
 import './index.css';
-import AuthenticationButton from './components/AuthenticationButton';
 
 const SubmitPage: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const {
-    businessType,
-    openHour,
-    closeHour,
-    budget,
-    selectedAgeGroup,
-    ageImportance,
-    selectedIncomeLevel,
-    incomeImportance,
-    targetGroup,
-    proximityImportance,
-    footfallImportance,
-    surroundingBusinessesImportance,
-    rentBudget,
-    genderRatio,
-    employmentStatus,
-    homeValue,
-    populationDensity,
-    selectedBoroughs,
-    areaType
-  } = location.state || {};
-
-  // const [isLoading, setIsLoading] = useState(false);
-
+  const { data, isQuestionnaireCompleted, setQuestionnaireDefault } = useQuestionnaire();
+  
   const handleSubmit = async () => {
-    // setIsLoading(true);
-
-    const payload = {
-      'data': {
-        businessType,
-        openHour,
-        closeHour,
-        budget,
-        selectedAgeGroup,
-        ageImportance,
-        selectedIncomeLevel,
-        incomeImportance,
-        targetGroup,
-        proximityImportance,
-        footfallImportance,
-        surroundingBusinessesImportance,
-        rentBudget,
-        genderRatio,
-        employmentStatus,
-        homeValue,
-        populationDensity,
-        selectedBoroughs,
-        areaType
-      }
-    };
-
     try {
+      const payload = 
+      { 
+        data
+      }
+
+      if (!isQuestionnaireCompleted()) { 
+        throw new Error('Questionnaire is not completed')
+        }
+      
       const response = await fetch('http://localhost:8000/api/v1/predict', {
         method: 'POST',
         headers: {
@@ -75,12 +36,12 @@ const SubmitPage: React.FC = () => {
         throw new Error('Network response was not ok');
       }
 
-      const data = await response.json();
-      navigate('/map', { state: { selectedBoroughs, predictions: data } });
-
+      const predictions= await response.json();
+      navigate('/map', { state: { selectedBoroughs: data.selectedBoroughs, predictions } });
+      setQuestionnaireDefault()
     } catch (error) {
       console.error('Error with user input: ', error);
-      
+
     } 
   };
 
