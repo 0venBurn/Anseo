@@ -19,7 +19,11 @@ const AuthenticationButton: React.FC<AuthenticationButtonProps> = ({ text, handl
                 fontFamily: 'Inter',
                 mb: 2,
                 width: '100%',
-                textTransform: 'none',  
+                textTransform: 'none', 
+                '&:hover': {
+                  backgroundColor: '#3B447A',
+                  color: 'white',
+                } 
               }}
               onClick={handleSubmit}
             >
