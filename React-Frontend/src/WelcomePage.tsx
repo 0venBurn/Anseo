@@ -35,10 +35,22 @@ const WelcomePage: React.FC = () => {
             with tailored solutions for your unique business needs.
           </p>
           <p className="text-lg mb-6 max-w-2xl text-indigo-900">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Dictumst
-            quisque sagittis purus sit amet volutpat consequat mauris. Orci eu
-            lobortis elementum nibh tellus molestie nunc non blandit.
+            Welcome to Anseo, your gateway to finding the perfect business
+            location in New York! We're excited to help you navigate the complex
+            landscape of the city and discover the ideal spot for your venture
+            to thrive. Our data-driven approach combines cutting-edge analytics
+            with comprehensive local insights to guide you towards making an
+            informed decision. Whether you're launching a trendy café in
+            Brooklyn, a tech startup in Manhattan, or a manufacturing facility
+            in Buffalo, we're here to simplify your location selection process.
+            Our questionnaire is designed to understand your unique business
+            needs, target demographics, and growth aspirations. By analyzing
+            factors such as foot traffic, local economic trends, and
+            industry-specific data, we'll provide you with tailored
+            recommendations to set your business up for success. Ready to embark
+            on this exciting journey? Click 'Next' to start the questionnaire
+            and take the first step towards finding your ideal New York
+            location!
           </p>
           <Button
             variant="contained"
