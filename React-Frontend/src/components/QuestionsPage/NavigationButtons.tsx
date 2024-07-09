@@ -9,12 +9,14 @@ interface NavigationButtonsProps {
   currentStep: number;
   totalSteps: number;
   handleNext: () => void;
+  handlePrev: () => void;
 }
 
 const NavigationButtons: React.FC<NavigationButtonsProps> = ({
   currentStep,
   totalSteps,
   handleNext,
+  handlePrev,
 }) => {
   const navigate = useNavigate();
 
@@ -34,7 +36,7 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
               backgroundColor: "#f89a93",
             },
           }}
-          onClick={() => navigate("/welcome")}
+          onClick={handlePrev}
           startIcon={<ArrowBackIcon />}
         >
           Back

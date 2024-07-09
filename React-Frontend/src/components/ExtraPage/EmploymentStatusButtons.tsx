@@ -11,7 +11,8 @@ const EmploymentStatusButtons: React.FC<EmploymentStatusButtonsProps> = ({
 }) => (
   <div className="mb-10">
     <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: "Alegreya" }}>
-      2. What is the employment status? <span className="text-red-500">*</span>
+      2. What type of employment status are you looking to offer{" "}
+      <span className="text-red-500">*</span>
     </h1>
     <div className="grid grid-cols-3 gap-4">
       {["Full Time", "Part Time", "No Earnings"].map((option) => (
