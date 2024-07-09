@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import Chat from "./components/Chatbox/Chat";
 
 // import necessary components
 import "@fontsource/alegreya/400.css";
