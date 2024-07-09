@@ -9,7 +9,6 @@ import BudgetSlider from "./components/QuestionsPage/BudgetSlider";
 import NavigationButtons from "./components/QuestionsPage/NavigationButtons";
 import "./index.css";
 import QuestionnaireLayout from "./layouts/QuestionnaireLayout";
-// import SelectBox from "./components/Questionnaire/SelectBox";
 import { useQuestionnaire } from "./context/QuestionnaireProvider";
 
 const QuestionPage: React.FC = () => {
@@ -19,11 +18,13 @@ const QuestionPage: React.FC = () => {
   const [budget, setBudget] = useState<number>(20); // Default budget value
   const { data, answerQuestion } = useQuestionnaire();
 
+  // setting steps for progress indicator
   const currentStep = 2;
   const totalSteps = 6;
 
   const navigate = useNavigate();
 
+  // handle next function to navigate to the next page with state
   const handleNext = () => {
     answerQuestion("businessType", businessType);
     answerQuestion("openHour", openHour);
@@ -32,6 +33,7 @@ const QuestionPage: React.FC = () => {
     navigate("/target");
   };
 
+  // handle previous function to navigate to previous page with state
   const handlePrev = () => {
     answerQuestion("businessType", businessType);
     answerQuestion("openHour", openHour);
@@ -40,11 +42,13 @@ const QuestionPage: React.FC = () => {
     navigate("/welcome");
   };
 
+  // handler for business type
   const handleBusinessTypeSelect = (event: any) => {
     const selectedOption = event.target.value;
     setBusinessType(`Industry_${selectedOption}`);
   };
 
+  // options drop down for businesses
   const businessOptions = [
     "Amusement Arcade",
     "Amusement Device Permanent",
@@ -120,6 +124,7 @@ const QuestionPage: React.FC = () => {
                options={businessOptions}
                /> */}
       <div className="mt-10">
+        {/* Business type selector component */}
         <BusinessTypeSelector
           businessType={businessType}
           handleBusinessTypeSelect={handleBusinessTypeSelect}
@@ -127,6 +132,7 @@ const QuestionPage: React.FC = () => {
         />
       </div>
       <div className="mt-10">
+        {/* Operating hours  selector component */}
         <OperatingHoursSelector
           openHour={openHour}
           closeHour={closeHour}
@@ -135,9 +141,11 @@ const QuestionPage: React.FC = () => {
         />
       </div>
       <div className="mt-10">
+        {/* Budget slider component */}
         <BudgetSlider budget={budget} setBudget={setBudget} />
       </div>
       <div className="absolute bottom-0">
+        {/* Navigation button component*/}
         <NavigationButtons
           currentStep={currentStep}
           totalSteps={totalSteps}

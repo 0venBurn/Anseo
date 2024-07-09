@@ -10,19 +10,29 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import QuestionnaireLayout from "./layouts/QuestionnaireLayout";
 import { useQuestionnaire } from "./context/QuestionnaireProvider";
 
+// step setting for the progress indicator props
 const currentStep = 3;
 const totalSteps = 6;
 
 const TargetPage: React.FC = () => {
+  // State for selected age group
   const [selectedAgeGroup, setSelectedAgeGroup] = useState<string>("");
+  // State for importance of age, default to middle value
   const [ageImportance, setAgeImportance] = useState<number>(0.5);
+  // State for selected income
   const [selectedIncomeLevel, setSelectedIncomeLevel] = useState<string>("");
+  // State for importance of income, default to middle value
   const [incomeImportance, setIncomeImportance] = useState<number>(0.5);
+  // State for target group description
   const [targetGroup, setTargetGroup] = useState<string>("");
 
+  //  Access the questionaire context
   const { data, answerQuestion } = useQuestionnaire();
+
+  // Navigation between pages
   const navigate = useNavigate();
 
+  // Handle next function to navigate with updated state
   const handleNext = () => {
     answerQuestion("selectedAgeGroup", selectedAgeGroup);
     answerQuestion("ageImportance", ageImportance);
@@ -34,6 +44,8 @@ const TargetPage: React.FC = () => {
     navigate("/area");
   };
 
+  // Handle previous function to navigate with updated state
+
   const handlePrev = () => {
     answerQuestion("selectedAgeGroup", selectedAgeGroup);
     answerQuestion("ageImportance", ageImportance);
@@ -44,14 +56,17 @@ const TargetPage: React.FC = () => {
 
     navigate("/questions");
   };
+  // State handler for age group select
   const handleAgeGroupSelect = (event: SelectChangeEvent<string>) => {
     setSelectedAgeGroup(event.target.value as string);
   };
 
+  // State handler for income level select
   const handleIncomeLevelSelect = (event: SelectChangeEvent<string>) => {
     setSelectedIncomeLevel(event.target.value as string);
   };
 
+  // age options
   const ageOptions = [
     "Under 5 years",
     "5 to 9 years",
@@ -73,6 +88,7 @@ const TargetPage: React.FC = () => {
     "85 years and over",
   ];
 
+  // income options
   const incomeOptions = [
     "annual_individual_earnings_Data_< $10,000",
     "annual_individual_earnings_Data_$10,000-$19,999",
@@ -84,33 +100,43 @@ const TargetPage: React.FC = () => {
     "annual_individual_earnings_Data_$75,000-$99,999",
     "annual_individual_earnings_Data_$100,000+",
   ];
-
   return (
     <QuestionnaireLayout>
+      {/* Component for selecting the age group of the target audience */}
       <AgeGroupSelector
         selectedAgeGroup={selectedAgeGroup}
         handleAgeGroupSelect={handleAgeGroupSelect}
         ageOptions={ageOptions}
       />
+
+      {/* Slider to set the importance of age in targeting */}
       <ImportanceSlider
         value={ageImportance}
         setValue={setAgeImportance}
         label="age"
       />
+
+      {/* Component for selecting the income level of the target audience */}
       <IncomeLevelSelector
         selectedIncomeLevel={selectedIncomeLevel}
         handleIncomeLevelSelect={handleIncomeLevelSelect}
         incomeOptions={incomeOptions}
       />
+
+      {/* Slider to set the importance of income in targeting */}
       <ImportanceSlider
         value={incomeImportance}
         setValue={setIncomeImportance}
         label="income"
       />
+
+      {/* Component for describing the target group */}
       <TargetGroupSelector
         targetGroup={targetGroup}
         setTargetGroup={setTargetGroup}
       />
+
+      {/* Navigation buttons for moving between questionnaire steps */}
       <NavigationButtons
         currentStep={currentStep}
         totalSteps={totalSteps}
@@ -121,4 +147,5 @@ const TargetPage: React.FC = () => {
   );
 };
 
+// Export the TargetPage component as the default export
 export default TargetPage;
