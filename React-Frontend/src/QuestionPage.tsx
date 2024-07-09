@@ -16,7 +16,7 @@ const QuestionPage: React.FC = () => {
   const [openHour, setOpenHour] = useState<number>(8); // Default to 8 AM
   const [closeHour, setCloseHour] = useState<number>(18); // Default to 6 PM
   const [budget, setBudget] = useState<number>(20); // Default budget value
-  const { data, answerQuestion } = useQuestionnaire();
+  const { answerQuestion } = useQuestionnaire();
 
   // setting steps for progress indicator
   const currentStep = 2;
