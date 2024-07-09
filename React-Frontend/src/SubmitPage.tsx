@@ -2,7 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './index.css';
 import AuthenticationButton from './components/AuthenticationButton';
-import { useQuestionnaire } from './context/QuestionnaireProvider';
 import { Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { motion } from 'framer-motion';
@@ -11,39 +10,15 @@ import './index.css';
 
 const SubmitPage: React.FC = () => {
   const navigate = useNavigate();
-  const { data, isQuestionnaireCompleted, setQuestionnaireDefault } = useQuestionnaire();
   
-  const handleSubmit = async () => {
-    try {
-      const payload = 
-      { 
-        data
-      }
-
-      if (!isQuestionnaireCompleted()) { 
-        throw new Error('Questionnaire is not completed')
-        }
-      
-      const response = await fetch('http://localhost:8000/api/v1/predict', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-      console.log(payload)
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const predictions= await response.json();
-      navigate('/map', { state: { selectedBoroughs: data.selectedBoroughs, predictions } });
-      setQuestionnaireDefault()
-    } catch (error) {
-      console.error('Error with user input: ', error);
-
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (e.currentTarget.textContent === 'Continue as Guest') {
+      navigate('/map');
+    } else {
+      navigate('/sign-up');
     } 
-  };
+  }
 
   return (
     <>

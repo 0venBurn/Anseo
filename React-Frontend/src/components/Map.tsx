@@ -10,7 +10,7 @@ interface PredictionResponse {
 
 interface MapProps {
   selectedBoroughs: string[];
-  predictions: PredictionResponse;
+  predictions: PredictionResponse | null;
 }
 
 const Map: React.FC<MapProps> = ({ selectedBoroughs, predictions }) => {

@@ -6,7 +6,7 @@ interface QuestionLabelProps {
 
 const QuestionLabel: React.FC<QuestionLabelProps> = ({ label }) => {
     return (
-    <h1 className="text-3xl mb-6 font-commissioner">
+    <h1 className="text-3xl mb-6 font-alegreya">
         {label}
       </h1>)
 }

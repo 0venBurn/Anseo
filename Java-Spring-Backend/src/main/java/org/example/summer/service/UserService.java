@@ -3,7 +3,6 @@ package org.example.summer.service;
 import lombok.RequiredArgsConstructor;
 import org.example.summer.dao.UserRepository;
 import org.example.summer.entity.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -15,24 +14,20 @@ import java.util.Optional;
  */
 @Service
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserService {
 
     private final UserRepository userRepository;
 
-    /**
-     * Loads the user by email and returns the User Entity containing the userDetails.
-     *
-     * @param email the email identifying the user whose data is required.
-     * @return User Entity for the user.
-     * @throws UsernameNotFoundException if the email address is not in the database.
-     */
-    @Override
-    public User loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
+    public User findUserById(String id) throws UsernameNotFoundException {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + id));
     }
 
-    public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public void deleteUser(User user) {
+        userRepository.delete(user);
     }
 }

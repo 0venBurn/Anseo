@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import Header from '../Header';
+
 
 type QuestionnaireLayoutProps = {
     children?: React.ReactNode;
@@ -7,8 +9,9 @@ type QuestionnaireLayoutProps = {
 const QuestionnaireLayout: React.FC<QuestionnaireLayoutProps> = ({ children }) => {
 
     return (
-        <div className="flex flex-col items-center justify-between text-primary-text-dark font-commissioner bg-gray-100 min-h-screen 
+        <div className="flex flex-col items-center justify-between text-primary-text-dark font-alegreya bg-gray-100 min-h-screen 
         content-container">
+        <Header />
   <motion.div
     initial={{ opacity: 0, x: -100 }}
     animate={{ opacity: 1, x: 0 }}
