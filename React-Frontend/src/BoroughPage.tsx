@@ -18,7 +18,7 @@ const BoroughPage: React.FC = () => {
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
 
   // State for selected area type
-  const [areaType, setAreaType] = useState<string | null>(null);
+  const [areaType, setAreaType] = useState<string>("");
 
   // State for error message
   const [error, setError] = useState<string | null>(null);
@@ -69,14 +69,11 @@ const BoroughPage: React.FC = () => {
 
   // Handler for previous button click
   const handlePrev = () => {
-    if (selectedBoroughs.length > 0 && areaType) {
-      // Save answers to the questionnaire context
-      answerQuestion("selectedBoroughs", selectedBoroughs);
-      answerQuestion("areaType", areaType);
-      console.log(data);
-      // Navigate to the previous page
-      navigate("/extra");
-    }
+    // Save answers to the questionnaire context
+    answerQuestion("selectedBoroughs", selectedBoroughs);
+    answerQuestion("areaType", areaType);
+    // Navigate to the previous page
+    navigate("/extra");
   };
 
   return (
