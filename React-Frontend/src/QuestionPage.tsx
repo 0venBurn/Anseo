@@ -29,9 +29,15 @@ const QuestionPage: React.FC = () => {
     answerQuestion("openHour", openHour);
     answerQuestion("closeHour", closeHour);
     answerQuestion("budget", budget);
-    console.log(data)
-    // Navigate to the next page with state
     navigate("/target");
+  };
+
+  const handlePrev = () => {
+    answerQuestion("businessType", businessType);
+    answerQuestion("openHour", openHour);
+    answerQuestion("closeHour", closeHour);
+    answerQuestion("budget", budget);
+    navigate("/welcome");
   };
 
   const handleBusinessTypeSelect = (event: any) => {
@@ -105,7 +111,7 @@ const QuestionPage: React.FC = () => {
 
   return (
     <QuestionnaireLayout>
-              {/* <SelectBox 
+      {/* <SelectBox 
                questionLabel='What type of business are you planning to start?'
                inputLabel='Business Type'
                selectBoxLabel='Business Type'
@@ -113,24 +119,33 @@ const QuestionPage: React.FC = () => {
                handleChange={handleBusinessTypeSelect}
                options={businessOptions}
                /> */}
-              <BusinessTypeSelector
-                businessType={businessType}
-                handleBusinessTypeSelect={handleBusinessTypeSelect}
-                businessOptions={businessOptions}
-              />            
-              <OperatingHoursSelector
-                openHour={openHour}
-                closeHour={closeHour}
-                setOpenHour={setOpenHour}
-                setCloseHour={setCloseHour}
-              />
-              <BudgetSlider budget={budget} setBudget={setBudget} />
-          <NavigationButtons
-            currentStep={currentStep}
-            totalSteps={totalSteps}
-            handleNext={handleNext}
-          />
-  </QuestionnaireLayout>
+      <div className="mt-10">
+        <BusinessTypeSelector
+          businessType={businessType}
+          handleBusinessTypeSelect={handleBusinessTypeSelect}
+          businessOptions={businessOptions}
+        />
+      </div>
+      <div className="mt-10">
+        <OperatingHoursSelector
+          openHour={openHour}
+          closeHour={closeHour}
+          setOpenHour={setOpenHour}
+          setCloseHour={setCloseHour}
+        />
+      </div>
+      <div className="mt-10">
+        <BudgetSlider budget={budget} setBudget={setBudget} />
+      </div>
+      <div className="absolute bottom-0">
+        <NavigationButtons
+          currentStep={currentStep}
+          totalSteps={totalSteps}
+          handleNext={handleNext}
+          handlePrev={handlePrev}
+        />
+      </div>
+    </QuestionnaireLayout>
   );
 };
 

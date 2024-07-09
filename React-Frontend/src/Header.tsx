@@ -19,7 +19,7 @@ const Header: React.FC = () => {
 
   return (
     <div className="relative">
-      <div className="absolute top-0 left-0 w-full bg-primary-dark text-white flex justify-between items-center py-4 px-4 md:px-20 z-10">
+      <div className="fixed top-0 left-0 w-full bg-primary-dark text-white flex justify-between items-center py-4 px-4 md:px-20 z-10">
         <div className="flex items-center">
           <div
             className="text-3xl md:text-5xl font-bold cursor-pointer"

@@ -30,10 +30,20 @@ const TargetPage: React.FC = () => {
     answerQuestion("incomeImportance", incomeImportance);
     answerQuestion("targetGroup", targetGroup);
     answerQuestion("selectedAgeGroup", selectedAgeGroup);
-    console.log(data)
+    console.log(data);
     navigate("/area");
   };
 
+  const handlePrev = () => {
+    answerQuestion("selectedAgeGroup", selectedAgeGroup);
+    answerQuestion("ageImportance", ageImportance);
+    answerQuestion("selectedIncomeLevel", selectedIncomeLevel);
+    answerQuestion("incomeImportance", incomeImportance);
+    answerQuestion("targetGroup", targetGroup);
+    answerQuestion("selectedAgeGroup", selectedAgeGroup);
+
+    navigate("/questions");
+  };
   const handleAgeGroupSelect = (event: SelectChangeEvent<string>) => {
     setSelectedAgeGroup(event.target.value as string);
   };
@@ -77,35 +87,36 @@ const TargetPage: React.FC = () => {
 
   return (
     <QuestionnaireLayout>
-          <AgeGroupSelector
-            selectedAgeGroup={selectedAgeGroup}
-            handleAgeGroupSelect={handleAgeGroupSelect}
-            ageOptions={ageOptions}
-          />
-          <ImportanceSlider
-            value={ageImportance}
-            setValue={setAgeImportance}
-            label="age"
-          />
-          <IncomeLevelSelector
-            selectedIncomeLevel={selectedIncomeLevel}
-            handleIncomeLevelSelect={handleIncomeLevelSelect}
-            incomeOptions={incomeOptions}
-          />
-          <ImportanceSlider
-            value={incomeImportance}
-            setValue={setIncomeImportance}
-            label="income"
-          />
-          <TargetGroupSelector
-            targetGroup={targetGroup}
-            setTargetGroup={setTargetGroup}
-          />
-          <NavigationButtons
-            currentStep={currentStep}
-            totalSteps={totalSteps}
-            handleNext={handleNext}
-          />
+      <AgeGroupSelector
+        selectedAgeGroup={selectedAgeGroup}
+        handleAgeGroupSelect={handleAgeGroupSelect}
+        ageOptions={ageOptions}
+      />
+      <ImportanceSlider
+        value={ageImportance}
+        setValue={setAgeImportance}
+        label="age"
+      />
+      <IncomeLevelSelector
+        selectedIncomeLevel={selectedIncomeLevel}
+        handleIncomeLevelSelect={handleIncomeLevelSelect}
+        incomeOptions={incomeOptions}
+      />
+      <ImportanceSlider
+        value={incomeImportance}
+        setValue={setIncomeImportance}
+        label="income"
+      />
+      <TargetGroupSelector
+        targetGroup={targetGroup}
+        setTargetGroup={setTargetGroup}
+      />
+      <NavigationButtons
+        currentStep={currentStep}
+        totalSteps={totalSteps}
+        handleNext={handleNext}
+        handlePrev={handlePrev}
+      />
     </QuestionnaireLayout>
   );
 };
