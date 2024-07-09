@@ -3,7 +3,7 @@ import Header from '../Header';
 
 
 type QuestionnaireLayoutProps = {
-    children?: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const QuestionnaireLayout: React.FC<QuestionnaireLayoutProps> = ({ children }) => {
