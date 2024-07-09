@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
+// import necessary components
 import "@fontsource/alegreya/400.css";
 import "@fontsource/alegreya/700.css";
 import "@fontsource/fredoka-one";

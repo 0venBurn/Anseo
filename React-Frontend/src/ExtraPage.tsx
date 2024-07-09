@@ -7,35 +7,54 @@ import "./index.css";
 import QuestionnaireLayout from "./layouts/QuestionnaireLayout";
 import { useQuestionnaire } from "./context/QuestionnaireProvider";
 
+// Define the current step and total steps for the questionnaire progress
 const currentStep = 5;
 const totalSteps = 6;
 
 const ExtraPage: React.FC = () => {
+  // State for gender ratio (0 = All Men, 1 = All Women)
   const [genderRatio, setGenderRatio] = useState<number>(0.5);
+
+  // State for employment status
   const [employmentStatus, setEmploymentStatus] = useState<string>("");
-  const [homeValue, setHomeValue] = useState<number>(3000); // Default home value
-  const [populationDensity, setPopulationDensity] = useState<number>(0.5); // Default population density
+
+  // State for home value, default set to 3000
+  const [homeValue, setHomeValue] = useState<number>(3000);
+
+  // State for population density, default set to 0.5
+  const [populationDensity, setPopulationDensity] = useState<number>(0.5);
+
+  // Hook for navigation between routes
   const navigate = useNavigate();
 
+  // Access the questionnaire context
   const { data, answerQuestion } = useQuestionnaire();
 
+  // Handler for next button click
   const handleNext = () => {
+    // Save all answers to the questionnaire context
     answerQuestion("genderRatio", genderRatio);
     answerQuestion("employmentStatus", employmentStatus);
     answerQuestion("homeValue", homeValue / 5000);
     answerQuestion("populationDensity", populationDensity);
+    // Navigate to the next page
     navigate("/borough");
   };
 
+  // Handler for previous button click
   const handlePrev = () => {
+    // Save all answers to the questionnaire context
     answerQuestion("genderRatio", genderRatio);
     answerQuestion("employmentStatus", employmentStatus);
     answerQuestion("homeValue", homeValue / 5000);
     answerQuestion("populationDensity", populationDensity);
+    // Navigate to the previous page
     navigate("/area");
   };
+
   return (
     <QuestionnaireLayout>
+      {/* Slider for gender ratio */}
       <div className="mt-10">
         <SliderComponent
           value={genderRatio}
@@ -50,12 +69,16 @@ const ExtraPage: React.FC = () => {
           ]}
         />
       </div>
+
+      {/* Buttons for selecting employment status */}
       <div className="mt-10">
         <EmploymentStatusButtons
           value={employmentStatus}
           setValue={setEmploymentStatus}
         />
       </div>
+
+      {/* Slider for home value */}
       <div className="mt-10">
         <SliderComponent
           value={homeValue}
@@ -70,6 +93,8 @@ const ExtraPage: React.FC = () => {
           ]}
         />
       </div>
+
+      {/* Slider for population density */}
       <div className="mt-10">
         <SliderComponent
           value={populationDensity}
@@ -84,6 +109,8 @@ const ExtraPage: React.FC = () => {
           ]}
         />
       </div>
+
+      {/* Navigation buttons */}
       <div className="absolute bottom-0">
         <NavigationButtons
           currentStep={currentStep}

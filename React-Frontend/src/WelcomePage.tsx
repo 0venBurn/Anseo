@@ -9,8 +9,11 @@ import "@fontsource/alegreya/400.css";
 import "@fontsource/alegreya/700.css";
 import "./index.css";
 
+// Setting steps for progress indicator button
 const currentStep = 1;
 const totalSteps = 6;
+
+// Defining functional component of the welcome page
 const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -25,6 +28,7 @@ const WelcomePage: React.FC = () => {
         transition={{ duration: 0.5 }}
         className="relative h-screen flex items-start justify-between text-black bg-gray-100"
       >
+        {/* Text on main page */}
         <div className="flex flex-col items-start text-left mt-40 ml-20 w-full max-w-full">
           <h1 className="text-indigo-900 text-7xl font-bold font-['Alegreya'] mb-4 whitespace-nowrap">
             Welcome to Anseo, the place to be.
@@ -34,6 +38,7 @@ const WelcomePage: React.FC = () => {
             <br />
             with tailored solutions for your unique business needs.
           </p>
+
           <p className="text-lg mb-6 max-w-2xl text-indigo-900">
             Welcome to Anseo, your gateway to finding the perfect business
             location in New York! We're excited to help you navigate the complex
@@ -76,7 +81,6 @@ const WelcomePage: React.FC = () => {
             }}
           ></div>
         </div>
-
         {/* Progress Indicator */}
         <div className="absolute bottom-10 flex space-x-2 left-1/2 transform -translate-x-1/2">
           <ProgressIndicator
