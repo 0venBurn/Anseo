@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   frontend:
@@ -9,6 +9,8 @@ services:
       - "80:80"
     networks:
       - frontend-network
+    env_file:
+      - ./.dev.env
 
 networks:
   frontend-network:
