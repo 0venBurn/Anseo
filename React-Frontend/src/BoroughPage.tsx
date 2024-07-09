@@ -54,9 +54,7 @@ const BoroughPage: React.FC = () => {
       answerQuestion("selectedBoroughs", selectedBoroughs);
       answerQuestion("areaType", areaType);
       console.log(data);
-      navigate("/submit");
-    } else {
-      setError("You need to select at least one borough and an area type");
+      navigate("/extra");
     }
   };
 
