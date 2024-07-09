@@ -1,8 +1,8 @@
-import React from 'react';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import { useMapInit } from '../hooks/useMapInit';
-import { useAddMapLayers } from '../hooks/useAddMapLayers';
-import '../index.css';
+import React from "react";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { useMapInit } from "../hooks/useMapInit";
+import { useAddMapLayers } from "../hooks/useAddMapLayers";
+import "../index.css";
 
 interface PredictionResponse {
   predictions: { [zipcode: string]: number };
