@@ -4,12 +4,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.svix.Webhook;
 import lombok.RequiredArgsConstructor;
+import org.example.summer.entity.User;
+import org.example.summer.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.net.http.HttpHeaders;
 import java.util.*;
 import java.util.function.BiPredicate;
@@ -23,6 +26,8 @@ public class WebhookController {
 
     private static final Logger logger = LoggerFactory.getLogger(WebhookController.class);
     private final ObjectMapper objectMapper;
+
+    private final UserService userService;
 
     @Value("${client.webhook.secret-key}")
     private String secretKey;
@@ -51,13 +56,24 @@ public class WebhookController {
 
             String eventType = jsonNode.path("type").asText();
 
+            logger.info("Event type: " + eventType);
             if (eventType.equals("user.created")) {
                 String userId = jsonNode.path("data").path("id").asText();
-                return ResponseEntity.ok("User Created: " + userId);
+                logger.info("User id: " + userId);
+
+                User user = new User(userId);
+                logger.info("User: " + user);
+                userService.saveUser(user);
+
+                URI location = URI.create("http://localhost:8080/users/" + userId);
+
+                return ResponseEntity.created(location).body("User Created: " + userId);
             }
             if (eventType.equals("user.deleted")) {
                 String userId = jsonNode.path("data").path("id").asText();
-                return ResponseEntity.ok("User Deleted: " + userId);
+                User user = userService.findUserById(userId);
+                userService.deleteUser(user);
+                return ResponseEntity.noContent().build();
             }
             return ResponseEntity.ok("Webhook received");
         } catch (Exception e) {
