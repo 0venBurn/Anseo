@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 
 interface AuthenticationButtonProps {
     text: string
-    handleSubmit: () => void
+    handleSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const AuthenticationButton: React.FC<AuthenticationButtonProps> = ({ text, handleSubmit }) => {

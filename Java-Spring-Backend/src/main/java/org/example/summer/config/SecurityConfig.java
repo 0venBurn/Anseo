@@ -29,23 +29,23 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final AuthenticationProvider authenticationProvider;
-    private final OAuth2SuccessHandler oAuth2SuccessHandler;
+//    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+//    private final AuthenticationProvider authenticationProvider;
+//    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Value("${frontend.url}")
     private String frontendUrl;
-    /**
-     * Spring Security will look for this filter at startup.
-     * It is responsible for configuring all the HTTP security of our app.
-     * This includes disabling CSRF protection, setting session management to stateless,
-     * configuring URL authorization, and adding the {@link JwtAuthenticationFilter}
-     * before the {@link UsernamePasswordAuthenticationFilter}.
-     *
-     * @param http the {@link HttpSecurity} to modify.
-     * @return the {@link SecurityFilterChain} bean.
-     * @throws Exception if an error occurs while configuring the security filter chain.
-     */
+//    /**
+//     * Spring Security will look for this filter at startup.
+//     * It is responsible for configuring all the HTTP security of our app.
+//     * This includes disabling CSRF protection, setting session management to stateless,
+//     * configuring URL authorization, and adding the {@link JwtAuthenticationFilter}
+//     * before the {@link UsernamePasswordAuthenticationFilter}.
+//     *
+//     * @param http the {@link HttpSecurity} to modify.
+//     * @return the {@link SecurityFilterChain} bean.
+//     * @throws Exception if an error occurs while configuring the security filter chain.
+//     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             http
@@ -61,13 +61,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/neighbourhoods/**").permitAll();
                     auth.requestMatchers("/users/**").permitAll();
                     auth.anyRequest().authenticated();
-                }).formLogin(withDefaults()).oauth2Login(oauth2 -> {
-                    oauth2.successHandler(oAuth2SuccessHandler);
-                    oauth2.defaultSuccessUrl(frontendUrl);
-                    })
-                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                });
 
             return http.build();
     }
@@ -75,7 +69,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(frontendUrl));
+        configuration.setAllowedOrigins(List.of(frontendUrl, frontendUrl + "/submit", frontendUrl + "/map"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowedMethods(List.of("*"));
         configuration.setAllowCredentials(true);

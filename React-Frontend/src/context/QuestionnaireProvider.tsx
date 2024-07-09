@@ -93,14 +93,15 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({ children 
 
   const isQuestionnaireCompleted = () => {
     const answers = Object.values(data);
-    answers.filter( ans => {
+    const filteredAnswers = answers.filter( ans => {
       if (Array.isArray(ans)) {
         return ans.length > 0;
       }
       return ans;
     })
 
-    if (answers.length === 19) {
+    
+    if (filteredAnswers.length === 19) {
       console.log("Questionnaire completed")
       return true
     } else {
