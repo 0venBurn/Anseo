@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.summer.dao.UserResultRepository;
 import org.example.summer.dto.UserResultRequest;
+import org.example.summer.dto.UserResultResponse;
 import org.example.summer.entity.User;
 import org.example.summer.entity.UserResult;
 import org.slf4j.Logger;
@@ -21,9 +22,11 @@ public class UserResultService {
     private final UserResultRepository userResultRepository;
     private final UserService userService;
 
-    public List<UserResult> getAllUserResults(String id) {
+    public UserResultResponse getAllUserResults(String id) {
         User user = userService.findUserById(id);
-        return userResultRepository.findResultsByIdOrderByTimestamp(user.getClerkUserId());
+        return UserResultResponse.builder()
+                .results(userResultRepository.findResultsByIdOrderByTimestamp(user.getClerkUserId()))
+                .build();
     }
 
     public List<UserResult> saveUserResult(UserResultRequest userResultRequest) throws Exception {
