@@ -1,15 +1,12 @@
 package org.example.summer.config;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import org.example.summer.entity.Results;
-import org.example.summer.service.UserResultService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.transform.Result;
 
 @Converter(autoApply = true)
 public class ResultsConverter implements AttributeConverter<Results, String> {

@@ -14,6 +14,8 @@ import Map from './components/Map';
 import { useUser } from "@clerk/clerk-react";
 import { useQuestionnaire } from './context/QuestionnaireProvider';
 
+const ngrokForwardingAddress = import.meta.env.VITE_NGROK_FORWARDING_ADDRESS
+
 mapboxgl.accessToken = environment.mapbox.accessToken;
 
 interface Location {
@@ -30,7 +32,7 @@ interface PredictionResponse {
 }
 
 const MapPage: React.FC = () => {
-  const { isSignedIn, user, isLoaded } = useUser();
+  const { isSignedIn, user } = useUser();
   const { data, isQuestionnaireCompleted, setQuestionnaireDefault } = useQuestionnaire()
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
   const [predictions, setPredictions] = useState<PredictionResponse | null>(null);
@@ -68,7 +70,7 @@ const MapPage: React.FC = () => {
           }
           const predictions = await response.json();
           setPredictions(predictions);
-          // setQuestionnaireDefault()
+          setQuestionnaireDefault()
           return
         }
 
@@ -83,16 +85,8 @@ const MapPage: React.FC = () => {
             body: JSON.stringify(payload),
           });
           
-          const dbUserResults = { 
-            clerkUserId: user.id, 
-            results: payload
-          }
           
-          console.log(JSON.stringify(dbUserResults))
-          console.log(user.id)
-          console.log(`http://localhost:3000/api/user-results/${user.id}`)
-          
-          const dbResponse = await fetch(`https://587b-137-43-248-208.ngrok-free.app/api/user-results/${user.id}`, {
+          const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user.id}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -122,18 +116,24 @@ const MapPage: React.FC = () => {
         // signed in and questionnaire not completed
         if (isSignedIn && !isQuestionnaireCompleted()) {
           console.log('test: signed in and questionnaire not completed')
-          console.log(user.id)
-          // const dbResponse = await fetch(`https://c41b-2a02-8084-4241-4480-aa58-8c34-744b-dd/api/user-results/${user.id}`)
+          console.log(ngrokForwardingAddress)
+          const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user.id}`)
 
+          console.log(dbResponse)
+          console.log(dbResponse.headers.get('Content-Type'))
+          
+          const data = await dbResponse.json()
+          
+          console.log(data)
+          console.log(data.results[0].results)
           // if no predictions redirect to questions
           if (!dbResponse.ok) {
             navigate('/welcome')
             throw new Error(`Couldn't find user results in database: ${user}`)
           }
 
-          const data = await dbResponse.json()
-          console.log(data)
-          setSelectedBoroughs(data.selectedBoroughs)
+          // console.log(data)
+          // setSelectedBoroughs(data.selectedBoroughs)
 
 
           // make machine learning calls with prediction[0]
@@ -142,14 +142,17 @@ const MapPage: React.FC = () => {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(payload),
+            body: JSON.stringify(data.results[0].results),
           });
 
           if (!mlResponse.ok) {
             throw new Error('API response from ML Model was not ok.');
+          } else{
+            console.log('ML response was ok')
           }
 
           const predictions = await mlResponse.json();
+          console.log(predictions)
           setPredictions(predictions);
           return
         }
@@ -169,7 +172,7 @@ const MapPage: React.FC = () => {
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/neighbourhoods');
+        const response = await axios.get(`http://localhost:8080/api/neighbourhoods`);
         console.log('Response data:', response.data);
         const embedded = response.data._embedded;
         if (embedded && Array.isArray(embedded.neighbourhoods)) {
@@ -211,13 +214,13 @@ const MapPage: React.FC = () => {
   // }
   
   // Not signed in and no questionnaire completed yet
-  if (!isSignedIn && !isQuestionnaireCompleted()) {
-    return (
-      <>
-        <Navigate to="/" replace={true} />
-      </> 
-    )
-  }
+  // if (!isSignedIn && !isQuestionnaireCompleted()) {
+  //   return (
+  //     <>
+  //       <Navigate to="/" replace={true} />
+  //     </> 
+  //   )
+  // }
 
   // // Continue as guest
   // if (!isSignedIn && isQuestionnaireCompleted()) {
