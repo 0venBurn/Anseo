@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.summer.config.ResultsConverter;
 
 import java.sql.Timestamp;
 
@@ -24,9 +25,10 @@ public class UserResult {
     @Column(name = "clerk_user_id")
     private String clerkUserId;
 
+    @Convert(converter = ResultsConverter.class)
     @Column(columnDefinition = "jsonb")
-    private String results;
+    private Results results;
 
-    @Column(columnDefinition = "timestamp with time zone")
+    @Column(columnDefinition = "timestamp with time zone", insertable = false, updatable = false)
     private Timestamp timestamp;
 }

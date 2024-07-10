@@ -1,2 +1,17 @@
-package org.example.summer.dto;public class UserResultRequest {
+package org.example.summer.dto;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.example.summer.entity.Results;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserResultRequest {
+    private String clerkUserId;
+    private Results results;
 }

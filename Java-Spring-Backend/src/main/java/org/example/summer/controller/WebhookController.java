@@ -53,6 +53,7 @@ public class WebhookController {
             webhook.verify(payload, headers);
 
             JsonNode jsonNode = objectMapper.readTree(payload);
+            logger.info(jsonNode.toString());
 
             String eventType = jsonNode.path("type").asText();
 

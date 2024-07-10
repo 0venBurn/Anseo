@@ -15,6 +15,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -35,6 +36,9 @@ public class SecurityConfig {
 
     @Value("${frontend.url}")
     private String frontendUrl;
+
+    @Value("${client.ngrok.forwarding-address}")
+    private String ngrokForwardingAddress;
 //    /**
 //     * Spring Security will look for this filter at startup.
 //     * It is responsible for configuring all the HTTP security of our app.
@@ -60,7 +64,8 @@ public class SecurityConfig {
                     auth.requestMatchers("/listings").permitAll();
                     auth.requestMatchers("/neighbourhoods/**").permitAll();
                     auth.requestMatchers("/users/**").permitAll();
-                    auth.anyRequest().authenticated();
+                    auth.requestMatchers("/users-results/**").permitAll();
+                    auth.anyRequest().permitAll();
                 });
 
             return http.build();
@@ -69,9 +74,10 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(frontendUrl, frontendUrl + "/submit", frontendUrl + "/map"));
+        configuration.setAllowedOrigins(List.of(frontendUrl, ngrokForwardingAddress));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", configuration);
