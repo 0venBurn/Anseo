@@ -5,12 +5,11 @@ services:
       context: .
       dockerfile: Dockerfile
     expose:
-      - "8080"
+      - "8500"
     env_file:
       - ./dev.env
     networks:
       - myapp-network
-      - custom_network
 
   nginx:
     image: nginx:latest
@@ -22,12 +21,7 @@ services:
       - myapp
     networks:
       - myapp-network
-      - custom_network
 
 networks:
   myapp-network:
     driver: bridge
-
-  custom_network:
-    driver: bridge
-    external: true
