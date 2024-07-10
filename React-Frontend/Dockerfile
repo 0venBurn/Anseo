@@ -1,18 +1,24 @@
-# Stage 1: Build the React Vite app
+# Stage 1: Build the React app
 FROM node:22 AS build
 
 # Set working directory
 WORKDIR /app
 
+
+# Install build tools and update npm
+RUN apt-get update && apt-get install -y build-essential && npm install -g npm@latest
+
+# Copy package.json 
+COPY package.json ./
+
+# Remove node_modules and clean npm cache
+RUN rm -rf node_modules && npm cache clean --force
+
 # Install dependencies
-COPY package.json package-lock.json ./
 RUN npm install
 
-# Copy all files, including .env.dev and load-env.sh
+# Copy all files
 COPY . .
-
-# Copy the .env.dev to .env
-COPY .env.dev .env
 
 # Build the React app
 RUN npm run build
@@ -20,14 +26,14 @@ RUN npm run build
 # Stage 2: Serve the app with a simple HTTP server
 FROM nginx:alpine
 
-# Copy the build output to the Nginx html directory
+# Copy build output to nginx html folder
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Copy the custom Nginx configuration file
+# Copy nginx configuration file
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose port 80
 EXPOSE 80
 
-# Start Nginx server
+# Start nginx server
 CMD ["nginx", "-g", "daemon off;"]

@@ -12,4 +12,3 @@ const QuestionLabel: React.FC<QuestionLabelProps> = ({ label }) => {
 }
 
 export default QuestionLabel;
-
