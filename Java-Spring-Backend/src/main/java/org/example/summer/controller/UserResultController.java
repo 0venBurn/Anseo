@@ -1,6 +1,7 @@
 package org.example.summer.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.summer.dto.UserResultRequest;
 import org.example.summer.entity.UserResult;
 import org.example.summer.service.UserResultService;
 import org.slf4j.Logger;
@@ -16,7 +17,7 @@ import java.util.List;
 @CrossOrigin
 public class UserResultController {
 
-    private static final Logger logger = LoggerFactory.getLogger(WebhookController.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserResultController.class);
     private final UserResultService userResultService;
 
     @GetMapping("/{clerkUserId}")
@@ -24,9 +25,10 @@ public class UserResultController {
         return ResponseEntity.ok(userResultService.getAllUserResults(clerkUserId));
     }
 
-    @PostMapping("/")
-    public ResponseEntity<UserResult> createUserResult(@RequestBody UserResult userResult) {
-        logger.info("Create user result: {}", userResult);
-        return ResponseEntity.ok(userResultService.saveUserResult(userResult));
+    @PostMapping("/{clerkUserId}")
+    public ResponseEntity<List<UserResult>> createUserResult(@PathVariable ("clerkUserId") String clerkUserId,
+                                                           @RequestBody UserResultRequest userResultRequest) throws Exception {
+        logger.info("Create user result: {}", userResultRequest);
+        return ResponseEntity.ok(userResultService.saveUserResult(userResultRequest));
     }
 }

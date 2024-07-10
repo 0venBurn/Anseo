@@ -5,7 +5,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IconButton, Card, CardContent, Button, Typography, Grid, Box } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useMediaQuery, useTheme } from '@mui/material';
 import Header from './Header';
 import './index.css';
@@ -38,8 +38,12 @@ const MapPage: React.FC = () => {
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   const [isClosing, setIsClosing] = useState(false);
 
+
+  const navigate = useNavigate();
+  
   useEffect(() => {
     const fetchPredictions = async () => {
+
       try {
           let payload
           
@@ -50,6 +54,7 @@ const MapPage: React.FC = () => {
 
         // continue as guest
         if (!isSignedIn && isQuestionnaireCompleted()) {
+          console.log('test: continue as guest')
           const response = await fetch('http://localhost:8000/api/v1/predict', {
             method: 'POST',
             headers: {
@@ -57,17 +62,19 @@ const MapPage: React.FC = () => {
             },
             body: JSON.stringify(payload),
           });
+
           if (!response.ok) {
             throw new Error('API response from ML Model was not ok.');
           }
           const predictions = await response.json();
           setPredictions(predictions);
-          setQuestionnaireDefault()
+          // setQuestionnaireDefault()
           return
         }
 
         // signed in and completed questionnaire
         if (isSignedIn && isQuestionnaireCompleted()) {
+          console.log('test: signed in and completed questionnaire')
           const mlResponse = await fetch('http://localhost:8000/api/v1/predict', {
             method: 'POST',
             headers: {
@@ -75,17 +82,27 @@ const MapPage: React.FC = () => {
             },
             body: JSON.stringify(payload),
           });
-
-          const dbResponse = await fetch('http://localhost:8080/api/user-results', {
+          
+          const dbUserResults = { 
+            clerkUserId: user.id, 
+            results: payload
+          }
+          
+          console.log(JSON.stringify(dbUserResults))
+          console.log(user.id)
+          console.log(`http://localhost:3000/api/user-results/${user.id}`)
+          
+          const dbResponse = await fetch(`https://587b-137-43-248-208.ngrok-free.app/api/user-results/${user.id}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(
               { 
-                clerkUserId: user.id,
+                clerkUserId: user.id, 
                 results: payload
-              })
+              }
+            )
           });
           
           if (!mlResponse.ok) {
@@ -95,7 +112,7 @@ const MapPage: React.FC = () => {
           if (!dbResponse.ok) {
             throw new Error('API response from DB was not ok.');
           }
-
+          
           const predictions = await mlResponse.json();
           setPredictions(predictions);
           setQuestionnaireDefault()
@@ -104,17 +121,20 @@ const MapPage: React.FC = () => {
 
         // signed in and questionnaire not completed
         if (isSignedIn && !isQuestionnaireCompleted()) {
-          console.log('ds')
+          console.log('test: signed in and questionnaire not completed')
           console.log(user.id)
-          const dbResponse = await fetch(`https://c41b-2a02-8084-4241-4480-aa58-8c34-744b-dd/api/user-results/${user.id}`)
+          // const dbResponse = await fetch(`https://c41b-2a02-8084-4241-4480-aa58-8c34-744b-dd/api/user-results/${user.id}`)
 
+          // if no predictions redirect to questions
           if (!dbResponse.ok) {
-            throw new Error(`Couldn't find user in database: ${user}`)
+            navigate('/welcome')
+            throw new Error(`Couldn't find user results in database: ${user}`)
           }
 
           const data = await dbResponse.json()
           console.log(data)
           setSelectedBoroughs(data.selectedBoroughs)
+
 
           // make machine learning calls with prediction[0]
           const mlResponse = await fetch('http://localhost:8000/api/v1/predict', {
@@ -133,6 +153,8 @@ const MapPage: React.FC = () => {
           setPredictions(predictions);
           return
         }
+
+        // not signed in and questionnaire completed
       }  catch (error) {
         console.error('Error fetching predictions:', error);
       }      
@@ -147,7 +169,7 @@ const MapPage: React.FC = () => {
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/neighbourhoods');
+        const response = await axios.get('http://localhost:3000/api/neighbourhoods');
         console.log('Response data:', response.data);
         const embedded = response.data._embedded;
         if (embedded && Array.isArray(embedded.neighbourhoods)) {
@@ -180,13 +202,13 @@ const MapPage: React.FC = () => {
   };
 
 
-  if (!isLoaded) {
-    return (
-      <div>
-        Loading....
-      </div>
-    )
-  }
+  // if (!isLoaded) {
+  //   return (
+  //     <div>
+  //       Loading....
+  //     </div>
+  //   )
+  // }
   
   // Not signed in and no questionnaire completed yet
   if (!isSignedIn && !isQuestionnaireCompleted()) {
@@ -197,32 +219,32 @@ const MapPage: React.FC = () => {
     )
   }
 
-  // Continue as guest
-  if (!isSignedIn && isQuestionnaireCompleted()) {
-    return (
-    <>
-    <Navigate to="/" replace={true}/>
-    </>
-    );
-  }
+  // // Continue as guest
+  // if (!isSignedIn && isQuestionnaireCompleted()) {
+  //   return (
+  //   <>
+  //   <Navigate to="/" replace={true}/>
+  //   </>
+  //   );
+  // }
 
-  // Signed in and completed questionnaire
-  if (isSignedIn && isQuestionnaireCompleted()) {
-    return (
-      <div>
-        <h1>Welcome {user.fullName}</h1>
-      </div>
-    )
-  }
+  // // Signed in and completed questionnaire
+  // if (isSignedIn && isQuestionnaireCompleted()) {
+  //   return (
+  //     <div>
+  //       <h1>Welcome {user.fullName}</h1>
+  //     </div>
+  //   )
+  // }
 
   // Signed in and not completed questionnaire
-  if (isSignedIn && !isQuestionnaireCompleted()) {
-    return (
-      <>
-        <Navigate to="/welcome" replace={true} />
-      </>
-    )
-  }
+  // if (isSignedIn && !isQuestionnaireCompleted()) {
+  //   return (
+  //     <>
+  //       <Navigate to="/welcome" replace={true} />
+  //     </>
+  //   )
+  // }
 
   return (
     <div className="flex flex-col h-screen">

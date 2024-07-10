@@ -4,29 +4,38 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import org.example.summer.entity.Results;
+import org.example.summer.service.UserResultService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.xml.transform.Result;
 
 @Converter(autoApply = true)
-public class JsonConverter implements AttributeConverter<JsonNode, String> {
+public class ResultsConverter implements AttributeConverter<Results, String> {
+
+    private static final Logger logger = LoggerFactory.getLogger(ResultsConverter.class);
 
     private final static ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public String convertToDatabaseColumn(JsonNode attribute) {
+    public String convertToDatabaseColumn(Results result) {
         try {
-            String result = objectMapper.writeValueAsString(attribute);
-            System.out.println("Converting to database column: " + result);
-            return result;
+            logger.info("Converting to database column: " + result);
+            return objectMapper.writeValueAsString(result);
         } catch (Exception e) {
+            logger.warn("Cannot convert Results into JSON");
             throw new RuntimeException("Error converting JsonNode to String", e);
         }
     }
 
     @Override
-    public JsonNode convertToEntityAttribute(String dbData) {
+    public Results convertToEntityAttribute(String value) {
         try {
-            System.out.println("Converting from database column: " + dbData);
-            return objectMapper.readTree(dbData);
+            System.out.println("Converting from database column: " + value);
+            return objectMapper.readValue(value, Results.class);
         } catch (Exception e) {
+            logger.warn("Cannot convert JSON into Results");
             throw new RuntimeException("Error converting String to JsonNode", e);
         }
     }
