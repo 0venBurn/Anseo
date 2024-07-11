@@ -31,6 +31,8 @@ interface QuestionnaireContext {
   answerQuestion: (question: string, answer: string | number | string[] | number[]) => void,
   isQuestionnaireCompleted: () => boolean,
   setQuestionnaireDefault: () => void
+  dummyData: boolean
+  sendDummyData: () => boolean
 }
 const QuestionnaireContext = createContext<QuestionnaireContext>(
   {
@@ -57,7 +59,9 @@ const QuestionnaireContext = createContext<QuestionnaireContext>(
       },
       answerQuestion: () => {},
       isQuestionnaireCompleted: () => false,
-      setQuestionnaireDefault: () => {}
+      setQuestionnaireDefault: () => {},
+      dummyData: false,
+      sendDummyData: () => false
   }
 );
 
@@ -83,6 +87,7 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({ children 
     selectedBoroughs: [],
     areaType: null,
   })
+  const [dummyData, setDummyData] = useState<boolean>(false)
 
   const answerQuestion = (question: string, answer: string | number | string[] | number[]) => {
     setData((prev) => ({
@@ -90,6 +95,11 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({ children 
       [question]: answer
     }))
   } 
+
+  const sendDummyData = () => {
+    setDummyData(true)
+    return dummyData
+  }
 
   const isQuestionnaireCompleted = () => {
     const answers = Object.values(data);
@@ -135,7 +145,7 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({ children 
   }
 
   return (
-  <QuestionnaireContext.Provider value={{ data, answerQuestion, isQuestionnaireCompleted, setQuestionnaireDefault }}>
+  <QuestionnaireContext.Provider value={{ data, answerQuestion, isQuestionnaireCompleted, setQuestionnaireDefault, dummyData, sendDummyData }}>
     {children}
     </QuestionnaireContext.Provider>
     ); 
