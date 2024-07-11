@@ -32,7 +32,7 @@ interface PredictionResponse {
 }
 
 const MapPage: React.FC = () => {
-  const { isSignedIn, user } = useUser();
+  const { isSignedIn, user, isLoaded } = useUser();
   const { data, isQuestionnaireCompleted, setQuestionnaireDefault } = useQuestionnaire()
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
   const [predictions, setPredictions] = useState<PredictionResponse | null>(null);
@@ -44,8 +44,11 @@ const MapPage: React.FC = () => {
   const navigate = useNavigate();
   
   useEffect(() => {
-    const fetchPredictions = async () => {
+    if (!isLoaded) {
+      return
+    }
 
+    const fetchPredictions = async () => {
       try {
           let payload
           
@@ -53,11 +56,11 @@ const MapPage: React.FC = () => {
             setSelectedBoroughs(data.selectedBoroughs)
             payload = { data }
           }
-
-        // continue as guest
-        if (!isSignedIn && isQuestionnaireCompleted()) {
-          console.log('test: continue as guest')
-          const response = await fetch('http://localhost:8000/api/v1/predict', {
+          
+          // continue as guest
+          if (!isSignedIn && isQuestionnaireCompleted()) {
+            console.log('test: continue as guest')
+            const response = await fetch('http://localhost:8000/api/v1/predict', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -73,7 +76,7 @@ const MapPage: React.FC = () => {
           setQuestionnaireDefault()
           return
         }
-
+        
         // signed in and completed questionnaire
         if (isSignedIn && isQuestionnaireCompleted()) {
           console.log('test: signed in and completed questionnaire')
@@ -102,7 +105,7 @@ const MapPage: React.FC = () => {
           if (!mlResponse.ok) {
             throw new Error('API response from ML Model was not ok.');
           }
-
+          
           if (!dbResponse.ok) {
             throw new Error('API response from DB was not ok.');
           }
@@ -118,25 +121,16 @@ const MapPage: React.FC = () => {
           console.log('test: signed in and questionnaire not completed')
           console.log(ngrokForwardingAddress)
           const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user.id}`)
-
-          console.log(dbResponse)
-          console.log(dbResponse.headers.get('Content-Type'))
           
           const data = await dbResponse.json()
           
-          console.log(data)
-          console.log(data.results[0].results)
-          // if no predictions redirect to questions
-          if (!dbResponse.ok) {
+
+          // If user has no saved results in the database, redirect to welcome page
+          if (data.results.length === 0) {
             navigate('/welcome')
             throw new Error(`Couldn't find user results in database: ${user}`)
           }
 
-          // console.log(data)
-          // setSelectedBoroughs(data.selectedBoroughs)
-
-
-          // make machine learning calls with prediction[0]
           const mlResponse = await fetch('http://localhost:8000/api/v1/predict', {
             method: 'POST',
             headers: {
@@ -154,16 +148,21 @@ const MapPage: React.FC = () => {
           const predictions = await mlResponse.json();
           console.log(predictions)
           setPredictions(predictions);
+          setSelectedBoroughs(data.results[0].results.data.selectedBoroughs)
           return
         }
 
-        // not signed in and questionnaire completed
-      }  catch (error) {
+        // not signed in and questionnaire not completed
+        if (!isSignedIn && !isQuestionnaireCompleted()) {
+          console.log('test: not signed in and questionnaire not completed')
+          navigate('/welcome')
+      } 
+    }  catch (error) {
         console.error('Error fetching predictions:', error);
       }      
     }
     fetchPredictions();
-  }, []);
+  }, [isLoaded, isSignedIn, user]);
 
 
   const theme = useTheme();
@@ -205,13 +204,13 @@ const MapPage: React.FC = () => {
   };
 
 
-  // if (!isLoaded) {
-  //   return (
-  //     <div>
-  //       Loading....
-  //     </div>
-  //   )
-  // }
+  if (!isLoaded) {
+    return (
+      <div>
+        Loading....
+      </div>
+    )
+  }
   
   // Not signed in and no questionnaire completed yet
   // if (!isSignedIn && !isQuestionnaireCompleted()) {
