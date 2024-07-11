@@ -1,4 +1,5 @@
 import React from "react";
+import QuestionLabel from "../Questionnaire/QuestionLabel";
 
 interface TargetGroupSelectorProps {
   targetGroup: string | null;
@@ -10,10 +11,7 @@ const TargetGroupSelector: React.FC<TargetGroupSelectorProps> = ({
   setTargetGroup,
 }) => (
   <div className="mb-10">
-    <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: "Alegreya" }}>
-      3. Is your business targeting families or singles?{" "}
-      <span className="text-red-500">*</span>
-    </h1>
+    <QuestionLabel label="Is your business targeting families or singles?" />
     <div className="grid grid-cols-2 gap-4">
       {["Families", "Singles"].map((option) => (
         <button
