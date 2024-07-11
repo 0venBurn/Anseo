@@ -28,6 +28,10 @@ body,
   }
 }
 
-.cl-internal-180wb59 {
+.cl-internal-180wb59, .cl-userButtonPopoverFooter, .cl-internal-lqfubk {
   display: none;
+}
+
+.cl-userProfileRoot, .cl-rootBox {
+  font-family: 'Inter', sans-serif;
 }

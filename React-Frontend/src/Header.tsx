@@ -6,6 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMediaQuery, useTheme } from "@mui/material";
+import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -41,6 +42,17 @@ const Header: React.FC = () => {
             </Button>
           </div>
         </div>
+        <SignedIn>
+          <UserButton 
+            appearance={{
+              elements: {
+                userButtonAvatarBox: "w-12 h-12",
+                userButtonPopoverMain: "font-inter",
+              }
+            }} 
+          />
+        </SignedIn>
+        <SignedOut>
         <div className="flex space-x-4 items-center">
           <Button
             variant="outlined"
@@ -66,7 +78,7 @@ const Header: React.FC = () => {
               fontSize: isMobile ? "0.75rem" : "1rem",
             }}
             onClick={() => navigate("/sign-up")}
-          >
+            >
             Sign Up
           </Button>
           {isMobile && (
@@ -75,6 +87,7 @@ const Header: React.FC = () => {
             </IconButton>
           )}
         </div>
+          </SignedOut>
       </div>
 
       {/* Mobile Menu animation */}
