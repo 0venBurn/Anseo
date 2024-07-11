@@ -4,7 +4,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { motion } from 'framer-motion';
 import { Button, Grid, Box } from '@mui/material';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useMediaQuery, useTheme } from '@mui/material';
 import Header from './Header';
 import './index.css';
@@ -15,11 +15,11 @@ import LocationDetails from './LocationDetails';
 import { useUser } from "@clerk/clerk-react";
 import { useQuestionnaire } from './context/QuestionnaireProvider';
 
-const ngrokForwardingAddress = import.meta.env.VITE_NGROK_FORWARDING_ADDRESS
+// const ngrokForwardingAddress = import.meta.env.VITE_NGROK_FORWARDING_ADDRESS
 
 mapboxgl.accessToken = environment.mapbox.accessToken;
 
-interface Location {
+export interface Location {
   name: string;
   borough: string;
   description: string;
@@ -30,7 +30,7 @@ interface Location {
   neighbourhood_id: number;
 }
 
-interface Listing {
+export interface Listing {
   id: number;
   listingDetails: string;
   link: string;
@@ -46,7 +46,7 @@ interface PredictionResponse {
 
 const MapPage: React.FC = () => {
   const { isSignedIn, user, isLoaded } = useUser();
-  const { data, isQuestionnaireCompleted, setQuestionnaireDefault } = useQuestionnaire()
+  const { data, isQuestionnaireCompleted, setQuestionnaireDefault, dummyData } = useQuestionnaire()
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
   const [predictions, setPredictions] = useState<PredictionResponse>({ predictions: {} });
   const [locations, setLocations] = useState<Location[]>([]);
@@ -59,16 +59,57 @@ const MapPage: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const { state } = location;
+  // const location = useLocation();
+  // const { state } = location;
   
   useEffect(() => {
-    if (!isLoaded) {
-      return
-    }
-
-    const fetchPredictions = async () => {
-      try {
+        // if (!isLoaded) {
+        //       return
+        //     }
+            
+            const fetchPredictions = async () => {
+              try {
+                if (dummyData) {
+                  console.log('test: dummy data')
+                  const payload = {
+                    'data': {
+                      "businessType": "Industry_Catering Establishment",
+                      "openHour": 8, 
+                      "closeHour": 18,
+                      "budget":20, 
+                      "selectedAgeGroup": "20 to 24 years",
+                      "ageImportance": 0.5,
+                      "selectedIncomeLevel": "annual_individual_earnings_Data_$20,000-$29,999",
+                      "incomeImportance":0.5,
+                      "targetGroup":"Singles",
+                      "proximityImportance":0.5,
+                      "footfallImportance":0.5,
+                      "surroundingBusinessesImportance":0.5,
+                      "rentBudget":500,"genderRatio":0.5,
+                      "employmentStatus":"Full Time",
+                      "homeValue":0.6,
+                      "populationDensity":0.6,
+                      "selectedBoroughs":["Manhattan"],
+                      "areaType":"Business oriented"
+                    }
+                    }
+                    const response = await fetch('http://localhost:8000/api/v1/predict', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify(payload),
+                    });
+                    
+                    if (!response.ok) {
+                      throw new Error('API response from ML Model was not ok.');
+                    }
+                    const predictions = await response.json();
+                    setPredictions(predictions);
+                    setSelectedBoroughs(["Manhattan"])
+                    setQuestionnaireDefault()
+                    return
+                  }
           let payload
           
           if (isQuestionnaireCompleted()){
@@ -138,7 +179,7 @@ const MapPage: React.FC = () => {
         // signed in and questionnaire not completed
         if (isSignedIn && !isQuestionnaireCompleted()) {
           console.log('test: signed in and questionnaire not completed')
-          console.log(ngrokForwardingAddress)
+          // console.log(ngrokForwardingAddress)
           const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user.id}`)
           
           const data = await dbResponse.json()
@@ -214,7 +255,7 @@ const MapPage: React.FC = () => {
             description: location.description,
             rating: 0, // default 0，will be updated by prediction
             coordinates: [-73.936, 40.686] as [number, number],
-            photoPath: `/img/${location.name}.jpg`,
+            photoPath: `/img/neighbourhoods/${location.name}.jpg`,
             zipcode: location.zipcode,
             neighbourhood_id: parseInt(neighbourhood_id, 10)
           };
@@ -406,7 +447,7 @@ const MapPage: React.FC = () => {
               selectedBoroughs={selectedBoroughs} 
               predictions={predictions} 
               listings={filteredListings} 
-              onMapLoad={setMapInstance}
+              // onMapLoad={setMapInstance}
             />
           </div>
         )}
@@ -419,7 +460,7 @@ const MapPage: React.FC = () => {
               selectedBoroughs={selectedBoroughs} 
               predictions={predictions} 
               listings={filteredListings} 
-              onMapLoad={setMapInstance}
+              // onMapLoad={setMapInstance}
             />
           </div>
           {/* Location on the bottom */}
