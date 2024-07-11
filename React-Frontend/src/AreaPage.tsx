@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ImportanceSliderComponent from "./components/AreaPage/ImportanceSlider";
-import RentBudgetSlider from "./components/AreaPage/RentBudgetSlider";
+// import ImportanceSliderComponent from "./components/AreaPage/ImportanceSlider";
+// import RentBudgetSlider from "./components/AreaPage/RentBudgetSlider";
 import NavigationButtons from "./components/QuestionsPage/NavigationButtons";
 import "./index.css";
 import QuestionnaireLayout from "./layouts/QuestionnaireLayout";
 import { useQuestionnaire } from "./context/QuestionnaireProvider";
+import SingleSlider from "./components/Questionnaire/SingleSlider";
 
 // Define the current step and total steps for the questionnaire progress
 const currentStep = 4;
@@ -63,37 +64,79 @@ const AreaPage: React.FC = () => {
   return (
     <QuestionnaireLayout>
       {/* Importance slider for proximity to public transportation */}
-      <div className="mt-10">
+      {/* <div className="mt-10">
         <ImportanceSliderComponent
           value={proximityImportance}
           setValue={setProximityImportance}
           label="proximity to public transportation for your business"
         />
-      </div>
+      </div> */}
+      <SingleSlider 
+        label='How important is proximity to public transportation for your business?' 
+        min={0} 
+        max={1}
+        steps={0.01}
+        value={proximityImportance}
+        setValue={setProximityImportance}
+        minMark="Not important"
+        maxMark="Important"
+        type='percentage'
+      />
 
       {/* Importance slider for high footfall */}
-      <div className="mt-10">
+      {/* <div className="mt-10">
         <ImportanceSliderComponent
           value={footfallImportance}
           setValue={setFootfallImportance}
           label="high footfall"
         />
-      </div>
+      </div> */}
+      <SingleSlider 
+        label='How important is high footfall?' 
+        min={0} 
+        max={1}
+        steps={0.01}
+        value={footfallImportance}
+        setValue={setFootfallImportance}
+        minMark="Not important"
+        maxMark="Important"
+        type='percentage'
+      />
 
       {/* Importance slider for being surrounded by similar businesses */}
-      <div className="mt-10">
+      {/* <div className="mt-10">
         <ImportanceSliderComponent
           value={surroundingBusinessesImportance}
           setValue={setSurroundingBusinessesImportance}
           label="being surrounded by similar businesses"
         />
-      </div>
-
+      </div> */}
+      <SingleSlider 
+        label='How important is being surrounded by similar businesses?' 
+        min={0} 
+        max={1}
+        steps={0.01}
+        value={surroundingBusinessesImportance}
+        setValue={setSurroundingBusinessesImportance}
+        minMark="Not important"
+        maxMark="Important"
+        type='percentage'
+      />
       {/* Slider for rent budget */}
-      <div className="mt-10">
+      {/* <div className="mt-10">
         <RentBudgetSlider value={rentBudget} setValue={setRentBudget} />
-      </div>
-
+      </div> */}
+      <SingleSlider 
+        label='What is your budget for monthly rent (including utilities) for your business location?' 
+        min={1000} 
+        max={5000}
+        steps={100}
+        value={rentBudget}
+        setValue={setRentBudget}
+        minMark="< $1000"
+        maxMark="$5000+"
+        type='money'
+      />
       {/* Navigation buttons */}
       <div className="absolute bottom-0">
         <NavigationButtons

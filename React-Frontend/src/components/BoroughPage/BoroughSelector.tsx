@@ -1,4 +1,5 @@
 import React from "react";
+import QuestionLabel from "../Questionnaire/QuestionLabel";
 
 interface BoroughSelectorProps {
   selectedBoroughs: string[];
@@ -10,10 +11,7 @@ const BoroughSelector: React.FC<BoroughSelectorProps> = ({
   handleSelectBorough,
 }) => (
   <div className="mb-6 w-full max-w-md">
-    <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: "Alegreya" }}>
-      1. Which boroughs are you most interested in for your business location?{" "}
-      <span className="text-red-500">*</span>
-    </h1>
+    <QuestionLabel label="Which boroughs are you most interested in for your business location?" />
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 w-full">
       {[
         { label: "Manhattan" },

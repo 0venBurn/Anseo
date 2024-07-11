@@ -109,10 +109,14 @@ export const useAddMapLayers = (
         const coordinates = e.lngLat;
         const neighbourhood = e.features && e.features[0].properties?.neighbourhood;
 
+        map.setCenter(coordinates);
+        // map.zoomTo(13, {duration: 1000});
+
         popup.setLngLat(coordinates).setHTML(neighbourhood).addTo(map);
       });
 
-      map.on('mouseenter', 'LayersFill', (e) => {
+
+      map.on('mouseenter', 'neighbourhoods', () => {
         map.getCanvas().style.cursor = 'pointer';
       });
 

@@ -1,4 +1,5 @@
 import React from "react";
+import QuestionLabel from "../Questionnaire/QuestionLabel";
 
 interface AreaTypeSelectorProps {
   areaType: string | null;
@@ -10,10 +11,7 @@ const AreaTypeSelector: React.FC<AreaTypeSelectorProps> = ({
   handleSelectAreaType,
 }) => (
   <div className="mb-6 w-full max-w-md">
-    <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: "Alegreya" }}>
-      2. What type of area would you like to set up in?{" "}
-      <span className="text-red-500">*</span>
-    </h1>
+    <QuestionLabel label="What type of area would you like to set up in?"/>
     <div className="grid grid-cols-2 gap-4 mb-6 w-full">
       {[{ label: "Residential" }, { label: "Business oriented" }].map(
         (option) => (
