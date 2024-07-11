@@ -6,6 +6,7 @@ import NavigationButtons from "./components/QuestionsPage/NavigationButtons";
 import "./index.css";
 import QuestionnaireLayout from "./layouts/QuestionnaireLayout";
 import { useQuestionnaire } from "./context/QuestionnaireProvider";
+import SingleSlider from "./components/Questionnaire/SingleSlider";
 
 // Define the current step and total steps for the questionnaire progress
 const currentStep = 5;
@@ -19,7 +20,7 @@ const ExtraPage: React.FC = () => {
   const [employmentStatus, setEmploymentStatus] = useState<string>("");
 
   // State for home value, default set to 3000
-  const [homeValue, setHomeValue] = useState<number>(3000);
+  const [homeValue, setHomeValue] = useState<number>(250000);
 
   // State for population density, default set to 0.5
   const [populationDensity, setPopulationDensity] = useState<number>(0.5);
@@ -55,20 +56,17 @@ const ExtraPage: React.FC = () => {
   return (
     <QuestionnaireLayout>
       {/* Slider for gender ratio */}
-      <div className="mt-10">
-        <SliderComponent
-          value={genderRatio}
-          setValue={setGenderRatio}
-          label="What gender is your business tailored towards?"
-          min={0}
-          max={1}
-          step={0.01}
-          marks={[
-            { value: 0, label: "All Men" },
-            { value: 1, label: "All Women" },
-          ]}
-        />
-      </div>
+      <SingleSlider
+        label='What gender is your business tailored towards?' 
+        min={0} 
+        max={1}
+        steps={0.01}
+        value={genderRatio}
+        setValue={setGenderRatio}
+        minMark="All Men"
+        maxMark="All Women"
+        type='percentage'
+      />
 
       {/* Buttons for selecting employment status */}
       <div className="mt-10">
@@ -79,36 +77,30 @@ const ExtraPage: React.FC = () => {
       </div>
 
       {/* Slider for home value */}
-      <div className="mt-10">
-        <SliderComponent
-          value={homeValue}
-          setValue={setHomeValue}
-          label="3. What is the estimated home value of people you are trying to target?"
-          min={1000}
-          max={5000}
-          step={100}
-          marks={[
-            { value: 1000, label: "< $1000" },
-            { value: 5000, label: "$500000" },
-          ]}
-        />
-      </div>
+      <SingleSlider
+        label='What is the estimated home value of people you are trying to target?' 
+        min={1000} 
+        max={500000}
+        steps={100}
+        value={homeValue}
+        setValue={setHomeValue}
+        minMark="< $1000"
+        maxMark="$500000+"
+        type='money'
+      />
 
       {/* Slider for population density */}
-      <div className="mt-10">
-        <SliderComponent
-          value={populationDensity}
-          setValue={setPopulationDensity}
-          label="4. How dense do you want the population to be?"
-          min={0}
-          max={1}
-          step={0.01}
-          marks={[
-            { value: 0, label: "Low Density" },
-            { value: 1, label: "High Density" },
-          ]}
-        />
-      </div>
+      <SingleSlider 
+        label='How dense do you want the population to be?' 
+        min={0} 
+        max={1}
+        steps={0.01}
+        value={populationDensity}
+        setValue={setPopulationDensity}
+        minMark="Low Density"
+        maxMark="High Density"
+        type='percentage'
+      />
 
       {/* Navigation buttons */}
       <div className="absolute bottom-0">
