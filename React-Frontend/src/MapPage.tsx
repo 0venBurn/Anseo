@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { motion, AnimatePresence } from 'framer-motion';
-import { IconButton, Card, CardContent, Button, Typography, Grid, Box } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Button, Grid, Box } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useMediaQuery, useTheme } from '@mui/material';
 import Header from './Header';
 import './index.css';
 import { environment } from '../mapbox.config';
 import Map from './components/Map';
+import LocationCard from './LocationCard';
+import LocationDetails from './LocationDetails';
 import { useUser } from "@clerk/clerk-react";
 import { useQuestionnaire } from './context/QuestionnaireProvider';
 
@@ -25,6 +26,18 @@ interface Location {
   rating: number;
   coordinates: [number, number];
   photoPath: string;
+  zipcode: string;
+  neighbourhood_id: number;
+}
+
+interface Listing {
+  id: number;
+  listingDetails: string;
+  link: string;
+  imageUrl: string;
+  lat: string;
+  lng: string;
+  neighbourhoodId: number;
 }
 
 interface PredictionResponse {
@@ -35,13 +48,19 @@ const MapPage: React.FC = () => {
   const { isSignedIn, user, isLoaded } = useUser();
   const { data, isQuestionnaireCompleted, setQuestionnaireDefault } = useQuestionnaire()
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
-  const [predictions, setPredictions] = useState<PredictionResponse | null>(null);
+  const [predictions, setPredictions] = useState<PredictionResponse>({ predictions: {} });
   const [locations, setLocations] = useState<Location[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
+  const [listings, setListings] = useState<Listing[]>([]);
   const [isClosing, setIsClosing] = useState(false);
+  const [mapInstance, setMapInstance] = useState<mapboxgl.Map | null>(null);
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const { state } = location;
   
   useEffect(() => {
     if (!isLoaded) {
@@ -164,38 +183,148 @@ const MapPage: React.FC = () => {
     fetchPredictions();
   }, [isLoaded, isSignedIn, user]);
 
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
   useEffect(() => {
-    const fetchLocations = async () => {
+    const fetchPage = async (page: number) => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/neighbourhoods`);
-        console.log('Response data:', response.data);
-        const embedded = response.data._embedded;
-        if (embedded && Array.isArray(embedded.neighbourhoods)) {
-          const locations = embedded.neighbourhoods.map((location: any) => ({
-            ...location,
-            rating: Math.random() * 5, // use random for now, can change later
-            coordinates: [-73.936, 40.686] as [number, number], // use fixed for now, can change later
-            photoPath: `/img/${location.name}.jpg`
-          }));
-          setLocations(locations);
-        } else {
-          console.error('Unexpected data format:', response.data);
-        }
+        const response = await axios.get(`http://localhost:8080/api/neighbourhoods?page=${page}`);
+        return response.data._embedded.neighbourhoods;
       } catch (error) {
-        console.error('Error fetching locations:', error);
+        console.error(`Error fetching page ${page}:`, error);
+        return [];
       }
     };
 
-    fetchLocations();
+    const fetchAllLocations = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/neighbourhoods');
+        const totalPages = response.data.page.totalPages;
+        
+        // Fetch all pages concurrently
+        const allLocationsPromises = [];
+        for (let page = 0; page < totalPages; page++) {
+          allLocationsPromises.push(fetchPage(page));
+        }
+        
+        const allLocationsArray = await Promise.all(allLocationsPromises);
+        const allLocations = allLocationsArray.flat().map((location: any) => {
+          const neighbourhood_id = location._links.self.href.split('/').pop();
+          return {
+            name: location.name,
+            borough: location.borough,
+            description: location.description,
+            rating: 0, // default 0，will be updated by prediction
+            coordinates: [-73.936, 40.686] as [number, number],
+            photoPath: `/img/${location.name}.jpg`,
+            zipcode: location.zipcode,
+            neighbourhood_id: parseInt(neighbourhood_id, 10)
+          };
+        });
+
+        return allLocations;
+      } catch (error) {
+        console.error('Error fetching all locations:', error);
+        return [];
+      }
+    };
+
+    const fetchLocations = async () => {
+      const allLocations = await fetchAllLocations();
+      
+      // Filter locations based on selected boroughs
+      const filteredLocations = allLocations.filter(location => selectedBoroughs.includes(location.borough));
+
+      // normalize the value
+      const predictionValues = Object.values(predictions?.predictions || {});
+      const minPrediction = Math.min(...predictionValues);
+      const maxPrediction = Math.max(...predictionValues);
+
+      // update rating and sort，only show the top 10
+      const updatedLocations = filteredLocations.map(location => {
+        const normalizedValue = predictions?.predictions[location.zipcode] !== undefined 
+          ? (predictions.predictions[location.zipcode] - minPrediction) / (maxPrediction - minPrediction)
+          : 0;
+        return { ...location, rating: normalizedValue * 5 };
+      }).sort((a, b) => b.rating - a.rating).slice(0, 10);
+
+      setLocations(updatedLocations);
+    };
+    if (predictions) {
+      fetchLocations();
+    }
+  }, [selectedBoroughs, predictions]);
+
+  useEffect(() => {
+    const fetchPage = async (page: number) => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/listings?page=${page}`);
+        return response.data._embedded.listings;
+      } catch (error) {
+        console.error(`Error fetching page ${page}:`, error);
+        return [];
+      }
+    };
+
+    const fetchAllListings = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/listings');
+        const totalPages = response.data.page.totalPages;
+        
+        // Fetch all pages concurrently
+        const allListingsPromises = [];
+        for (let page = 0; page < totalPages; page++) {
+          allListingsPromises.push(fetchPage(page));
+        }
+        
+        const allListingsArray = await Promise.all(allListingsPromises);
+        const allListings = allListingsArray.flat().map((listing: any) => {
+          const id = parseInt(listing._links.self.href.split('/').pop(), 10);
+          return {
+            id,
+            listingDetails: listing.listingDetails,
+            link: listing.link,
+            imageUrl: listing.imageUrl,
+            lat: listing.lat,
+            lng: listing.lng,
+            neighbourhoodId: listing.neighbourhoodId
+          } as Listing;
+        });
+        
+        return allListings;
+      } catch (error) {
+        console.error('Error fetching all listings:', error);
+        return [];
+      }
+    };
+
+    const fetchListings = async () => {
+      const allListings = await fetchAllListings();
+      
+      setListings(allListings);
+    };
+
+    fetchListings();
   }, []);
 
-  const handleLearnMore = (location: Location) => {
+  // function to convert zipcode to lat and lng
+  const getCoordinatesByZipcode = async (zipcode: string) => {
+    try {
+      const response = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${zipcode}.json?access_token=${mapboxgl.accessToken}`);
+      const coordinates = response.data.features[0].center;
+      return coordinates;
+    } catch (error) {
+      console.error(`Error fetching coordinates for zipcode ${zipcode}:`, error);
+      return null;
+    }
+  };
+
+  const handleLearnMore = async (location: Location) => {
     setSelectedLocation(location);
     setIsClosing(false);
+    // function for zoom in when clicked learn more
+    const coordinates = await getCoordinatesByZipcode(location.zipcode);
+    if (coordinates && mapInstance) {
+      mapInstance.flyTo({ center: coordinates, zoom: 12 });
+    }
   };
 
   const handleClose = () => {
@@ -203,16 +332,11 @@ const MapPage: React.FC = () => {
     setTimeout(() => setSelectedLocation(null), 500);
   };
 
+  const filteredListings = selectedLocation
+    ? listings.filter(listing => listing.neighbourhoodId === selectedLocation.neighbourhood_id)
+    : [];
 
-  if (!isLoaded) {
-    return (
-      <div>
-        Loading....
-      </div>
-    )
-  }
-  
-  // Not signed in and no questionnaire completed yet
+    // Not signed in and no questionnaire completed yet
   // if (!isSignedIn && !isQuestionnaireCompleted()) {
   //   return (
   //     <>
@@ -258,7 +382,7 @@ const MapPage: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 100 }}
             transition={{ duration: 0.5 }}
-            className="hidden md:block w-2/3 overflow-y-auto"
+            className="hidden md:block w-1/2 overflow-y-auto"
           >
             <div className="w-full" style={{ backgroundColor: '#E8EAF6', margin: 0, padding: 0 }}>
               <div className="flex justify-between items-center text-2xl py-2 px-4" style={{ backgroundColor: '#E8EAF6' }}>
@@ -269,25 +393,7 @@ const MapPage: React.FC = () => {
             <Box p={2}>
               <Grid container spacing={2}>
                 {locations.map((location, index) => (
-                  <Grid item xs={12} sm={4} key={index}>
-                    <Card style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                      <img src={location.photoPath} alt={location.name} style={{ height: 200, objectFit: 'cover' }} />
-                      <CardContent style={{ backgroundColor: '#F5F5F5', flex: '1 0 auto' }}>
-                        <Typography variant="h6">{location.name}</Typography>
-                        <Typography variant="body2" color="textSecondary">{location.borough}</Typography>
-                        <Typography variant="body2">{location.description}</Typography>
-                        <Box display="flex" alignItems="center" mt={1}>
-                          <Typography variant="body2" style={{ marginRight: 4 }}>{location.rating.toFixed(2)}</Typography>
-                          <div>
-                            {Array.from({ length: 5 }).map((_, starIndex) => (
-                              <span key={starIndex} style={{ color: starIndex < Math.round(location.rating) ? '#FFD700' : '#CCC' }}>★</span>
-                            ))}
-                          </div>
-                        </Box>
-                        <Button variant="contained" style={{ backgroundColor: '#FF6347', color: '#FFF', marginTop: 16 }} onClick={() => handleLearnMore(location)}>Learn More</Button>
-                      </CardContent>
-                    </Card>
-                  </Grid>
+                  <LocationCard key={index} location={location} onLearnMore={handleLearnMore} />
                 ))}
               </Grid>
             </Box>
@@ -295,8 +401,13 @@ const MapPage: React.FC = () => {
         )}
         {/* Map for desktop on the right one-third */}
         {!isMobile && (
-          <div className="w-full md:w-1/3 h-full absolute top-0 right-0">
-            <Map selectedBoroughs={selectedBoroughs} predictions={predictions} />
+          <div className="w-full md:w-1/2 h-full absolute top-0 right-0">
+            <Map 
+              selectedBoroughs={selectedBoroughs} 
+              predictions={predictions} 
+              listings={filteredListings} 
+              onMapLoad={setMapInstance}
+            />
           </div>
         )}
       </div>
@@ -304,7 +415,12 @@ const MapPage: React.FC = () => {
         <div className="block md:hidden flex-1">
           {/* Map for mobile display on the top half */}
           <div className="w-full h-80 z-10">
-            <Map selectedBoroughs={selectedBoroughs} predictions={predictions} />
+            <Map 
+              selectedBoroughs={selectedBoroughs} 
+              predictions={predictions} 
+              listings={filteredListings} 
+              onMapLoad={setMapInstance}
+            />
           </div>
           {/* Location on the bottom */}
           <div className="text-center text-2xl py-2 bg-gray-100">
@@ -314,25 +430,7 @@ const MapPage: React.FC = () => {
             <Box p={2}>
               <Grid container spacing={2}>
                 {locations.map((location, index) => (
-                  <Grid item xs={12} key={index}>
-                    <Card style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                      <img src={location.photoPath} alt={location.name} style={{ height: 200, objectFit: 'cover' }} />
-                      <CardContent style={{ flex: '1 0 auto' }}>
-                        <Typography variant="h6">{location.name}</Typography>
-                        <Typography variant="body2" color="textSecondary">{location.borough}</Typography>
-                        <Typography variant="body2">{location.description}</Typography>
-                        <Box display="flex" alignItems="center" mt={1}>
-                          <Typography variant="body2" style={{ marginRight: 4 }}>{location.rating.toFixed(2)}</Typography>
-                          <div>
-                            {Array.from({ length: 5 }).map((_, starIndex) => (
-                              <span key={starIndex} style={{ color: starIndex < Math.round(location.rating) ? '#FFD700' : '#CCC' }}>★</span>
-                            ))}
-                          </div>
-                        </Box>
-                        <Button variant="contained" style={{ backgroundColor: '#FF6347', color: '#FFF', marginTop: 16 }} onClick={() => handleLearnMore(location)}>Learn More</Button>
-                      </CardContent>
-                    </Card>
-                  </Grid>
+                  <LocationCard key={index} location={location} onLearnMore={handleLearnMore} />
                 ))}
               </Grid>
             </Box>
@@ -340,58 +438,17 @@ const MapPage: React.FC = () => {
         </div>
       )}
       {/* Detail column when clicked learn more */}
-      <AnimatePresence>
-        {selectedLocation && !isClosing && (
-          <motion.div
-            initial={isMobile ? { y: '100%' } : { x: '-100%' }}
-            animate={isMobile ? { y: 0 } : { x: 0 }}
-            exit={isMobile ? { y: '100%' } : { x: '-100%' }}
-            transition={{ duration: 0.5 }}
-            className={`fixed bottom-0 ${isMobile ? 'left-0 w-full h-1/2' : 'left-0 w-1/2 h-full'} bg-white shadow-lg p-6 z-50 overflow-y-auto`}
-          >
-            <div className="flex justify-end">
-              <IconButton onClick={handleClose}>
-                <CloseIcon />
-              </IconButton>
-            </div>
-            <Typography variant="h4" component="h2" gutterBottom>
-              {selectedLocation.name}
-            </Typography>
-            <Typography variant="h6" color="textSecondary" gutterBottom>
-              {selectedLocation.borough}
-            </Typography>
-            <Box display="flex" alignItems="center" mt={1} mb={2}>
-              <Typography variant="body2" style={{ marginRight: 4 }}>{selectedLocation.rating.toFixed(2)}</Typography>
-              <div>
-                {Array.from({ length: 5 }).map((_, starIndex) => (
-                  <span key={starIndex} style={{ color: starIndex < Math.round(selectedLocation.rating) ? '#FFD700' : '#CCC' }}>★</span>
-                ))}
-              </div>
-            </Box>
-            <Typography variant="body1" paragraph>
-              {selectedLocation.description}
-            </Typography>
-            <Typography variant="body2" paragraph>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed ullamcorper morbi tincidunt ornare. Est placerat in egestas erat imperdiet sed. In arcu cursus euismod quis viverra nibh. Scelerisque viverra mauris in aliquam. Sodales neque sodales ut etiam sit. Sed augue lacus viverra vitae congue. Consectetur lorem donec massa sapien. Nisl purus in mollis nunc sed id semper. Semper feugiat nibh sed pulvinar. Sem viverra aliquet eget sit amet tellus. Nulla at volutpat diam ut.
-            </Typography>
-            <Typography variant="h5" component="h3" gutterBottom>
-              Why this location?
-            </Typography>
-            <ul className="list-disc pl-6">
-              <li><strong>Affordability:</strong> Price Range $$ - $$$</li>
-              <li><strong>Safety Score:</strong> lorem ipsum...</li>
-              <li><strong>ML Metric 1:</strong> lorem ipsum...</li>
-              <li><strong>ML Metric 2:</strong> lorem ipsum...</li>
-              <li><strong>ML Metric 3:</strong> lorem ipsum...</li>
-              <li>...</li>
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {selectedLocation && (
+        <LocationDetails 
+          location={selectedLocation} 
+          listings={filteredListings} // pass filteredListings
+          isMobile={isMobile} 
+          isClosing={isClosing} 
+          onClose={handleClose} 
+        />
+      )}
     </div>
   );
 };
 
 export default MapPage;
-
-
