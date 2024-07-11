@@ -5,9 +5,9 @@ interface Data {
   openHour: string;
   closeHour: string;
   budget: number;
-  selectedAgeGroup: string;
+  selectedAgeGroup: number[];
   ageImportance: number;
-  selectedIncomeLevel: string;
+  selectedIncomeLevel: number[];
   incomeImportance: number;
   targetGroup: string;
   proximityImportance: number;
@@ -28,7 +28,7 @@ interface QuestionnaireProviderProps {
 
 interface QuestionnaireContext {
   data: Data,
-  answerQuestion: (question: string, answer: string | number | string[]) => void,
+  answerQuestion: (question: string, answer: string | number | string[] | number[]) => void,
   isQuestionnaireCompleted: () => boolean,
   setQuestionnaireDefault: () => void
 }
@@ -39,9 +39,9 @@ const QuestionnaireContext = createContext<QuestionnaireContext>(
         openHour: "",
         closeHour: "",
         budget: 0,
-        selectedAgeGroup: "",
+        selectedAgeGroup: [4, 65],
         ageImportance: 0,
-        selectedIncomeLevel: "",
+        selectedIncomeLevel: [10000, 100000],
         incomeImportance: 0,
         targetGroup: "",
         proximityImportance: 0,
@@ -67,9 +67,9 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({ children 
     openHour: "",
     closeHour: "",
     budget: 0,
-    selectedAgeGroup: "",
+    selectedAgeGroup: [4, 65],
     ageImportance: 0,
-    selectedIncomeLevel: "",
+    selectedIncomeLevel: [10000, 100000],
     incomeImportance: 0,
     targetGroup: "",
     proximityImportance: 0,
@@ -84,7 +84,7 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({ children 
     areaType: null,
   })
 
-  const answerQuestion = (question: string, answer: string | number | string[]) => {
+  const answerQuestion = (question: string, answer: string | number | string[] | number[]) => {
     setData((prev) => ({
       ...prev,
       [question]: answer
@@ -116,9 +116,9 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({ children 
       openHour: "",
       closeHour: "",
       budget: 0,
-      selectedAgeGroup: "",
+      selectedAgeGroup: [4, 65],
       ageImportance: 0,
-      selectedIncomeLevel: "",
+      selectedIncomeLevel: [10000, 100000],
       incomeImportance: 0,
       targetGroup: "",
       proximityImportance: 0,

@@ -5,11 +5,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BusinessTypeSelector from "./components/QuestionsPage/BusinessTypeSelector";
 import OperatingHoursSelector from "./components/QuestionsPage/OperatingHourSelect";
-import BudgetSlider from "./components/QuestionsPage/BudgetSlider";
 import NavigationButtons from "./components/QuestionsPage/NavigationButtons";
 import "./index.css";
 import QuestionnaireLayout from "./layouts/QuestionnaireLayout";
 import { useQuestionnaire } from "./context/QuestionnaireProvider";
+import SingleSlider from "./components/Questionnaire/SingleSlider";
 
 const QuestionPage: React.FC = () => {
   const [businessType, setBusinessType] = useState<string>("");
@@ -139,11 +139,18 @@ const QuestionPage: React.FC = () => {
           setOpenHour={setOpenHour}
           setCloseHour={setCloseHour}
         />
-      </div>
-      <div className="mt-10">
-        {/* Budget slider component */}
-        <BudgetSlider budget={budget} setBudget={setBudget} />
-      </div>
+      </div>  
+      <SingleSlider 
+        label='What is your budget for paying employees? (Specify hourly rates)' 
+        min={10} 
+        max={35}
+        steps={1}
+        value={budget}
+        setValue={setBudget}
+        minMark="< $10"
+        maxMark="$35+"
+        type='money'
+      />
       <div className="absolute bottom-0">
         {/* Navigation button component*/}
         <NavigationButtons
