@@ -74,5 +74,6 @@ export const useAddMapLayers = (
         filter
       });
     }
+    
   }, [map, selectedBoroughs, predictions, zipProbabilities]);
 };
