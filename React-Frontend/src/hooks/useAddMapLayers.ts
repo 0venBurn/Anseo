@@ -27,7 +27,7 @@ export const useAddMapLayers = (
     const sortedZipCodes: number[] = zipProbabilities.map((zip) => parseInt(zip.zipcode))
   
     if (map) {
-      map.addSource('Layers', {
+      map.addSource('neighbourhoods', {
         type: 'vector',
         url: 'mapbox://tadghp.0lsjggwr'
       });
@@ -35,9 +35,9 @@ export const useAddMapLayers = (
       const filter = ['in', ['get', 'borough'], ['literal', selectedBoroughs]];
       
       map.addLayer({
-        id: 'LayersFill',
+        id: 'neighbourhoods',
         type: 'fill',
-        source: 'Layers',
+        source: 'neighbourhoods',
         'source-layer': 'neighbourhoods',
         layout: {},
         paint: { 
@@ -61,9 +61,9 @@ export const useAddMapLayers = (
       });
 
       map.addLayer({
-        id: 'LayersOutline',
+        id: 'neighbourhoods-line',
         type: 'line',
-        source: 'Layers',
+        source: 'neighbourhoods',
         'source-layer': 'neighbourhoods',
         layout: {},
         paint: {
@@ -73,6 +73,28 @@ export const useAddMapLayers = (
         },
         filter
       });
+
+      const popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+      });
+
+      map.on('click', 'neighbourhoods', (e) => {
+        const coordinates = e.lngLat
+
+        const neighbourhood = e.features && e.features[0].properties?.neighbourhood;
+
+        popup.setLngLat(coordinates).setHTML(neighbourhood).addTo(map);
+      });
+
+
+      map.on('mouseenter', 'neighbourhoods', (e) => {
+        map.getCanvas().style.cursor = 'pointer';
+      });   
+
+      map.on('mouseleave', 'neighbourhoods', () => {
+        map.getCanvas().style.cursor = '';
+    });
     }
     
   }, [map, selectedBoroughs, predictions, zipProbabilities]);
