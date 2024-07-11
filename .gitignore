@@ -553,7 +553,6 @@ dist-ssr
 *.sln
 *.sw?
 
-*.csv
 *.shp
 *.xml
 *.cpg
