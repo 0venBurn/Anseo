@@ -19,26 +19,26 @@ const ActionButtons: React.FC = () => {
   const { answerQuestion, setQuestionnaireDefault } = useQuestionnaire();
   // useNavigate is a hook from react-router-dom for navigation to different pages or programs
   const handleClick = () => {
-    // answerQuestion("businessType", "Industry_Catering Establishment");
-    // answerQuestion("openHour", 8);
-    // answerQuestion("closeHour", 18);
-    // answerQuestion("budget", 20);
-    // answerQuestion("selectedAgeGroup", "20 to 24 years");
-    // answerQuestion("ageImportance", 0.5);
-    // answerQuestion("selectedIncomeLevel", "annual_individual_earnings_Data_$20,000-$29,999");
-    // answerQuestion("incomeImportance", 0.5);
-    // answerQuestion("targetGroup", "Singles");
-    // answerQuestion("proximityImportance", 0.5);
-    // answerQuestion("footfallImportance", 0.5);
-    // answerQuestion("surroundingBusinessesImportance", 0.5);
-    // answerQuestion("rentBudget", 500);
-    // answerQuestion("genderRatio", 0.5);
-    // answerQuestion("employmentStatus", "Full Time");
-    // answerQuestion("homeValue", 0.6);
-    // answerQuestion("populationDensity", 0.6);
-    // answerQuestion("selectedBoroughs", ["Manhattan"]);
-    // answerQuestion("areaType", "Business oriented");
-    setQuestionnaireDefault();
+    answerQuestion("businessType", "Industry_Catering Establishment");
+    answerQuestion("openHour", 8);
+    answerQuestion("closeHour", 18);
+    answerQuestion("budget", 20);
+    answerQuestion("selectedAgeGroup", "20 to 24 years");
+    answerQuestion("ageImportance", 0.5);
+    answerQuestion("selectedIncomeLevel", "annual_individual_earnings_Data_$20,000-$29,999");
+    answerQuestion("incomeImportance", 0.5);
+    answerQuestion("targetGroup", "Singles");
+    answerQuestion("proximityImportance", 0.5);
+    answerQuestion("footfallImportance", 0.5);
+    answerQuestion("surroundingBusinessesImportance", 0.5);
+    answerQuestion("rentBudget", 500);
+    answerQuestion("genderRatio", 0.5);
+    answerQuestion("employmentStatus", "Full Time");
+    answerQuestion("homeValue", 0.6);
+    answerQuestion("populationDensity", 0.6);
+    answerQuestion("selectedBoroughs", ["Manhattan"]);
+    answerQuestion("areaType", "Business oriented");
+    // setQuestionnaireDefault();
 
     navigate("/map")
   }
