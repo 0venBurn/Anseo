@@ -139,19 +139,19 @@ const QuestionPage: React.FC = () => {
           setOpenHour={setOpenHour}
           setCloseHour={setCloseHour}
         />
-      </div>  
-      <SingleSlider 
-        label='What is your budget for paying employees? (Specify hourly rates)' 
-        min={10} 
+      </div>
+      <SingleSlider
+        label="What is your budget for paying employees? (Specify hourly rates)"
+        min={10}
         max={35}
         steps={1}
         value={budget}
         setValue={setBudget}
         minMark="< $10"
         maxMark="$35+"
-        type='money'
+        type="money"
       />
-      <div className="absolute bottom-0">
+      <div className="mt-10">
         {/* Navigation button component*/}
         <NavigationButtons
           currentStep={currentStep}

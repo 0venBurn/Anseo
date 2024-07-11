@@ -71,16 +71,16 @@ const AreaPage: React.FC = () => {
           label="proximity to public transportation for your business"
         />
       </div> */}
-      <SingleSlider 
-        label='How important is proximity to public transportation for your business?' 
-        min={0} 
+      <SingleSlider
+        label="How important is proximity to public transportation for your business?"
+        min={0}
         max={1}
         steps={0.01}
         value={proximityImportance}
         setValue={setProximityImportance}
         minMark="Not important"
         maxMark="Important"
-        type='percentage'
+        type="percentage"
       />
 
       {/* Importance slider for high footfall */}
@@ -91,16 +91,16 @@ const AreaPage: React.FC = () => {
           label="high footfall"
         />
       </div> */}
-      <SingleSlider 
-        label='How important is high footfall?' 
-        min={0} 
+      <SingleSlider
+        label="How important is high footfall?"
+        min={0}
         max={1}
         steps={0.01}
         value={footfallImportance}
         setValue={setFootfallImportance}
         minMark="Not important"
         maxMark="Important"
-        type='percentage'
+        type="percentage"
       />
 
       {/* Importance slider for being surrounded by similar businesses */}
@@ -111,34 +111,34 @@ const AreaPage: React.FC = () => {
           label="being surrounded by similar businesses"
         />
       </div> */}
-      <SingleSlider 
-        label='How important is being surrounded by similar businesses?' 
-        min={0} 
+      <SingleSlider
+        label="How important is being surrounded by similar businesses?"
+        min={0}
         max={1}
         steps={0.01}
         value={surroundingBusinessesImportance}
         setValue={setSurroundingBusinessesImportance}
         minMark="Not important"
         maxMark="Important"
-        type='percentage'
+        type="percentage"
       />
       {/* Slider for rent budget */}
       {/* <div className="mt-10">
         <RentBudgetSlider value={rentBudget} setValue={setRentBudget} />
       </div> */}
-      <SingleSlider 
-        label='What is your budget for monthly rent (including utilities) for your business location?' 
-        min={1000} 
+      <SingleSlider
+        label="What is your budget for monthly rent (including utilities) for your business location?"
+        min={1000}
         max={5000}
         steps={100}
         value={rentBudget}
         setValue={setRentBudget}
         minMark="< $1000"
         maxMark="$5000+"
-        type='money'
+        type="money"
       />
       {/* Navigation buttons */}
-      <div className="absolute bottom-0">
+      <div className="mt-10">
         <NavigationButtons
           currentStep={currentStep}
           totalSteps={totalSteps}

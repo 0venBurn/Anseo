@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SliderComponent from "./components/ExtraPage/SliderComponent";
 import EmploymentStatusButtons from "./components/ExtraPage/EmploymentStatusButtons";
 import NavigationButtons from "./components/QuestionsPage/NavigationButtons";
 import "./index.css";
@@ -17,7 +16,7 @@ const ExtraPage: React.FC = () => {
   const [genderRatio, setGenderRatio] = useState<number>(0.5);
 
   // State for employment status
-  const [employmentStatus, setEmploymentStatus] = useState<string>("");
+  const [employmentStatus, setEmploymentStatus] = useState<string[]>([]);
 
   // State for home value, default set to 3000
   const [homeValue, setHomeValue] = useState<number>(250000);
@@ -57,15 +56,15 @@ const ExtraPage: React.FC = () => {
     <QuestionnaireLayout>
       {/* Slider for gender ratio */}
       <SingleSlider
-        label='What gender is your business tailored towards?' 
-        min={0} 
+        label="What gender is your business tailored towards?"
+        min={0}
         max={1}
         steps={0.01}
         value={genderRatio}
         setValue={setGenderRatio}
         minMark="All Men"
         maxMark="All Women"
-        type='percentage'
+        type="percentage"
       />
 
       {/* Buttons for selecting employment status */}
@@ -78,32 +77,32 @@ const ExtraPage: React.FC = () => {
 
       {/* Slider for home value */}
       <SingleSlider
-        label='What is the estimated home value of people you are trying to target?' 
-        min={1000} 
+        label="What is the estimated home value of people you are trying to target?"
+        min={1000}
         max={500000}
         steps={100}
         value={homeValue}
         setValue={setHomeValue}
         minMark="< $1000"
         maxMark="$500000+"
-        type='money'
+        type="money"
       />
 
       {/* Slider for population density */}
-      <SingleSlider 
-        label='How dense do you want the population to be?' 
-        min={0} 
+      <SingleSlider
+        label="How dense do you want the population to be?"
+        min={0}
         max={1}
         steps={0.01}
         value={populationDensity}
         setValue={setPopulationDensity}
         minMark="Low Density"
         maxMark="High Density"
-        type='percentage'
+        type="percentage"
       />
 
       {/* Navigation buttons */}
-      <div className="absolute bottom-0">
+      <div className="mt-10">
         <NavigationButtons
           currentStep={currentStep}
           totalSteps={totalSteps}

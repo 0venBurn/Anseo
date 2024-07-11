@@ -18,11 +18,13 @@ const TargetPage: React.FC = () => {
   // State for importance of age, default to middle value
   const [ageImportance, setAgeImportance] = useState<number>(0.5);
   // State for selected income
-  const [selectedIncomeLevel, setSelectedIncomeLevel] = useState<number[]>([10000, 100000]);
+  const [selectedIncomeLevel, setSelectedIncomeLevel] = useState<number[]>([
+    10000, 100000,
+  ]);
   // State for importance of income, default to middle value
   const [incomeImportance, setIncomeImportance] = useState<number>(0.5);
   // State for target group description
-  const [targetGroup, setTargetGroup] = useState<string>("");
+  const [targetGroup, setTargetGroup] = useState<string[]>([]);
 
   //  Access the questionaire context
   const { data, answerQuestion } = useQuestionnaire();
@@ -58,7 +60,7 @@ const TargetPage: React.FC = () => {
   const handleSetSelectedAgeGroup = (newValue: number[]) => {
     console.log(newValue);
     setSelectedAgeGroup(newValue);
-};
+  };
 
   const handleSetSelectedIncomeLevel = (newValue: number[]) => {
     console.log(newValue);
@@ -108,29 +110,29 @@ const TargetPage: React.FC = () => {
         ageOptions={ageOptions}
       /> */}
 
-      <RangeSlider 
-        label='What is your target customer age group?' 
-        min={4} 
+      <RangeSlider
+        label="What is your target customer age group?"
+        min={4}
         max={65}
         minDistance={1}
         steps={1}
-        type='age'
+        type="age"
         value={selectedAgeGroup}
         setValue={handleSetSelectedAgeGroup}
         minMark="< 4"
         maxMark="65+"
       />
 
-      <SingleSlider 
-        label='How important is the age of your target customers?' 
-        min={0} 
+      <SingleSlider
+        label="How important is the age of your target customers?"
+        min={0}
         max={1}
         steps={0.01}
         value={ageImportance}
         setValue={setAgeImportance}
         minMark="Not important"
         maxMark="Important"
-        type='percentage'
+        type="percentage"
       />
 
       {/* Slider to set the importance of age in targeting */}
@@ -140,29 +142,29 @@ const TargetPage: React.FC = () => {
         label="age"
       /> */}
 
-      <RangeSlider 
-        label='What is your target customer income level? ' 
-        min={10000} 
+      <RangeSlider
+        label="What is your target customer income level? "
+        min={10000}
         max={100000}
         minDistance={1000}
         steps={1000}
-        type='income'
+        type="income"
         value={selectedIncomeLevel}
         setValue={handleSetSelectedIncomeLevel}
         minMark="< $10,000"
         maxMark="$100,000+"
       />
 
-      <SingleSlider 
-        label='How important is the income of your target customers?' 
-        min={0} 
+      <SingleSlider
+        label="How important is the income of your target customers?"
+        min={0}
         max={1}
         steps={0.01}
         value={incomeImportance}
         setValue={setIncomeImportance}
         minMark="Not important"
         maxMark="Important"
-        type='percentage'
+        type="percentage"
       />
 
       {/* Component for selecting the income level of the target audience */}
@@ -186,12 +188,14 @@ const TargetPage: React.FC = () => {
       />
 
       {/* Navigation buttons for moving between questionnaire steps */}
-      <NavigationButtons
-        currentStep={currentStep}
-        totalSteps={totalSteps}
-        handleNext={handleNext}
-        handlePrev={handlePrev}
-      />
+      <div className="mt-10">
+        <NavigationButtons
+          currentStep={currentStep}
+          totalSteps={totalSteps}
+          handleNext={handleNext}
+          handlePrev={handlePrev}
+        />
+      </div>
     </QuestionnaireLayout>
   );
 };
