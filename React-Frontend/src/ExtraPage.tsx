@@ -32,22 +32,38 @@ const ExtraPage: React.FC = () => {
 
   // Handler for next button click
   const handleNext = () => {
+    // Transform employmentStatus if "No Preference" is selected
+    const transformedEmploymentStatus = employmentStatus.includes(
+      "No Preference",
+    )
+      ? ["Full Time", "Part Time"]
+      : employmentStatus;
+
     // Save all answers to the questionnaire context
     answerQuestion("genderRatio", genderRatio);
-    answerQuestion("employmentStatus", employmentStatus);
+    answerQuestion("employmentStatus", transformedEmploymentStatus);
     answerQuestion("homeValue", homeValue / 5000);
     answerQuestion("populationDensity", populationDensity);
+
     // Navigate to the next page
     navigate("/borough");
   };
 
   // Handler for previous button click
   const handlePrev = () => {
+    // Transform employmentStatus if "No Preference" is selected
+    const transformedEmploymentStatus = employmentStatus.includes(
+      "No Preference",
+    )
+      ? ["Full Time", "Part Time"]
+      : employmentStatus;
+
     // Save all answers to the questionnaire context
     answerQuestion("genderRatio", genderRatio);
-    answerQuestion("employmentStatus", employmentStatus);
+    answerQuestion("employmentStatus", transformedEmploymentStatus);
     answerQuestion("homeValue", homeValue / 5000);
     answerQuestion("populationDensity", populationDensity);
+
     // Navigate to the previous page
     navigate("/area");
   };
