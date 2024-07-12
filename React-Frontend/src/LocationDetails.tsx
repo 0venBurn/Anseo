@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IconButton, Typography, Box, Grid } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -16,6 +16,21 @@ interface Listing {
   neighbourhoodId: number;
 }
 
+interface Rankings {
+  neighbourhood_id: number;
+  population_density_Rank: number;
+  population_by_gender_Data_Male_Rank: number;
+  population_by_gender_Data_Female_Rank: number;
+  Age_Diversity_Index_Rank: number;
+  Employment_Health_Index_Rank: number;
+  Annual_Earnings_Index_Rank: number;
+  Housing_Affordability_Index_Rank: number;
+  Crime_Rate_Index_Rank: number;
+  Young_Index_Rank: number;
+  Middle_Aged_Index_Rank: number;
+  Old_Index_Rank: number;
+}
+
 interface LocationDetailsProps {
   location: {
     name: string;
@@ -24,12 +39,14 @@ interface LocationDetailsProps {
     rating: number;
   };
   listings: Listing[];
+  rankings: Rankings | undefined; 
   isMobile: boolean;
   isClosing: boolean;
   onClose: () => void;
 }
 
-const LocationDetails: React.FC<LocationDetailsProps> = ({ location, listings, isMobile, isClosing, onClose }) => {
+
+const LocationDetails: React.FC<LocationDetailsProps> = ({ location, listings, rankings, isMobile, isClosing, onClose }) => {
   // 计算星级显示
   const renderStars = (rating: number) => {
     const stars = [];
@@ -91,13 +108,15 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({ location, listings, i
             Why this location?
           </Typography>
           <ul className="list-disc pl-6">
-            <li><strong>Affordability:</strong> Price Range $$ - $$$</li>
-            <li><strong>Safety Score:</strong> lorem ipsum...</li>
-            <li><strong>ML Metric 1:</strong> lorem ipsum...</li>
-            <li><strong>ML Metric 2:</strong> lorem ipsum...</li>
-            <li><strong>ML Metric 3:</strong> lorem ipsum...</li>
-            <li>...</li>
+            {Object.entries(rankings)
+              .filter(([key]) => key !== 'neighbourhood_id')  // Exclude the neighborhood ID from display
+              .map(([key, value]) => (
+                <li key={key}>
+                  <strong>{key.replace(/_/g, ' ').replace('Rank', ' Rank')}:</strong> {value}
+                </li>
+              ))}
           </ul>
+
           <Typography variant="h5" component="h3" gutterBottom>
             Available listings
           </Typography>
