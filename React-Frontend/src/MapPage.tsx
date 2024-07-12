@@ -64,57 +64,7 @@ const MapPage: React.FC = () => {
   // const location = useLocation();
   // const { state } = location;
   
-  useEffect(() => {
-        // if (!isLoaded) {
-        //       return
-        //     }
-            
-            const fetchPredictions = async () => {
-              try {
-                if (dummyData) {
-                  console.log('test: dummy data')
-                  const payload = {
-                    'data': {
-                      "businessType": "Industry_Catering Establishment",
-                      "openHour": 8, 
-                      "closeHour": 18,
-                      "budget":20, 
-                      "selectedAgeGroup": "20 to 24 years",
-                      "ageImportance": 0.5,
-                      "selectedIncomeLevel": "annual_individual_earnings_Data_$20,000-$29,999",
-                      "incomeImportance":0.5,
-                      "targetGroup":"Singles",
-                      "proximityImportance":0.5,
-                      "footfallImportance":0.5,
-                      "surroundingBusinessesImportance":0.5,
-                      "rentBudget":500,"genderRatio":0.5,
-                      "employmentStatus":"Full Time",
-                      "homeValue":0.6,
-                      "populationDensity":0.6,
-                      "selectedBoroughs":["Manhattan"],
-                      "areaType":"Business oriented"
-                    }
-                    }
-                    const response = await fetch('http://localhost:8000/api/v1/predict', {
-                      method: 'POST',
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify(payload),
-                    });
-                    
-                    if (!response.ok) {
-                      throw new Error('API response from ML Model was not ok.');
-                    }
-                    const predictions = await response.json();
-                    setPredictions(predictions);
-                    setSelectedBoroughs(["Manhattan"])
-                    setQuestionnaireDefault()
-                    return
-                  }
-          let payload
-          
-            
+  useEffect(() => {          
             const fetchPredictions = async () => {
               if (!isLoaded) {
                 return
