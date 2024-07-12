@@ -98,14 +98,14 @@ const BoroughPage: React.FC = () => {
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
       {/* Navigation buttons */}
-      <div className="absolute bottom-0">
+      {/* <div className="absolute bottom-0"> */}
         <NavigationButtons
           currentStep={currentStep}
           totalSteps={totalSteps}
           handleNext={handleNext}
           handlePrev={handlePrev}
         />
-      </div>
+      {/* </div> */}
     </QuestionnaireLayout>
   );
 };

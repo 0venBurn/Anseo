@@ -15,11 +15,15 @@ import LandingPageHeroSection from "./components/LandingPageHeroSection";
 import Header from "./components/LandingPageHeader";
 import MobileHeader from "./components/MobileHeader";
 import LandingPageActionButtons from "./components/LandingPageActionButtons";
-import { SignedIn, SignOutButton } from "@clerk/clerk-react";
+import { SignedIn, SignOutButton, useUser } from "@clerk/clerk-react";
 
 //Main component for the landing page
 const LandingPage: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { isLoaded, isSignedIn } = useUser();
+
+  console.log(isLoaded)
+  console.log(isSignedIn)
 
   //Function that toggles the mobile viewport visible hamburger menu (state= open/close)
   const handleMenuToggle = () => {
