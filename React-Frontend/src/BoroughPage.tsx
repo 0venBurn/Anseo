@@ -14,11 +14,11 @@ const currentStep = 6;
 const totalSteps = 6;
 
 const BoroughPage: React.FC = () => {
-  // State for selected boroughs (up to 2)
+  // State for selected boroughs
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
 
   // State for selected area type
-  const [areaType, setAreaType] = useState<string>("");
+  const [areaType, setAreaType] = useState<string[]>([]);
 
   // State for error message
   const [error, setError] = useState<string | null>(null);
@@ -30,31 +30,20 @@ const BoroughPage: React.FC = () => {
   const { data, answerQuestion } = useQuestionnaire();
 
   // Handler for borough selection
-  const handleSelectBorough = (option: string) => {
-    setSelectedBoroughs((prevSelected) => {
-      if (prevSelected.includes(option)) {
-        // Remove borough if already selected
-        return prevSelected.filter((item) => item !== option);
-      } else if (prevSelected.length < 2) {
-        // Add borough if less than 2 are selected
-        return [...prevSelected, option];
-      } else {
-        // Keep current selection if 2 are already selected
-        return prevSelected;
-      }
-    });
+  const handleSelectBorough = (boroughs: string[]) => {
+    setSelectedBoroughs(boroughs);
     setError(null);
   };
 
   // Handler for area type selection
-  const handleSelectAreaType = (option: string) => {
-    setAreaType(option);
+  const handleSelectAreaType = (types: string[]) => {
+    setAreaType(types);
     setError(null);
   };
 
   // Handler for next button click
   const handleNext = () => {
-    if (selectedBoroughs.length > 0 && areaType) {
+    if (selectedBoroughs.length > 0 && areaType.length > 0) {
       // Save answers to the questionnaire context
       answerQuestion("selectedBoroughs", selectedBoroughs);
       answerQuestion("areaType", areaType);
