@@ -78,25 +78,42 @@ const MapPage: React.FC = () => {
                   console.log('test: dummy data')
                   const payload = {
                     'data': {
-                      "businessType": "Industry_Catering Establishment",
-                      "openHour": 8, 
+                      "businessType": "Industry_Commercial Lessor",
+                      "openHour": 8,
                       "closeHour": 18,
-                      "budget":20, 
-                      "selectedAgeGroup": "20 to 24 years",
+                      "budget": 20,
+                      "selectedAgeGroup": [
+                          11,
+                          59
+                      ],
                       "ageImportance": 0.5,
-                      "selectedIncomeLevel": "annual_individual_earnings_Data_$20,000-$29,999",
-                      "incomeImportance":0.5,
-                      "targetGroup":"Singles",
-                      "proximityImportance":0.5,
-                      "footfallImportance":0.5,
-                      "surroundingBusinessesImportance":0.5,
-                      "rentBudget":500,"genderRatio":0.5,
-                      "employmentStatus":"Full Time",
-                      "homeValue":0.6,
-                      "populationDensity":0.6,
-                      "selectedBoroughs":["Manhattan"],
-                      "areaType":"Business oriented"
-                    }
+                      "selectedIncomeLevel": [
+                          18000,
+                          84000
+                      ],
+                      "incomeImportance": 0.5,
+                      "targetGroup": [
+                          "Singles"
+                      ],
+                      "proximityImportance": 0.5,
+                      "footfallImportance": 0.5,
+                      "surroundingBusinessesImportance": 0.5,
+                      "rentBudget": 500,
+                      "genderRatio": 0.5,
+                      "employmentStatus": [
+                          "Full Time"
+                      ],
+                      "homeValue": 50,
+                      "populationDensity": 0.5,
+                      "selectedBoroughs": [
+                          "Manhattan",
+                          "Brooklyn",
+                          "Queens"
+                      ],
+                      "areaType": [
+                          "Residential"
+                      ]
+                  }
                     }
                     const response = await fetch('http://localhost:8000/api/v1/predict', {
                       method: 'POST',
@@ -105,13 +122,17 @@ const MapPage: React.FC = () => {
                       },
                       body: JSON.stringify(payload),
                     });
+                  console.log(payload)
                     
                     if (!response.ok) {
                       throw new Error('API response from ML Model was not ok.');
                     }
+
                     const predictions = await response.json();
+                    console.log(response)
+                    console.log(predictions)
                     setPredictions(predictions);
-                    setSelectedBoroughs(["Manhattan"])
+                    setSelectedBoroughs(payload.data.selectedBoroughs)
                     setQuestionnaireDefault()
                     return
                   }
@@ -120,6 +141,8 @@ const MapPage: React.FC = () => {
           if (isQuestionnaireCompleted()){
             setSelectedBoroughs(data.selectedBoroughs)
             payload = { data }
+            console.log(payload)
+
           }
           
           // continue as guest
