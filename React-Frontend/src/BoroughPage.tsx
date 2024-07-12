@@ -88,6 +88,7 @@ const BoroughPage: React.FC = () => {
 
       {/* Navigation buttons */}
       <div className="absolute bottom-0">
+        {/* <div className="absolute bottom-0"> */}
         <NavigationButtons
           currentStep={currentStep}
           totalSteps={totalSteps}
@@ -95,6 +96,7 @@ const BoroughPage: React.FC = () => {
           handlePrev={handlePrev}
         />
       </div>
+      {/* </div> */}
     </QuestionnaireLayout>
   );
 };

@@ -6,20 +6,22 @@ import Chat from "./components/Chatbox/Chat";
 import "@fontsource/alegreya/400.css";
 import "@fontsource/alegreya/700.css";
 import "@fontsource/fredoka-one";
+import Header from "./Header";
+import LandingPageHeroSection from "./components/LandingPageHeroSection";
 import "@fontsource/commissioner";
 import "@fontsource/inter";
 import "./index.css";
 
-//Importing components for the landing page
-import LandingPageHeroSection from "./components/LandingPageHeroSection";
-import Header from "./components/LandingPageHeader";
-import MobileHeader from "./components/MobileHeader";
 import LandingPageActionButtons from "./components/LandingPageActionButtons";
-import { SignedIn, SignOutButton } from "@clerk/clerk-react";
+import { SignedIn, SignOutButton, useUser } from "@clerk/clerk-react";
 
 //Main component for the landing page
 const LandingPage: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { isLoaded, isSignedIn } = useUser();
+
+  console.log(isLoaded);
+  console.log(isSignedIn);
 
   //Function that toggles the mobile viewport visible hamburger menu (state= open/close)
   const handleMenuToggle = () => {
@@ -36,11 +38,6 @@ const LandingPage: React.FC = () => {
       />
 
       {/*Header for small viewports (e.g., mobile devices)*/}
-      <MobileHeader
-        menuOpen={menuOpen}
-        handleMenuToggle={handleMenuToggle}
-        setMenuOpen={setMenuOpen}
-      />
 
       <motion.div
         initial={{ opacity: 0, x: -100 }}

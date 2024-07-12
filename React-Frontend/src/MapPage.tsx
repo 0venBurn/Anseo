@@ -12,7 +12,7 @@ import { environment } from '../mapbox.config';
 import Map from './components/Map';
 import LocationCard from './LocationCard';
 import LocationDetails from './LocationDetails';
-import { useUser } from "@clerk/clerk-react";
+import { useAuth, useUser } from "@clerk/clerk-react";
 import { useQuestionnaire } from './context/QuestionnaireProvider';
 
 // const ngrokForwardingAddress = import.meta.env.VITE_NGROK_FORWARDING_ADDRESS
@@ -45,7 +45,8 @@ interface PredictionResponse {
 }
 
 const MapPage: React.FC = () => {
-  const { isSignedIn, user, isLoaded } = useUser();
+  const { isSignedIn, isLoaded } = useAuth();
+  const { user } = useUser();
   const { data, isQuestionnaireCompleted, setQuestionnaireDefault, dummyData } = useQuestionnaire()
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
   const [predictions, setPredictions] = useState<PredictionResponse>({ predictions: {} });
@@ -54,6 +55,7 @@ const MapPage: React.FC = () => {
   const [listings, setListings] = useState<Listing[]>([]);
   const [isClosing, setIsClosing] = useState(false);
   const [mapInstance, setMapInstance] = useState<mapboxgl.Map | null>(null);
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -112,6 +114,59 @@ const MapPage: React.FC = () => {
                   }
           let payload
           
+            
+            const fetchPredictions = async () => {
+              if (!isLoaded) {
+                return
+              }
+              if (isLoaded) {
+                console.log("Clerk has finished loading");
+                setIsPageLoaded(true)
+                  }
+              try {
+                // if (dummyData) {
+                  // console.log('test: dummy data')
+                  // const payload = {
+                  //   'data': {
+                  //     "businessType": "Industry_Catering Establishment",
+                  //     "openHour": 8, 
+                  //     "closeHour": 18,
+                  //     "budget":20, 
+                  //     "selectedAgeGroup": "20 to 24 years",
+                  //     "ageImportance": 0.5,
+                  //     "selectedIncomeLevel": "annual_individual_earnings_Data_$20,000-$29,999",
+                  //     "incomeImportance":0.5,
+                  //     "targetGroup":"Singles",
+                  //     "proximityImportance":0.5,
+                  //     "footfallImportance":0.5,
+                  //     "surroundingBusinessesImportance":0.5,
+                  //     "rentBudget":500,"genderRatio":0.5,
+                  //     "employmentStatus":"Full Time",
+                  //     "homeValue":0.6,
+                  //     "populationDensity":0.6,
+                  //     "selectedBoroughs":["Manhattan"],
+                  //     "areaType":"Business oriented"
+                  //   }
+                  //   }
+                  //   const response = await fetch('http://localhost:8000/api/v1/predict', {
+                  //     method: 'POST',
+                  //     headers: {
+                  //       'Content-Type': 'application/json',
+                  //     },
+                  //     body: JSON.stringify(payload),
+                  //   });
+                    
+                  //   if (!response.ok) {
+                  //     throw new Error('API response from ML Model was not ok.');
+                  //   }
+                  //   const predictions = await response.json();
+                  //   setPredictions(predictions);
+                  //   setSelectedBoroughs(["Manhattan"])
+                  //   setQuestionnaireDefault()
+                  //   return
+                  // }
+          let payload
+          console.log(isSignedIn)
           if (isQuestionnaireCompleted()){
             setSelectedBoroughs(data.selectedBoroughs)
             payload = { data }
@@ -149,14 +204,14 @@ const MapPage: React.FC = () => {
           });
           
           
-          const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user.id}`, {
+          const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user && user.id}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(
               { 
-                clerkUserId: user.id, 
+                clerkUserId: user && user.id, 
                 results: payload
               }
             )
@@ -180,7 +235,7 @@ const MapPage: React.FC = () => {
         if (isSignedIn && !isQuestionnaireCompleted()) {
           console.log('test: signed in and questionnaire not completed')
           // console.log(ngrokForwardingAddress)
-          const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user.id}`)
+          const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user && user.id}`)
           
           const data = await dbResponse.json()
           
@@ -412,6 +467,15 @@ const MapPage: React.FC = () => {
   //     </>
   //   )
   // }
+
+  if (!isPageLoaded) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-2xl">Loading...</div>
+      </div>
+    );
+  }
+
 
   return (
     <div className="flex flex-col h-screen">
