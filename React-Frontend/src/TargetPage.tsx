@@ -74,7 +74,7 @@ const TargetPage: React.FC = () => {
   return (
     <QuestionnaireLayout>
       <RangeSlider
-        label="What is your target customer age group?"
+        label="What age range is your target customers within?"
         min={4}
         max={65}
         minDistance={1}
@@ -99,7 +99,7 @@ const TargetPage: React.FC = () => {
       />
 
       <RangeSlider
-        label="What is your target customer income level? "
+        label="What is your target customer's income level? "
         min={10000}
         max={100000}
         minDistance={1000}
