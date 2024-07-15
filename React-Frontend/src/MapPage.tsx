@@ -15,8 +15,6 @@ import LocationDetails from './LocationDetails';
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { useQuestionnaire } from './context/QuestionnaireProvider';
 
-// const ngrokForwardingAddress = import.meta.env.VITE_NGROK_FORWARDING_ADDRESS
-
 mapboxgl.accessToken = environment.mapbox.accessToken;
 
 export interface Location {
@@ -62,132 +60,131 @@ interface PredictionResponse {
 const MapPage: React.FC = () => {
   const { isSignedIn, isLoaded } = useAuth();
   const { user } = useUser();
-  const { data, isQuestionnaireCompleted, setQuestionnaireDefault, dummyData } = useQuestionnaire()
+  const { data, isQuestionnaireCompleted, setQuestionnaireDefault, dummyData } = useQuestionnaire();
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
   const [predictions, setPredictions] = useState<PredictionResponse>({ predictions: {} });
-    const [locations, setLocations] = useState<Location[]>([]);
+  const [locations, setLocations] = useState<Location[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   const [listings, setListings] = useState<Listing[]>([]);
   const [isClosing, setIsClosing] = useState(false);
   const [mapInstance, setMapInstance] = useState<mapboxgl.Map | null>(null);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [rankingsData, setRankingsData] = useState<Rankings[]>([]);
+  const [highlightedLocation, setHighlightedLocation] = useState<{ lat: number, lng: number } | null>(null);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const navigate = useNavigate();
-  // const location = useLocation();
-  // const { state } = location;
-  
-  useEffect(() => {          
-            const fetchPredictions = async () => {
-              if (!isLoaded) {
-                return
-              }
-              if (isLoaded) {
-                console.log("Clerk has finished loading");
-                setIsPageLoaded(true)
-                  }
-              try {
-                if (dummyData) {
-                  console.log('test: dummy data')
-                  const payload = {
-                    'data': {
-                      "businessType": "Industry_Commercial Lessor",
-                      "openHour": 8,
-                      "closeHour": 18,
-                      "budget": 20,
-                      "selectedAgeGroup": [
-                          11,
-                          59
-                      ],
-                      "ageImportance": 0.5,
-                      "selectedIncomeLevel": [
-                          18000,
-                          84000
-                      ],
-                      "incomeImportance": 0.5,
-                      "targetGroup": [
-                          "Singles"
-                      ],
-                      "proximityImportance": 0.5,
-                      "footfallImportance": 0.5,
-                      "surroundingBusinessesImportance": 0.5,
-                      "rentBudget": 500,
-                      "genderRatio": 0.5,
-                      "employmentStatus": [
-                          "Full Time"
-                      ],
-                      "homeValue": 50,
-                      "populationDensity": 0.5,
-                      "selectedBoroughs": [
-                          "Manhattan",
-                          "Brooklyn",
-                          "Queens"
-                      ],
-                      "areaType": [
-                          "Residential"
-                      ]
-                  }
-                    }
-                    const mlResponse = await fetch('http://localhost:8000/api/v1/predict', {
-                      method: 'POST',
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify(payload),
-                    });
-                    
-                    console.log(JSON.stringify(
-                      { 
-                        clerkUserId: user && user.id, 
-                        results: payload
-                      }
-                    ))
-                    const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user && user.id}`, {
-                      method: 'POST',
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify(
-                        { 
-                          clerkUserId: user && user.id, 
-                          results: payload
-                        }
-                      )
-                    });
-                    
-                    if (!mlResponse.ok) {
-                      throw new Error('API response from ML Model was not ok.');
-                    }
-                    
-                    const predictions = await mlResponse.json();
-                    
-                    setPredictions(predictions);
-                    setSelectedBoroughs(payload.data.selectedBoroughs)
-                    setQuestionnaireDefault()
 
-                    if (!dbResponse.ok) {
-                      throw new Error('API response from DB was not ok.');
-                    }
-                    
-                    return
-                  }
-
-          let payload
-          console.log(isSignedIn)
-          if (isQuestionnaireCompleted()){
-            setSelectedBoroughs(data.selectedBoroughs)
-            payload = { data }
-            console.log(payload)
-
+  useEffect(() => {
+    console.log("selected boroughs:",selectedBoroughs)
+    const fetchPredictions = async () => {
+      if (!isLoaded) {
+        return;
+      }
+      if (isLoaded) {
+        console.log("Clerk has finished loading");
+        setIsPageLoaded(true);
+      }
+      try {
+        if (dummyData) {
+          console.log('test: dummy data');
+          const payload = {
+            'data': {
+              "businessType": "Industry_Commercial Lessor",
+              "openHour": 8,
+              "closeHour": 18,
+              "budget": 20,
+              "selectedAgeGroup": [
+                11,
+                59
+              ],
+              "ageImportance": 0.5,
+              "selectedIncomeLevel": [
+                18000,
+                84000
+              ],
+              "incomeImportance": 0.5,
+              "targetGroup": [
+                "Singles"
+              ],
+              "proximityImportance": 0.5,
+              "footfallImportance": 0.5,
+              "surroundingBusinessesImportance": 0.5,
+              "rentBudget": 500,
+              "genderRatio": 0.5,
+              "employmentStatus": [
+                "Full Time"
+              ],
+              "homeValue": 50,
+              "populationDensity": 0.5,
+              "selectedBoroughs": [
+                "Manhattan",
+                "Brooklyn",
+                "Queens"
+              ],
+              "areaType": [
+                "Residential"
+              ]
+            }
           }
-          
-          // continue as guest
-          if (!isSignedIn && isQuestionnaireCompleted()) {
-            console.log('test: continue as guest')
-            const response = await fetch('http://localhost:8000/api/v1/predict', {
+          const mlResponse = await fetch('http://localhost:8000/api/v1/predict', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          });
+
+          console.log(JSON.stringify(
+            {
+              clerkUserId: user && user.id,
+              results: payload
+            }
+          ));
+          const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user && user.id}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(
+              {
+                clerkUserId: user && user.id,
+                results: payload
+              }
+            )
+          });
+
+          if (!mlResponse.ok) {
+            throw new Error('API response from ML Model was not ok.');
+          }
+
+          const predictions = await mlResponse.json();
+
+          setPredictions(predictions);
+          setSelectedBoroughs(payload.data.selectedBoroughs);
+          setQuestionnaireDefault();
+
+          if (!dbResponse.ok) {
+            throw new Error('API response from DB was not ok.');
+          }
+
+          return;
+        }
+
+        let payload;
+        console.log(isSignedIn);
+        if (isQuestionnaireCompleted()) {
+          setSelectedBoroughs(data.selectedBoroughs);
+          payload = { data };
+          console.log(payload);
+        }
+
+        // continue as guest
+        if (!isSignedIn && isQuestionnaireCompleted()) {
+          console.log('test: continue as guest');
+          const response = await fetch('http://localhost:8000/api/v1/predict', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -200,13 +197,13 @@ const MapPage: React.FC = () => {
           }
           const predictions = await response.json();
           setPredictions(predictions);
-          setQuestionnaireDefault()
-          return
+          setQuestionnaireDefault();
+          return;
         }
-        
+
         // signed in and completed questionnaire
         if (isSignedIn && isQuestionnaireCompleted()) {
-          console.log('test: signed in and completed questionnaire')
+          console.log('test: signed in and completed questionnaire');
           const mlResponse = await fetch('http://localhost:8000/api/v1/predict', {
             method: 'POST',
             headers: {
@@ -214,50 +211,49 @@ const MapPage: React.FC = () => {
             },
             body: JSON.stringify(payload),
           });
-          
-          
+
+
           const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user && user.id}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(
-              { 
-                clerkUserId: user && user.id, 
+              {
+                clerkUserId: user && user.id,
                 results: payload
               }
             )
           });
-          
+
           if (!mlResponse.ok) {
             throw new Error('API response from ML Model was not ok.');
           }
-          
+
           if (!dbResponse.ok) {
             throw new Error('API response from DB was not ok. ' + dbResponse);
           }
-          
+
           const predictions = await mlResponse.json();
           setPredictions(predictions);
-          setQuestionnaireDefault()
-          return
+          setQuestionnaireDefault();
+          return;
         }
 
         // signed in and questionnaire not completed
         if (isSignedIn && !isQuestionnaireCompleted()) {
-          console.log('test: signed in and questionnaire not completed')
-          // console.log(ngrokForwardingAddress)
-          const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user && user.id}`)
-          
-          const data = await dbResponse.json()
-          
-          console.log(data)
-          console.log(data.results[0].results)
+          console.log('test: signed in and questionnaire not completed');
+          const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user && user.id}`);
+
+          const data = await dbResponse.json();
+
+          console.log(data);
+          console.log(data.results[0].results);
 
           // If user has no saved results in the database, redirect to welcome page
           if (data.results.length === 0) {
-            navigate('/welcome')
-            throw new Error(`Couldn't find user results in database: ${user}`)
+            navigate('/welcome');
+            throw new Error(`Couldn't find user results in database: ${user}`);
           }
 
           const mlResponse = await fetch('http://localhost:8000/api/v1/predict', {
@@ -270,25 +266,25 @@ const MapPage: React.FC = () => {
 
           if (!mlResponse.ok) {
             throw new Error('API response from ML Model was not ok.');
-          } else{
-            console.log('ML response was ok')
+          } else {
+            console.log('ML response was ok');
           }
 
           const predictions = await mlResponse.json();
-          console.log(predictions)
+          console.log(predictions);
           setPredictions(predictions);
-          setSelectedBoroughs(data.results[0].results.data.selectedBoroughs)
-          return
+          setSelectedBoroughs(data.results[0].results.data.selectedBoroughs);
+          return;
         }
 
         // not signed in and questionnaire not completed
         if (!isSignedIn && !isQuestionnaireCompleted()) {
-          console.log('test: not signed in and questionnaire not completed')
-          navigate('/welcome')
-      } 
-    }  catch (error) {
+          console.log('test: not signed in and questionnaire not completed');
+          navigate('/welcome');
+        }
+      } catch (error) {
         console.error('Error fetching predictions:', error);
-      }      
+      }
     }
     fetchPredictions();
   }, [isLoaded, isSignedIn, user]);
@@ -308,13 +304,13 @@ const MapPage: React.FC = () => {
       try {
         const response = await axios.get('http://localhost:8080/api/neighbourhoods');
         const totalPages = response.data.page.totalPages;
-        
+
         // Fetch all pages concurrently
         const allLocationsPromises = [];
         for (let page = 0; page < totalPages; page++) {
           allLocationsPromises.push(fetchPage(page));
         }
-        
+
         const allLocationsArray = await Promise.all(allLocationsPromises);
         const allLocations = allLocationsArray.flat().map((location: any) => {
           const neighbourhood_id = location._links.self.href.split('/').pop();
@@ -339,7 +335,7 @@ const MapPage: React.FC = () => {
 
     const fetchLocations = async () => {
       const allLocations = await fetchAllLocations();
-      
+
       // Filter locations based on selected boroughs
       const filteredLocations = allLocations.filter(location => selectedBoroughs.includes(location.borough));
 
@@ -350,7 +346,7 @@ const MapPage: React.FC = () => {
 
       // update rating and sort，only show the top 10
       const updatedLocations = filteredLocations.map(location => {
-        const normalizedValue = predictions?.predictions[location.zipcode] !== undefined 
+        const normalizedValue = predictions?.predictions[location.zipcode] !== undefined
           ? (predictions.predictions[location.zipcode] - minPrediction) / (maxPrediction - minPrediction)
           : 0;
         return { ...location, rating: normalizedValue * 5 };
@@ -378,13 +374,13 @@ const MapPage: React.FC = () => {
       try {
         const response = await axios.get('http://localhost:8080/api/listings');
         const totalPages = response.data.page.totalPages;
-        
+
         // Fetch all pages concurrently
         const allListingsPromises = [];
         for (let page = 0; page < totalPages; page++) {
           allListingsPromises.push(fetchPage(page));
         }
-        
+
         const allListingsArray = await Promise.all(allListingsPromises);
         const allListings = allListingsArray.flat().map((listing: any) => {
           const id = parseInt(listing._links.self.href.split('/').pop(), 10);
@@ -398,7 +394,7 @@ const MapPage: React.FC = () => {
             neighbourhoodId: listing.neighbourhoodId
           } as Listing;
         });
-        
+
         return allListings;
       } catch (error) {
         console.error('Error fetching all listings:', error);
@@ -408,7 +404,7 @@ const MapPage: React.FC = () => {
 
     const fetchListings = async () => {
       const allListings = await fetchAllListings();
-      
+
       setListings(allListings);
     };
 
@@ -442,7 +438,6 @@ const MapPage: React.FC = () => {
   };
 
   const handleLearnMore = async (location: Location) => {
-
     setSelectedLocation(location);
     setIsClosing(false);
     // function for zoom in when clicked learn more
@@ -453,12 +448,19 @@ const MapPage: React.FC = () => {
   };
 
   const handleGetLocation = (name: string): Location | undefined => {
-    console.log(locations)
-    return locations.find(location => location.name === name)
-  }
+    return locations.find(location => location.name === name);
+  };
+
+  const handleListingClick = (listing: Listing) => {
+    setHighlightedLocation({ lat: parseFloat(listing.lat), lng: parseFloat(listing.lng) });
+    if (mapInstance) {
+      mapInstance.flyTo({ center: [parseFloat(listing.lng), parseFloat(listing.lat)], zoom: 14 });
+    }
+  };
 
   const handleClose = () => {
     setIsClosing(true);
+    setTimeout(() => setHighlightedLocation(null), 500);
     setTimeout(() => setSelectedLocation(null), 500);
   };
 
@@ -467,10 +469,10 @@ const MapPage: React.FC = () => {
     : [];
 
   const filteredRankings = selectedLocation
-  ? rankingsData.find(ranking => ranking.neighbourhood_id === selectedLocation.neighbourhood_id)
-  : undefined;
+    ? rankingsData.find(ranking => ranking.neighbourhood_id === selectedLocation.neighbourhood_id)
+    : undefined;
 
-    // Not signed in and no questionnaire completed yet
+      // Not signed in and no questionnaire completed yet
   // if (!isSignedIn && !isQuestionnaireCompleted()) {
   //   return (
   //     <>
@@ -506,14 +508,15 @@ const MapPage: React.FC = () => {
   //   )
   // }
 
+  
   if (!isPageLoaded) {
     return (
       <div className="flex justify-center items-center h-screen">
         <div className="text-2xl">Loading...</div>
       </div>
     );
-  }
 
+  }
 
   return (
     <div className="flex flex-col h-screen">
@@ -528,12 +531,12 @@ const MapPage: React.FC = () => {
             className="hidden md:block w-1/2 overflow-y-auto"
           >
             <div className="w-full" style={{ backgroundColor: '#E8EAF6', margin: 0, padding: 0 }}>
-              <div className="flex justify-between items-center text-2xl py-2 px-4" style={{ backgroundColor: '#E8EAF6' }}>
+              <div className="flex justify-between items-center text-2xl py-2 px-4" style={{ backgroundColor: '#E8EAF6', position: 'sticky', top: 0 }}>
                 <span>Your Results</span>
                 <Button variant="outlined">Filters</Button>
               </div>
             </div>
-            <Box p={2}>
+            <Box p={2} className="overflow-auto hide-scrollbar" style={{ maxHeight: 'calc(100vh - 64px)' }}>
               <Grid container spacing={2}>
                 {locations.map((location, index) => (
                   <LocationCard key={index} location={location} onLearnMore={handleLearnMore} />
@@ -551,7 +554,8 @@ const MapPage: React.FC = () => {
               handleGetLocation={handleGetLocation}
               predictions={predictions} 
               listings={filteredListings} 
-              // onMapLoad={setMapInstance}
+              highlightedLocation={highlightedLocation}
+              setMapInstance={setMapInstance}
             />
           </div>
         )}
@@ -566,7 +570,8 @@ const MapPage: React.FC = () => {
               handleSelectNeighbourhood={handleLearnMore}
               handleGetLocation={handleGetLocation}
               listings={filteredListings} 
-              // onMapLoad={setMapInstance}
+              highlightedLocation={highlightedLocation}
+              setMapInstance={setMapInstance}
             />
           </div>
           {/* Location on the bottom */}
@@ -593,6 +598,7 @@ const MapPage: React.FC = () => {
           isMobile={isMobile} 
           isClosing={isClosing} 
           onClose={handleClose} 
+          onListingClick={handleListingClick}
         />
       )}
     </div>

@@ -35,3 +35,8 @@ body,
 .cl-userProfileRoot, .cl-rootBox {
   font-family: 'Inter', sans-serif;
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
