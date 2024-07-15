@@ -8,6 +8,7 @@ import "@fontsource/alegreya/700.css";
 import "./index.css";
 import QuestionnaireLayout from "./layouts/QuestionnaireLayout";
 import { useQuestionnaire } from "./context/QuestionnaireProvider";
+import { TranslateSharp } from "@mui/icons-material";
 
 // Define the current step and total steps for the questionnaire progress
 const currentStep = 6;
@@ -45,8 +46,16 @@ const BoroughPage: React.FC = () => {
   const handleNext = () => {
     if (selectedBoroughs.length > 0 && areaType.length > 0) {
       // Save answers to the questionnaire context
-      answerQuestion("selectedBoroughs", selectedBoroughs);
-      answerQuestion("areaType", areaType);
+
+      const transformedBoroughs = selectedBoroughs.includes("No Preference")
+        ? ["Manhattan", "Brooklyn", "Queens", "Bronx", "Staten Island"]
+        : selectedBoroughs;
+      answerQuestion("selectedBoroughs", transformedBoroughs);
+
+      const transformedArea = areaType.includes("No Preference")
+        ? ["Residential", "Business oriented"]
+        : areaType;
+      answerQuestion("areaType", transformedArea);
       console.log(data);
       // Navigate to the next page
       navigate("/submit");

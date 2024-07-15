@@ -21,7 +21,7 @@ const BoroughSelector: React.FC<BoroughSelectorProps> = ({
 
   const handleSelection = (borough: string) => {
     if (borough === "No preference") {
-      handleSelectBorough(allBoroughs);
+      handleSelectBorough(["No preference"]);
     } else {
       const newSelectedBoroughs = selectedBoroughs.includes(borough)
         ? selectedBoroughs.filter((item) => item !== borough)
@@ -43,7 +43,8 @@ const BoroughSelector: React.FC<BoroughSelectorProps> = ({
             className={`w-full h-16 py-4 px-8 rounded-lg text-xl font-bold flex items-center justify-center border-2 ${
               selectedBoroughs.includes(option) ||
               (option === "No preference" &&
-                selectedBoroughs.length === allBoroughs.length)
+                selectedBoroughs.length === 1 &&
+                selectedBoroughs[0] === "No preference")
                 ? "bg-primary-dark text-white"
                 : "bg-transparent text-purple-900"
             }`}

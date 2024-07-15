@@ -40,6 +40,21 @@ export interface Listing {
   neighbourhoodId: number;
 }
 
+export interface Rankings {
+  neighbourhood_id: number;
+  population_density_Rank: number;
+  population_by_gender_Data_Male_Rank: number;
+  population_by_gender_Data_Female_Rank: number;
+  Age_Diversity_Index_Rank: number;
+  Employment_Health_Index_Rank: number;
+  Annual_Earnings_Index_Rank: number;
+  Housing_Affordability_Index_Rank: number;
+  Crime_Rate_Index_Rank: number;
+  Young_Index_Rank: number;
+  Middle_Aged_Index_Rank: number;
+  Old_Index_Rank: number;
+}
+
 interface PredictionResponse {
   predictions: { [zipcode: string]: number };
 }
@@ -56,6 +71,7 @@ const MapPage: React.FC = () => {
   const [isClosing, setIsClosing] = useState(false);
   const [mapInstance, setMapInstance] = useState<mapboxgl.Map | null>(null);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
+  const [rankingsData, setRankingsData] = useState<Rankings[]>([]);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -374,6 +390,20 @@ const MapPage: React.FC = () => {
     };
 
     fetchListings();
+    const fetchRankingsData = async () => {
+      try {
+        const response = await axios.get('/final_data_rankings.json');
+        console.log(response.data); // Check what's actually being returned
+        if (Array.isArray(response.data)) {
+          setRankingsData(response.data);
+        } else {
+          throw new Error("Fetched data is not an array");
+        }
+      } catch (error) {
+        console.error('Failed to fetch or parse rankings data:', error);
+      }
+    };
+    fetchRankingsData();
   }, []);
 
   // function to convert zipcode to lat and lng
@@ -412,6 +442,10 @@ const MapPage: React.FC = () => {
   const filteredListings = selectedLocation
     ? listings.filter(listing => listing.neighbourhoodId === selectedLocation.neighbourhood_id)
     : [];
+
+  const filteredRankings = selectedLocation
+  ? rankingsData.find(ranking => ranking.neighbourhood_id === selectedLocation.neighbourhood_id)
+  : undefined;
 
     // Not signed in and no questionnaire completed yet
   // if (!isSignedIn && !isQuestionnaireCompleted()) {
@@ -530,6 +564,7 @@ const MapPage: React.FC = () => {
         <LocationDetails 
           location={selectedLocation} 
           listings={filteredListings} // pass filteredListings
+          rankings={filteredRankings}
           isMobile={isMobile} 
           isClosing={isClosing} 
           onClose={handleClose} 

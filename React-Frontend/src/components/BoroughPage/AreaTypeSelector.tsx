@@ -14,7 +14,7 @@ const AreaTypeSelector: React.FC<AreaTypeSelectorProps> = ({
 
   const handleSelection = (type: string) => {
     if (type === "No preference") {
-      handleSelectAreaType(["Residential", "Business oriented"]);
+      handleSelectAreaType(["No preference"]);
     } else {
       const newAreaType = areaType.includes(type)
         ? areaType.filter((item) => item !== type)
@@ -24,21 +24,23 @@ const AreaTypeSelector: React.FC<AreaTypeSelectorProps> = ({
   };
 
   return (
-    <div className="mb-6 w-full max-w-md">
+    <div className="mb-10">
       <QuestionLabel label="What type of area would you like to set up in?" />
-      <div className="grid grid-cols-2 gap-4 mb-6 w-full">
+      <div className="flex gap-4">
         {options.map((option) => (
           <button
             key={option}
-            className={`w-full h-16 py-4 px-8 rounded-lg text-xl font-bold flex items-center justify-center border-2 ${
+            className={`flex-1 h-16 py-4 px-8 rounded-lg text-xl font-bold flex items-center justify-center border-2 ${
               areaType.includes(option) ||
-              (option === "No preference" && areaType.length === 2)
+              (option === "No preference" &&
+                areaType.length === 1 &&
+                areaType[0] === "No preference")
                 ? "bg-primary-dark text-white"
                 : "bg-transparent text-purple-900"
             }`}
             onClick={() => handleSelection(option)}
           >
-            <span className="ml-2">{option}</span>
+            {option}
           </button>
         ))}
       </div>
