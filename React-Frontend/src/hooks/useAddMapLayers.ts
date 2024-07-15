@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
+import { h } from '@clerk/clerk-react/dist/controlComponents-CzpRUsyv';
 
 interface PredictionResponse {
   predictions: { [zipcode: string]: number };
@@ -24,7 +25,9 @@ export const useAddMapLayers = (
   map: mapboxgl.Map | null,
   selectedBoroughs: string[],
   predictions: PredictionResponse | null,
-  listings: Listing[]
+  listings: Listing[],
+  handleSelectNeighbourhood: (location: Location | undefined) => Promise<void>,
+  handleGetLocation: (name: string) => Location | undefined
 ) => {
   const markersRef = useRef<mapboxgl.Marker[]>([]);
   const zipProbabilities: ZipProbability[] = []
@@ -100,19 +103,12 @@ export const useAddMapLayers = (
         map.setFilter('LayersOutline', filter);
       }
 
-      const popup = new mapboxgl.Popup({
-        closeButton: false,
-        closeOnClick: false
-      });
-
       map.on('click', 'LayersFill', (e) => {
-        const coordinates = e.lngLat;
         const neighbourhood = e.features && e.features[0].properties?.neighbourhood;
 
-        map.setCenter(coordinates);
-        // map.zoomTo(13, {duration: 1000});
+        const location = handleGetLocation(neighbourhood);
 
-        popup.setLngLat(coordinates).setHTML(neighbourhood).addTo(map);
+        handleSelectNeighbourhood(location);
       });
 
 

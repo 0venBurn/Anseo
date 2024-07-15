@@ -50,7 +50,7 @@ const MapPage: React.FC = () => {
   const { data, isQuestionnaireCompleted, setQuestionnaireDefault, dummyData } = useQuestionnaire()
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
   const [predictions, setPredictions] = useState<PredictionResponse>({ predictions: {} });
-  const [locations, setLocations] = useState<Location[]>([]);
+    const [locations, setLocations] = useState<Location[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   const [listings, setListings] = useState<Listing[]>([]);
   const [isClosing, setIsClosing] = useState(false);
@@ -212,6 +212,8 @@ const MapPage: React.FC = () => {
           
           const data = await dbResponse.json()
           
+          console.log(data)
+          console.log(data.results[0].results)
 
           // If user has no saved results in the database, redirect to welcome page
           if (data.results.length === 0) {
@@ -387,6 +389,7 @@ const MapPage: React.FC = () => {
   };
 
   const handleLearnMore = async (location: Location) => {
+
     setSelectedLocation(location);
     setIsClosing(false);
     // function for zoom in when clicked learn more
@@ -395,6 +398,11 @@ const MapPage: React.FC = () => {
       mapInstance.flyTo({ center: coordinates, zoom: 12 });
     }
   };
+
+  const handleGetLocation = (name: string): Location | undefined => {
+    console.log(locations)
+    return locations.find(location => location.name === name)
+  }
 
   const handleClose = () => {
     setIsClosing(true);
@@ -482,6 +490,8 @@ const MapPage: React.FC = () => {
           <div className="w-full md:w-1/2 h-full absolute top-0 right-0">
             <Map 
               selectedBoroughs={selectedBoroughs} 
+              handleSelectNeighbourhood={handleLearnMore}
+              handleGetLocation={handleGetLocation}
               predictions={predictions} 
               listings={filteredListings} 
               // onMapLoad={setMapInstance}

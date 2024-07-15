@@ -13,13 +13,15 @@ interface MapProps {
   selectedBoroughs: string[];
   predictions: PredictionResponse | null;
   listings: Listing[];
+  handleSelectNeighbourhood: (location: Location | undefined) => Promise<void>
+  handleGetLocation: (name: string) => Location | undefined
   // onMapLoad: React.Dispatch<React.SetStateAction<mapboxgl.Map | null>>;
 }
 
-const Map: React.FC<MapProps> = ({ selectedBoroughs, predictions, listings}) => {
+const Map: React.FC<MapProps> = ({ selectedBoroughs, predictions, listings, handleSelectNeighbourhood, handleGetLocation}) => {
   const { mapRef, map } = useMapInit(40.7075272168033, -74.00663048205502, 10);
 
-  useAddMapLayers(map, selectedBoroughs, predictions , listings);
+  useAddMapLayers(map, selectedBoroughs, predictions , listings, handleSelectNeighbourhood, handleGetLocation);
 
   return <div ref={mapRef} className="map w-full h-full md:h-screen" />;
 };
