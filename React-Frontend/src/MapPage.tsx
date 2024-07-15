@@ -131,27 +131,50 @@ const MapPage: React.FC = () => {
                       ]
                   }
                     }
-                    const response = await fetch('http://localhost:8000/api/v1/predict', {
+                    const mlResponse = await fetch('http://localhost:8000/api/v1/predict', {
                       method: 'POST',
                       headers: {
                         'Content-Type': 'application/json',
                       },
                       body: JSON.stringify(payload),
                     });
-                  console.log(payload)
                     
-                    if (!response.ok) {
+                    console.log(JSON.stringify(
+                      { 
+                        clerkUserId: user && user.id, 
+                        results: payload
+                      }
+                    ))
+                    const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user && user.id}`, {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify(
+                        { 
+                          clerkUserId: user && user.id, 
+                          results: payload
+                        }
+                      )
+                    });
+                    
+                    if (!mlResponse.ok) {
                       throw new Error('API response from ML Model was not ok.');
                     }
-
-                    const predictions = await response.json();
-                    console.log(response)
-                    console.log(predictions)
+                    
+                    const predictions = await mlResponse.json();
+                    
                     setPredictions(predictions);
                     setSelectedBoroughs(payload.data.selectedBoroughs)
                     setQuestionnaireDefault()
+
+                    if (!dbResponse.ok) {
+                      throw new Error('API response from DB was not ok.');
+                    }
+                    
                     return
                   }
+
           let payload
           console.log(isSignedIn)
           if (isQuestionnaireCompleted()){
@@ -211,7 +234,7 @@ const MapPage: React.FC = () => {
           }
           
           if (!dbResponse.ok) {
-            throw new Error('API response from DB was not ok.');
+            throw new Error('API response from DB was not ok. ' + dbResponse);
           }
           
           const predictions = await mlResponse.json();
@@ -540,6 +563,8 @@ const MapPage: React.FC = () => {
             <Map 
               selectedBoroughs={selectedBoroughs} 
               predictions={predictions} 
+              handleSelectNeighbourhood={handleLearnMore}
+              handleGetLocation={handleGetLocation}
               listings={filteredListings} 
               // onMapLoad={setMapInstance}
             />

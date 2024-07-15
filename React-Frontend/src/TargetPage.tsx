@@ -62,12 +62,10 @@ const TargetPage: React.FC = () => {
   };
 
   const handleSetSelectedAgeGroup = (newValue: number[]) => {
-    console.log(newValue);
     setSelectedAgeGroup(newValue);
   };
 
   const handleSetSelectedIncomeLevel = (newValue: number[]) => {
-    console.log(newValue);
     setSelectedIncomeLevel(newValue);
   };
 

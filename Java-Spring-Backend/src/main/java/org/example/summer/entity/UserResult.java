@@ -27,7 +27,7 @@ public class UserResult {
     private String clerkUserId;
 
     @Convert(converter = ResultsConverter.class)
-    @Column(columnDefinition = "jsonb")
+    @Column(name = "results")
     private Results results;
 
     @Column(columnDefinition = "timestamp with time zone", insertable = false, updatable = false)

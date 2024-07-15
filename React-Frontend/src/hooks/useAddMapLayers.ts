@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
-import { h } from '@clerk/clerk-react/dist/controlComponents-CzpRUsyv';
 
 interface PredictionResponse {
   predictions: { [zipcode: string]: number };
@@ -33,6 +32,8 @@ export const useAddMapLayers = (
   const zipProbabilities: ZipProbability[] = []
 
   useEffect(() => {
+    console.log(predictions)
+    console.log(selectedBoroughs)
     if (predictions) {
       for (const [zipcode, probability] of Object.entries(predictions.predictions)) {
         zipProbabilities.push({ zipcode, probability });

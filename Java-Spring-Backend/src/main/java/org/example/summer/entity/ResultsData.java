@@ -16,19 +16,19 @@ public class ResultsData {
     private int openHour;
     private int closeHour;
     private int budget;
-    private String selectedAgeGroup;
+    private List<Integer> selectedAgeGroup;
     private double ageImportance;
-    private String selectedIncomeLevel;
+    private List<Integer> selectedIncomeLevel;
     private double incomeImportance;
-    private String targetGroup;
+    private List<String> targetGroup;
     private double proximityImportance;
     private double footfallImportance;
     private double surroundingBusinessesImportance;
     private int rentBudget;
     private double genderRatio;
-    private String employmentStatus;
+    private List<String> employmentStatus;
     private double homeValue;
     private double populationDensity;
     private List<String> selectedBoroughs;
-    private String areaType;
+    private List<String> areaType;
 }
