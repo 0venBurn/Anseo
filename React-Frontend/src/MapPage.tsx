@@ -53,8 +53,13 @@ export interface Rankings {
   Old_Index_Rank: number;
 }
 
-interface PredictionResponse {
+export interface PredictionResponse {
   predictions: { [zipcode: string]: number };
+}
+
+export interface HighlightedLocation {
+  lat: number;
+  lng: number;
 }
 
 const MapPage: React.FC = () => {
@@ -70,7 +75,7 @@ const MapPage: React.FC = () => {
   const [mapInstance, setMapInstance] = useState<mapboxgl.Map | null>(null);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [rankingsData, setRankingsData] = useState<Rankings[]>([]);
-  const [highlightedLocation, setHighlightedLocation] = useState<{ lat: number, lng: number } | null>(null);
+  const [highlightedLocation, setHighlightedLocation] = useState<HighlightedLocation | null>(null);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -453,8 +458,16 @@ const MapPage: React.FC = () => {
     return neighbourhoods.find(neighbourhood => neighbourhood.name === name)!
   }
 
+  const handleListingClick = (listing: Listing) => {
+    setHighlightedLocation({ lat: parseFloat(listing.lat), lng: parseFloat(listing.lng) });
+    if (mapInstance) {
+      mapInstance.flyTo({ center: [parseFloat(listing.lng), parseFloat(listing.lat)], zoom: 14 });
+    }
+  };
+
   const handleClose = () => {
     setIsClosing(true);
+    setTimeout(() => setHighlightedLocation(null), 500);
     setTimeout(() => setSelectedNeighbourhood(null), 500);
   };
 

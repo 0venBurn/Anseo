@@ -1,25 +1,6 @@
 import { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
-import { Neighbourhood } from '../MapPage';
-
-interface PredictionResponse {
-  predictions: { [zipcode: string]: number };
-}
-
-interface Listing {
-  id: number;
-  listingDetails: string;
-  link: string;
-  imageUrl: string;
-  lat: string;
-  lng: string;
-  neighbourhoodId: number;
-}
-
-interface HighlightedLocation {
-  lat: number;
-  lng: number;
-}
+import { Neighbourhood, Listing, HighlightedLocation, PredictionResponse } from '../MapPage';
 
 interface ZipProbability {
   zipcode: string;
@@ -31,8 +12,8 @@ export const useAddMapLayers = (
   selectedBoroughs: string[],
   predictions: PredictionResponse | null,
   listings: Listing[],
-  handleSelectNeighbourhood: (location: Location | undefined) => Promise<void>,
-  handleGetLocation: (name: string) => Location | undefined,
+  handleSelectNeighbourhood: (location: Neighbourhood) => Promise<void>,
+  handleGetLocation: (name: string) => Neighbourhood,
   highlightedLocation: HighlightedLocation | null
 ) => {
   const markersRef = useRef<mapboxgl.Marker[]>([]);

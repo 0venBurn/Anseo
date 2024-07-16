@@ -5,16 +5,7 @@ import { useMapInit } from '../hooks/useMapInit';
 import { useAddMapLayers } from '../hooks/useAddMapLayers';
 import mapboxgl from 'mapbox-gl';
 import '../index.css';
-import { Listing, Neighbourhood } from '../MapPage';
-
-interface PredictionResponse {
-  predictions: { [zipcode: string]: number };
-}
-
-interface HighlightedLocation {
-  lat: number;
-  lng: number;
-}
+import { Listing, Neighbourhood, HighlightedLocation, PredictionResponse } from '../MapPage';
 
 interface MapProps {
   selectedBoroughs: string[];
