@@ -9,7 +9,7 @@ services:
       - ./spring.env
     networks:
       - app-network
-      - custom_network
+
   react-frontend:
     build:
       context: ./React-Frontend
@@ -48,5 +48,3 @@ services:
 networks:
   app-network:
     driver: bridge
-  custom_network:
-    external: true

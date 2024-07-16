@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+fetch;
 import MistralClient from "@mistralai/mistralai";
 import InputBar from "./InputBar";
 

@@ -18,22 +18,22 @@ import java.util.Optional;
 @CrossOrigin
 public class TaxiZoneController {
 
-    @Autowired
-    private TaxiZoneRepository taxiZoneRepository;
+  @Autowired
+  private TaxiZoneRepository taxiZoneRepository;
 
-    @QueryMapping
-    public List<TaxiZone> taxiZones() {
-            return taxiZoneRepository.findAll();
-    }
+  @QueryMapping
+  public List<TaxiZone> taxiZones() {
+    return taxiZoneRepository.findAll();
+  }
 
-    @QueryMapping
-    public TaxiZone taxiZone(@Argument String zoneId) {
-        int id = Integer.parseInt(zoneId);
-        Optional<TaxiZone> taxiZone = taxiZoneRepository.findById(id);
-        if (taxiZone.isPresent()) {
-            return taxiZone.get();
-        } else {
-            throw new EntityNotFoundException("Taxi zone not found for id: " +  zoneId);
-        }
+  @QueryMapping
+  public TaxiZone taxiZone(@Argument String zoneId) {
+    int id = Integer.parseInt(zoneId);
+    Optional<TaxiZone> taxiZone = taxiZoneRepository.findById(id);
+    if (taxiZone.isPresent()) {
+      return taxiZone.get();
+    } else {
+      throw new EntityNotFoundException("Taxi zone not found for id: " + zoneId);
     }
+  }
 }

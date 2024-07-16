@@ -32,7 +32,7 @@ const LandingPage: React.FC = () => {
     <>
       {/*Hero section background image*/}
       <img
-        src="../public/img/landing.png"
+        src="../img/landing.png"
         alt="Background"
         className="absolute inset-0 w-full h-full object-cover opacity-80"
       />

@@ -24,61 +24,64 @@ import static java.util.Collections.singletonList;
 @CrossOrigin
 public class WebhookController {
 
-    private static final Logger logger = LoggerFactory.getLogger(WebhookController.class);
-    private final ObjectMapper objectMapper;
+  private static final Logger logger = LoggerFactory.getLogger(WebhookController.class);
+  private final ObjectMapper objectMapper;
 
-    private final UserService userService;
+  private final UserService userService;
 
-    @Value("${client.webhook.secret-key}")
-    private String secretKey;
+  @Value("${client.webhook.secret-key}")
+  private String secretKey;
 
-    @PostMapping("/webhook")
-    public ResponseEntity<?> handleWebhook(
-            @RequestHeader("svix-id") String svixId,
-            @RequestHeader("svix-signature") String svixSignature,
-            @RequestHeader("svix-timestamp") String svixTimestamp,
-            @RequestBody String payload) {
+  @Value("${user.service.url}")
+  private String userServiceUrl;
 
-        try {
-            HashMap<String, List<String>> headerMap = new HashMap<String, List<String>>();
-            headerMap.put("svix-id", singletonList(svixId));
-            headerMap.put("svix-timestamp", singletonList(svixTimestamp));
-            headerMap.put("svix-signature", singletonList(svixSignature));
+  @PostMapping("/webhook")
+  public ResponseEntity<?> handleWebhook(
+      @RequestHeader("svix-id") String svixId,
+      @RequestHeader("svix-signature") String svixSignature,
+      @RequestHeader("svix-timestamp") String svixTimestamp,
+      @RequestBody String payload) {
 
-            BiPredicate<String, String> filter = (key, value) -> true;
+    try {
+      HashMap<String, List<String>> headerMap = new HashMap<String, List<String>>();
+      headerMap.put("svix-id", singletonList(svixId));
+      headerMap.put("svix-timestamp", singletonList(svixTimestamp));
+      headerMap.put("svix-signature", singletonList(svixSignature));
 
-            HttpHeaders headers = HttpHeaders.of(headerMap, filter);
+      BiPredicate<String, String> filter = (key, value) -> true;
 
-            Webhook webhook = new Webhook(secretKey);
-            webhook.verify(payload, headers);
+      HttpHeaders headers = HttpHeaders.of(headerMap, filter);
 
-            JsonNode jsonNode = objectMapper.readTree(payload);
-            logger.info(jsonNode.toString());
+      Webhook webhook = new Webhook(secretKey);
+      webhook.verify(payload, headers);
 
-            String eventType = jsonNode.path("type").asText();
+      JsonNode jsonNode = objectMapper.readTree(payload);
+      logger.info(jsonNode.toString());
 
-            logger.info("Event type: " + eventType);
-            if (eventType.equals("user.created")) {
-                String userId = jsonNode.path("data").path("id").asText();
-                logger.info("User id: " + userId);
+      String eventType = jsonNode.path("type").asText();
 
-                User user = new User(userId);
-                logger.info("User: " + user);
-                userService.saveUser(user);
+      logger.info("Event type: " + eventType);
+      if (eventType.equals("user.created")) {
+        String userId = jsonNode.path("data").path("id").asText();
+        logger.info("User id: " + userId);
 
-                URI location = URI.create("http://localhost:8080/users/" + userId);
+        User user = new User(userId);
+        logger.info("User: " + user);
+        userService.saveUser(user);
 
-                return ResponseEntity.created(location).body("User Created: " + userId);
-            }
-            if (eventType.equals("user.deleted")) {
-                String userId = jsonNode.path("data").path("id").asText();
-                User user = userService.findUserById(userId);
-                userService.deleteUser(user);
-                return ResponseEntity.noContent().build();
-            }
-            return ResponseEntity.ok("Webhook received");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        URI location = URI.create(userServiceUrl + "/users/" + userId);
+
+        return ResponseEntity.created(location).body("User Created: " + userId);
+      }
+      if (eventType.equals("user.deleted")) {
+        String userId = jsonNode.path("data").path("id").asText();
+        User user = userService.findUserById(userId);
+        userService.deleteUser(user);
+        return ResponseEntity.noContent().build();
+      }
+      return ResponseEntity.ok("Webhook received");
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
     }
+  }
 }
