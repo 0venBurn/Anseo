@@ -24,6 +24,7 @@ public class UserResultController {
 
     @GetMapping(value = "/{clerkUserId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserResultResponse> getUserResults(@PathVariable("clerkUserId") String clerkUserId) {
+        logger.info("getUserResults clerkUserId={}", clerkUserId);
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(userResultService.getAllUserResults(clerkUserId));

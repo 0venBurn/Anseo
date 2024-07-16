@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { IconButton, Typography, Box, Grid } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import StarHalfIcon from "@mui/icons-material/StarHalf";
+import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { IconButton, Typography, Box, Grid, Button } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarHalfIcon from '@mui/icons-material/StarHalf';
 
 interface Listing {
   id: number;
@@ -43,17 +43,11 @@ interface LocationDetailsProps {
   isMobile: boolean;
   isClosing: boolean;
   onClose: () => void;
+  onListingClick: (listing: Listing) => void;
 }
 
-const LocationDetails: React.FC<LocationDetailsProps> = ({
-  location,
-  listings,
-  rankings,
-  isMobile,
-  isClosing,
-  onClose,
-}) => {
-  // 计算星级显示
+const LocationDetails: React.FC<LocationDetailsProps> = ({ location, listings, rankings, isMobile, isClosing, onClose, onListingClick }) => {
+  // calculate rating
   const renderStars = (rating: number) => {
     const stars = [];
     const fullStars = Math.floor(rating);
@@ -88,7 +82,7 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({
           animate={isMobile ? { y: 0 } : { x: 0 }}
           exit={isMobile ? { y: "100%" } : { x: "-100%" }}
           transition={{ duration: 0.5 }}
-          className={`fixed bottom-0 ${isMobile ? "left-0 w-full h-1/2" : "left-0 w-2/3 h-full"} bg-white shadow-lg p-6 z-50 overflow-y-auto`}
+          className={`fixed top-[76px] ${isMobile ? 'left-0 w-full h-[calc(100%-76px)]' : 'left-0 w-1/2 h-[calc(100%-76px)]'} bg-white shadow-lg p-6 z-50 overflow-y-auto`}
         >
           <div className="flex justify-end">
             <IconButton onClick={onClose}>
@@ -102,10 +96,8 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({
             {location.borough}
           </Typography>
           <Box display="flex" alignItems="center" mt={1} mb={2}>
-            <Typography variant="body2" style={{ marginRight: 4 }}>
-              {location.rating.toFixed(2)}
-            </Typography>
-            {/* 星级评分 */}
+            <Typography variant="body2" style={{ marginRight: 4 }}>{location.rating.toFixed(2)}</Typography>
+            {/* render rating */}
             {renderStars(location.rating)}
           </Box>
           <Typography variant="body1" paragraph>
@@ -125,20 +117,16 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({
           <Typography variant="h5" component="h3" gutterBottom>
             Why this location?
           </Typography>
-          {rankings ? (
-            <ul className="list-disc pl-6">
-              {Object.entries(rankings)
-                .filter(([key]) => key !== "neighbourhood_id")
-                .map(([key, value]) => (
-                  <li key={key}>
-                    <strong>
-                      {key.replace(/_/g, " ").replace("Rank", " Rank")}:
-                    </strong>{" "}
-                    {value}
-                  </li>
-                ))}
-            </ul>
-          ) : null}
+          <ul className="list-disc pl-6">
+            {rankings ? Object.entries(rankings)
+              .filter(([key]) => key !== 'neighbourhood_id')  // Exclude the neighborhood ID from display
+              .map(([key, value]) => (
+                <li key={key}>
+                  <strong>{key.replace(/_/g, ' ').replace('Rank', ' Rank')}:</strong> {value}
+                </li>
+              )) : <li> No rankings available</li>}
+          </ul>
+
           <Typography variant="h5" component="h3" gutterBottom>
             Available listings
           </Typography>
@@ -150,25 +138,25 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({
                 style={{ flexWrap: "nowrap", overflowX: "auto" }}
               >
                 {listings.map((listing) => (
-                  <Grid item key={listing.id} style={{ minWidth: "200px" }}>
-                    <a
-                      href={listing.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <img
-                        src={listing.imageUrl}
-                        alt={listing.listingDetails}
-                        style={{
-                          width: "100%",
-                          height: "150px",
-                          objectFit: "cover",
-                        }}
+                  <Grid item key={listing.id} style={{ minWidth: '200px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div>
+                      <img 
+                        src={listing.imageUrl} 
+                        alt={listing.listingDetails} 
+                        style={{ width: '100%', height: '150px', objectFit: 'cover' }} 
+                        onClick={() => onListingClick(listing)} // Add onClick callback
                       />
-                      <Typography variant="body2" align="center">
-                        {listing.listingDetails}
-                      </Typography>
-                    </a>
+                      <Typography variant="body2" align="center" style={{ marginTop: '8px' }}>{listing.listingDetails}</Typography>
+                    </div>
+                    <Button 
+                      variant="contained" 
+                      color="primary" 
+                      fullWidth
+                      onClick={() => window.open(listing.link, '_blank')}
+                      style={{ marginTop: 'auto' }}
+                    >
+                      View Listing
+                    </Button>
                   </Grid>
                 ))}
               </Grid>

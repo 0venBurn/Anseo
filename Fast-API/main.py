@@ -1,6 +1,6 @@
 from fastapi import FastAPI
+from services.prediction import PredictionService
 from fastapi.middleware.cors import CORSMiddleware
-
 from routers import prediction
 
 app = FastAPI()
@@ -14,3 +14,5 @@ app.add_middleware(
 )
 
 app.include_router(prediction.router, prefix="/api/v1")
+
+
