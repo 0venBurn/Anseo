@@ -3,7 +3,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { useMapInit } from "../hooks/useMapInit";
 import { useAddMapLayers } from "../hooks/useAddMapLayers";
 import "../index.css";
-import { Listing } from "../MapPage";
+import { Listing, Neighbourhood } from "../MapPage";
 
 interface PredictionResponse {
   predictions: { [zipcode: string]: number };
@@ -13,8 +13,8 @@ interface MapProps {
   selectedBoroughs: string[];
   predictions: PredictionResponse | null;
   listings: Listing[];
-  handleSelectNeighbourhood: (location: Location | undefined) => Promise<void>
-  handleGetLocation: (name: string) => Location | undefined
+  handleSelectNeighbourhood: (neighbourhood: Neighbourhood) => Promise<void>
+  handleGetLocation: (name: string) => Neighbourhood 
   // onMapLoad: React.Dispatch<React.SetStateAction<mapboxgl.Map | null>>;
 }
 

@@ -2,7 +2,6 @@ import joblib
 import pandas as pd
 import numpy as np
 import re
-import json
 from scipy import stats
 
 def get_age_category_index(age):
@@ -82,8 +81,9 @@ def rent_range_matches(category, rent):
 
 def question_to_inputs(request):
     question = request.data
+    print(question)
     #gender
-    gender_man= question['genderRatio']
+    gender_man= question.genderRatio
     gender_woman = 1-gender_man
     age_categories = [
         "Under 5 years", "5 to 9 years", "10 to 14 years", "15 to 19 years",
@@ -92,8 +92,8 @@ def question_to_inputs(request):
         "60 to 64 years", "65 to 69 years", "70 to 74 years", "75 to 79 years",
         "80 to 84 years", "85 years and over"
     ]
-    age1 = question['selectedAgeGroup'][0]
-    age2 = question['selectedAgeGroup'][1]
+    age1 = question.selectedAgeGroup[0]
+    age2 = question.selectedAgeGroup[1]
     index1 = get_age_category_index(age1)
     index2 = get_age_category_index(age2)
     
@@ -115,21 +115,21 @@ def question_to_inputs(request):
 
     age = []
     hist, bin_edges = np.histogram(data, bins=len(age_categories), density=True)
-    age_return_total = [x * question['ageImportance'] for x in hist.tolist()]
+    age_return_total = [x * question.ageImportance for x in hist.tolist()]
     age_inp = [x * gender_man for x in age_return_total]+[x * gender_woman for x in age_return_total]+age_return_total    # Business count
     
     
     
-    if question['areaType'] == 'Residential':
+    if question.areaType == 'Residential':
         business_count = 0.25
     else:
         business_count = 0.75    # Footfall
-    opening_hour = question['openHour']
-    closing_hour = question['closeHour']
+    opening_hour = question.openHour
+    closing_hour = question.closeHour
     footfall = [0 for _ in range(24)]
-    footfall[opening_hour:closing_hour] = [1 * question['footfallImportance']] * (closing_hour - opening_hour)    # Competitiveness
-    compete = question['surroundingBusinessesImportance']    # Access to transport
-    access_to_transport = question['proximityImportance']    # Income categories
+    footfall[opening_hour:closing_hour] = [1 * question.footfallImportance] * (closing_hour - opening_hour)    # Competitiveness
+    compete = question.surroundingBusinessesImportance    # Access to transport
+    access_to_transport = question.proximityImportance    # Income categories
     income_cats = [
         'annual_individual_earnings_Data_< $10,000',
         'annual_individual_earnings_Data_$10,000-$19,999',
@@ -144,8 +144,8 @@ def question_to_inputs(request):
     sample_size = 10000  # Number of samples
     std_dev = 0.5
 
-    income1 = question['selectedIncomeLevel'][0]
-    income2 = question['selectedIncomeLevel'][1]
+    income1 = question.selectedIncomeLevel[0]
+    income2 = question.selectedIncomeLevel[1]
     # Get the indices of the categories for the two input incomes
     index1 = get_income_category_index(income1)
     index2 = get_income_category_index(income2)
@@ -164,7 +164,7 @@ def question_to_inputs(request):
     data = np.clip(data, 0, len(income_cats) - 1)
     
     hist, bin_edges = np.histogram(data, bins=len(income_cats), density=True)
-    income_return_total = [x * question['incomeImportance'] for x in hist.tolist()]
+    income_return_total = [x * question.incomeImportance for x in hist.tolist()]
     income_inp = income_return_total  
     # Rent categories
     rent_categories = [
@@ -193,7 +193,7 @@ def question_to_inputs(request):
         'monthly_rent_including_utilities_3plus_b_Data_$750-$999',
         'monthly_rent_including_utilities_3plus_b_Data_$1,000+'
     ]
-    input_rent = question['budget']
+    input_rent = question.budget
     sparse_array = np.zeros(len(rent_categories))
     for i, category in enumerate(rent_categories):
         if rent_range_matches(category, input_rent):
@@ -205,10 +205,10 @@ def question_to_inputs(request):
         'families_vs_singles_Data_Singles With Roommate'
     ]
     fam_list = []
-    if question['targetGroup'] == ['Families']:
+    if question.targetGroup == ['Families']:
         print('fam')
         fam_list = [1, 0.6, 0, 0]
-    elif question['targetGroup'] == ['Singles']:
+    elif question.targetGroup == ['Singles']:
         print("sing")
         fam_list = [0, 0.4, 1, 1]    # Industry mapping
     industry_options = [
@@ -239,18 +239,18 @@ def question_to_inputs(request):
         'Industry_Tow Truck Driver', 'Industry_Tow Truck Exemption'
     ]
     industry_sparse_array = np.zeros(len(industry_options))
-    industry_input = question['businessType']
+    industry_input = question.businessType
     for i, industry in enumerate(industry_options):
         if industry == industry_input:
             industry_sparse_array[i] = 1
             break
     #Population density
-    density = question['populationDensity']
+    density = question.populationDensity
   
     #Employment
-    if question['employmentStatus'] == "Full Time":
+    if question.employmentStatus == "Full Time":
         emp = [1,0,0]
-    elif question['employmentStatus'] == 'Part Time':
+    elif question.employmentStatus == 'Part Time':
         emp = [0,1,0]
     else:
         emp = [0,0,1]    # Merge all the separate outputs into the input to model

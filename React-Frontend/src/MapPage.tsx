@@ -19,7 +19,7 @@ import { useQuestionnaire } from './context/QuestionnaireProvider';
 
 mapboxgl.accessToken = environment.mapbox.accessToken;
 
-export interface Location {
+export interface Neighbourhood{
   name: string;
   borough: string;
   description: string;
@@ -65,8 +65,8 @@ const MapPage: React.FC = () => {
   const { data, isQuestionnaireCompleted, setQuestionnaireDefault, dummyData } = useQuestionnaire()
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
   const [predictions, setPredictions] = useState<PredictionResponse>({ predictions: {} });
-    const [locations, setLocations] = useState<Location[]>([]);
-  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
+  const [neighbourhoods, setNeighbourhoods] = useState<Neighbourhood[]>([]);
+  const [selectedNeighbourhood, setSelectedNeighbourhood] = useState<Neighbourhood | null>(null);
   const [listings, setListings] = useState<Listing[]>([]);
   const [isClosing, setIsClosing] = useState(false);
   const [mapInstance, setMapInstance] = useState<mapboxgl.Map | null>(null);
@@ -163,6 +163,7 @@ const MapPage: React.FC = () => {
                     }
                     
                     const predictions = await mlResponse.json();
+                    console.log(predictions)
                     
                     setPredictions(predictions);
                     setSelectedBoroughs(payload.data.selectedBoroughs)
@@ -356,7 +357,7 @@ const MapPage: React.FC = () => {
         return { ...location, rating: normalizedValue * 5 };
       }).sort((a, b) => b.rating - a.rating).slice(0, 10);
 
-      setLocations(updatedLocations);
+      setNeighbourhoods(updatedLocations);
     };
     if (predictions) {
       fetchLocations();
@@ -441,33 +442,33 @@ const MapPage: React.FC = () => {
     }
   };
 
-  const handleLearnMore = async (location: Location) => {
+  const handleLearnMore = async (neighbourhood: Neighbourhood) => {
 
-    setSelectedLocation(location);
+    setSelectedNeighbourhood(neighbourhood);
     setIsClosing(false);
     // function for zoom in when clicked learn more
-    const coordinates = await getCoordinatesByZipcode(location.zipcode);
+    const coordinates = await getCoordinatesByZipcode(neighbourhood.zipcode);
     if (coordinates && mapInstance) {
       mapInstance.flyTo({ center: coordinates, zoom: 12 });
     }
   };
 
-  const handleGetLocation = (name: string): Location | undefined => {
-    console.log(locations)
-    return locations.find(location => location.name === name)
+  const handleGetLocation = (name: string): Neighbourhood => {
+    console.log(neighbourhoods)
+    return neighbourhoods.find(neighbourhood => neighbourhood.name === name)!
   }
 
   const handleClose = () => {
     setIsClosing(true);
-    setTimeout(() => setSelectedLocation(null), 500);
+    setTimeout(() => setSelectedNeighbourhood(null), 500);
   };
 
-  const filteredListings = selectedLocation
-    ? listings.filter(listing => listing.neighbourhoodId === selectedLocation.neighbourhood_id)
+  const filteredListings = selectedNeighbourhood
+    ? listings.filter(listing => listing.neighbourhoodId === selectedNeighbourhood.neighbourhood_id)
     : [];
 
-  const filteredRankings = selectedLocation
-  ? rankingsData.find(ranking => ranking.neighbourhood_id === selectedLocation.neighbourhood_id)
+  const filteredRankings = selectedNeighbourhood
+  ? rankingsData.find(ranking => ranking.neighbourhood_id === selectedNeighbourhood.neighbourhood_id)
   : undefined;
 
     // Not signed in and no questionnaire completed yet
@@ -535,8 +536,8 @@ const MapPage: React.FC = () => {
             </div>
             <Box p={2}>
               <Grid container spacing={2}>
-                {locations.map((location, index) => (
-                  <LocationCard key={index} location={location} onLearnMore={handleLearnMore} />
+                {neighbourhoods.map((neigbhourhood, index) => (
+                  <LocationCard key={index} location={neigbhourhood} onLearnMore={handleLearnMore} />
                 ))}
               </Grid>
             </Box>
@@ -576,8 +577,8 @@ const MapPage: React.FC = () => {
           <div className="w-full h-1/2 p-4 bg-gray-100 overflow-y-auto">
             <Box p={2}>
               <Grid container spacing={2}>
-                {locations.map((location, index) => (
-                  <LocationCard key={index} location={location} onLearnMore={handleLearnMore} />
+                {neighbourhoods.map((neighbourhood, index) => (
+                  <LocationCard key={index} location={neighbourhood} onLearnMore={handleLearnMore} />
                 ))}
               </Grid>
             </Box>
@@ -585,9 +586,9 @@ const MapPage: React.FC = () => {
         </div>
       )}
       {/* Detail column when clicked learn more */}
-      {selectedLocation && (
+      {selectedNeighbourhood && (
         <LocationDetails 
-          location={selectedLocation} 
+          location={selectedNeighbourhood} 
           listings={filteredListings} // pass filteredListings
           rankings={filteredRankings}
           isMobile={isMobile} 
