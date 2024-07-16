@@ -22,6 +22,7 @@ const LandingPage: React.FC = () => {
 
   console.log(isLoaded);
   console.log(isSignedIn);
+  const frontendURL = import.meta.env.VITE_FRONTEND_URL;
 
   //Function that toggles the mobile viewport visible hamburger menu (state= open/close)
   const handleMenuToggle = () => {
@@ -52,7 +53,7 @@ const LandingPage: React.FC = () => {
         {/*Hero section*/}
         <LandingPageHeroSection />
         <SignedIn>
-          <SignOutButton redirectUrl="http://localhost:3000" />
+          <SignOutButton redirectUrl={`${frontendURL}`} />
         </SignedIn>
 
         {/*Call to action (CTA) buttons*/}
