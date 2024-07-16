@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, Typography, Grid, Box } from '@mui/material';
+import { Card, CardContent, Typography, Grid, Box, Button } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
@@ -17,7 +17,7 @@ interface LocationCardProps {
 }
 
 const LocationCard: React.FC<LocationCardProps> = ({ location, onLearnMore }) => {
-  // calculate star
+  // Calculate star rating
   const renderStars = (rating: number) => {
     const stars = [];
     const fullStars = Math.floor(rating);
@@ -45,19 +45,54 @@ const LocationCard: React.FC<LocationCardProps> = ({ location, onLearnMore }) =>
   return (
     <Grid item xs={12} sm={6}>
       <Card
-        style={{ display: 'flex', flexDirection: 'column', height: '100%', cursor: 'pointer' }}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          cursor: 'pointer',
+          backgroundColor: '#F5F5F5',
+          borderRadius: '12px', // Increased border radius for rounded corners
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Added box shadow for a subtle shadow effect
+          transition: 'transform 0.2s', // Added transition for hover effect
+        }}
         onClick={() => onLearnMore(location)}
+        onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.02)')}
+        onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
       >
-        <img src={location.photoPath} alt={location.name} style={{ height: 200, objectFit: 'cover' }} />
-        <CardContent style={{ backgroundColor: '#F5F5F5', flex: '1 0 auto' }}>
-          <Typography variant="h6">{location.name}</Typography>
-          <Typography variant="body2" color="textSecondary">{location.borough}</Typography>
-          <Typography variant="body2">{location.description}</Typography>
-          <Box display="flex" alignItems="center" mt={1}>
-            <Typography variant="body2" style={{ marginRight: 4 }}>{location.rating.toFixed(2)}</Typography>
-            {/* render star */}
-            {renderStars(location.rating)}
-          </Box>
+        <img 
+          src={location.photoPath} 
+          alt={location.name} 
+          style={{ 
+            height: 160, 
+            objectFit: 'cover', 
+            borderTopLeftRadius: '12px',
+            borderTopRightRadius: '12px',
+          }} 
+        />
+        <CardContent 
+          style={{ 
+            flex: '1 0 auto',
+            padding: '16px 24px', // Adjusted padding
+            borderBottomLeftRadius: '12px',
+            borderBottomRightRadius: '12px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between'
+          }}
+        >
+          <div>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+              <Typography variant="h6" style={{ fontWeight: 'bold' }}>{location.name}</Typography>
+              <Box display="flex" alignItems="center">
+                {/* Render star */}
+                {renderStars(location.rating)}
+                <Typography variant="body2" style={{ marginLeft: 4, fontWeight: 'bold' }}>{location.rating.toFixed(2)}</Typography>
+              </Box>
+            </Box>
+            <Typography variant="body2" color="textSecondary" mb={1}>{location.borough}</Typography>
+            <Typography variant="body2" color="textSecondary" mb={2}>{location.description}</Typography>
+          </div>
+          <Button variant="contained" color="primary" onClick={() => onLearnMore(location)} style={{ marginTop: '16px' }}>Learn More</Button>
         </CardContent>
       </Card>
     </Grid>
