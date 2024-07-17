@@ -30,7 +30,7 @@ const Header: React.FC = () => {
             ANSEO
           </div>
           <div className="hidden md:flex space-x-4 ml-4 items-center">
-            <Button
+            {/* <Button
               variant="text"
               sx={{
                 color: "white",
@@ -39,7 +39,7 @@ const Header: React.FC = () => {
               onClick={() => navigate("/about")}
             >
               About
-            </Button>
+            </Button> */}
           </div>
         </div>
         <SignedIn>

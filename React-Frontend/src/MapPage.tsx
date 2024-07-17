@@ -93,90 +93,90 @@ const MapPage: React.FC = () => {
         setIsPageLoaded(true);
       }
       try {
-        if (dummyData) {
-          console.log('test: dummy data');
-          const payload = {
-            'data': {
-              "businessType": "Industry_Commercial Lessor",
-              "openHour": 8,
-              "closeHour": 18,
-              "budget": 20,
-              "selectedAgeGroup": [
-                11,
-                59
-              ],
-              "ageImportance": 0.5,
-              "selectedIncomeLevel": [
-                18000,
-                84000
-              ],
-              "incomeImportance": 0.5,
-              "targetGroup": [
-                "Singles"
-              ],
-              "proximityImportance": 0.5,
-              "footfallImportance": 0.5,
-              "surroundingBusinessesImportance": 0.5,
-              "rentBudget": 500,
-              "genderRatio": 0.5,
-              "employmentStatus": [
-                "Full Time"
-              ],
-              "homeValue": 50,
-              "populationDensity": 0.5,
-              "selectedBoroughs": [
-                "Manhattan",
-                "Brooklyn",
-                "Queens"
-              ],
-              "areaType": [
-                "Residential"
-              ]
-            }
-          }
-          const mlResponse = await fetch('http://localhost:8000/api/v1/predict', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-          });
+        // if (dummyData) {
+        //   console.log('test: dummy data');
+        //   const payload = {
+        //     'data': {
+        //       "businessType": "Industry_Commercial Lessor",
+        //       "openHour": 8,
+        //       "closeHour": 18,
+        //       "budget": 20,
+        //       "selectedAgeGroup": [
+        //         11,
+        //         59
+        //       ],
+        //       "ageImportance": 0.5,
+        //       "selectedIncomeLevel": [
+        //         18000,
+        //         84000
+        //       ],
+        //       "incomeImportance": 0.5,
+        //       "targetGroup": [
+        //         "Singles"
+        //       ],
+        //       "proximityImportance": 0.5,
+        //       "footfallImportance": 0.5,
+        //       "surroundingBusinessesImportance": 0.5,
+        //       "rentBudget": 500,
+        //       "genderRatio": 0.5,
+        //       "employmentStatus": [
+        //         "Full Time"
+        //       ],
+        //       "homeValue": 50,
+        //       "populationDensity": 0.5,
+        //       "selectedBoroughs": [
+        //         "Manhattan",
+        //         "Brooklyn",
+        //         "Queens"
+        //       ],
+        //       "areaType": [
+        //         "Residential"
+        //       ]
+        //     }
+        //   }
+        //   const mlResponse = await fetch('http://localhost:8000/api/v1/predict', {
+        //     method: 'POST',
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(payload),
+        //   });
 
-          console.log(JSON.stringify(
-            {
-              clerkUserId: user && user.id,
-              results: payload
-            }
-          ));
-          const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user && user.id}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(
-              {
-                clerkUserId: user && user.id,
-                results: payload
-              }
-            )
-          });
+        //   console.log(JSON.stringify(
+        //     {
+        //       clerkUserId: user && user.id,
+        //       results: payload
+        //     }
+        //   ));
+        //   const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user && user.id}`, {
+        //     method: 'POST',
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(
+        //       {
+        //         clerkUserId: user && user.id,
+        //         results: payload
+        //       }
+        //     )
+        //   });
 
-          if (!mlResponse.ok) {
-            throw new Error('API response from ML Model was not ok.');
-          }
+        //   if (!mlResponse.ok) {
+        //     throw new Error('API response from ML Model was not ok.');
+        //   }
 
-          const predictions = await mlResponse.json();
+        //   const predictions = await mlResponse.json();
 
-          setPredictions(predictions);
-          setSelectedBoroughs(payload.data.selectedBoroughs);
-          setQuestionnaireDefault();
+        //   setPredictions(predictions);
+        //   setSelectedBoroughs(payload.data.selectedBoroughs);
+        //   setQuestionnaireDefault();
 
-          if (!dbResponse.ok) {
-            throw new Error('API response from DB was not ok.');
-          }
+        //   if (!dbResponse.ok) {
+        //     throw new Error('API response from DB was not ok.');
+        //   }
 
-          return;
-        }
+        //   return;
+        // }
 
         let payload;
         console.log(isSignedIn);

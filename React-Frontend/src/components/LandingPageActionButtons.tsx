@@ -59,7 +59,7 @@ const ActionButtons: React.FC = () => {
       >
         Start Now
       </Button>
-      <Button
+      {/* <Button
         variant="contained"
         sx={{
           fontFamily: "DM Mono",
@@ -71,7 +71,7 @@ const ActionButtons: React.FC = () => {
         onClick={handleClick} // Navigate to welcome on click
       >
         Dummy submit
-      </Button>
+      </Button> */}
       <Button
         variant="outlined"
         sx={{
