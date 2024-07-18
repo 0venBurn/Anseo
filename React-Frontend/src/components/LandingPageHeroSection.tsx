@@ -12,19 +12,18 @@ import React from "react";
 
 const HeroSection: React.FC = () => {
   return (
-    <div className="relative z-10 flex flex-col items-center text-center mt-20">
+    <div className="flex flex-col items-center justify-center text-center text-primary-text-dark px-4 sm:max-w-2xl">
       <h1
         className="text-5xl font-bold mb-4"
         style={{ fontFamily: "Alegreya" }}
-      >
+        >
         The place to be.
       </h1>
-      <p className="text-2xl mb-6">
+      <p className="text-2xl">
         Discover your ideal business location in New York
-        <br />
         with tailored solutions for your unique business needs.
       </p>
-    </div>
+        </div>
   );
 };
 

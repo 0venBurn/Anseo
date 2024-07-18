@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useQuestionnaire } from "../context/QuestionnaireProvider";
+import { motion } from "framer-motion";
 /**
  * ActionButtons Component
  *
@@ -45,20 +46,30 @@ const ActionButtons: React.FC = () => {
 
   return (
     // Container div for the action buttons with utility classes for styling
-    <div className="relative z-10 flex space-x-4 mt-10">
-      <Button
-        variant="contained"
-        sx={{
-          fontFamily: "DM Mono",
-          backgroundColor: "yellow", // Red background colour
-          color: "black", // White text colour
-          borderRadius: "50px", // Rounded Corners
-          padding: "0.5rem 2rem", // Padding inside the button
-        }}
-        onClick={() => navigate("/welcome")} // Navigate to welcome on click
-      >
-        Start Now
-      </Button>
+    <div className="flex space-x-4 justify-center items-center gap-4">
+      <motion.button
+            whileHover={{
+                scale: 1.1,
+                borderRadius: "50px", 
+            }}>
+        <Button
+          variant="contained"
+          sx={{ 
+              backgroundColor: "#DEDA6D", 
+            color: "#3B447A", 
+            textTransform: "none",
+            fontFamily: "Inter",
+            padding: "0.5rem 2rem", 
+            borderRadius: "50px", 
+            '&:hover': {
+                backgroundColor: '#fef840',
+                },
+          }}
+          onClick={() => navigate("/sign-up")} 
+          >
+          Start Now
+        </Button>    
+        </motion.button>
       {/* <Button
         variant="contained"
         sx={{
@@ -72,20 +83,32 @@ const ActionButtons: React.FC = () => {
       >
         Dummy submit
       </Button> */}
+      <motion.button
+        whileHover={{
+          scale: 1.1,
+        }}>
       <Button
         variant="outlined"
         sx={{
-          fontFamily: "DM Mono",
-          borderColor: "rgba(255, 255, 255, 0.7)", // Semi-transparent white border
-          color: "black", // Black text colour
-          backgroundColor: "rgba(255, 255, 255, 0.5)", // Semi-transparent white background
-          padding: "0.5rem 2rem", // Padding inside the button
-          backdropFilter: "blur(5px)", // Blur effect on the background
+          fontFamily: "Inter",
+          borderColor: "#3B447A",
+          borderWidth: "1px",
+          borderRadius: "0px",
+          color: "#3B447A",
+          backgroundColor: "rgba(255, 255, 255, 0.5)", 
+          padding: "0.5rem 2rem", 
+          backdropFilter: "blur(5px)", 
+          textTransform: "none",
+          '&:hover': {
+            borderColor: "#3B447A",
+            borderWidth: "1px",
+          }
         }}
         onClick={() => navigate("/about")} // Navigate to about on click
       >
         About
       </Button>
+        </motion.button>
     </div>
   );
 };

@@ -16,6 +16,9 @@ export default {
       'question-btn-primary': '#D1D6F5'
     },
     extend: {
+      backgroundImage: {
+        landingPageBackground: "url('/public/img/landing.png')",
+      },
       fontFamily: {
         alegreya: ["Alegreya", "serif"],
         commissioner: ["Commissioner", "sans-serif"],

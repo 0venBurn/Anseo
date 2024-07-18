@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMediaQuery, useTheme } from "@mui/material";
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import SignUpBtn from "./components/Navigation/SignUpBtn";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -22,24 +23,17 @@ const Header: React.FC = () => {
     <div className="relative">
       <div className="fixed top-0 left-0 w-full bg-primary-dark text-white flex justify-between items-center py-4 px-4 md:px-20 z-10">
         <div className="flex items-center">
-          <div
+          <motion.div
+            whileHover={{
+              color: "#fef840"
+            }}
             className="text-3xl md:text-5xl font-bold cursor-pointer"
             style={{ fontFamily: "Fredoka One", color: "#DEDA6D" }}
             onClick={() => navigate("/")}
           >
             ANSEO
-          </div>
+          </motion.div>
           <div className="hidden md:flex space-x-4 ml-4 items-center">
-            {/* <Button
-              variant="text"
-              sx={{
-                color: "white",
-                fontSize: "1rem",
-              }}
-              onClick={() => navigate("/about")}
-            >
-              About
-            </Button> */}
           </div>
         </div>
         <SignedIn>
@@ -68,6 +62,7 @@ const Header: React.FC = () => {
           >
             Log In
           </Button>
+          <SignUpBtn />
           <Button
             variant="contained"
             sx={{

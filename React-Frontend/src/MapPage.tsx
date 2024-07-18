@@ -41,16 +41,35 @@ export interface Listing {
 export interface Rankings {
   neighbourhood_id: number;
   population_density_Rank: number;
-  population_by_gender_Data_Male_Rank: number;
-  population_by_gender_Data_Female_Rank: number;
-  Age_Diversity_Index_Rank: number;
-  Employment_Health_Index_Rank: number;
+  index_percPop_0_5_Rank: number;
+  index_percPop_6_11_Rank: number;
+  index_percPop_12_17_Rank: number;
+  male_index_Rank: number;
+  female_index_Rank: number;
+  Normalized_Employment_Health_Index_Rank: number;
   Annual_Earnings_Index_Rank: number;
   Housing_Affordability_Index_Rank: number;
-  Crime_Rate_Index_Rank: number;
-  Young_Index_Rank: number;
-  Middle_Aged_Index_Rank: number;
-  Old_Index_Rank: number;
+  Safety_Index_Rank: number;
+  age_evenness_index_Rank: number;
+  gender_diversity_index_Rank: number;
+  business_index_Rank: number;
+}
+
+export interface Indexes {
+  neighbourhood_id: number;
+  population_density: number;
+  index_percPop_0_5: number;
+  index_percPop_6_11: number;
+  index_percPop_12_17: number;
+  male_index: number;
+  female_index: number;
+  Normalized_Employment_Health_Index: number;
+  Annual_Earnings_Index: number;
+  Housing_Affordability_Index: number;
+  Safety_Index: number;
+  age_evenness_index: number;
+  gender_diversity_index: number;
+  business_index: number;
 }
 
 export interface PredictionResponse {
@@ -76,6 +95,7 @@ const MapPage: React.FC = () => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [rankingsData, setRankingsData] = useState<Rankings[]>([]);
   const [highlightedLocation, setHighlightedLocation] = useState<HighlightedLocation | null>(null);
+  const [indexData, setIndexData] = useState<Indexes[]>([]);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -407,6 +427,21 @@ const MapPage: React.FC = () => {
       }
     };
 
+    const fetchIndexesData = async () => {
+      try {
+        const response = await axios.get('/final_index_data.json');
+        console.log(response.data);
+        if (Array.isArray(response.data)) {
+          setIndexData(response.data);
+        } else {
+          throw new Error("Fetched data is not an array");
+        }
+      } catch (error) {
+        console.error('Failed to fetch or parse indexes data:', error);
+      }
+    };
+    fetchIndexesData();
+
     const fetchListings = async () => {
       const allListings = await fetchAllListings();
 
@@ -477,6 +512,10 @@ const MapPage: React.FC = () => {
 
   const filteredRankings = selectedNeighbourhood
   ? rankingsData.find(ranking => ranking.neighbourhood_id === selectedNeighbourhood.neighbourhood_id)
+  : undefined;
+
+  const filteredIndexes = selectedNeighbourhood
+  ? indexData.find(index => index.neighbourhood_id === selectedNeighbourhood.neighbourhood_id)
   : undefined;
 
       // Not signed in and no questionnaire completed yet
@@ -602,6 +641,7 @@ const MapPage: React.FC = () => {
           location={selectedNeighbourhood} 
           listings={filteredListings} // pass filteredListings
           rankings={filteredRankings}
+          indexes={filteredIndexes}
           isMobile={isMobile} 
           isClosing={isClosing} 
           onClose={handleClose} 

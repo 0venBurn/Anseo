@@ -40,3 +40,7 @@ body,
   width: 0;
   height: 0;
 }
+
+.img-fit {
+  @apply bg-no-repeat bg-center bg-cover;
+}
