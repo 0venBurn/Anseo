@@ -238,7 +238,7 @@ const MapPage: React.FC = () => {
           });
 
 
-          const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user && user.id}`, {
+          const dbResponse = await fetch(`http://localhost:8080/api/v1/user-results/${user && user.id}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -268,7 +268,7 @@ const MapPage: React.FC = () => {
         // signed in and questionnaire not completed
         if (isSignedIn && !isQuestionnaireCompleted()) {
           console.log('test: signed in and questionnaire not completed');
-          const dbResponse = await fetch(`http://localhost:8080/api/user-results/${user && user.id}`);
+          const dbResponse = await fetch(`http://localhost:8080/api/v1/user-results/${user && user.id}`);
 
           const data = await dbResponse.json();
 
@@ -317,7 +317,7 @@ const MapPage: React.FC = () => {
   useEffect(() => {
     const fetchPage = async (page: number) => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/neighbourhoods?page=${page}`);
+        const response = await axios.get(`http://localhost:8080/api/v1/neighbourhoods?page=${page}`);
         return response.data._embedded.neighbourhoods;
       } catch (error) {
         console.error(`Error fetching page ${page}:`, error);
@@ -327,7 +327,7 @@ const MapPage: React.FC = () => {
 
     const fetchAllLocations = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/neighbourhoods');
+        const response = await axios.get('http://localhost:8080/api/v1/neighbourhoods');
         const totalPages = response.data.page.totalPages;
 
         // Fetch all pages concurrently
@@ -387,7 +387,7 @@ const MapPage: React.FC = () => {
   useEffect(() => {
     const fetchPage = async (page: number) => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/listings?page=${page}`);
+        const response = await axios.get(`http://localhost:8080/api/v1/listings?page=${page}`);
         return response.data._embedded.listings;
       } catch (error) {
         console.error(`Error fetching page ${page}:`, error);
@@ -397,7 +397,7 @@ const MapPage: React.FC = () => {
 
     const fetchAllListings = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/listings');
+        const response = await axios.get('http://localhost:8080/api/v1/listings');
         const totalPages = response.data.page.totalPages;
 
         // Fetch all pages concurrently

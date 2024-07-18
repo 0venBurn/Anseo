@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BusinessTypeSelector from "./components/QuestionsPage/BusinessTypeSelector";
 import OperatingHoursSelector from "./components/QuestionsPage/OperatingHourSelect";
-import NavigationButtons from "./components/QuestionsPage/NavigationButtons";
+import NavigationButtons from "./components/Questionnaire/NavigationButtons";
 import "./index.css";
 import QuestionnaireLayout from "./layouts/QuestionnaireLayout";
 import { useQuestionnaire } from "./context/QuestionnaireProvider";

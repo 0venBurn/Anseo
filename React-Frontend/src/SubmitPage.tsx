@@ -7,6 +7,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { motion } from 'framer-motion';
 import Header from './Header';
 import './index.css';
+import LinearGradientCircle from './components/LinearGradientCircle';
 
 const SubmitPage: React.FC = () => {
   const navigate = useNavigate();
@@ -78,14 +79,7 @@ const SubmitPage: React.FC = () => {
             </Button>
           </div>
         </div>
-        <div className="absolute bottom-10 right-20">
-          <div
-            className="w-64 h-64 rounded-full"
-            style={{
-              background: 'linear-gradient(135deg, #FF7E5F, #FFD194, #FFE29A, #B8CBB8, #6BC3B1)',
-            }}
-          ></div>
-        </div>
+        <LinearGradientCircle />
       </motion.div>
     </>
   );

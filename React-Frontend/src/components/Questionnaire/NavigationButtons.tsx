@@ -2,14 +2,13 @@ import React from "react";
 import { Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useNavigate } from "react-router-dom";
 import ProgressIndicator from "../ProgressIndicator";
 
 interface NavigationButtonsProps {
   currentStep: number;
   totalSteps: number;
-  handleNext: () => void;
-  handlePrev: () => void;
+  handleNext?: () => void;
+  handlePrev?: () => void;
 }
 
 const NavigationButtons: React.FC<NavigationButtonsProps> = ({
@@ -18,12 +17,10 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
   handleNext,
   handlePrev,
 }) => {
-  const navigate = useNavigate();
 
   return (
-    <div className="w-full max-w-md mb-12">
-      <div className="flex items-center justify-between px-4">
-        <Button
+      <div className="flex items-center justify-between px-4 mb-12">
+        {handlePrev && <Button
           variant="contained"
           sx={{
             fontFamily: "Commissioner",
@@ -41,13 +38,14 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
         >
           Back
         </Button>
+        }
         <div className="mx-4">
           <ProgressIndicator
             currentStep={currentStep}
             totalSteps={totalSteps}
           />
         </div>
-        <Button
+        {handleNext && <Button
           variant="contained"
           sx={{
             fontFamily: "Commissioner",
@@ -65,8 +63,8 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
         >
           Next
         </Button>
+        }
       </div>
-    </div>
   );
 };
 

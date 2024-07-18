@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useMediaQuery, useTheme } from "@mui/material";
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 import SignUpBtn from "./components/Navigation/SignUpBtn";
+import LoginBtn from "./components/Navigation/LoginBtn";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <div className="relative">
+    <>
       <div className="fixed top-0 left-0 w-full bg-primary-dark text-white flex justify-between items-center py-4 px-4 md:px-20 z-10">
         <div className="flex items-center">
           <motion.div
@@ -48,34 +49,8 @@ const Header: React.FC = () => {
         </SignedIn>
         <SignedOut>
         <div className="flex space-x-4 items-center">
-          <Button
-            variant="outlined"
-            sx={{
-              borderColor: "white",
-              color: "white",
-              borderRadius: "20px",
-              padding: isMobile ? "0.15rem 0.75rem" : "0.25rem 1rem",
-              boxShadow: "none",
-              fontSize: isMobile ? "0.75rem" : "1rem",
-            }}
-            onClick={() => navigate("/sign-in")}
-          >
-            Log In
-          </Button>
+          <LoginBtn />
           <SignUpBtn />
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#DEDA6D",
-              color: "#3B447A",
-              borderRadius: "20px",
-              boxShadow: "none",
-              fontSize: isMobile ? "0.75rem" : "1rem",
-            }}
-            onClick={() => navigate("/sign-up")}
-            >
-            Sign Up
-          </Button>
           {isMobile && (
             <IconButton color="inherit" onClick={handleMenuToggle}>
               {menuOpen ? <CloseIcon /> : <MenuIcon />}
@@ -128,7 +103,7 @@ const Header: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 };
 

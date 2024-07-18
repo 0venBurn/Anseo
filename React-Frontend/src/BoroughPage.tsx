@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BoroughSelector from "./components/BoroughPage/BoroughSelector";
 import AreaTypeSelector from "./components/BoroughPage/AreaTypeSelector";
-import NavigationButtons from "./components/QuestionsPage/NavigationButtons";
+import NavigationButtons from "./components/Questionnaire/NavigationButtons";
 import "@fontsource/alegreya/400.css";
 import "@fontsource/alegreya/700.css";
 import "./index.css";
@@ -96,7 +96,6 @@ const BoroughPage: React.FC = () => {
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
       {/* Navigation buttons */}
-      <div className="absolute bottom-0">
         {/* <div className="absolute bottom-0"> */}
         <NavigationButtons
           currentStep={currentStep}
@@ -104,7 +103,6 @@ const BoroughPage: React.FC = () => {
           handleNext={handleNext}
           handlePrev={handlePrev}
         />
-      </div>
       {/* </div> */}
     </QuestionnaireLayout>
   );
