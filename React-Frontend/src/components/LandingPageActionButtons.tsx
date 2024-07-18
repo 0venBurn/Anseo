@@ -65,7 +65,7 @@ const ActionButtons: React.FC = () => {
                 backgroundColor: '#fef840',
                 },
           }}
-          onClick={() => navigate("/sign-up")} 
+          onClick={() => navigate("/welcome")} 
           >
           Start Now
         </Button>    
