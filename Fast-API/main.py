@@ -5,14 +5,13 @@ from routers import prediction
 
 app = FastAPI()
 
+# Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  
+    allow_headers=["*"],  
 )
 
 app.include_router(prediction.router, prefix="/api/v1")
-
-

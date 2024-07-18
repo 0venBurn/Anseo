@@ -1,14 +1,13 @@
 services:
   java-backend:
     build:
-      context: ./Java-Spring-backend
+      context: ./Java-Spring-Backend
       dockerfile: Dockerfile
-    expose:
-      - "8080"
     env_file:
       - ./spring.env
-    networks:
-      - app-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    network_mode: host
 
   react-frontend:
     build:
@@ -36,15 +35,19 @@ services:
     image: nginx:alpine
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - /etc/letsencrypt:/etc/letsencrypt
     depends_on:
-      - java-backend
-      - fast-api
       - react-frontend
+      - fast-api
     networks:
       - app-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 networks:
   app-network:
     driver: bridge
+
