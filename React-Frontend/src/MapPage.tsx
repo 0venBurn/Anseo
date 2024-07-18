@@ -362,7 +362,9 @@ const MapPage: React.FC = () => {
       const allLocations = await fetchAllLocations();
 
       // Filter locations based on selected boroughs
-      const filteredLocations = allLocations.filter(location => selectedBoroughs.includes(location.borough));
+      const filteredLocations = selectedBoroughs.includes('No preference')
+        ? allLocations
+        : allLocations.filter(location => selectedBoroughs.includes(location.borough));
 
       // normalize the value
       const predictionValues = Object.values(predictions?.predictions || {});

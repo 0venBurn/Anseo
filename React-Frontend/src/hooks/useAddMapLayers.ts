@@ -33,7 +33,9 @@ export const useAddMapLayers = (
     if (!map) return;
 
     // Add or update LayersFill
-    const filter = ['in', ['get', 'borough'], ['literal', selectedBoroughs]];
+    const filter = selectedBoroughs.includes('No preference')
+      ? ['in', ['get', 'borough'], ['literal', ['Manhattan', 'Brooklyn', 'Queens', 'Bronx', 'Staten Island']]]
+      : ['in', ['get', 'borough'], ['literal', selectedBoroughs]];
 
     if (!map.getSource('Layers')) {
       map.addSource('Layers', {
@@ -72,7 +74,7 @@ export const useAddMapLayers = (
       map.setFilter('LayersFill', filter);
     }
 
-    // Add or update LayersOutline
+        // Add or update LayersOutline
     if (!map.getLayer('LayersOutline')) {
       map.addLayer({
         id: 'LayersOutline',
@@ -93,9 +95,7 @@ export const useAddMapLayers = (
 
     map.on('click', 'LayersFill', (e) => {
       const neighbourhood = e.features && e.features[0].properties?.neighbourhood;
-
       const location = handleGetLocation(neighbourhood);
-
       handleSelectNeighbourhood(location);
     });
 
@@ -107,7 +107,7 @@ export const useAddMapLayers = (
       map.getCanvas().style.cursor = '';
     });
 
-    // Handle markers
+        // Handle markers
     markersRef.current.forEach(marker => marker.remove());
     markersRef.current = [];
 
@@ -120,7 +120,7 @@ export const useAddMapLayers = (
       });
     }
 
-    // Handle highlighted location marker
+        // Handle highlighted location marker
     if (highlightedLocation) {
       if (highlightMarkerRef.current) {
         highlightMarkerRef.current.remove();
@@ -134,7 +134,7 @@ export const useAddMapLayers = (
       highlightMarkerRef.current = highlightMarker;
     }
 
-    // Cleanup
+        // Cleanup
     return () => {
       markersRef.current.forEach(marker => marker.remove());
       markersRef.current = [];

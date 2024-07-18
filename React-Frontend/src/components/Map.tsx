@@ -73,7 +73,7 @@ const Map: React.FC<MapProps> = ({
       setMapInstance(map);
     }
   }, [map]);
-
+  
   // Custom hook to add map layers including highlighted location
   useAddMapLayers(map, selectedBoroughs, predictions, listings, handleSelectNeighbourhood, handleGetLocation, highlightedLocation);
 
