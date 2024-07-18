@@ -26,7 +26,7 @@ const AreaTypeSelector: React.FC<AreaTypeSelectorProps> = ({
   return (
     <div className="mb-10">
       <QuestionLabel label="What type of area would you like to set up in?" />
-      <div className="flex gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 w-ful">
         {options.map((option) => (
           <button
             key={option}

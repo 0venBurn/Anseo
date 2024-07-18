@@ -22,7 +22,7 @@ const SingleSlider: React.FC<SingleSliderProps> = (
     }
 
     return (    
-        <div className='my-10  w-full max-w-md'>
+        <div className='mb-6 max-w-md'>
         <QuestionLabel label={label}/>
         <Slider 
             value={value} 
@@ -37,8 +37,8 @@ const SingleSlider: React.FC<SingleSliderProps> = (
             valueLabelDisplay='auto'
             valueLabelFormat={valueText}
             sx={{
-                width: '100%',
                 color: '#3B447A',
+                flex: 1,
                 '& .MuiSlider-thumb': {
                     '&:hover, &.Mui-focusVisible': {
                     boxShadow: `0px 0px 0px 8px ${alpha('#3B447A', 0.16)}`,
@@ -55,7 +55,7 @@ const SingleSlider: React.FC<SingleSliderProps> = (
                 }
                 
             }}
-            className="w-full max-w-md"
+            className=""
             />
         </div>
     )

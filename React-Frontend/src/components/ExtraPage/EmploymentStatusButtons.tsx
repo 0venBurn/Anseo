@@ -28,9 +28,9 @@ const EmploymentStatusButtons: React.FC<EmploymentStatusButtonsProps> = ({
   };
 
   return (
-    <div className="mb-10">
+    <div className="mb-6">
       <QuestionLabel label="What type of employment status are you looking to offer?" />
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 w-full">
         {options.map((option) => (
           <button
             key={option}

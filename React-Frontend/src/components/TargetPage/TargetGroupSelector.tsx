@@ -29,10 +29,28 @@ const TargetGroupSelector: React.FC<TargetGroupSelectorProps> = ({
     }
   };
 
+  // <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 w-full">
+  //       {options.map((option) => (
+  //         <button
+  //           key={option}
+  //           className={`w-full h-16 py-4 px-8 rounded-lg text-xl font-bold flex items-center justify-center border-2 ${
+  //             selectedBoroughs.includes(option) ||
+  //             (option === "No preference" &&
+  //               selectedBoroughs.length === 1 &&
+  //               selectedBoroughs[0] === "No preference")
+  //               ? "bg-primary-dark text-white"
+  //               : "bg-transparent text-purple-900"
+  //           }`}
+  //           onClick={() => handleSelection(option)}
+  //         >
+  //           <span className="ml-2">{option}</span>
+  //         </button>
+  //       ))}
+  //     </div>
   return (
-    <div className="mb-10">
+    <div className="mb-6 max-w-2xl">
       <QuestionLabel label="Is your business targeting families, singles, or no preference?" />
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {options.map((option) => (
           <button
             key={option}

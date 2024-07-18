@@ -44,3 +44,7 @@ body,
 .img-fit {
   @apply bg-no-repeat bg-center bg-cover;
 }
+
+.MuiInputBase-root, .MuiOutlinedInput-root, .MuiInputBase-colorPrimary, .css-8ik405-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+  border: none;
+  }

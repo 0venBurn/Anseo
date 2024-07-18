@@ -40,7 +40,7 @@ const RangeSlider: React.FC<RangeSliderProps> = (
     };
 
     return (    
-        <div className='my-10  w-full max-w-md'>
+        <div className='mb-6 max-w-2xl'>
         <QuestionLabel label={label}/>
         <Slider 
             min={min}

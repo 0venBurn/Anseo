@@ -84,12 +84,10 @@ const ExtraPage: React.FC = () => {
       />
 
       {/* Buttons for selecting employment status */}
-      <div className="mt-10">
         <EmploymentStatusButtons
           value={employmentStatus}
           setValue={setEmploymentStatus}
         />
-      </div>
 
       {/* Slider for home value */}
       <SingleSlider

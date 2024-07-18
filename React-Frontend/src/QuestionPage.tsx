@@ -115,23 +115,12 @@ const QuestionPage: React.FC = () => {
 
   return (
     <QuestionnaireLayout>
-      {/* <SelectBox 
-               questionLabel='What type of business are you planning to start?'
-               inputLabel='Business Type'
-               selectBoxLabel='Business Type'
-               value={businessType ? businessType.replace("Industry_", "") : ""}
-               handleChange={handleBusinessTypeSelect}
-               options={businessOptions}
-               /> */}
-      <div className="mt-10">
         {/* Business type selector component */}
         <BusinessTypeSelector
           businessType={businessType}
           handleBusinessTypeSelect={handleBusinessTypeSelect}
           businessOptions={businessOptions}
         />
-      </div>
-      <div className="mt-10">
         {/* Operating hours  selector component */}
         <OperatingHoursSelector
           openHour={openHour}
@@ -139,7 +128,6 @@ const QuestionPage: React.FC = () => {
           setOpenHour={setOpenHour}
           setCloseHour={setCloseHour}
         />
-      </div>
       <SingleSlider
         label="What is your budget for paying employees? (Specify hourly rates)"
         min={10}
@@ -151,7 +139,6 @@ const QuestionPage: React.FC = () => {
         maxMark="$35+"
         type="money"
       />
-      <div className="mt-10">
         {/* Navigation button component*/}
         <NavigationButtons
           currentStep={currentStep}
@@ -159,7 +146,6 @@ const QuestionPage: React.FC = () => {
           handleNext={handleNext}
           handlePrev={handlePrev}
         />
-      </div>
     </QuestionnaireLayout>
   );
 };

@@ -28,15 +28,14 @@ const WelcomePage: React.FC = () => {
         className="relative min-h-screen flex flex-col items-center lg:items-start justify-between text-primary-text-dark bg-bk-grey"
       >
         {/* Text on main page */}
-        <div className="flex flex-col items-center text-center lg:items-start lg:text-left mt-28 lg:mt-40 mb-20 max-w-[75%] xl:max-w-[60%] lg:px-20">
+        <div className="flex flex-col items-center text-center lg:items-start lg:text-left mt-28 lg:mt-32 mb-8 max-w-[75%] xl:max-w-[80%] lg:px-20">
           <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold font-alegreya mb-4">
             Welcome to Anseo, the place to be.
           </h1>
-          <p className="text-2xl lg:text-3xl mb-6">
+          <p className="text-2xl lg:text-3xl font-commissioner mb-6">
             Discover your ideal business location in New York
             with tailored solutions for your unique business needs.
           </p>
-
           <p className="text-lg mb-6">
             Welcome to Anseo, your gateway to finding the perfect business
             location in New York! We're excited to help you navigate the complex

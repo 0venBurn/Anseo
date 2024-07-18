@@ -8,7 +8,6 @@ import "@fontsource/alegreya/700.css";
 import "./index.css";
 import QuestionnaireLayout from "./layouts/QuestionnaireLayout";
 import { useQuestionnaire } from "./context/QuestionnaireProvider";
-import { TranslateSharp } from "@mui/icons-material";
 
 // Define the current step and total steps for the questionnaire progress
 const currentStep = 6;
@@ -77,20 +76,16 @@ const BoroughPage: React.FC = () => {
   return (
     <QuestionnaireLayout>
       {/* Borough selection component */}
-      <div className="mt-10">
         <BoroughSelector
           selectedBoroughs={selectedBoroughs}
           handleSelectBorough={handleSelectBorough}
         />
-      </div>
 
       {/* Area type selection component */}
-      <div className="mt-10">
         <AreaTypeSelector
           areaType={areaType}
           handleSelectAreaType={handleSelectAreaType}
         />
-      </div>
 
       {/* Error message display */}
       {error && <p className="text-red-500 mb-4">{error}</p>}

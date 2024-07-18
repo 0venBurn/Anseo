@@ -10,7 +10,7 @@ const AuthenticationLayout: React.FC<AuthenticationLayoutProps> = ({ children })
         <>
         <Header />
         <div
-        className="flex flex-col items-center justify-center min-h-screen text-black"
+        className="flex flex-col items-center justify-center min-h-screen"
         style={{
             background: 'linear-gradient(135deg, #63A2BA, #929FE9, #D1CB14)',
             backgroundSize: 'cover',
