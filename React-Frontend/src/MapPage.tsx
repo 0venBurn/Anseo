@@ -468,7 +468,13 @@ const MapPage: React.FC = () => {
   // function to convert zipcode to lat and lng
   const getCoordinatesByZipcode = async (zipcode: string) => {
     try {
-      const response = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${zipcode}.json?access_token=${mapboxgl.accessToken}`);
+      const response = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${zipcode}.json`, {
+        params: {
+          access_token: mapboxgl.accessToken,
+          proximity: '-74.0060,40.7128', // New York City coordinates
+          limit: 1 // Limit the results to 1 to ensure you get the closest match
+        }
+      });
       const coordinates = response.data.features[0].center;
       return coordinates;
     } catch (error) {
@@ -483,6 +489,8 @@ const MapPage: React.FC = () => {
     setIsClosing(false);
     // function for zoom in when clicked learn more
     const coordinates = await getCoordinatesByZipcode(neighbourhood.zipcode);
+    console.log(coordinates)
+    console.log(neighbourhood.zipcode)
     if (coordinates && mapInstance) {
       mapInstance.flyTo({ center: coordinates, zoom: 12 });
     }

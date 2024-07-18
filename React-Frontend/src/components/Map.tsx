@@ -35,7 +35,13 @@ const Map: React.FC<MapProps> = ({
   useEffect(() => {
     const fetchBoroughCoordinates = async (borough: string) => {
       try {
-        const response = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${borough}.json?access_token=${mapboxgl.accessToken}`);
+        const response = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${borough}.json`, {
+          params: {
+            access_token: mapboxgl.accessToken,
+            proximity: '-74.0060,40.7128', // New York City coordinates
+            limit: 1 // Limit the results to 1 to ensure you get the closest match
+          }
+        });
         const coordinates = response.data.features[0].center;
         return coordinates;
       } catch (error) {
@@ -45,7 +51,7 @@ const Map: React.FC<MapProps> = ({
     };
 
     const updateMapCenter = async () => {
-      if (selectedBoroughs.length === 1) {
+      if (selectedBoroughs.length === 1 && selectedBoroughs[0] !== 'No preference') {
         const coordinates = await fetchBoroughCoordinates(selectedBoroughs[0]);
         if (coordinates) {
           setCenter(coordinates);
