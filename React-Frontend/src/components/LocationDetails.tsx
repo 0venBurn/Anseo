@@ -197,7 +197,7 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({ location, listings, r
           animate={isMobile ? { y: 0 } : { x: 0 }}
           exit={isMobile ? { y: '100%' } : { x: '-100%' }}
           transition={{ duration: 0.5 }}
-          className={`fixed top-[76px] ${isMobile ? 'left-0 w-full h-[calc(100%-76px)]' : 'left-0 w-1/2 h-[calc(100%-76px)]'} bg-white shadow-lg p-6 z-50 overflow-y-auto`}
+          className={`fixed ${isMobile ? 'left-0 w-full h-1/2 bottom-0' : 'top-[76px] left-0 w-1/2 h-[calc(100%-76px)]'} bg-white shadow-lg p-6 z-50 overflow-y-auto`}
         >
           <div className="flex justify-end">
             <IconButton onClick={onClose}>
