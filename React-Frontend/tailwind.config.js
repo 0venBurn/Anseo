@@ -6,7 +6,6 @@ export default {
       "primary-dark": "#2D345D",
       "primary-light": "#F0F2FC",
       "primary-text-dark": "#3B447A",
-      "primary-light": "#F0F2FC",
       "form-button-grey": "#E0E0E0",
       "shaded-grey": "#ABB0B4",
       white: "#FFFFFF",

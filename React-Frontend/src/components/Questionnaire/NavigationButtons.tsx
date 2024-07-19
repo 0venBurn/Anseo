@@ -3,7 +3,7 @@ import { Button, useMediaQuery, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ProgressIndicator from "../ProgressIndicator";
+import ProgressIndicator from "./ProgressIndicator";
 
 interface NavigationButtonsProps {
   currentStep: number;

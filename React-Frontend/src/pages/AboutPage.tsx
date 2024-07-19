@@ -1,6 +1,6 @@
 // AboutPage.tsx
 import { motion } from "framer-motion";
-import Header from "../components/Header";
+import Header from "../components/General/Header";
 import Mission from "../components/AboutPage/Mission";
 import Section from "../components/AboutPage/SectionComponent";
 import Footer from "../components/AboutPage/Footer";

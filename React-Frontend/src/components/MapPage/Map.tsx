@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { useMapInit } from '../hooks/useMapInit';
-import { useAddMapLayers } from '../hooks/useAddMapLayers';
+import { useMapInit } from '../../hooks/useMapInit';
+import { useAddMapLayers } from '../../hooks/useAddMapLayers';
 import mapboxgl from 'mapbox-gl';
-import '../index.css';
-import { Listing, Neighbourhood, HighlightedLocation, PredictionResponse } from '../pages/MapPage';
+import '../../index.css';
+import { Listing, Neighbourhood, HighlightedLocation, PredictionResponse } from '../../pages/MapPage';
 
 interface MapProps {
   selectedBoroughs: string[];

@@ -6,12 +6,12 @@ import { motion } from 'framer-motion';
 import { Button, Grid, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery, useTheme } from '@mui/material';
-import Header from '../components/Header';
+import Header from '../components/General/Header';
 import '../index.css';
 import { environment } from '../../mapbox.config';
-import Map from '../components/Map';
-import LocationCard from '../components/LocationCard';
-import LocationDetails from '../components/LocationDetails';
+import Map from '../components/MapPage/Map';
+import LocationCard from '../components/MapPage/LocationCard';
+import LocationDetails from '../components/MapPage/LocationDetails';
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { useQuestionnaire } from '../context/QuestionnaireProvider';
 

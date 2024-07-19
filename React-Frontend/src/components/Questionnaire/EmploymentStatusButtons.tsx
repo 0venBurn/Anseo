@@ -1,4 +1,4 @@
-import QuestionLabel from "../Questionnaire/QuestionLabel";
+import QuestionLabel from "./QuestionLabel";
 
 interface EmploymentStatusButtonsProps {
   value: string[];
@@ -38,7 +38,7 @@ const EmploymentStatusButtons: React.FC<EmploymentStatusButtonsProps> = ({
             className={`w-[50%] md:w-[100%] py-4 px-8 rounded-lg md:text-xl font-bold flex items-center justify-center border-2 ${
               value.includes(option)
                 ? "bg-primary-dark text-white"
-                : "bg-primary-light text-purple-900"
+                : "bg-primary-light text-primary-text-dark"
             }`}
             onClick={() => handleSelection(option)}
           >

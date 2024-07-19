@@ -3,9 +3,9 @@ import React from "react";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import Header from "../components/Header";
+import Header from "../components/General/Header";
 import "../index.css";
-import LinearGradientCircle from "../components/LinearGradientCircle";
+import LinearGradientCircle from "../components/Questionnaire/LinearGradientCircle";
 import NavigationButtons from "../components/Questionnaire/NavigationButtons";
 
 // Setting steps for progress indicator button

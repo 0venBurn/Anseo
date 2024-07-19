@@ -1,5 +1,5 @@
 import React from "react";
-import QuestionLabel from "../Questionnaire/QuestionLabel";
+import QuestionLabel from "./QuestionLabel";
 
 interface TargetGroupSelectorProps {
   targetGroup: string[];

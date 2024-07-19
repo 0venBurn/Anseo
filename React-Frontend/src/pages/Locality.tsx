@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BoroughSelector from "../components/BoroughPage/BoroughSelector";
-import AreaTypeSelector from "../components/BoroughPage/AreaTypeSelector";
+import BoroughSelector from "../components/Questionnaire/BoroughSelector";
+import AreaTypeSelector from "../components/Questionnaire/AreaTypeSelector";
 import NavigationButtons from "../components/Questionnaire/NavigationButtons";
 import "../index.css";
 import QuestionnaireLayout from "../layouts/QuestionnaireLayout";

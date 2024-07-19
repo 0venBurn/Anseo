@@ -1,12 +1,12 @@
 import Chat from "../components/Chatbox/Chat";
 
 // import necessary components
-import LandingPageHeroSection from "../components/LandingPageHeroSection";
+import LandingPageHeroSection from "../components/LandingPage/LandingPageHeroSection";
 import "../index.css";
 
-import LandingPageActionButtons from "../components/LandingPageActionButtons";
+import LandingPageActionButtons from "../components/LandingPage/LandingPageActionButtons";
 import { SignedIn, SignOutButton } from "@clerk/clerk-react";
-import LandingPageHeader from "../components/LandingPageHeader";
+import LandingPageHeader from "../components/LandingPage/LandingPageHeader";
 
 //Main component for the landing page
 const LandingPage: React.FC = () => {

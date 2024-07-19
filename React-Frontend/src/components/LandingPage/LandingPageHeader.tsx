@@ -1,6 +1,6 @@
 import React from "react";
-import LoginBtn from "./Navigation/LoginBtn";
-import SignUpBtn from "./Navigation/SignUpBtn";
+import LoginBtn from "../Navigation/LoginBtn";
+import SignUpBtn from "../Navigation/SignUpBtn";
 import { motion } from "framer-motion";
 
 /**

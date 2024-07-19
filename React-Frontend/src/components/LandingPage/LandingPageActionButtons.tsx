@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useQuestionnaire } from "../context/QuestionnaireProvider";
+import { useQuestionnaire } from "../../context/QuestionnaireProvider";
 import { motion } from "framer-motion";
 /**
  * ActionButtons Component

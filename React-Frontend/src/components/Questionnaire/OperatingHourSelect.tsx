@@ -1,6 +1,6 @@
 import React from "react";
 import { Select, MenuItem } from "@mui/material";
-import QuestionLabel from "../Questionnaire/QuestionLabel";
+import QuestionLabel from "./QuestionLabel";
 
 interface OperatingHoursSelectorProps {
   openHour: number;

@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../index.css';
-import AuthenticationButton from '../components/AuthenticationButton';
+import AuthenticationButton from '../components/Questionnaire/AuthenticationButton';
 import { motion } from 'framer-motion';
-import Header from '../components/Header';
+import Header from '../components/General/Header';
 import '../index.css';
-import LinearGradientCircle from '../components/LinearGradientCircle';
+import LinearGradientCircle from '../components/Questionnaire/LinearGradientCircle';
 import NavigationButtons from '../components/Questionnaire/NavigationButtons';
 
 const SubmitPage: React.FC = () => {

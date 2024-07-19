@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import TargetGroupSelector from "../components/TargetPage/TargetGroupSelector";
+import TargetGroupSelector from "../components/Questionnaire/TargetGroupSelector";
 import NavigationButtons from "../components/Questionnaire/NavigationButtons";
 import "../index.css";
 import QuestionnaireLayout from "../layouts/QuestionnaireLayout";

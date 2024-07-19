@@ -3,8 +3,8 @@
 // operating hours
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BusinessTypeSelector from "../components/QuestionsPage/BusinessTypeSelector";
-import OperatingHoursSelector from "../components/QuestionsPage/OperatingHourSelect";
+import BusinessTypeSelector from "../components/Questionnaire/BusinessTypeSelector";
+import OperatingHoursSelector from "../components/Questionnaire/OperatingHourSelect";
 import NavigationButtons from "../components/Questionnaire/NavigationButtons";
 import "../index.css";
 import QuestionnaireLayout from "../layouts/QuestionnaireLayout";
