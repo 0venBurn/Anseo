@@ -19,8 +19,8 @@ export default {
     },
     extend: {
       backgroundImage: {
-        landingPageBackground: "url('/public/img/landing.png')",
-        chatbotImage: "url('/public/img/chatbot-image.svg')",
+        landingPageBackground: "url('/img/landing.png')",
+        chatbotImage: "url('/img/chatbot-image.svg')",
       },
       fontFamily: {
         alegreya: ["Alegreya", "serif"],

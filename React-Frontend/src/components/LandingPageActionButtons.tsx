@@ -20,26 +20,6 @@ const ActionButtons: React.FC = () => {
   const { answerQuestion, setQuestionnaireDefault, sendDummyData } = useQuestionnaire();
   // useNavigate is a hook from react-router-dom for navigation to different pages or programs
   const handleClick = () => {
-    // answerQuestion("businessType", "Industry_Catering Establishment");
-    // answerQuestion("openHour", 8);
-    // answerQuestion("closeHour", 18);
-    // answerQuestion("budget", 20);
-    // answerQuestion("selectedAgeGroup", "20 to 24 years");
-    // answerQuestion("ageImportance", 0.5);
-    // answerQuestion("selectedIncomeLevel", "annual_individual_earnings_Data_$20,000-$29,999");
-    // answerQuestion("incomeImportance", 0.5);
-    // answerQuestion("targetGroup", "Singles");
-    // answerQuestion("proximityImportance", 0.5);
-    // answerQuestion("footfallImportance", 0.5);
-    // answerQuestion("surroundingBusinessesImportance", 0.5);
-    // answerQuestion("rentBudget", 500);
-    // answerQuestion("genderRatio", 0.5);
-    // answerQuestion("employmentStatus", "Full Time");
-    // answerQuestion("homeValue", 0.6);
-    // answerQuestion("populationDensity", 0.6);
-    // answerQuestion("selectedBoroughs", ["Manhattan"]);
-    // answerQuestion("areaType", "Business oriented");
-    // setQuestionnaireDefault();
     sendDummyData();
     navigate("/map")
   }
@@ -47,7 +27,7 @@ const ActionButtons: React.FC = () => {
   return (
     // Container div for the action buttons with utility classes for styling
     <div className="flex space-x-4 justify-center items-center gap-4">
-      <motion.button
+      <motion.div
             whileHover={{
                 scale: 1.1,
                 borderRadius: "50px", 
@@ -69,7 +49,7 @@ const ActionButtons: React.FC = () => {
           >
           Start Now
         </Button>    
-        </motion.button>
+        </motion.div>
       {/* <Button
         variant="contained"
         sx={{
@@ -83,7 +63,7 @@ const ActionButtons: React.FC = () => {
       >
         Dummy submit
       </Button> */}
-      <motion.button
+      <motion.div
         whileHover={{
           scale: 1.1,
         }}>
@@ -108,7 +88,7 @@ const ActionButtons: React.FC = () => {
       >
         About
       </Button>
-        </motion.button>
+        </motion.div>
     </div>
   );
 };
