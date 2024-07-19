@@ -4,11 +4,13 @@ import QuestionLabel from "../Questionnaire/QuestionLabel";
 interface BoroughSelectorProps {
   selectedBoroughs: string[];
   handleSelectBorough: (boroughs: string[]) => void;
+  questionNumber: number;
 }
 
 const BoroughSelector: React.FC<BoroughSelectorProps> = ({
   selectedBoroughs,
   handleSelectBorough,
+  questionNumber
 }) => {
   const allBoroughs = [
     "Manhattan",
@@ -34,19 +36,19 @@ const BoroughSelector: React.FC<BoroughSelectorProps> = ({
   };
 
   return (
-    <div className="mb-6 w-full max-w-md">
-      <QuestionLabel label="Which boroughs are you most interested in for your business location?" />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 w-full">
+    <div className="mb-6 ">
+      <QuestionLabel label="Which boroughs are you most interested in for your business location?" questionNumber={questionNumber} />
+      <div className="grid place-items-center grid-cols-1 md:grid-cols-2 gap-4 mb-6 w-full whitespace-nowrap">
         {options.map((option) => (
           <button
             key={option}
-            className={`w-full h-16 py-4 px-8 rounded-lg text-xl font-bold flex items-center justify-center border-2 ${
+            className={`w-[50%] md:w-[75%] py-4 px-8 rounded-lg md:text-xl font-bold flex items-center justify-center border-2 ${
               selectedBoroughs.includes(option) ||
               (option === "No preference" &&
                 selectedBoroughs.length === 1 &&
                 selectedBoroughs[0] === "No preference")
                 ? "bg-primary-dark text-white"
-                : "bg-transparent text-purple-900"
+                : "bg-primary-light text-primary-text-dark"
             }`}
             onClick={() => handleSelection(option)}
           >

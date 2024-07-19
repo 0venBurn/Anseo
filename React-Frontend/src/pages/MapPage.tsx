@@ -6,14 +6,14 @@ import { motion } from 'framer-motion';
 import { Button, Grid, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery, useTheme } from '@mui/material';
-import Header from './Header';
-import './index.css';
-import { environment } from '../mapbox.config';
-import Map from './components/Map';
-import LocationCard from './LocationCard';
-import LocationDetails from './LocationDetails';
+import Header from '../components/Header';
+import '../index.css';
+import { environment } from '../../mapbox.config';
+import Map from '../components/Map';
+import LocationCard from '../components/LocationCard';
+import LocationDetails from '../components/LocationDetails';
 import { useAuth, useUser } from "@clerk/clerk-react";
-import { useQuestionnaire } from './context/QuestionnaireProvider';
+import { useQuestionnaire } from '../context/QuestionnaireProvider';
 
 mapboxgl.accessToken = environment.mapbox.accessToken;
 

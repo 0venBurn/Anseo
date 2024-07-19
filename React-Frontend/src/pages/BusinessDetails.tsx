@@ -3,24 +3,27 @@
 // operating hours
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BusinessTypeSelector from "./components/QuestionsPage/BusinessTypeSelector";
-import OperatingHoursSelector from "./components/QuestionsPage/OperatingHourSelect";
-import NavigationButtons from "./components/Questionnaire/NavigationButtons";
-import "./index.css";
-import QuestionnaireLayout from "./layouts/QuestionnaireLayout";
-import { useQuestionnaire } from "./context/QuestionnaireProvider";
-import SingleSlider from "./components/Questionnaire/SingleSlider";
+import BusinessTypeSelector from "../components/QuestionsPage/BusinessTypeSelector";
+import OperatingHoursSelector from "../components/QuestionsPage/OperatingHourSelect";
+import NavigationButtons from "../components/Questionnaire/NavigationButtons";
+import "../index.css";
+import QuestionnaireLayout from "../layouts/QuestionnaireLayout";
+import { useQuestionnaire } from "../context/QuestionnaireProvider";
+import SingleSlider from "../components/Questionnaire/SingleSlider";
+import QuestionPageHeader from "../components/Questionnaire/QuestionPageHeader"
 
-const QuestionPage: React.FC = () => {
+const BusinessDetails: React.FC = () => {
   const [businessType, setBusinessType] = useState<string>("");
   const [openHour, setOpenHour] = useState<number>(8); // Default to 8 AM
   const [closeHour, setCloseHour] = useState<number>(18); // Default to 6 PM
-  const [budget, setBudget] = useState<number>(20); // Default budget value
+  const [budget, setBudget] = useState<number>(23); // Default budget value
+  // State for rent budget, default set to 3000
+  const [rentBudget, setRentBudget] = useState<number>(3000);
   const { answerQuestion } = useQuestionnaire();
 
   // setting steps for progress indicator
   const currentStep = 2;
-  const totalSteps = 6;
+  const totalSteps = 5;
 
   const navigate = useNavigate();
 
@@ -30,7 +33,8 @@ const QuestionPage: React.FC = () => {
     answerQuestion("openHour", openHour);
     answerQuestion("closeHour", closeHour);
     answerQuestion("budget", budget);
-    navigate("/target");
+    answerQuestion("rentBudget", rentBudget / 5);
+    navigate("/locality");
   };
 
   // handle previous function to navigate to previous page with state
@@ -39,6 +43,7 @@ const QuestionPage: React.FC = () => {
     answerQuestion("openHour", openHour);
     answerQuestion("closeHour", closeHour);
     answerQuestion("budget", budget);
+    answerQuestion("rentBudget", rentBudget / 5);
     navigate("/welcome");
   };
 
@@ -115,11 +120,13 @@ const QuestionPage: React.FC = () => {
 
   return (
     <QuestionnaireLayout>
+      <QuestionPageHeader title={'Business Details'} pageNumber={1}/>
         {/* Business type selector component */}
         <BusinessTypeSelector
           businessType={businessType}
           handleBusinessTypeSelect={handleBusinessTypeSelect}
           businessOptions={businessOptions}
+          questionNumber={1}
         />
         {/* Operating hours  selector component */}
         <OperatingHoursSelector
@@ -127,6 +134,7 @@ const QuestionPage: React.FC = () => {
           closeHour={closeHour}
           setOpenHour={setOpenHour}
           setCloseHour={setCloseHour}
+          questionNumber={2}
         />
       <SingleSlider
         label="What is your budget for paying employees? (Specify hourly rates)"
@@ -135,9 +143,18 @@ const QuestionPage: React.FC = () => {
         steps={1}
         value={budget}
         setValue={setBudget}
-        minMark="< $10"
-        maxMark="$35+"
         type="money"
+        questionNumber={3}
+      />
+      <SingleSlider
+        label="What is your budget for monthly rent (including utilities) for your business location?"
+        min={1000}
+        max={5000}
+        steps={100}
+        value={rentBudget}
+        setValue={setRentBudget}
+        type="money"
+        questionNumber={4}
       />
         {/* Navigation button component*/}
         <NavigationButtons
@@ -150,4 +167,4 @@ const QuestionPage: React.FC = () => {
   );
 };
 
-export default QuestionPage;
+export default BusinessDetails;

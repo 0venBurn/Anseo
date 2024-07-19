@@ -1,5 +1,5 @@
-import './index.css';
-import AuthenticationLayout from './layouts/AuthenticationLayout';
+import '../index.css';
+import AuthenticationLayout from '../layouts/AuthenticationLayout';
 import { SignUp } from "@clerk/clerk-react";
 
 const SignInPage: React.FC = () => {

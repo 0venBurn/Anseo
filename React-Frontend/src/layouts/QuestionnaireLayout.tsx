@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import Header from "../Header";
+import Header from "../components/Header";
 
 type QuestionnaireLayoutProps = {
   children?: React.ReactNode;

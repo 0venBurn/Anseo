@@ -29,7 +29,7 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
           totalSteps={totalSteps}
         />
       <div className="flex items-center justify-center w-full gap-4 sm:gap-12">
-        {handlePrev && <motion.button whileHover={{
+        {handlePrev && <motion.div whileHover={{
           scale: 1.1
         }}>
             <Button
@@ -52,9 +52,9 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
             >
             Back
           </Button>
-        </motion.button>
+        </motion.div>
         }
-        {handleNext && <motion.button whileHover={{
+        {handleNext && <motion.div whileHover={{
           scale: 1.1
         }}>
         <Button
@@ -77,7 +77,7 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
           >
           Next
         </Button>
-      </motion.button>
+      </motion.div>
       }
     </div>
     </div>
@@ -85,7 +85,7 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
   } else {
     return (
       <div className="flex items-center justify-between px-4 mb-12 max-w-md">
-        {handlePrev && <motion.button whileHover={{
+        {handlePrev && <motion.div whileHover={{
           scale: 1.1
         }}>
             <Button
@@ -108,7 +108,7 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
             >
             Back
           </Button>
-        </motion.button>
+        </motion.div>
         }
         <div className="mx-4">
           <ProgressIndicator
@@ -116,7 +116,7 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
             totalSteps={totalSteps}
           />
         </div>
-        {handleNext && <motion.button whileHover={{
+        {handleNext && <motion.div whileHover={{
           scale: 1.1
         }}>
           <Button
@@ -139,7 +139,7 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
           >
             Next
           </Button>
-        </motion.button>
+        </motion.div>
         }
       </div>
   );

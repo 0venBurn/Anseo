@@ -2,8 +2,8 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
-import SignUpBtn from "./components/Navigation/SignUpBtn";
-import LoginBtn from "./components/Navigation/LoginBtn";
+import SignUpBtn from "./Navigation/SignUpBtn";
+import LoginBtn from "./Navigation/LoginBtn";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();

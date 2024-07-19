@@ -16,7 +16,6 @@ interface Data {
   rentBudget: number;
   genderRatio: string;
   employmentStatus: string[];
-  homeValue: number;
   populationDensity: number;
   selectedBoroughs: string[];
   areaType: string[];
@@ -54,8 +53,7 @@ const QuestionnaireContext = createContext<QuestionnaireContext>({
     rentBudget: 0,
     genderRatio: "",
     employmentStatus: [],
-    homeValue: 0,
-    populationDensity: 0,
+    populationDensity: 1,
     selectedBoroughs: [],
     areaType: [],
   },
@@ -84,9 +82,8 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({
     surroundingBusinessesImportance: 0,
     rentBudget: 0,
     genderRatio: "",
-    employmentStatus: [],
-    homeValue: 0,
-    populationDensity: 0,
+    employmentStatus: ["Full Time"],
+    populationDensity: 1,
     selectedBoroughs: [],
     areaType: [],
   });
@@ -116,7 +113,9 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({
       return ans;
     });
 
-    if (filteredAnswers.length === 19) {
+    console.log("filteredAnswers", filteredAnswers);
+
+    if (filteredAnswers.length === 18) {
       console.log("Questionnaire completed");
       return true;
     } else {
@@ -141,9 +140,8 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({
       surroundingBusinessesImportance: 0,
       rentBudget: 0,
       genderRatio: "",
-      employmentStatus: [],
-      homeValue: 0,
-      populationDensity: 0,
+      employmentStatus: ["Full Time"],
+      populationDensity: 1,
       selectedBoroughs: [],
       areaType: [],
     });

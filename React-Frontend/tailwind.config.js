@@ -4,6 +4,7 @@ export default {
   theme: {
     colors: {
       "primary-dark": "#2D345D",
+      "primary-light": "#F0F2FC",
       "primary-text-dark": "#3B447A",
       "form-button-grey": "#E0E0E0",
       "shaded-grey": "#ABB0B4",

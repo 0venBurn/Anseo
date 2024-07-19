@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
-import { Neighbourhood, Listing, HighlightedLocation, PredictionResponse } from '../MapPage';
+import { Neighbourhood, Listing, HighlightedLocation, PredictionResponse } from '../pages/MapPage';
 
 interface ZipProbability {
   zipcode: string;

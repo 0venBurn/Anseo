@@ -6,17 +6,19 @@ interface BusinessTypeSelectorProps {
   businessType: string | null;
   handleBusinessTypeSelect: (event: any) => void;
   businessOptions: string[];
+  questionNumber: number;
 }
 
 const BusinessTypeSelector: React.FC<BusinessTypeSelectorProps> = ({
   businessType,
   handleBusinessTypeSelect,
   businessOptions,
+  questionNumber,
 }) => {
   return (
-    <div className="mb-6 w-full max-w-md">
-      <QuestionLabel label="What type of business are you planning to start?" />
-      <FormControl fullWidth>
+    <div className="mb-6 ">
+      <QuestionLabel label="What type of business are you planning to start?" questionNumber={questionNumber} />
+      <FormControl className="w-[75%] lg:w-[65%]">
         <InputLabel>Business Type</InputLabel>
         <Select
           value={businessType ? businessType.replace("Industry_", "") : ""}

@@ -3,14 +3,14 @@ import React from "react";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import Header from "./Header";
-import "./index.css";
-import LinearGradientCircle from "./components/LinearGradientCircle";
-import NavigationButtons from "./components/Questionnaire/NavigationButtons";
+import Header from "../components/Header";
+import "../index.css";
+import LinearGradientCircle from "../components/LinearGradientCircle";
+import NavigationButtons from "../components/Questionnaire/NavigationButtons";
 
 // Setting steps for progress indicator button
 const currentStep = 1;
-const totalSteps = 6;
+const totalSteps = 5;
 
 // Defining functional component of the welcome page
 const WelcomePage: React.FC = () => {
@@ -70,7 +70,7 @@ const WelcomePage: React.FC = () => {
                   color: 'white',
                 } 
               }}
-              onClick={() => navigate("/questions")}
+              onClick={() => navigate("/business-details")}
             >
               Next
             </Button>

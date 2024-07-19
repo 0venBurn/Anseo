@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 const SignUpBtn = () => {
     const navigate = useNavigate();
     return (
-        <motion.button
+        <motion.div
             whileHover={{
                 scale: 1.1,
             }}>
@@ -24,7 +24,7 @@ const SignUpBtn = () => {
           >
           Sign Up
         </Button>    
-              </motion.button>
+              </motion.div>
         );
 }
 

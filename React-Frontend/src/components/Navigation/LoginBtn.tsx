@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const LoginBtn = () => {
     const navigate = useNavigate();
     return (
-        <motion.button
+        <motion.div
             initial={{borderRadius: "20px"}}
             whileHover={{
                 scale: 1.1,
@@ -26,7 +26,7 @@ const LoginBtn = () => {
             >
             Login
             </Button>   
-        </motion.button>
+        </motion.div>
         );
 }
 

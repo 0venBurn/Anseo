@@ -1,14 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './index.css';
-import AuthenticationButton from './components/AuthenticationButton';
-import { Button } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import '../index.css';
+import AuthenticationButton from '../components/AuthenticationButton';
 import { motion } from 'framer-motion';
-import Header from './Header';
-import './index.css';
-import LinearGradientCircle from './components/LinearGradientCircle';
-import NavigationButtons from './components/Questionnaire/NavigationButtons';
+import Header from '../components/Header';
+import '../index.css';
+import LinearGradientCircle from '../components/LinearGradientCircle';
+import NavigationButtons from '../components/Questionnaire/NavigationButtons';
 
 const SubmitPage: React.FC = () => {
   const navigate = useNavigate();
@@ -54,9 +52,9 @@ const SubmitPage: React.FC = () => {
           </div>
           <div className="flex items-center justify-center w-full">
             <NavigationButtons 
-              currentStep={6} 
-              totalSteps={6} 
-              handlePrev={() => navigate("/borough")}
+              currentStep={5} 
+              totalSteps={5} 
+              handlePrev={() => navigate("/target-audience")}
             />
           </div>
         </div>

@@ -1,30 +1,34 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import TargetGroupSelector from "./components/TargetPage/TargetGroupSelector";
-import NavigationButtons from "./components/Questionnaire/NavigationButtons";
-import "./index.css";
-import QuestionnaireLayout from "./layouts/QuestionnaireLayout";
-import { useQuestionnaire } from "./context/QuestionnaireProvider";
-import RangeSlider from "./components/Questionnaire/RangeSlider";
-import SingleSlider from "./components/Questionnaire/SingleSlider";
+import TargetGroupSelector from "../components/TargetPage/TargetGroupSelector";
+import NavigationButtons from "../components/Questionnaire/NavigationButtons";
+import "../index.css";
+import QuestionnaireLayout from "../layouts/QuestionnaireLayout";
+import { useQuestionnaire } from "../context/QuestionnaireProvider";
+import RangeSlider from "../components/Questionnaire/RangeSlider";
+import SingleSlider from "../components/Questionnaire/SingleSlider";
+import QuestionPageHeader from "../components/Questionnaire/QuestionPageHeader";
 
 // step setting for the progress indicator props
-const currentStep = 3;
-const totalSteps = 6;
+const currentStep = 4;
+const totalSteps = 5;
 
-const TargetPage: React.FC = () => {
+const TargetAudience: React.FC = () => {
   // State for selected age group
   const [selectedAgeGroup, setSelectedAgeGroup] = useState<number[]>([4, 65]);
   // State for importance of age, default to middle value
-  const [ageImportance, setAgeImportance] = useState<number>(0.5);
+  const [ageImportance, setAgeImportance] = useState<number>(3);
   // State for selected income
   const [selectedIncomeLevel, setSelectedIncomeLevel] = useState<number[]>([
     10000, 100000,
   ]);
   // State for importance of income, default to middle value
-  const [incomeImportance, setIncomeImportance] = useState<number>(0.5);
+  const [incomeImportance, setIncomeImportance] = useState<number>(3);
   // State for target group description
   const [targetGroup, setTargetGroup] = useState<string[]>([]);
+   // State for gender ratio (1 = All Men, 5 = All Women)
+   const [genderRatio, setGenderRatio] = useState<number>(3);
+
 
   // Access the questionnaire context
   const { data, answerQuestion } = useQuestionnaire();
@@ -35,30 +39,32 @@ const TargetPage: React.FC = () => {
   // Handle next function to navigate with updated state
   const handleNext = () => {
     answerQuestion("selectedAgeGroup", selectedAgeGroup);
-    answerQuestion("ageImportance", ageImportance);
+    answerQuestion("ageImportance", ageImportance / 5);
     answerQuestion("selectedIncomeLevel", selectedIncomeLevel);
-    answerQuestion("incomeImportance", incomeImportance);
+    answerQuestion("incomeImportance", incomeImportance / 5);
     // Transform targetGroup if "No Preference" is selected
     const transformedTargetGroup = targetGroup.includes("No Preference")
       ? ["Families", "Singles"]
       : targetGroup;
     answerQuestion("targetGroup", transformedTargetGroup);
+    answerQuestion("genderRatio", genderRatio / 5);
     console.log(data);
-    navigate("/area");
+    navigate("/submit");
   };
 
   // Handle previous function to navigate with updated state
   const handlePrev = () => {
     answerQuestion("selectedAgeGroup", selectedAgeGroup);
-    answerQuestion("ageImportance", ageImportance);
+    answerQuestion("ageImportance", ageImportance / 5);
     answerQuestion("selectedIncomeLevel", selectedIncomeLevel);
-    answerQuestion("incomeImportance", incomeImportance);
+    answerQuestion("incomeImportance", incomeImportance / 5);
     // Transform targetGroup if "No Preference" is selected
     const transformedTargetGroup = targetGroup.includes("No Preference")
       ? ["Families", "Singles"]
       : targetGroup;
     answerQuestion("targetGroup", transformedTargetGroup);
-    navigate("/questions");
+    answerQuestion("genderRatio", genderRatio / 5);
+    navigate("/locality");
   };
 
   const handleSetSelectedAgeGroup = (newValue: number[]) => {
@@ -71,6 +77,7 @@ const TargetPage: React.FC = () => {
 
   return (
     <QuestionnaireLayout>
+        <QuestionPageHeader title={'Target Audience Demographics'} pageNumber={3}/>
       <RangeSlider
         label="What age range is your target customers within?"
         min={4}
@@ -80,20 +87,17 @@ const TargetPage: React.FC = () => {
         type="age"
         value={selectedAgeGroup}
         setValue={handleSetSelectedAgeGroup}
-        minMark="< 4"
-        maxMark="65+"
+        questionNumber={1}
       />
 
       <SingleSlider
         label="How important is the age of your target customers?"
-        min={0}
-        max={1}
-        steps={0.01}
+        min={1}
+        max={5}
+        steps={1}
         value={ageImportance}
         setValue={setAgeImportance}
-        minMark="Not important"
-        maxMark="Important"
-        type="percentage"
+        questionNumber={2}
       />
 
       <RangeSlider
@@ -105,38 +109,44 @@ const TargetPage: React.FC = () => {
         type="income"
         value={selectedIncomeLevel}
         setValue={handleSetSelectedIncomeLevel}
-        minMark="< $10,000"
-        maxMark="$100,000+"
+        questionNumber={3}
       />
 
       <SingleSlider
         label="How important is the income of your target customers?"
-        min={0}
-        max={1}
-        steps={0.01}
+        min={1}
+        max={5}
+        steps={1}
         value={incomeImportance}
         setValue={setIncomeImportance}
-        minMark="Not important"
-        maxMark="Important"
-        type="percentage"
+        questionNumber={4}
       />
 
       <TargetGroupSelector
         targetGroup={targetGroup}
         setTargetGroup={setTargetGroup}
+        questionNumber={5}
       />
 
-      <div className="mt-10">
+    <SingleSlider
+        label="What gender is your business tailored towards?"
+        min={1}
+        max={5}
+        steps={1}
+        value={genderRatio}
+        setValue={setGenderRatio}
+        questionNumber={1}
+      />
+
         <NavigationButtons
           currentStep={currentStep}
           totalSteps={totalSteps}
           handleNext={handleNext}
           handlePrev={handlePrev}
         />
-      </div>
     </QuestionnaireLayout>
   );
 };
 
 // Export the TargetPage component as the default export
-export default TargetPage;
+export default TargetAudience;

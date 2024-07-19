@@ -1,13 +1,10 @@
 // AboutPage.tsx
-import React from "react";
 import { motion } from "framer-motion";
-import Header from "./Header";
-import Mission from "./components/AboutPage/Mission";
-import Section from "./components/AboutPage/SectionComponent";
-import Footer from "./components/AboutPage/Footer";
-import "@fontsource/alegreya/400.css";
-import "@fontsource/alegreya/700.css";
-import "./index.css";
+import Header from "../components/Header";
+import Mission from "../components/AboutPage/Mission";
+import Section from "../components/AboutPage/SectionComponent";
+import Footer from "../components/AboutPage/Footer";
+import "../index.css";
 
 const AboutPage: React.FC = () => {
   const sections = [

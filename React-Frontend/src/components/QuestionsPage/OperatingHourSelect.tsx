@@ -7,6 +7,7 @@ interface OperatingHoursSelectorProps {
   closeHour: number;
   setOpenHour: (hour: number) => void;
   setCloseHour: (hour: number) => void;
+  questionNumber: number;
 }
 
 const OperatingHoursSelector: React.FC<OperatingHoursSelectorProps> = ({
@@ -14,10 +15,11 @@ const OperatingHoursSelector: React.FC<OperatingHoursSelectorProps> = ({
   closeHour,
   setOpenHour,
   setCloseHour,
+  questionNumber
 }) => (
-  <div className="mb-10 w-full max-w-md">
-    <QuestionLabel label="Operating hours:" />
-    <div className="grid grid-cols-2 gap-4 md:text-xl">
+  <div className="mb-6 flex flex-col items-center lg:w-[90%]">
+    <QuestionLabel label="What are your businesses operating hours?" questionNumber={questionNumber} />
+    <div className="grid place-items-center grid-cols-2 gap-4 md:text-xl max-w-[75%]">
       <div>
         <label className="block mb-2">Opening Time</label>
         <Select

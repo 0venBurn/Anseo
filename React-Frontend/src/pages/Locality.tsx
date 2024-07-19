@@ -1,24 +1,35 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BoroughSelector from "./components/BoroughPage/BoroughSelector";
-import AreaTypeSelector from "./components/BoroughPage/AreaTypeSelector";
-import NavigationButtons from "./components/Questionnaire/NavigationButtons";
-import "@fontsource/alegreya/400.css";
-import "@fontsource/alegreya/700.css";
-import "./index.css";
-import QuestionnaireLayout from "./layouts/QuestionnaireLayout";
-import { useQuestionnaire } from "./context/QuestionnaireProvider";
+import BoroughSelector from "../components/BoroughPage/BoroughSelector";
+import AreaTypeSelector from "../components/BoroughPage/AreaTypeSelector";
+import NavigationButtons from "../components/Questionnaire/NavigationButtons";
+import "../index.css";
+import QuestionnaireLayout from "../layouts/QuestionnaireLayout";
+import { useQuestionnaire } from "../context/QuestionnaireProvider";
+import QuestionPageHeader from "../components/Questionnaire/QuestionPageHeader";
+import SingleSlider from "../components/Questionnaire/SingleSlider";
 
 // Define the current step and total steps for the questionnaire progress
-const currentStep = 6;
-const totalSteps = 6;
+const currentStep = 3;
+const totalSteps = 5;
 
-const BoroughPage: React.FC = () => {
+const Locality: React.FC = () => {
   // State for selected boroughs
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
 
   // State for selected area type
   const [areaType, setAreaType] = useState<string[]>([]);
+
+  // State for importance of proximity to public transportation
+  const [proximityImportance, setProximityImportance] = useState<number>(3);
+
+  // State for importance of high footfall
+  const [footfallImportance, setFootfallImportance] = useState<number>(3);
+
+  // State for importance of being surrounded by similar businesses
+  const [surroundingBusinessesImportance, setSurroundingBusinessesImportance] =
+    useState<number>(3);
+
 
   // State for error message
   const [error, setError] = useState<string | null>(null);
@@ -55,9 +66,15 @@ const BoroughPage: React.FC = () => {
         ? ["Residential", "Business oriented"]
         : areaType;
       answerQuestion("areaType", transformedArea);
+      answerQuestion("proximityImportance", proximityImportance / 5);
+        answerQuestion("footfallImportance", footfallImportance / 5);
+        answerQuestion(
+        "surroundingBusinessesImportance",
+        surroundingBusinessesImportance / 5,
+        );
       console.log(data);
       // Navigate to the next page
-      navigate("/submit");
+      navigate("/target-audience");
     } else {
       // Set error if selections are incomplete
       setError("You need to select at least one borough and an area type");
@@ -69,26 +86,69 @@ const BoroughPage: React.FC = () => {
     // Save answers to the questionnaire context
     answerQuestion("selectedBoroughs", selectedBoroughs);
     answerQuestion("areaType", areaType);
+    answerQuestion("proximityImportance", proximityImportance / 5);
+    answerQuestion("footfallImportance", footfallImportance / 5);
+    answerQuestion(
+      "surroundingBusinessesImportance",
+      surroundingBusinessesImportance / 5,
+    );
     // Navigate to the previous page
-    navigate("/extra");
+    navigate("/business-details");
   };
 
   return (
     <QuestionnaireLayout>
+        <QuestionPageHeader title={'Locality and Environment'} pageNumber={2}/>
       {/* Borough selection component */}
         <BoroughSelector
           selectedBoroughs={selectedBoroughs}
           handleSelectBorough={handleSelectBorough}
+          questionNumber={1}
         />
 
       {/* Area type selection component */}
         <AreaTypeSelector
           areaType={areaType}
           handleSelectAreaType={handleSelectAreaType}
+          questionNumber={2}
         />
-
+      
       {/* Error message display */}
       {error && <p className="text-red-500 mb-4">{error}</p>}
+
+
+ {/* Importance slider for proximity to public transportation */}
+ <SingleSlider
+        label="How important is proximity to public transportation for your business?"
+        min={1}
+        max={5}
+        steps={1}
+        value={proximityImportance}
+        setValue={setProximityImportance}
+        questionNumber={3}
+      />
+
+      {/* Importance slider for high footfall */}
+      <SingleSlider
+        label="How important is high footfall?"
+        min={1}
+        max={5}
+        steps={1}
+        value={footfallImportance}
+        setValue={setFootfallImportance}
+        questionNumber={4}
+      />
+
+      {/* Importance slider for being surrounded by similar businesses */}
+      <SingleSlider
+        label="How important is being surrounded by similar businesses?"
+        min={1}
+        max={5}
+        steps={1}
+        value={surroundingBusinessesImportance}
+        setValue={setSurroundingBusinessesImportance}
+        questionNumber={5}
+      />
 
       {/* Navigation buttons */}
         {/* <div className="absolute bottom-0"> */}
@@ -103,4 +163,4 @@ const BoroughPage: React.FC = () => {
   );
 };
 
-export default BoroughPage;
+export default Locality;
