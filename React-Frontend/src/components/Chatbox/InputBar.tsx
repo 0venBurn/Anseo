@@ -5,10 +5,7 @@ interface InputBarProps {
   onSubmit: (value: string) => void;
 }
 
-const InputBar: React.FC<InputBarProps> = ({
-  placeholder = "Enter text...",
-  onSubmit,
-}) => {
+const InputBar: React.FC<InputBarProps> = ({ onSubmit }) => {
   const [inputValue, setInputValue] = useState<string>("");
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -23,16 +20,21 @@ const InputBar: React.FC<InputBarProps> = ({
 
   return (
     <form onSubmit={handleSubmit} className="">
-      <input
-        type="text"
-        value={inputValue}
-        onChange={handleChange}
-        placeholder={placeholder}
-        className="flex-1 w-full p-2 border border-gray-300 rounded"
-      />
-      <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-        Submit
-      </button>
+      <div className="flex items-center mt-5">
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleChange}
+          placeholder={"Chat with Anseo"}
+          className="flex-1 p-2 bg-bk-grey border border-bk-grey text-primary-text-dark rounded mr-1"
+        />
+        <button
+          type="submit"
+          className="bg-yellow border border-yellow text-primary-dark rounded-full ml-2 px-6 py-2"
+        >
+          →
+        </button>
+      </div>
     </form>
   );
 };
