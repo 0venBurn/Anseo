@@ -13,20 +13,20 @@ const LandingPage: React.FC = () => {
   return (
     <>
       <div className="min-h-full flex flex-col bg-landingPageBackground object-contain img-fit ">
-        
         {/*Header for medium to large viewports (e.g., tablets and desktops) */}
         <LandingPageHeader />
-        {/*Hero section*/}  
+        {/*Hero section*/}
 
         <div className="flex-1 flex flex-col items-center justify-center gap-8 mb-32">
-        <LandingPageHeroSection />
-        <SignedIn>
-          <SignOutButton redirectUrl="http://localhost:3000" />
-        </SignedIn>
-        {/*Call to action (CTA) buttons*/}
-        <LandingPageActionButtons />
+          <LandingPageHeroSection />
+          <SignedIn>
+            <SignOutButton redirectUrl="http://localhost:3000" />
+          </SignedIn>
+          {/*Call to action (CTA) buttons*/}
+          <LandingPageActionButtons />
         </div>
-        </div>
+      </div>
+      <Chat />
     </>
   );
 };
