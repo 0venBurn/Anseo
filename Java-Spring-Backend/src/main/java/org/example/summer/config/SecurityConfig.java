@@ -27,9 +27,6 @@ public class SecurityConfig {
     @Value("${frontend.url}")
     private String frontendUrl;
 
-    @Value("${client.ngrok.forwarding-address}")
-    private String ngrokForwardingAddress;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             http
@@ -45,7 +42,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(frontendUrl, ngrokForwardingAddress, "http://localhost:3001"));
+        configuration.setAllowedOrigins(List.of(frontendUrl, "http://localhost:3001", "https://www.anseo.live/"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));

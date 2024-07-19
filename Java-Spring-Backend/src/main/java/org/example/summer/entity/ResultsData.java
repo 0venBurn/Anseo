@@ -27,7 +27,6 @@ public class ResultsData {
     private int rentBudget;
     private double genderRatio;
     private List<String> employmentStatus;
-    private double homeValue;
     private double populationDensity;
     private List<String> selectedBoroughs;
     private List<String> areaType;

@@ -7,20 +7,16 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import RootLayout from "./layouts/RootLayout";
 
 import ErrorPage from "./pages/ErrorPage";
-import LandingPage from './LandingPage';
-import QuestionPage from './QuestionPage';
-import BoroughPage from './BoroughPage';
-import WelcomePage from './WelcomePage';
-import SubmitPage from './SubmitPage';
-import SignInPage from './SignInPage';
-import SignUpPage from './SignUpPage';
-import AboutPage from './AboutPage';
-import MapPage from './MapPage';
-import TargetPage from './TargetPage';
-import AreaPage from './AreaPage';
-import ExtraPage from './ExtraPage';
-import PasswordPage from './PasswordPage';
-import Profile from "./pages/Profile";
+import LandingPage from './pages/LandingPage';
+import WelcomePage from './pages/WelcomePage';
+import SubmitPage from './pages/SubmitPage';
+import SignInPage from './pages/SignInPage';
+import SignUpPage from './pages/SignUpPage';
+import AboutPage from './pages/AboutPage';
+import MapPage from './pages/MapPage';
+import BusinessDetails from './pages/BusinessDetails';
+import Locality from './pages/Locality';
+import TargetAudience from "./pages/TargetAudience";
 
 const router = createBrowserRouter([
   {
@@ -33,19 +29,24 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: "/questions",
-        element: <QuestionPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "/borough",
-        element: <BoroughPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
         path: "/welcome",
         element: <WelcomePage />,
         errorElement: <ErrorPage />,
+      },
+      {
+        path: "/business-details",
+        element: <BusinessDetails />,
+        errorElement: <ErrorPage />
+      },
+      {
+        path: "/locality",
+        element: <Locality />,
+        errorElement: <ErrorPage />
+      },
+      {
+        path: "/target-audience",
+        element: <TargetAudience />,
+        errorElement: <ErrorPage />
       },
       {
         path: "/submit",
@@ -70,26 +71,6 @@ const router = createBrowserRouter([
       {
         path: "/map",
         element: <MapPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "/target",
-        element: <TargetPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "/area",
-        element: <AreaPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "/extra",
-        element: <ExtraPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "/password",
-        element: <PasswordPage />,
         errorElement: <ErrorPage />,
       },
       {

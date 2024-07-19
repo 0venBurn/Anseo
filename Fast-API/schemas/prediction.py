@@ -17,7 +17,6 @@ class DataModel(BaseModel):
     rentBudget: float
     genderRatio: float
     employmentStatus: List[str]
-    homeValue: float
     populationDensity: float
     selectedBoroughs: List[str]
     areaType: List[str]

@@ -12,15 +12,59 @@ interface RangeSliderProps {
     type: string
     value: number[]
     setValue: (newValue: number[]) => void
-    minMark: string
-    maxMark: string
+    questionNumber: number;
 }
 
 const RangeSlider: React.FC<RangeSliderProps> = (
-    { label, min, max, minDistance, steps, type, value, setValue, minMark, maxMark }
+    { label, min, max, minDistance, steps, type, value, setValue, questionNumber }
     ) => {
     const valueText = (value: number) => {
         return type === 'income' ? `$${value}` : `${value}`
+    }
+
+    const marksGenerator = (type: string | undefined) => {
+        if (type === 'age') {
+            return [
+                {
+                  value: min,
+                  label: `< ${min}`
+                },
+                {
+                    value: 19,
+                  },
+                {
+                  value: (min + max) / 2,
+                  label: `${((min + max) / 2).toFixed(0)}`,
+                },
+                {
+                    value: 50,
+                  },
+                {
+                  value: max,
+                  label: `${max}+`,
+                },
+              ];
+        }
+        return [
+            {
+              value: min,
+              label: `< $10,000`
+            },
+            {
+                value: 32500,
+              },
+            {
+              value: (min + max) / 2,
+              label: `$55,000`,
+            },
+            {
+                value: 77500,
+              },
+            {
+              value: max,
+              label: `$100,000+`,
+            },
+          ];
     }
 
     const handleChange = (
@@ -40,16 +84,13 @@ const RangeSlider: React.FC<RangeSliderProps> = (
     };
 
     return (    
-        <div className='my-10  w-full max-w-md'>
-        <QuestionLabel label={label}/>
+        <div className='mb-6'>
+        <QuestionLabel label={label} questionNumber={questionNumber}/>
         <Slider 
             min={min}
             step={steps}
             max={max}  
-            marks={[
-                { value: min, label: minMark },
-                { value: max, label: maxMark },
-              ]} 
+            marks={marksGenerator(type)}
             getAriaLabel={() => `${label}`}
             value={value} 
             onChange={handleChange}
@@ -58,7 +99,6 @@ const RangeSlider: React.FC<RangeSliderProps> = (
             getAriaValueText={valueText}
             disableSwap
             sx={{
-                width: '100%',
                 color: '#3B447A',
                 '& .MuiSlider-thumb': {
                     '&:hover, &.Mui-focusVisible': {
@@ -73,9 +113,24 @@ const RangeSlider: React.FC<RangeSliderProps> = (
                     fontFamily: 'Inter',
                     fontSize: '1.1rem',
                     backgroundColor: '#3B447A',
+                },
+                '& .MuiSlider-mark': {
+                    height: '1.1rem',
+                    width: '3px'
+                },
+                '& .MuiSlider-markActive': {
+                    height: '1.1rem',
+                    width: '3px',
+                    backgroundColor: '#3B447A',
+                    opacity: 1,
+                    color: '#3B447A'
+                },
+                '& .MuiSlider-markLabel': {
+                    fontFamily: 'Commissioner',
+                    color: '#3B447A',
                 }
             }}
-            className="w-full max-w-md"
+            className="max-w-[75%] lg:max-w-[65%]"
             />
         </div>
     )
