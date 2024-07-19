@@ -575,7 +575,7 @@ const MapPage: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen" style={{ backgroundColor: '#E8EAF6' }}>
       <Header />
       <div className="flex flex-1 mt-20">
         {!isMobile && (
@@ -584,18 +584,19 @@ const MapPage: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 100 }}
             transition={{ duration: 0.5 }}
-            className="hidden md:block w-1/2 overflow-y-auto"
+            className="hidden md:block w-1/2 overflow-y-auto bg-gray-100"
+            style={{ backgroundColor: '#E8EAF6' }}
           >
-            <div className="w-full" style={{ backgroundColor: '#E8EAF6', margin: 0, padding: 0 }}>
-              <div className="flex justify-between items-center text-2xl py-2 px-4" style={{ backgroundColor: '#E8EAF6', position: 'sticky', top: 0 }}>
-                <span>Your Results</span>
+             <div className="w-full" style={{ backgroundColor: '#D1D6F5', margin: 0, padding: 0 }}>
+              <div className="flex justify-between items-center text-2xl py-2 px-4" style={{ backgroundColor: '#D1D6F5', position: 'sticky', top: 0 }}>
+                <span className="font-alegreya text-primary-text-dark font-bold">Your Results</span>
                 <Button variant="outlined">Filters</Button>
               </div>
             </div>
             <Box p={2} className="overflow-auto hide-scrollbar" style={{ maxHeight: 'calc(100vh - 64px)' }}>
-              <Grid container spacing={2}>
+              <Grid container spacing={0}>
                 {neighbourhoods.map((neigbhourhood, index) => (
-                  <LocationCard key={index} location={neigbhourhood} onLearnMore={handleLearnMore} />
+                  <LocationCard key={index} location={neigbhourhood} onLearnMore={handleLearnMore} isBestMatch={index === 0}/>
                 ))}
               </Grid>
             </Box>
@@ -631,14 +632,14 @@ const MapPage: React.FC = () => {
             />
           </div>
           {/* Location on the bottom */}
-          <div className="text-center text-2xl py-2 bg-gray-100">
+          <div className="text-center text-2xl py-2 bg-gray-100 font-alegreya text-primary-text-dark font-bold">
             Your Results
           </div>
           <div className="w-full h-1/2 p-4 bg-gray-100 overflow-y-auto">
             <Box p={2}>
               <Grid container spacing={2}>
                 {neighbourhoods.map((neighbourhood, index) => (
-                  <LocationCard key={index} location={neighbourhood} onLearnMore={handleLearnMore} />
+                  <LocationCard key={index} location={neighbourhood} onLearnMore={handleLearnMore} isBestMatch={index === 0} />
                 ))}
               </Grid>
             </Box>

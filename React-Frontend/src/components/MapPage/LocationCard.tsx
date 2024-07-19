@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, Typography, Grid, Box, Button } from '@mui/material';
+import { Card, CardContent, Typography, Grid, Box } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
@@ -14,9 +14,10 @@ interface LocationCardProps {
     zipcode: string;
   };
   onLearnMore: (location: any) => void;
+  isBestMatch: boolean;
 }
 
-const LocationCard: React.FC<LocationCardProps> = ({ location, onLearnMore }) => {
+const LocationCard: React.FC<LocationCardProps> = ({ location, onLearnMore, isBestMatch }) => {
   // Calculate star rating
   const renderStars = (rating: number) => {
     const stars = [];
@@ -43,22 +44,40 @@ const LocationCard: React.FC<LocationCardProps> = ({ location, onLearnMore }) =>
   };
 
   return (
-    <Grid item xs={12} sm={6}>
+    <Grid item xs={12} sm={6} style={{ display: 'flex', justifyContent: 'center', padding: '25px' }}>
       <Card
         style={{
           display: 'flex',
           flexDirection: 'column',
-          height: '100%',
+          height: '400px',
+          width: '300px',
           cursor: 'pointer',
-          backgroundColor: '#F5F5F5',
-          borderRadius: '12px', // Increased border radius for rounded corners
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Added box shadow for a subtle shadow effect
-          transition: 'transform 0.2s', // Added transition for hover effect
+          backgroundColor: '#FFFFFF', 
+          borderRadius: '12px',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+          transition: 'transform 0.2s',
+          margin: '20 px', 
+           
         }}
         onClick={() => onLearnMore(location)}
         onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.02)')}
         onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
       >
+        {isBestMatch && (
+          <div style={{
+            position: 'absolute',
+            backgroundColor: 'black',
+            color: 'white',
+            padding: '5px 10px',
+            borderRadius: '5px',
+            top: '10px',
+            left: '10px',
+            zIndex: 1,
+            fontWeight: 'bold'
+          }}>
+            Best Match
+          </div>
+        )}
         <img 
           src={location.photoPath} 
           alt={location.name} 
@@ -72,27 +91,26 @@ const LocationCard: React.FC<LocationCardProps> = ({ location, onLearnMore }) =>
         <CardContent 
           style={{ 
             flex: '1 0 auto',
-            padding: '16px 24px', // Adjusted padding
+            padding: '16px 24px',
             borderBottomLeftRadius: '12px',
             borderBottomRightRadius: '12px',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            backgroundColor: '#F5F5F5', 
           }}
         >
           <div>
-            <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-              <Typography variant="h6" style={{ fontWeight: 'bold' }}>{location.name}</Typography>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
+              <Typography variant="body2" color="textSecondary" style={{fontFamily: 'Commissioner',fontSize: '16px', }}>{location.borough}</Typography>
               <Box display="flex" alignItems="center">
-                {/* Render star */}
                 {renderStars(location.rating)}
                 <Typography variant="body2" style={{ marginLeft: 4, fontWeight: 'bold' }}>{location.rating.toFixed(2)}</Typography>
               </Box>
             </Box>
-            <Typography variant="body2" color="textSecondary" mb={1}>{location.borough}</Typography>
-            <Typography variant="body2" color="textSecondary" mb={2}>{location.description}</Typography>
+            <Typography variant="h6" style={{ fontWeight: 'bold', color: '#3B447A',fontFamily: 'Alegreya' }}>{location.name}</Typography>
+            <Typography variant="body2" style={{ color: '#3B447A',fontFamily: 'Alegreya',fontSize: '16px' }} mb={2}>{location.description}</Typography>
           </div>
-          <Button variant="contained" color="primary" onClick={() => onLearnMore(location)} style={{ marginTop: '16px' }}>Learn More</Button>
         </CardContent>
       </Card>
     </Grid>
