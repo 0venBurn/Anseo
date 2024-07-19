@@ -82,6 +82,9 @@ export interface HighlightedLocation {
 }
 
 const MapPage: React.FC = () => {
+  const fastURL = import.meta.env.VITE_FAST_URL;
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
+  const frontendURL = import.meta.env.VITE_FRONTEND_URL;
   const { isSignedIn, isLoaded } = useAuth();
   const { user } = useUser();
   const { data, isQuestionnaireCompleted, setQuestionnaireDefault, dummyData } =
@@ -214,7 +217,7 @@ const MapPage: React.FC = () => {
         // continue as guest
         if (!isSignedIn && isQuestionnaireCompleted()) {
           console.log("test: continue as guest");
-          const response = await fetch("http://localhost:8000/api/v1/predict", {
+          const response = await fetch(`${fastURL}/api/v1/predict`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -234,19 +237,16 @@ const MapPage: React.FC = () => {
         // signed in and completed questionnaire
         if (isSignedIn && isQuestionnaireCompleted()) {
           console.log("test: signed in and completed questionnaire");
-          const mlResponse = await fetch(
-            "http://localhost:8000/api/v1/predict",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(payload),
+          const mlResponse = await fetch(`${fastURL}/api/v1/predict`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
             },
-          );
+            body: JSON.stringify(payload),
+          });
 
           const dbResponse = await fetch(
-            `http://localhost:8080/api/v1/user-results/${user && user.id}`,
+            `${backendURL}/api/v1/user-results/${user && user.id}`,
             {
               method: "POST",
               headers: {
@@ -277,7 +277,7 @@ const MapPage: React.FC = () => {
         if (isSignedIn && !isQuestionnaireCompleted()) {
           console.log("test: signed in and questionnaire not completed");
           const dbResponse = await fetch(
-            `http://localhost:8080/api/v1/user-results/${user && user.id}`,
+            `${backendURL}/api/v1/user-results/${user && user.id}`,
           );
 
           const data = await dbResponse.json();
@@ -291,16 +291,13 @@ const MapPage: React.FC = () => {
             throw new Error(`Couldn't find user results in database: ${user}`);
           }
 
-          const mlResponse = await fetch(
-            "http://localhost:8000/api/v1/predict",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(data.results[0].results),
+          const mlResponse = await fetch(`${fastURL}/api/v1/predict`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
             },
-          );
+            body: JSON.stringify(data.results[0].results),
+          });
 
           if (!mlResponse.ok) {
             throw new Error("API response from ML Model was not ok.");
@@ -331,7 +328,7 @@ const MapPage: React.FC = () => {
     const fetchPage = async (page: number) => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/v1/neighbourhoods?page=${page}`,
+          `${backendURL}/api/v1/neighbourhoods?page=${page}`,
         );
         return response.data._embedded.neighbourhoods;
       } catch (error) {
@@ -342,9 +339,7 @@ const MapPage: React.FC = () => {
 
     const fetchAllLocations = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/api/v1/neighbourhoods",
-        );
+        const response = await axios.get(`${backendURL}/api/v1/neighbourhoods`);
         const totalPages = response.data.page.totalPages;
 
         // Fetch all pages concurrently
@@ -414,7 +409,7 @@ const MapPage: React.FC = () => {
     const fetchPage = async (page: number) => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/v1/listings?page=${page}`,
+          `${backendURL}/api/v1/listings?page=${page}`,
         );
         return response.data._embedded.listings;
       } catch (error) {
@@ -425,9 +420,7 @@ const MapPage: React.FC = () => {
 
     const fetchAllListings = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/api/v1/listings",
-        );
+        const response = await axios.get(`${backendURL}/api/v1/listings`);
         const totalPages = response.data.page.totalPages;
 
         // Fetch all pages concurrently
