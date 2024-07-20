@@ -6,11 +6,10 @@ services:
       dockerfile: Dockerfile
     expose:
       - "8080"
-    env_file:
-      - ./dev.env
     networks:
       - myapp-network
-      - custom_network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   nginx:
     image: nginx:latest
@@ -22,12 +21,8 @@ services:
       - myapp
     networks:
       - myapp-network
-      - custom_network
 
 networks:
   myapp-network:
     driver: bridge
 
-  custom_network:
-    driver: bridge
-    external: true

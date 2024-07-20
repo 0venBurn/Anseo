@@ -102,18 +102,20 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({ location, listings, r
 
     // Full stars
     for (let i = 0; i < fullStars; i++) {
-      stars.push(<StarIcon key={i} style={{ color: '#FFD700' }} />);
+      stars.push(<StarIcon key={i} style={{ color: "#FFD700" }} />);
     }
 
     // Half star
     if (hasHalfStar) {
-      stars.push(<StarHalfIcon key="half" style={{ color: '#FFD700' }} />);
+      stars.push(<StarHalfIcon key="half" style={{ color: "#FFD700" }} />);
     }
 
     // Empty stars
     const emptyStars = 5 - stars.length;
     for (let i = 0; i < emptyStars; i++) {
-      stars.push(<StarBorderIcon key={`empty-${i}`} style={{ color: '#FFD700' }} />);
+      stars.push(
+        <StarBorderIcon key={`empty-${i}`} style={{ color: "#FFD700" }} />,
+      );
     }
 
     return stars;
@@ -193,9 +195,9 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({ location, listings, r
     <AnimatePresence>
       {!isClosing && (
         <motion.div
-          initial={isMobile ? { y: '100%' } : { x: '-100%' }}
+          initial={isMobile ? { y: "100%" } : { x: "-100%" }}
           animate={isMobile ? { y: 0 } : { x: 0 }}
-          exit={isMobile ? { y: '100%' } : { x: '-100%' }}
+          exit={isMobile ? { y: "100%" } : { x: "-100%" }}
           transition={{ duration: 0.5 }}
           className={`fixed ${isMobile ? 'left-0 w-full h-1/2 bottom-0' : 'top-[76px] left-0 w-1/2 h-[calc(100%-76px)]'} bg-white shadow-lg p-6 z-50 overflow-y-auto`}
         >
@@ -219,7 +221,15 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({ location, listings, r
             {location.description}
           </Typography>
           <Typography variant="body2" paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed ullamcorper morbi tincidunt ornare. Est placerat in egestas erat imperdiet sed. In arcu cursus euismod quis viverra nibh. Scelerisque viverra mauris in aliquam. Sodales neque sodales ut etiam sit. Sed augue lacus viverra vitae congue. Consectetur lorem donec massa sapien. Nisl purus in mollis nunc sed id semper. Semper feugiat nibh sed pulvinar. Sem viverra aliquet eget sit amet tellus. Nulla at volutpat diam ut.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed
+            ullamcorper morbi tincidunt ornare. Est placerat in egestas erat
+            imperdiet sed. In arcu cursus euismod quis viverra nibh. Scelerisque
+            viverra mauris in aliquam. Sodales neque sodales ut etiam sit. Sed
+            augue lacus viverra vitae congue. Consectetur lorem donec massa
+            sapien. Nisl purus in mollis nunc sed id semper. Semper feugiat nibh
+            sed pulvinar. Sem viverra aliquet eget sit amet tellus. Nulla at
+            volutpat diam ut.
           </Typography>
           <Typography variant="h5" component="h3" gutterBottom>
             Why this location?
@@ -250,7 +260,11 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({ location, listings, r
           </Typography>
           {listings.length > 0 ? (
             <Box display="flex" overflow="auto">
-              <Grid container spacing={2} style={{ flexWrap: 'nowrap', overflowX: 'auto' }}>
+              <Grid
+                container
+                spacing={2}
+                style={{ flexWrap: "nowrap", overflowX: "auto" }}
+              >
                 {listings.map((listing) => (
                   <Grid item key={listing.id} style={{ minWidth: '200px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <div>
@@ -276,7 +290,10 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({ location, listings, r
               </Grid>
             </Box>
           ) : (
-            <Typography variant="body2"> Currently no listings available</Typography>
+            <Typography variant="body2">
+              {" "}
+              Currently no listings available
+            </Typography>
           )}
         </motion.div>
       )}

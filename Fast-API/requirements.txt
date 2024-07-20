@@ -3,3 +3,7 @@ pydantic
 uvicorn
 joblib
 python-dotenv
+pandas
+scipy
+scikit-learn==1.5.0
+fastapi[all]

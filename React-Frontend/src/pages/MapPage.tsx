@@ -17,7 +17,7 @@ import { useQuestionnaire } from '../context/QuestionnaireProvider';
 
 mapboxgl.accessToken = environment.mapbox.accessToken;
 
-export interface Neighbourhood{
+export interface Neighbourhood {
   name: string;
   borough: string;
   description: string;
@@ -84,11 +84,15 @@ export interface HighlightedLocation {
 const MapPage: React.FC = () => {
   const { isSignedIn, isLoaded } = useAuth();
   const { user } = useUser();
-  const { data, isQuestionnaireCompleted, setQuestionnaireDefault, dummyData } = useQuestionnaire();
+  const { data, isQuestionnaireCompleted, setQuestionnaireDefault, dummyData } =
+    useQuestionnaire();
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
-  const [predictions, setPredictions] = useState<PredictionResponse>({ predictions: {} });
+  const [predictions, setPredictions] = useState<PredictionResponse>({
+    predictions: {},
+  });
   const [neighbourhoods, setNeighbourhoods] = useState<Neighbourhood[]>([]);
-  const [selectedNeighbourhood, setSelectedNeighbourhood] = useState<Neighbourhood | null>(null);
+  const [selectedNeighbourhood, setSelectedNeighbourhood] =
+    useState<Neighbourhood | null>(null);
   const [listings, setListings] = useState<Listing[]>([]);
   const [isClosing, setIsClosing] = useState(false);
   const [mapInstance, setMapInstance] = useState<mapboxgl.Map | null>(null);
@@ -98,12 +102,14 @@ const MapPage: React.FC = () => {
   const [indexData, setIndexData] = useState<Indexes[]>([]);
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const fastURL = import.meta.env.VITE_FAST_URL;
+  const javaURL = import.meta.env.VITE_BACKEND_URL;
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("selected boroughs:",selectedBoroughs)
+    console.log("selected boroughs:", selectedBoroughs);
     const fetchPredictions = async () => {
       if (!isLoaded) {
         return;
@@ -208,17 +214,17 @@ const MapPage: React.FC = () => {
 
         // continue as guest
         if (!isSignedIn && isQuestionnaireCompleted()) {
-          console.log('test: continue as guest');
-          const response = await fetch('http://localhost:8000/api/v1/predict', {
-            method: 'POST',
+          console.log("test: continue as guest");
+          const response = await fetch(`${fastURL}/api/v1/predict`, {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify(payload),
           });
 
           if (!response.ok) {
-            throw new Error('API response from ML Model was not ok.');
+            throw new Error("API response from ML Model was not ok.");
           }
           const predictions = await response.json();
           setPredictions(predictions);
@@ -228,11 +234,11 @@ const MapPage: React.FC = () => {
 
         // signed in and completed questionnaire
         if (isSignedIn && isQuestionnaireCompleted()) {
-          console.log('test: signed in and completed questionnaire');
-          const mlResponse = await fetch('http://localhost:8000/api/v1/predict', {
-            method: 'POST',
+          console.log("test: signed in and completed questionnaire");
+          const mlResponse = await fetch(`${fastURL}/api/v1/predict`, {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify(payload),
           });
@@ -246,17 +252,17 @@ const MapPage: React.FC = () => {
             body: JSON.stringify(
               {
                 clerkUserId: user && user.id,
-                results: payload
-              }
-            )
-          });
+                results: payload,
+              }),
+            },
+          );
 
           if (!mlResponse.ok) {
-            throw new Error('API response from ML Model was not ok.');
+            throw new Error("API response from ML Model was not ok.");
           }
 
           if (!dbResponse.ok) {
-            throw new Error('API response from DB was not ok. ' + dbResponse);
+            throw new Error("API response from DB was not ok. " + dbResponse);
           }
 
           const predictions = await mlResponse.json();
@@ -277,22 +283,22 @@ const MapPage: React.FC = () => {
 
           // If user has no saved results in the database, redirect to welcome page
           if (data.results.length === 0) {
-            navigate('/welcome');
+            navigate("/welcome");
             throw new Error(`Couldn't find user results in database: ${user}`);
           }
 
-          const mlResponse = await fetch('http://localhost:8000/api/v1/predict', {
-            method: 'POST',
+          const mlResponse = await fetch("${fastURL}/api/v1/predict", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify(data.results[0].results),
           });
 
           if (!mlResponse.ok) {
-            throw new Error('API response from ML Model was not ok.');
+            throw new Error("API response from ML Model was not ok.");
           } else {
-            console.log('ML response was ok');
+            console.log("ML response was ok");
           }
 
           const predictions = await mlResponse.json();
@@ -304,13 +310,13 @@ const MapPage: React.FC = () => {
 
         // not signed in and questionnaire not completed
         if (!isSignedIn && !isQuestionnaireCompleted()) {
-          console.log('test: not signed in and questionnaire not completed');
-          navigate('/welcome');
+          console.log("test: not signed in and questionnaire not completed");
+          navigate("/welcome");
         }
       } catch (error) {
-        console.error('Error fetching predictions:', error);
+        console.error("Error fetching predictions:", error);
       }
-    }
+    };
     fetchPredictions();
   }, [isLoaded, isSignedIn, user]);
 
@@ -338,7 +344,7 @@ const MapPage: React.FC = () => {
 
         const allLocationsArray = await Promise.all(allLocationsPromises);
         const allLocations = allLocationsArray.flat().map((location: any) => {
-          const neighbourhood_id = location._links.self.href.split('/').pop();
+          const neighbourhood_id = location._links.self.href.split("/").pop();
           return {
             name: location.name,
             borough: location.borough,
@@ -347,13 +353,13 @@ const MapPage: React.FC = () => {
             coordinates: [-73.936, 40.686] as [number, number],
             photoPath: `/img/neighbourhoods/${location.name}.jpg`,
             zipcode: location.zipcode,
-            neighbourhood_id: parseInt(neighbourhood_id, 10)
+            neighbourhood_id: parseInt(neighbourhood_id, 10),
           };
         });
 
         return allLocations;
       } catch (error) {
-        console.error('Error fetching all locations:', error);
+        console.error("Error fetching all locations:", error);
         return [];
       }
     };
@@ -372,12 +378,17 @@ const MapPage: React.FC = () => {
       const maxPrediction = Math.max(...predictionValues);
 
       // update rating and sort，only show the top 10
-      const updatedLocations = filteredLocations.map(location => {
-        const normalizedValue = predictions?.predictions[location.zipcode] !== undefined
-          ? (predictions.predictions[location.zipcode] - minPrediction) / (maxPrediction - minPrediction)
-          : 0;
-        return { ...location, rating: normalizedValue * 5 };
-      }).sort((a, b) => b.rating - a.rating).slice(0, 10);
+      const updatedLocations = filteredLocations
+        .map((location) => {
+          const normalizedValue =
+            predictions?.predictions[location.zipcode] !== undefined
+              ? (predictions.predictions[location.zipcode] - minPrediction) /
+                (maxPrediction - minPrediction)
+              : 0;
+          return { ...location, rating: normalizedValue * 5 };
+        })
+        .sort((a, b) => b.rating - a.rating)
+        .slice(0, 10);
 
       setNeighbourhoods(updatedLocations);
     };
@@ -410,7 +421,7 @@ const MapPage: React.FC = () => {
 
         const allListingsArray = await Promise.all(allListingsPromises);
         const allListings = allListingsArray.flat().map((listing: any) => {
-          const id = parseInt(listing._links.self.href.split('/').pop(), 10);
+          const id = parseInt(listing._links.self.href.split("/").pop(), 10);
           return {
             id,
             listingDetails: listing.listingDetails,
@@ -418,13 +429,13 @@ const MapPage: React.FC = () => {
             imageUrl: listing.imageUrl,
             lat: listing.lat,
             lng: listing.lng,
-            neighbourhoodId: listing.neighbourhoodId
+            neighbourhoodId: listing.neighbourhoodId,
           } as Listing;
         });
 
         return allListings;
       } catch (error) {
-        console.error('Error fetching all listings:', error);
+        console.error("Error fetching all listings:", error);
         return [];
       }
     };
@@ -453,7 +464,7 @@ const MapPage: React.FC = () => {
     fetchListings();
     const fetchRankingsData = async () => {
       try {
-        const response = await axios.get('/final_data_rankings.json');
+        const response = await axios.get("/final_data_rankings.json");
         console.log(response.data); // Check what's actually being returned
         if (Array.isArray(response.data)) {
           setRankingsData(response.data);
@@ -461,7 +472,7 @@ const MapPage: React.FC = () => {
           throw new Error("Fetched data is not an array");
         }
       } catch (error) {
-        console.error('Failed to fetch or parse rankings data:', error);
+        console.error("Failed to fetch or parse rankings data:", error);
       }
     };
     fetchRankingsData();
@@ -480,13 +491,15 @@ const MapPage: React.FC = () => {
       const coordinates = response.data.features[0].center;
       return coordinates;
     } catch (error) {
-      console.error(`Error fetching coordinates for zipcode ${zipcode}:`, error);
+      console.error(
+        `Error fetching coordinates for zipcode ${zipcode}:`,
+        error,
+      );
       return null;
     }
   };
 
   const handleLearnMore = async (neighbourhood: Neighbourhood) => {
-
     setSelectedNeighbourhood(neighbourhood);
     setIsClosing(false);
     // function for zoom in when clicked learn more
@@ -499,14 +512,20 @@ const MapPage: React.FC = () => {
   };
 
   const handleGetLocation = (name: string): Neighbourhood => {
-    console.log(neighbourhoods)
-    return neighbourhoods.find(neighbourhood => neighbourhood.name === name)!
-  }
+    console.log(neighbourhoods);
+    return neighbourhoods.find((neighbourhood) => neighbourhood.name === name)!;
+  };
 
   const handleListingClick = (listing: Listing) => {
-    setHighlightedLocation({ lat: parseFloat(listing.lat), lng: parseFloat(listing.lng) });
+    setHighlightedLocation({
+      lat: parseFloat(listing.lat),
+      lng: parseFloat(listing.lng),
+    });
     if (mapInstance) {
-      mapInstance.flyTo({ center: [parseFloat(listing.lng), parseFloat(listing.lat)], zoom: 14 });
+      mapInstance.flyTo({
+        center: [parseFloat(listing.lng), parseFloat(listing.lat)],
+        zoom: 14,
+      });
     }
   };
 
@@ -517,7 +536,10 @@ const MapPage: React.FC = () => {
   };
 
   const filteredListings = selectedNeighbourhood
-    ? listings.filter(listing => listing.neighbourhoodId === selectedNeighbourhood.neighbourhood_id)
+    ? listings.filter(
+        (listing) =>
+          listing.neighbourhoodId === selectedNeighbourhood.neighbourhood_id,
+      )
     : [];
 
   const filteredRankings = selectedNeighbourhood
@@ -528,12 +550,12 @@ const MapPage: React.FC = () => {
   ? indexData.find(index => index.neighbourhood_id === selectedNeighbourhood.neighbourhood_id)
   : undefined;
 
-      // Not signed in and no questionnaire completed yet
+  // Not signed in and no questionnaire completed yet
   // if (!isSignedIn && !isQuestionnaireCompleted()) {
   //   return (
   //     <>
   //       <Navigate to="/" replace={true} />
-  //     </> 
+  //     </>
   //   )
   // }
 
@@ -564,14 +586,12 @@ const MapPage: React.FC = () => {
   //   )
   // }
 
-  
   if (!isPageLoaded) {
     return (
       <div className="flex justify-center items-center h-screen">
         <div className="text-2xl">Loading...</div>
       </div>
     );
-
   }
 
   return (
@@ -605,12 +625,12 @@ const MapPage: React.FC = () => {
         {/* Map for desktop on the right one-third */}
         {!isMobile && (
           <div className="w-full md:w-1/2 h-full absolute top-0 right-0">
-            <Map 
-              selectedBoroughs={selectedBoroughs} 
+            <Map
+              selectedBoroughs={selectedBoroughs}
               handleSelectNeighbourhood={handleLearnMore}
               handleGetLocation={handleGetLocation}
-              predictions={predictions} 
-              listings={filteredListings} 
+              predictions={predictions}
+              listings={filteredListings}
               highlightedLocation={highlightedLocation}
               setMapInstance={setMapInstance}
             />
@@ -621,12 +641,12 @@ const MapPage: React.FC = () => {
         <div className="block md:hidden flex-1">
           {/* Map for mobile display on the top half */}
           <div className="w-full h-80 z-10">
-            <Map 
-              selectedBoroughs={selectedBoroughs} 
-              predictions={predictions} 
+            <Map
+              selectedBoroughs={selectedBoroughs}
+              predictions={predictions}
               handleSelectNeighbourhood={handleLearnMore}
               handleGetLocation={handleGetLocation}
-              listings={filteredListings} 
+              listings={filteredListings}
               highlightedLocation={highlightedLocation}
               setMapInstance={setMapInstance}
             />
@@ -648,8 +668,8 @@ const MapPage: React.FC = () => {
       )}
       {/* Detail column when clicked learn more */}
       {selectedNeighbourhood && (
-        <LocationDetails 
-          location={selectedNeighbourhood} 
+        <LocationDetails
+          location={selectedNeighbourhood}
           listings={filteredListings} // pass filteredListings
           rankings={filteredRankings}
           indexes={filteredIndexes}
