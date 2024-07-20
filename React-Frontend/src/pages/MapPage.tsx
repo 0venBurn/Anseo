@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import { motion } from 'framer-motion';
-import { Button, Grid, Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { useMediaQuery, useTheme } from '@mui/material';
-import Header from '../components/General/Header';
-import '../index.css';
-import { environment } from '../../mapbox.config';
-import Map from '../components/MapPage/Map';
-import LocationCard from '../components/MapPage/LocationCard';
-import LocationDetails from '../components/MapPage/LocationDetails';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { motion } from "framer-motion";
+import { Button, Grid, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useMediaQuery, useTheme } from "@mui/material";
+import Header from "../components/General/Header";
+import "../index.css";
+import { environment } from "../../mapbox.config";
+import Map from "../components/MapPage/Map";
+import LocationCard from "../components/MapPage/LocationCard";
+import LocationDetails from "../components/MapPage/LocationDetails";
 import { useAuth, useUser } from "@clerk/clerk-react";
-import { useQuestionnaire } from '../context/QuestionnaireProvider';
+import { useQuestionnaire } from "../context/QuestionnaireProvider";
 
 mapboxgl.accessToken = environment.mapbox.accessToken;
 
@@ -82,6 +82,9 @@ export interface HighlightedLocation {
 }
 
 const MapPage: React.FC = () => {
+  const fastURL = import.meta.env.VITE_FAST_URL;
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
+  const frontendURL = import.meta.env.VITE_FRONTEND_URL;
   const { isSignedIn, isLoaded } = useAuth();
   const { user } = useUser();
   const { data, isQuestionnaireCompleted, setQuestionnaireDefault, dummyData } =
@@ -98,13 +101,12 @@ const MapPage: React.FC = () => {
   const [mapInstance, setMapInstance] = useState<mapboxgl.Map | null>(null);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [rankingsData, setRankingsData] = useState<Rankings[]>([]);
-  const [highlightedLocation, setHighlightedLocation] = useState<HighlightedLocation | null>(null);
+  const [highlightedLocation, setHighlightedLocation] =
+    useState<HighlightedLocation | null>(null);
   const [indexData, setIndexData] = useState<Indexes[]>([]);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const fastURL = import.meta.env.VITE_FAST_URL;
-  const javaURL = import.meta.env.VITE_BACKEND_URL;
 
   const navigate = useNavigate();
 
@@ -243,14 +245,14 @@ const MapPage: React.FC = () => {
             body: JSON.stringify(payload),
           });
 
-
-          const dbResponse = await fetch(`http://localhost:8080/api/v1/user-results/${user && user.id}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(
-              {
+          const dbResponse = await fetch(
+            `${backendURL}/api/v1/user-results/${user && user.id}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
                 clerkUserId: user && user.id,
                 results: payload,
               }),
@@ -273,8 +275,10 @@ const MapPage: React.FC = () => {
 
         // signed in and questionnaire not completed
         if (isSignedIn && !isQuestionnaireCompleted()) {
-          console.log('test: signed in and questionnaire not completed');
-          const dbResponse = await fetch(`http://localhost:8080/api/v1/user-results/${user && user.id}`);
+          console.log("test: signed in and questionnaire not completed");
+          const dbResponse = await fetch(
+            `${backendURL}/api/v1/user-results/${user && user.id}`,
+          );
 
           const data = await dbResponse.json();
 
@@ -287,7 +291,7 @@ const MapPage: React.FC = () => {
             throw new Error(`Couldn't find user results in database: ${user}`);
           }
 
-          const mlResponse = await fetch("${fastURL}/api/v1/predict", {
+          const mlResponse = await fetch(`${fastURL}/api/v1/predict`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -323,7 +327,9 @@ const MapPage: React.FC = () => {
   useEffect(() => {
     const fetchPage = async (page: number) => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/v1/neighbourhoods?page=${page}`);
+        const response = await axios.get(
+          `${backendURL}/api/v1/neighbourhoods?page=${page}`,
+        );
         return response.data._embedded.neighbourhoods;
       } catch (error) {
         console.error(`Error fetching page ${page}:`, error);
@@ -333,7 +339,7 @@ const MapPage: React.FC = () => {
 
     const fetchAllLocations = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/v1/neighbourhoods');
+        const response = await axios.get(`${backendURL}/api/v1/neighbourhoods`);
         const totalPages = response.data.page.totalPages;
 
         // Fetch all pages concurrently
@@ -368,9 +374,11 @@ const MapPage: React.FC = () => {
       const allLocations = await fetchAllLocations();
 
       // Filter locations based on selected boroughs
-      const filteredLocations = selectedBoroughs.includes('No preference')
+      const filteredLocations = selectedBoroughs.includes("No preference")
         ? allLocations
-        : allLocations.filter(location => selectedBoroughs.includes(location.borough));
+        : allLocations.filter((location) =>
+            selectedBoroughs.includes(location.borough),
+          );
 
       // normalize the value
       const predictionValues = Object.values(predictions?.predictions || {});
@@ -400,7 +408,9 @@ const MapPage: React.FC = () => {
   useEffect(() => {
     const fetchPage = async (page: number) => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/v1/listings?page=${page}`);
+        const response = await axios.get(
+          `${backendURL}/api/v1/listings?page=${page}`,
+        );
         return response.data._embedded.listings;
       } catch (error) {
         console.error(`Error fetching page ${page}:`, error);
@@ -410,7 +420,7 @@ const MapPage: React.FC = () => {
 
     const fetchAllListings = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/v1/listings');
+        const response = await axios.get(`${backendURL}/api/v1/listings`);
         const totalPages = response.data.page.totalPages;
 
         // Fetch all pages concurrently
@@ -442,7 +452,7 @@ const MapPage: React.FC = () => {
 
     const fetchIndexesData = async () => {
       try {
-        const response = await axios.get('/final_index_data.json');
+        const response = await axios.get("/final_index_data.json");
         console.log(response.data);
         if (Array.isArray(response.data)) {
           setIndexData(response.data);
@@ -450,7 +460,7 @@ const MapPage: React.FC = () => {
           throw new Error("Fetched data is not an array");
         }
       } catch (error) {
-        console.error('Failed to fetch or parse indexes data:', error);
+        console.error("Failed to fetch or parse indexes data:", error);
       }
     };
     fetchIndexesData();
@@ -481,13 +491,16 @@ const MapPage: React.FC = () => {
   // function to convert zipcode to lat and lng
   const getCoordinatesByZipcode = async (zipcode: string) => {
     try {
-      const response = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${zipcode}.json`, {
-        params: {
-          access_token: mapboxgl.accessToken,
-          proximity: '-74.0060,40.7128', // New York City coordinates
-          limit: 1 // Limit the results to 1 to ensure you get the closest match
-        }
-      });
+      const response = await axios.get(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${zipcode}.json`,
+        {
+          params: {
+            access_token: mapboxgl.accessToken,
+            proximity: "-74.0060,40.7128", // New York City coordinates
+            limit: 1, // Limit the results to 1 to ensure you get the closest match
+          },
+        },
+      );
       const coordinates = response.data.features[0].center;
       return coordinates;
     } catch (error) {
@@ -504,8 +517,8 @@ const MapPage: React.FC = () => {
     setIsClosing(false);
     // function for zoom in when clicked learn more
     const coordinates = await getCoordinatesByZipcode(neighbourhood.zipcode);
-    console.log(coordinates)
-    console.log(neighbourhood.zipcode)
+    console.log(coordinates);
+    console.log(neighbourhood.zipcode);
     if (coordinates && mapInstance) {
       mapInstance.flyTo({ center: coordinates, zoom: 12 });
     }
@@ -543,12 +556,18 @@ const MapPage: React.FC = () => {
     : [];
 
   const filteredRankings = selectedNeighbourhood
-  ? rankingsData.find(ranking => ranking.neighbourhood_id === selectedNeighbourhood.neighbourhood_id)
-  : undefined;
+    ? rankingsData.find(
+        (ranking) =>
+          ranking.neighbourhood_id === selectedNeighbourhood.neighbourhood_id,
+      )
+    : undefined;
 
   const filteredIndexes = selectedNeighbourhood
-  ? indexData.find(index => index.neighbourhood_id === selectedNeighbourhood.neighbourhood_id)
-  : undefined;
+    ? indexData.find(
+        (index) =>
+          index.neighbourhood_id === selectedNeighbourhood.neighbourhood_id,
+      )
+    : undefined;
 
   // Not signed in and no questionnaire completed yet
   // if (!isSignedIn && !isQuestionnaireCompleted()) {
@@ -595,7 +614,10 @@ const MapPage: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col h-screen" style={{ backgroundColor: '#E8EAF6' }}>
+    <div
+      className="flex flex-col h-screen"
+      style={{ backgroundColor: "#E8EAF6" }}
+    >
       <Header />
       <div className="flex flex-1 mt-20">
         {!isMobile && (
@@ -605,18 +627,39 @@ const MapPage: React.FC = () => {
             exit={{ opacity: 0, x: 100 }}
             transition={{ duration: 0.5 }}
             className="hidden md:block w-1/2 overflow-y-auto bg-gray-100"
-            style={{ backgroundColor: '#E8EAF6' }}
+            style={{ backgroundColor: "#E8EAF6" }}
           >
-             <div className="w-full" style={{ backgroundColor: '#D1D6F5', margin: 0, padding: 0 }}>
-              <div className="flex justify-between items-center text-2xl py-2 px-4" style={{ backgroundColor: '#D1D6F5', position: 'sticky', top: 0 }}>
-                <span className="font-alegreya text-primary-text-dark font-bold">Your Results</span>
+            <div
+              className="w-full"
+              style={{ backgroundColor: "#D1D6F5", margin: 0, padding: 0 }}
+            >
+              <div
+                className="flex justify-between items-center text-2xl py-2 px-4"
+                style={{
+                  backgroundColor: "#D1D6F5",
+                  position: "sticky",
+                  top: 0,
+                }}
+              >
+                <span className="font-alegreya text-primary-text-dark font-bold">
+                  Your Results
+                </span>
                 <Button variant="outlined">Filters</Button>
               </div>
             </div>
-            <Box p={2} className="overflow-auto hide-scrollbar" style={{ maxHeight: 'calc(100vh - 64px)' }}>
+            <Box
+              p={2}
+              className="overflow-auto hide-scrollbar"
+              style={{ maxHeight: "calc(100vh - 64px)" }}
+            >
               <Grid container spacing={0}>
                 {neighbourhoods.map((neigbhourhood, index) => (
-                  <LocationCard key={index} location={neigbhourhood} onLearnMore={handleLearnMore} isBestMatch={index === 0}/>
+                  <LocationCard
+                    key={index}
+                    location={neigbhourhood}
+                    onLearnMore={handleLearnMore}
+                    isBestMatch={index === 0}
+                  />
                 ))}
               </Grid>
             </Box>
@@ -659,7 +702,12 @@ const MapPage: React.FC = () => {
             <Box p={2}>
               <Grid container spacing={2}>
                 {neighbourhoods.map((neighbourhood, index) => (
-                  <LocationCard key={index} location={neighbourhood} onLearnMore={handleLearnMore} isBestMatch={index === 0} />
+                  <LocationCard
+                    key={index}
+                    location={neighbourhood}
+                    onLearnMore={handleLearnMore}
+                    isBestMatch={index === 0}
+                  />
                 ))}
               </Grid>
             </Box>
@@ -673,9 +721,9 @@ const MapPage: React.FC = () => {
           listings={filteredListings} // pass filteredListings
           rankings={filteredRankings}
           indexes={filteredIndexes}
-          isMobile={isMobile} 
-          isClosing={isClosing} 
-          onClose={handleClose} 
+          isMobile={isMobile}
+          isClosing={isClosing}
+          onClose={handleClose}
           onListingClick={handleListingClick}
         />
       )}

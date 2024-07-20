@@ -1,6 +1,7 @@
 import React from "react";
 import LoginBtn from "../Navigation/LoginBtn";
 import SignUpBtn from "../Navigation/SignUpBtn";
+import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 import { motion } from "framer-motion";
 
 /**
@@ -28,9 +29,22 @@ const LandingPageHeader: React.FC = () => {
         <h1 className="text-center">ANSEO</h1>
       </motion.div>
       <div className="flex items-center justify-end flex-grow flex-shrink basis-0 gap-4 px-2 md:px-20">
-        {/* "Log in" button */}
-        <LoginBtn />
-        <SignUpBtn />
+      <SignedIn>
+          <UserButton 
+            appearance={{
+              elements: {
+                userButtonAvatarBox: "w-12 h-12",
+                userButtonPopoverMain: "font-inter",
+              }
+            }} 
+          />
+        </SignedIn>
+        <SignedOut>
+        <div className="flex space-x-4 items-center">
+          <LoginBtn />
+          <SignUpBtn />
+        </div>
+          </SignedOut>
       </div>
     </div>
   );

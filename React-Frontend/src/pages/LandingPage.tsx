@@ -5,7 +5,6 @@ import LandingPageHeroSection from "../components/LandingPage/LandingPageHeroSec
 import "../index.css";
 
 import LandingPageActionButtons from "../components/LandingPage/LandingPageActionButtons";
-import { SignedIn, SignOutButton } from "@clerk/clerk-react";
 import LandingPageHeader from "../components/LandingPage/LandingPageHeader";
 
 //Main component for the landing page
@@ -19,9 +18,6 @@ const LandingPage: React.FC = () => {
 
         <div className="flex-1 flex flex-col items-center justify-center gap-8 mb-32">
           <LandingPageHeroSection />
-          <SignedIn>
-            <SignOutButton redirectUrl="http://localhost:3000" />
-          </SignedIn>
           {/*Call to action (CTA) buttons*/}
           <LandingPageActionButtons />
         </div>
