@@ -19,7 +19,7 @@ import {
   LineElement, 
   Filler 
 } from 'chart.js';
-import { Listing, Rankings, Indexes, Neighbourhood } from '../../types';
+import { Listing, Rankings, Indexes, Neighbourhood } from '../../utils/types';
 
 // Register all necessary Chart.js components at once
 ChartJS.register(

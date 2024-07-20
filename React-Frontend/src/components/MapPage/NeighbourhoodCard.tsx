@@ -3,7 +3,7 @@ import { Card, CardContent, Typography, Grid, Box } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
-import { Neighbourhood } from '../../types';
+import { Neighbourhood } from '../../utils/types';
 
 interface NeighbourhoodCardProps {
   neighbourhood: Neighbourhood;

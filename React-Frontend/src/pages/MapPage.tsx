@@ -2,25 +2,19 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { useNavigate } from "react-router-dom";
 import { useMediaQuery, useTheme } from "@mui/material";
 import Header from "../components/General/Header";
 import "../index.css";
 import { environment } from "../../mapbox.config";
 import Map from "../components/MapPage/Map";
-import { useAuth, useUser } from "@clerk/clerk-react";
-import { useQuestionnaire } from "../context/QuestionnaireProvider";
-import { Listing, Neighbourhood, PredictionResponse, Rankings, Indexes, HighlightedLocation } from "../types";
+import { Listing, Neighbourhood, PredictionResponse, Rankings, Indexes, HighlightedLocation } from "../utils/types";
 import NeighbourhoodContainer from "../components/MapPage/NeighbourhoodContainer";
+import usePredictions from "../hooks/usePredictions";
 
 mapboxgl.accessToken = environment.mapbox.accessToken;
 
 const MapPage: React.FC = () => {
-  const fastURL = import.meta.env.VITE_FAST_URL;
   const backendURL = import.meta.env.VITE_BACKEND_URL;
-  const { isSignedIn, isLoaded } = useAuth();
-  const { user } = useUser();
-  const { data, isQuestionnaireCompleted, setQuestionnaireDefault } = useQuestionnaire();
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
   const [predictions, setPredictions] = useState<PredictionResponse>({
     predictions: {},
@@ -40,136 +34,11 @@ const MapPage: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log("selected boroughs:", selectedBoroughs);
-    const fetchPredictions = async () => {
-      if (!isLoaded) {
-        return;
-      }
-      if (isLoaded) {
-        console.log("Clerk has finished loading");
-        setIsPageLoaded(true);
-      }
-      try {
-        let payload;
-        console.log(isSignedIn);
-        if (isQuestionnaireCompleted()) {
-          setSelectedBoroughs(data.selectedBoroughs);
-          payload = { data };
-          console.log(payload);
-        }
-
-        // continue as guest
-        if (!isSignedIn && isQuestionnaireCompleted()) {
-          console.log("test: continue as guest");
-          const response = await fetch(`${fastURL}/api/v1/predict`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-          });
-
-          if (!response.ok) {
-            throw new Error("API response from ML Model was not ok.");
-          }
-          const predictions = await response.json();
-          setPredictions(predictions);
-          setQuestionnaireDefault();
-          return;
-        }
-
-        // signed in and completed questionnaire
-        if (isSignedIn && isQuestionnaireCompleted()) {
-          console.log("test: signed in and completed questionnaire");
-          const mlResponse = await fetch(`${fastURL}/api/v1/predict`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-          });
-
-          const dbResponse = await fetch(
-            `${backendURL}/api/v1/user-results/${user && user.id}`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                clerkUserId: user && user.id,
-                results: payload,
-              }),
-            },
-          );
-
-          if (!mlResponse.ok) {
-            throw new Error("API response from ML Model was not ok.");
-          }
-
-          if (!dbResponse.ok) {
-            throw new Error("API response from DB was not ok. " + dbResponse);
-          }
-
-          const predictions = await mlResponse.json();
-          setPredictions(predictions);
-          setQuestionnaireDefault();
-          return;
-        }
-
-        // signed in and questionnaire not completed
-        if (isSignedIn && !isQuestionnaireCompleted()) {
-          console.log("test: signed in and questionnaire not completed");
-          const dbResponse = await fetch(
-            `${backendURL}/api/v1/user-results/${user && user.id}`,
-          );
-
-          const data = await dbResponse.json();
-
-          console.log(data);
-          console.log(data.results[0].results);
-
-          // If user has no saved results in the database, redirect to welcome page
-          if (data.results.length === 0) {
-            navigate("/welcome");
-            throw new Error(`Couldn't find user results in database: ${user}`);
-          }
-
-          const mlResponse = await fetch(`${fastURL}/api/v1/predict`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data.results[0].results),
-          });
-
-          if (!mlResponse.ok) {
-            throw new Error("API response from ML Model was not ok.");
-          } else {
-            console.log("ML response was ok");
-          }
-
-          const predictions = await mlResponse.json();
-          console.log(predictions);
-          setPredictions(predictions);
-          setSelectedBoroughs(data.results[0].results.data.selectedBoroughs);
-          return;
-        }
-
-        // not signed in and questionnaire not completed
-        if (!isSignedIn && !isQuestionnaireCompleted()) {
-          console.log("test: not signed in and questionnaire not completed");
-          navigate("/welcome");
-        }
-      } catch (error) {
-        console.error("Error fetching predictions:", error);
-      }
-    };
-    fetchPredictions();
-  }, [isLoaded, isSignedIn, user]);
+  usePredictions(
+    setPredictions, 
+    setIsPageLoaded,
+    setSelectedBoroughs
+  )
 
   useEffect(() => {
     const fetchPage = async (page: number) => {

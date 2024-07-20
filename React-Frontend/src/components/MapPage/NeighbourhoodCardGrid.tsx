@@ -1,5 +1,5 @@
 import NeighbourhoodCard from "./NeighbourhoodCard";
-import { Neighbourhood } from "../../types";
+import { Neighbourhood } from "../../utils/types";
 
 interface NeighbourhoodCardGridProps {
     neighbourhoods: Neighbourhood[]

@@ -66,3 +66,28 @@ export interface ZipProbability {
     zipcode: string;
     probability: number;
   }
+
+export interface Data {
+  businessType: string;
+  openHour: string;
+  closeHour: string;
+  budget: number;
+  selectedAgeGroup: number[];
+  ageImportance: number;
+  selectedIncomeLevel: number[];
+  incomeImportance: number;
+  targetGroup: string[];
+  proximityImportance: number;
+  footfallImportance: number;
+  surroundingBusinessesImportance: number;
+  rentBudget: number;
+  genderRatio: string;
+  employmentStatus: string[];
+  populationDensity: number;
+  selectedBoroughs: string[];
+  areaType: string[];
+}
+
+export interface Payload {
+  data: Data
+}

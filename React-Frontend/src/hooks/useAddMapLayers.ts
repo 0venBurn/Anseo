@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
-import { Neighbourhood, Listing, HighlightedLocation, PredictionResponse, ZipProbability } from '../types'
+import { Neighbourhood, Listing, HighlightedLocation, PredictionResponse, ZipProbability } from '../utils/types'
 
 export const useAddMapLayers = (
   map: mapboxgl.Map | null,

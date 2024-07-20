@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Indexes, Listing, Neighbourhood, Rankings } from "../../types";
+import { Indexes, Listing, Neighbourhood, Rankings } from "../../utils/types";
 import UserOptionsHeader from "./UserOptionsHeader";
 import NeighbourhoodCardGrid from "./NeighbourhoodCardGrid";
 import NeighbourhoodDetails from "./NeighbourhoodDetails";
