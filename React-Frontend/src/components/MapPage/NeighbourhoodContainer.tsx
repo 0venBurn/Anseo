@@ -11,7 +11,6 @@ interface NeighbourhoodContainerProps {
     filteredListings: Listing[]
     filteredRankings: Rankings | undefined
     filteredIndexes: Indexes | undefined    
-    isMobile: boolean
     isClosing: boolean
     handleClose: () => void
     handleListingClick: (listing: Listing) => void
@@ -25,13 +24,12 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
         filteredListings,
         filteredRankings,
         filteredIndexes,
-        isMobile,
         isClosing,
         handleClose,
         handleListingClick
      }) => {
     return (
-        <div className="flex flex-col w-full bg-user-sidebar-purple-light">
+        <div className="flex flex-col w-full md:w-[50%] min-h[calc(100vh-5rem)] bg-user-sidebar-purple-light overflow-scroll">
           <UserOptionsHeader />
         <motion.div
           initial={{ opacity: 0, x: -100 }}
@@ -45,7 +43,6 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
             listings={filteredListings} 
             rankings={filteredRankings}
             indexes={filteredIndexes}
-            isMobile={isMobile}
             isClosing={isClosing}
             onClose={handleClose}
             onListingClick={handleListingClick}

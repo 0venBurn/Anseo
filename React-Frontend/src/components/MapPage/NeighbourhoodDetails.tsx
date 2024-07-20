@@ -1,10 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { IconButton, Typography, Box, Grid } from '@mui/material';
+import { IconButton, Typography, Box, Grid, Rating } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
-import StarHalfIcon from '@mui/icons-material/StarHalf';
 import { Bar, Radar } from 'react-chartjs-2';
 import { 
   Chart as ChartJS, 
@@ -41,39 +38,12 @@ interface NeighbourhoodDetailsProps {
   listings: ListingType[];
   rankings: Rankings | undefined;
   indexes: Indexes | undefined;
-  isMobile: boolean;
   isClosing: boolean;
   onClose: () => void;
   onListingClick: (listing: ListingType) => void;
 }
 
-const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourhood, listings, rankings, indexes, isMobile, isClosing, onClose, onListingClick }) => {
-  // calculate rating
-  const renderStars = (rating: number) => {
-    const stars = [];
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating - fullStars >= 0.5;
-
-    // Full stars
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(<StarIcon key={i} style={{ color: "#FFD700" }} />);
-    }
-
-    // Half star
-    if (hasHalfStar) {
-      stars.push(<StarHalfIcon key="half" style={{ color: "#FFD700" }} />);
-    }
-
-    // Empty stars
-    const emptyStars = 5 - stars.length;
-    for (let i = 0; i < emptyStars; i++) {
-      stars.push(
-        <StarBorderIcon key={`empty-${i}`} style={{ color: "#FFD700" }} />,
-      );
-    }
-
-    return stars;
-  };
+const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourhood, listings, rankings, indexes, isClosing, onClose, onListingClick }) => {
 
   const demographicData = {
     labels: [
@@ -149,28 +119,41 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
     <AnimatePresence>
       {!isClosing && (
         <motion.div
-          initial={isMobile ? { y: "100%" } : { x: "-100%" }}
-          animate={isMobile ? { y: 0 } : { x: 0 }}
-          exit={isMobile ? { y: "100%" } : { x: "-100%" }}
+          initial={{ opacity: 0, x: -100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 100 }}
           transition={{ duration: 0.5 }}
-          className={`fixed ${isMobile ? 'left-0 w-full h-1/2 bottom-0' : 'top-[76px] left-0 w-1/2 h-[calc(100%-76px)]'} bg-white shadow-lg p-6 z-50 overflow-y-auto`}
+          className={` bg-user-sidebar-purple-light shadow-lg p-6 z-50 overflow-y-auto`}
         >
           <div className="flex justify-end">
             <IconButton onClick={onClose}>
               <CloseIcon />
             </IconButton>
           </div>
-          <Typography variant="h4" component="h2" gutterBottom>
+          <Typography variant="h4" component="h2" gutterBottom style={{ fontWeight: 'bold', color: '#3B447A', fontFamily: 'Alegreya' }}>
             {neighbourhood.name}
           </Typography>
           <Typography variant="h6" color="textSecondary" gutterBottom>
             {neighbourhood.borough}
           </Typography>
-          <Box display="flex" alignItems="center" mt={1} mb={2}>
-            <Typography variant="body2" style={{ marginRight: 4 }}>{neighbourhood.rating.toFixed(2)}</Typography>
-            {/* render rating */}
-            {renderStars(neighbourhood.rating)}
-          </Box>
+          <Box display="flex" alignItems="center" mt={1} mb={2} gap={1}>
+            <Rating 
+              name="Neighbourhood Rating" 
+              value={neighbourhood.rating} 
+              precision={0.1} 
+              readOnly
+              sx={{
+                fontFamily: 'Commissioner',
+                color: '#2D345D',
+              }}
+             />
+              <Typography variant="body2" style={{ 
+                color: '#2D345D',
+                fontFamily: 'Commissioner',
+                fontWeight: 500
+              }}>{neighbourhood.rating.toFixed(2)}
+               </Typography>
+              </Box>
           <Typography variant="body1" paragraph>
             {neighbourhood.description}
           </Typography>
@@ -183,7 +166,18 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
               <Bar data={demographicData} options={{ maintainAspectRatio: false }} />
             </Box>
             <Box sx={{ width: '45%' }}>
-              <Radar data={demographicRadarData} options={{ maintainAspectRatio: false }} />
+              <Radar data={demographicRadarData} options={
+                { 
+                  maintainAspectRatio: false,
+                  scales: {
+                    r: {
+                      ticks: {
+                        display: false
+                      }
+                    }
+                  },
+                }
+                } />
             </Box>
           </Box>
 
@@ -194,7 +188,18 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
               <Bar data={economicData} options={{ maintainAspectRatio: false }} />
             </Box>
             <Box sx={{ width: '45%' }}>
-              <Radar data={economicRadarData} options={{ maintainAspectRatio: false }} />
+              <Radar data={economicRadarData} options={
+                { 
+                  maintainAspectRatio: false,
+                  scales: {
+                    r: {
+                      ticks: {
+                        display: false
+                      }
+                    }
+                  },
+                }
+              } />
             </Box>
           </Box>
 

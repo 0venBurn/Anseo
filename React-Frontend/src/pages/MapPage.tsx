@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { useMediaQuery, useTheme } from "@mui/material";
 import Header from "../components/General/Header";
 import "../index.css";
 import { environment } from "../../mapbox.config";
@@ -30,9 +29,6 @@ const MapPage: React.FC = () => {
   const [highlightedLocation, setHighlightedLocation] =
     useState<HighlightedLocation | null>(null);
   const [indexData, setIndexData] = useState<Indexes[]>([]);
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   usePredictions(
     setPredictions, 
@@ -296,7 +292,7 @@ const MapPage: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="flex flex-col-reverse xl:flex-row">
+      <div className="flex flex-col-reverse md:flex-row h-[calc(100vh-5rem)]">
         <NeighbourhoodContainer 
           neighbourhoods={neighbourhoods}
           handleLearnMore={handleLearnMore}
@@ -304,7 +300,6 @@ const MapPage: React.FC = () => {
           filteredListings={filteredListings} 
           filteredRankings={filteredRankings}
           filteredIndexes={filteredIndexes}
-          isMobile={isMobile}
           isClosing={isClosing}
           handleClose={handleClose}
           handleListingClick={handleListingClick}

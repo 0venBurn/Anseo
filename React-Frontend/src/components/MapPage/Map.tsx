@@ -77,7 +77,7 @@ const Map: React.FC<MapProps> = ({
   // Custom hook to add map layers including highlighted location
   useAddMapLayers(map, selectedBoroughs, predictions, listings, handleSelectNeighbourhood, handleGetLocation, highlightedLocation);
 
-  return <div ref={mapRef} className="min-h-screen w-full" />;
+  return <div ref={mapRef} className="flex-1 min-h-[50vh] w-full" />;
 };
 
 export default Map;
