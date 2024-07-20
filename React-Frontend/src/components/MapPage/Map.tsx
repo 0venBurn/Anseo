@@ -5,7 +5,7 @@ import { useMapInit } from '../../hooks/useMapInit';
 import { useAddMapLayers } from '../../hooks/useAddMapLayers';
 import mapboxgl from 'mapbox-gl';
 import '../../index.css';
-import { Listing, Neighbourhood, HighlightedLocation, PredictionResponse } from '../../pages/MapPage';
+import { Listing, Neighbourhood, HighlightedLocation, PredictionResponse } from '../../types';
 
 interface MapProps {
   selectedBoroughs: string[];
@@ -77,7 +77,7 @@ const Map: React.FC<MapProps> = ({
   // Custom hook to add map layers including highlighted location
   useAddMapLayers(map, selectedBoroughs, predictions, listings, handleSelectNeighbourhood, handleGetLocation, highlightedLocation);
 
-  return <div ref={mapRef} className="map w-full h-full md:h-screen" />;
+  return <div ref={mapRef} className="min-h-screen w-full" />;
 };
 
 export default Map;

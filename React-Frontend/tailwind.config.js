@@ -8,6 +8,8 @@ export default {
       "primary-text-dark": "#3B447A",
       "form-button-grey": "#E0E0E0",
       "shaded-grey": "#ABB0B4",
+      "user-sidebar-purple-light": "#E8EAF6",
+      "user-sidebar-purple-dark": "#D1D6F5",
       white: "#FFFFFF",
       "bk-grey": "#F5F4FA",
       yellow: "#DEDA6D",

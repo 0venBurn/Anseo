@@ -3,21 +3,15 @@ import { Card, CardContent, Typography, Grid, Box } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
+import { Neighbourhood } from '../../types';
 
-interface LocationCardProps {
-  location: {
-    name: string;
-    borough: string;
-    description: string;
-    rating: number;
-    photoPath: string;
-    zipcode: string;
-  };
-  onLearnMore: (location: any) => void;
+interface NeighbourhoodCardProps {
+  neighbourhood: Neighbourhood;
+  onLearnMore: (neighbourhood: Neighbourhood) => void;
   isBestMatch: boolean;
 }
 
-const LocationCard: React.FC<LocationCardProps> = ({ location, onLearnMore, isBestMatch }) => {
+const NeighbourhoodCard: React.FC<NeighbourhoodCardProps> = ({ neighbourhood, onLearnMore, isBestMatch }) => {
   // Calculate star rating
   const renderStars = (rating: number) => {
     const stars = [];
@@ -75,13 +69,13 @@ const LocationCard: React.FC<LocationCardProps> = ({ location, onLearnMore, isBe
             position: 'relative', // Ensure card is positioned relative to its container
             overflow: 'hidden', // Ensure content does not overflow
           }}
-          onClick={() => onLearnMore(location)}
+          onClick={() => onLearnMore(neighbourhood)}
           onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.02)')}
           onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
         >
           <img
-            src={location.photoPath}
-            alt={location.name}
+            src={neighbourhood.photoPath}
+            alt={neighbourhood.name}
             style={{
               height: 160,
               objectFit: 'cover',
@@ -103,14 +97,14 @@ const LocationCard: React.FC<LocationCardProps> = ({ location, onLearnMore, isBe
           >
             <div>
               <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-                <Typography variant="body2" color="textSecondary" style={{ fontFamily: 'Commissioner', fontSize: '16px' }}>{location.borough}</Typography>
+                <Typography variant="body2" color="textSecondary" style={{ fontFamily: 'Commissioner', fontSize: '16px' }}>{neighbourhood.borough}</Typography>
                 <Box display="flex" alignItems="center">
-                  {renderStars(location.rating)}
-                  <Typography variant="body2" style={{ marginLeft: 4, fontWeight: 'bold' }}>{location.rating.toFixed(2)}</Typography>
+                  {renderStars(neighbourhood.rating)}
+                  <Typography variant="body2" style={{ marginLeft: 4, fontWeight: 'bold' }}>{neighbourhood.rating.toFixed(2)}</Typography>
                 </Box>
               </Box>
-              <Typography variant="h6" style={{ fontWeight: 'bold', color: '#3B447A', fontFamily: 'Alegreya' }}>{location.name}</Typography>
-              <Typography variant="body2" style={{ color: '#3B447A', fontFamily: 'Alegreya', fontSize: '16px' }} mb={2}>{location.description}</Typography>
+              <Typography variant="h6" style={{ fontWeight: 'bold', color: '#3B447A', fontFamily: 'Alegreya' }}>{neighbourhood.name}</Typography>
+              <Typography variant="body2" style={{ color: '#3B447A', fontFamily: 'Alegreya', fontSize: '16px' }} mb={2}>{neighbourhood.description}</Typography>
             </div>
           </CardContent>
         </Card>
@@ -119,4 +113,4 @@ const LocationCard: React.FC<LocationCardProps> = ({ location, onLearnMore, isBe
   );
 };
 
-export default LocationCard;
+export default NeighbourhoodCard;

@@ -19,6 +19,7 @@ import {
   LineElement, 
   Filler 
 } from 'chart.js';
+import { Listing, Rankings, Indexes, Neighbourhood } from '../../types';
 
 // Register all necessary Chart.js components at once
 ChartJS.register(
@@ -33,57 +34,9 @@ ChartJS.register(
   LineElement, 
   Filler
 );
-interface Listing {
-  id: number;
-  listingDetails: string;
-  link: string;
-  imageUrl: string;
-  lat: string;
-  lng: string;
-  neighbourhoodId: number;
-}
 
-interface Rankings {
-  neighbourhood_id: number;
-  population_density_Rank: number;
-  index_percPop_0_5_Rank: number;
-  index_percPop_6_11_Rank: number;
-  index_percPop_12_17_Rank: number;
-  male_index_Rank: number;
-  female_index_Rank: number;
-  Normalized_Employment_Health_Index_Rank: number;
-  Annual_Earnings_Index_Rank: number;
-  Housing_Affordability_Index_Rank: number;
-  Safety_Index_Rank: number;
-  age_evenness_index_Rank: number;
-  gender_diversity_index_Rank: number;
-  business_index_Rank: number;
-}
-
-interface Indexes {
-  neighbourhood_id: number;
-  population_density: number;
-  index_percPop_0_5: number;
-  index_percPop_6_11: number;
-  index_percPop_12_17: number;
-  male_index: number;
-  female_index: number;
-  Normalized_Employment_Health_Index: number;
-  Annual_Earnings_Index: number;
-  Housing_Affordability_Index: number;
-  Safety_Index: number;
-  age_evenness_index: number;
-  gender_diversity_index: number;
-  business_index: number;
-}
-
-interface LocationDetailsProps {
-  location: {
-    name: string;
-    borough: string;
-    description: string;
-    rating: number;
-  };
+interface NeighbourhoodDetailsProps {
+  neighbourhood: Neighbourhood
   listings: Listing[];
   rankings: Rankings | undefined;
   indexes: Indexes | undefined;
@@ -93,7 +46,7 @@ interface LocationDetailsProps {
   onListingClick: (listing: Listing) => void;
 }
 
-const LocationDetails: React.FC<LocationDetailsProps> = ({ location, listings, rankings, indexes, isMobile, isClosing, onClose, onListingClick }) => {
+const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourhood, listings, rankings, indexes, isMobile, isClosing, onClose, onListingClick }) => {
   // calculate rating
   const renderStars = (rating: number) => {
     const stars = [];
@@ -207,18 +160,18 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({ location, listings, r
             </IconButton>
           </div>
           <Typography variant="h4" component="h2" gutterBottom>
-            {location.name}
+            {neighbourhood.name}
           </Typography>
           <Typography variant="h6" color="textSecondary" gutterBottom>
-            {location.borough}
+            {neighbourhood.borough}
           </Typography>
           <Box display="flex" alignItems="center" mt={1} mb={2}>
-            <Typography variant="body2" style={{ marginRight: 4 }}>{location.rating.toFixed(2)}</Typography>
+            <Typography variant="body2" style={{ marginRight: 4 }}>{neighbourhood.rating.toFixed(2)}</Typography>
             {/* render rating */}
-            {renderStars(location.rating)}
+            {renderStars(neighbourhood.rating)}
           </Box>
           <Typography variant="body1" paragraph>
-            {location.description}
+            {neighbourhood.description}
           </Typography>
           <Typography variant="body2" paragraph>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -232,7 +185,7 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({ location, listings, r
             volutpat diam ut.
           </Typography>
           <Typography variant="h5" component="h3" gutterBottom>
-            Why this location?
+            Why this neighbourhood?
           </Typography>
           <Typography variant="h5" component="h3" gutterBottom>Demographic Rankings</Typography>
           <Box sx={{ height: 300, display: 'flex', justifyContent: 'space-between' }}>
@@ -301,4 +254,4 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({ location, listings, r
   );
 };
 
-export default LocationDetails;
+export default NeighbourhoodDetails;

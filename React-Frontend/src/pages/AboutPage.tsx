@@ -26,7 +26,7 @@ const AboutPage: React.FC = () => {
   ];
 
   return (
-    <div className="relative min-h-screen bg-gray-100 text-black">
+    <div className="relative min-h-screen bg-bk-grey text-primary-text-dark">
       <Header />
       <motion.div
         initial={{ opacity: 0, x: -100 }}

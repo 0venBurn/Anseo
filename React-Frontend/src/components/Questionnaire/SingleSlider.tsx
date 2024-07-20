@@ -51,7 +51,7 @@ const SingleSlider: React.FC<SingleSliderProps> = (
                 label: `< $${min}`,
             },
             {
-                value: max > 100000 ? (max / 2).toFixed(0) : ((min + max) / 2).toFixed(0),
+                value: +(max > 100000 ? (max / 2).toFixed(0) : ((min + max) / 2).toFixed(0)),
                 label: `$${max > 100000 ? (max / 2).toFixed(0) : ((min + max) / 2).toFixed(0)}`,
             },
             { 
