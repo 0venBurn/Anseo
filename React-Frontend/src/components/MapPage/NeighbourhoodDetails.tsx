@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { IconButton, Typography, Box, Grid, Button } from '@mui/material';
+import { IconButton, Typography, Box, Grid } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
@@ -19,7 +19,8 @@ import {
   LineElement, 
   Filler 
 } from 'chart.js';
-import { Listing, Rankings, Indexes, Neighbourhood } from '../../utils/types';
+import { Listing as ListingType, Rankings, Indexes, Neighbourhood } from '../../utils/types';
+import Listing from './Listing';
 
 // Register all necessary Chart.js components at once
 ChartJS.register(
@@ -37,13 +38,13 @@ ChartJS.register(
 
 interface NeighbourhoodDetailsProps {
   neighbourhood: Neighbourhood
-  listings: Listing[];
+  listings: ListingType[];
   rankings: Rankings | undefined;
   indexes: Indexes | undefined;
   isMobile: boolean;
   isClosing: boolean;
   onClose: () => void;
-  onListingClick: (listing: Listing) => void;
+  onListingClick: (listing: ListingType) => void;
 }
 
 const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourhood, listings, rankings, indexes, isMobile, isClosing, onClose, onListingClick }) => {
@@ -173,17 +174,6 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
           <Typography variant="body1" paragraph>
             {neighbourhood.description}
           </Typography>
-          <Typography variant="body2" paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed
-            ullamcorper morbi tincidunt ornare. Est placerat in egestas erat
-            imperdiet sed. In arcu cursus euismod quis viverra nibh. Scelerisque
-            viverra mauris in aliquam. Sodales neque sodales ut etiam sit. Sed
-            augue lacus viverra vitae congue. Consectetur lorem donec massa
-            sapien. Nisl purus in mollis nunc sed id semper. Semper feugiat nibh
-            sed pulvinar. Sem viverra aliquet eget sit amet tellus. Nulla at
-            volutpat diam ut.
-          </Typography>
           <Typography variant="h5" component="h3" gutterBottom>
             Why this neighbourhood?
           </Typography>
@@ -219,26 +209,7 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
                 style={{ flexWrap: "nowrap", overflowX: "auto" }}
               >
                 {listings.map((listing) => (
-                  <Grid item key={listing.id} style={{ minWidth: '200px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                    <div>
-                      <img 
-                        src={listing.imageUrl} 
-                        alt={listing.listingDetails} 
-                        style={{ width: '100%', height: '150px', objectFit: 'cover' }} 
-                        onClick={() => onListingClick(listing)} // Add onClick callback
-                      />
-                      <Typography variant="body2" align="center" style={{ marginTop: '8px' }}>{listing.listingDetails}</Typography>
-                    </div>
-                    <Button 
-                      variant="contained" 
-                      color="primary" 
-                      fullWidth
-                      onClick={() => window.open(listing.link, '_blank')}
-                      style={{ marginTop: 'auto' }}
-                    >
-                      View Listing
-                    </Button>
-                  </Grid>
+                  <Listing listing={listing} onListingClick={onListingClick} />
                 ))}
               </Grid>
             </Box>
