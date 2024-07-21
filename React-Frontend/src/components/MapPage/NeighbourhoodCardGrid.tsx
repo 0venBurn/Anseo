@@ -8,8 +8,7 @@ interface NeighbourhoodCardGridProps {
 
 const NeighbourhoodCardGrid: React.FC<NeighbourhoodCardGridProps> = ( { neighbourhoods, handleLearnMore }) => {
     return (
-        <div className="overflow-y-auto px-2">
-            <div className="grid grid-cols-1 xl:grid-cols-2">
+            <div className="h-full w-full grid place-items-center grid-cols-1 sm:grid-cols-2">
                 {neighbourhoods.map((neigbhourhood, index) => (
                     <NeighbourhoodCard
                     key={index}
@@ -18,7 +17,6 @@ const NeighbourhoodCardGrid: React.FC<NeighbourhoodCardGridProps> = ( { neighbou
                     isBestMatch={index === 0}
                     />
                 ))}
-            </div>
         </div>
     )
 }

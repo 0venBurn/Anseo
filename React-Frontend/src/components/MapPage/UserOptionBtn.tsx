@@ -23,11 +23,11 @@ const UserOptionBtn: React.FC<UserOptionBtnProps> = ({ title, isActive, handleCl
         sx={{
             fontFamily: 'Commissioner',
             borderRadius: 4,
-            fontSize: '1rem',
+            // fontSize: '1rem',
             textTransform: 'none',
             fontWeight: isActive ? 600 : 500,
         }}
-        className={isActive ? 'active' : ''}
+        className={`${isActive ? 'active' : ''} text-base md:text-2xl`}
         onClick={handleClick}>
             {title}
         </Button>

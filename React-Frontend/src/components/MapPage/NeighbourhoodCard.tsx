@@ -10,29 +10,13 @@ interface NeighbourhoodCardProps {
 
 const NeighbourhoodCard: React.FC<NeighbourhoodCardProps> = ({ neighbourhood, onLearnMore, isBestMatch }) => {
   return (
-    <Grid item xs={12} sm={6} style={{ display: 'flex', justifyContent: 'center', padding: '25px' }}>
-      <div style={{ position: 'relative', width: '300px' }}>
-        {isBestMatch && (
-          <div style={{
-            position: 'absolute',
-            backgroundColor: 'black',
-            color: 'white',
-            padding: '5px 10px',
-            borderRadius: '5px',
-            top: '10px',
-            left: '10px',
-            zIndex: 10, // Ensure this is above the card
-            fontWeight: 'bold'
-          }}>
-            Best Match
-          </div>
-        )}
+    <Grid item style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '25px' }}>
         <Card
           style={{
             display: 'flex',
             flexDirection: 'column',
-            height: '400px',
-            width: '300px',
+            height: '410px',
+            maxWidth: '250px',
             cursor: 'pointer',
             backgroundColor: '#FFFFFF',
             borderRadius: '12px',
@@ -45,6 +29,23 @@ const NeighbourhoodCard: React.FC<NeighbourhoodCardProps> = ({ neighbourhood, on
           onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.02)')}
           onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
         >
+          {isBestMatch && (
+          <div style={{
+            position: 'absolute',
+            width: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            color: 'white',
+            fontFamily: 'Commissioner',
+            padding: '5px 10px',
+            overflow: 'hidden',
+            top: 0,
+            left: 0,
+            zIndex: 10, // Ensure this is above the card
+            fontWeight: 'bold'
+          }}>
+            Best Match
+          </div>
+        )}
           <img
             src={neighbourhood.photoPath}
             alt={neighbourhood.name}
@@ -68,9 +69,13 @@ const NeighbourhoodCard: React.FC<NeighbourhoodCardProps> = ({ neighbourhood, on
             }}
           >
             <div>
-              <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
                 <Typography variant="body2" color="textSecondary" style={{ fontFamily: 'Commissioner', fontSize: '16px' }}>{neighbourhood.borough}</Typography>
                 <Box display="flex" alignItems="center">
+                <Typography variant="body2" style={{ 
+                  fontWeight: 500,  
+                  color: '#2D345D',
+                  fontFamily: 'Commissioner', }}>{neighbourhood.rating.toFixed(2)}
+                  </Typography>
                   <Rating 
                     name="Neighbourhood Rating" 
                     value={neighbourhood.rating} 
@@ -81,18 +86,12 @@ const NeighbourhoodCard: React.FC<NeighbourhoodCardProps> = ({ neighbourhood, on
                       color: '#2D345D',
                     }}
                   />
-                  <Typography variant="body2" style={{ 
-                    fontWeight: 500,  
-                    color: '#2D345D',
-                    fontFamily: 'Commissioner', }}>{neighbourhood.rating.toFixed(2)}</Typography>
-                </Box>
               </Box>
               <Typography variant="h6" style={{ fontWeight: 'bold', color: '#3B447A', fontFamily: 'Alegreya' }}>{neighbourhood.name}</Typography>
               <Typography variant="body2" style={{ color: '#3B447A', fontFamily: 'Alegreya', fontSize: '16px' }} mb={2}>{neighbourhood.description}</Typography>
             </div>
           </CardContent>
         </Card>
-      </div>
     </Grid>
   );
 };

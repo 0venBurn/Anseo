@@ -29,13 +29,14 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
         handleListingClick
      }) => {
     return (
-        <div className="flex flex-col w-full md:w-[50%] min-h[calc(100vh-5rem)] bg-user-sidebar-purple-light overflow-scroll">
+        <div className="flex flex-col w-full lg:w-[50%] min-h[calc(100vh-5rem)] bg-user-sidebar-purple-light overflow-auto">
           <UserOptionsHeader />
         <motion.div
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 100 }}
           transition={{ duration: 0.5 }}
+          className="flex flex-col h-full w-full overflow-y-scroll no-scrollbar md:scrollbar px-2"
           >  
         {selectedNeighbourhood ? 
             <NeighbourhoodDetails
@@ -51,9 +52,9 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
             neighbourhoods={neighbourhoods}
             handleLearnMore={handleLearnMore}
             />
-        } 
+          } 
         </motion.div>
-        </div>
+          </div>
       )
     }
 export default NeighbourhoodContainer

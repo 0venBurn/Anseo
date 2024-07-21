@@ -13,11 +13,11 @@ const UserOptionsHeader: React.FC = () => {
 
     return (
         <div
-          className="w-full flex bg-white items-center text-2xl py-2 px-4">
+          className="w-full flex bg-white items-center md:text-2xl py-2 px-4 shadow-md">
             <SignedIn>
               <div className="font-commissioner text-primary-text-dark px-2
               after:content-['|'] after:text-shaded-grey after:w-[1px] after:h-full after:ml-2">{user?.username}</div>
-              <div className="flex items-center justify-end w-full h-full gap-4">
+              <div className="flex items-center justify-evenly md:justify-end w-full h-full md:gap-4">
                 <UserOptionBtn 
                   title="Favourites" 
                   isActive={activeBtn === 'Favourites'}
