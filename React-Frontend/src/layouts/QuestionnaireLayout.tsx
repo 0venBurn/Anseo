@@ -9,7 +9,7 @@ const QuestionnaireLayout: React.FC<QuestionnaireLayoutProps> = ({ children }) =
 
     return (
       <>
-          <Header />
+        <Header />
         <div className="flex flex-col text-center text-primary-text-dark font-alegreya bg-bk-grey 
         min-h-screen px-8">
           <motion.div
