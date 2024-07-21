@@ -8,7 +8,7 @@ interface NeighbourhoodCardGridProps {
 
 const NeighbourhoodCardGrid: React.FC<NeighbourhoodCardGridProps> = ( { neighbourhoods, handleLearnMore }) => {
     return (
-            <div className="h-full w-full grid place-items-center grid-cols-1 sm:grid-cols-2">
+            <div className="h-full w-full grid place-items-center auto-rows-min gap-10 grid-cols-1 md:grid-cols-2 p-4">
                 {neighbourhoods.map((neigbhourhood, index) => (
                     <NeighbourhoodCard
                     key={index}

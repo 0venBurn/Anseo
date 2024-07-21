@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardContent, Typography, Grid, Box, Rating } from '@mui/material';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { Neighbourhood } from '../../utils/types';
 
 interface NeighbourhoodCardProps {
@@ -10,20 +11,20 @@ interface NeighbourhoodCardProps {
 
 const NeighbourhoodCard: React.FC<NeighbourhoodCardProps> = ({ neighbourhood, onLearnMore, isBestMatch }) => {
   return (
-    <Grid item style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '25px' }}>
+    <Grid item>
         <Card
           style={{
             display: 'flex',
             flexDirection: 'column',
-            height: '410px',
-            maxWidth: '250px',
+            height:' 450px',
+            maxWidth: '300px',
             cursor: 'pointer',
             backgroundColor: '#FFFFFF',
             borderRadius: '12px',
             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
             transition: 'transform 0.2s',
-            position: 'relative', // Ensure card is positioned relative to its container
-            overflow: 'hidden', // Ensure content does not overflow
+            position: 'relative', 
+            overflow: 'hidden', 
           }}
           onClick={() => onLearnMore(neighbourhood)}
           onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.02)')}
@@ -88,8 +89,18 @@ const NeighbourhoodCard: React.FC<NeighbourhoodCardProps> = ({ neighbourhood, on
                   />
               </Box>
               <Typography variant="h6" style={{ fontWeight: 'bold', color: '#3B447A', fontFamily: 'Alegreya' }}>{neighbourhood.name}</Typography>
-              <Typography variant="body2" style={{ color: '#3B447A', fontFamily: 'Alegreya', fontSize: '16px' }} mb={2}>{neighbourhood.description}</Typography>
+              <Typography variant="body2" style={{ 
+                color: '#3B447A', 
+                fontFamily: 'Commissioner', 
+                fontSize: '16px',
+                flexGrow: 1,
+               }} mb={2}>{neighbourhood.description}</Typography>
             </div>
+            <div className='flex items-center justify-end'>
+            <BookmarkIcon style={{ 
+              fontSize: '2rem',
+              color: '#3B447A' }} />
+              </div>
           </CardContent>
         </Card>
     </Grid>
