@@ -17,17 +17,17 @@ const UserOptionsHeader: React.FC = () => {
             <SignedIn>
               <div className="font-commissioner text-primary-text-dark px-2
               after:content-['|'] after:text-shaded-grey after:w-[1px] after:h-full after:ml-2">{user?.username}</div>
+                </SignedIn>
               <div className="flex items-center justify-evenly md:justify-end w-full h-full md:gap-4">
                 <UserOptionBtn 
                   title="Favourites" 
                   isActive={activeBtn === 'Favourites'}
                   handleClick={handleClick}/>
                 <UserOptionBtn 
-                  title="Previous Searches" 
+                  title="History" 
                   isActive={activeBtn === 'Previous Searches'}
                   handleClick={handleClick}/>
               </div>
-            </SignedIn>
             <SignedOut></SignedOut>
       </div>
     )

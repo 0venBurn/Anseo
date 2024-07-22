@@ -37,10 +37,13 @@ public class WebhookController {
 
   @PostMapping("/webhook")
   public ResponseEntity<?> handleWebhook(
-      @RequestHeader("svix-id") String svixId,
-      @RequestHeader("svix-signature") String svixSignature,
-      @RequestHeader("svix-timestamp") String svixTimestamp,
+      @RequestHeader("Svix-Id") String svixId,
+      @RequestHeader("Svix-Signature") String svixSignature,
+      @RequestHeader("Svix-Timestamp") String svixTimestamp,
       @RequestBody String payload) {
+
+    logger.info("Received headers: " + svixId + ", " + svixSignature + ", " + svixTimestamp + ", " + payload );
+    logger.info("Received raw payload: " + payload);
 
     try {
       HashMap<String, List<String>> headerMap = new HashMap<String, List<String>>();
