@@ -12,6 +12,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import geopandas as gpd
 from shapely.geometry import Point
@@ -65,6 +67,10 @@ def go_to_next_page(driver):
 # Loop through each url
 for url in urls:
     driver.get(url)
+    # Wait for the placards div to be loaded in the DOM
+    WebDriverWait(driver, 20).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "placards"))
+    )
     time.sleep(5)
     # Get map tacks in bulk
     page_source = driver.page_source
