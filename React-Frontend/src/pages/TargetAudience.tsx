@@ -29,6 +29,8 @@ const TargetAudience: React.FC = () => {
    // State for gender ratio (1 = All Men, 5 = All Women)
    const [genderRatio, setGenderRatio] = useState<number>(3);
 
+   // State for error message
+  const [error, setError] = useState<string | null>(null); 
 
   // Access the questionnaire context
   const { data, answerQuestion } = useQuestionnaire();
@@ -38,18 +40,30 @@ const TargetAudience: React.FC = () => {
 
   // Handle next function to navigate with updated state
   const handleNext = () => {
-    answerQuestion("selectedAgeGroup", selectedAgeGroup);
-    answerQuestion("ageImportance", ageImportance / 5);
-    answerQuestion("selectedIncomeLevel", selectedIncomeLevel);
-    answerQuestion("incomeImportance", incomeImportance / 5);
-    // Transform targetGroup if "No Preference" is selected
-    const transformedTargetGroup = targetGroup.includes("No Preference")
-      ? ["Families", "Singles"]
-      : targetGroup;
-    answerQuestion("targetGroup", transformedTargetGroup);
-    answerQuestion("genderRatio", genderRatio / 5);
-    console.log(data);
-    navigate("/submit");
+    if (
+      selectedAgeGroup.length > 0 &&
+      ageImportance &&
+      selectedIncomeLevel.length > 0 &&
+      incomeImportance &&
+      targetGroup.length > 0 &&
+      genderRatio
+    ) {
+      answerQuestion("selectedAgeGroup", selectedAgeGroup);
+      answerQuestion("ageImportance", ageImportance / 5);
+      answerQuestion("selectedIncomeLevel", selectedIncomeLevel);
+      answerQuestion("incomeImportance", incomeImportance / 5);
+      // Transform targetGroup if "No Preference" is selected
+      const transformedTargetGroup = targetGroup.includes("No Preference")
+        ? ["Families", "Singles"]
+        : targetGroup;
+      answerQuestion("targetGroup", transformedTargetGroup);
+      answerQuestion("genderRatio", genderRatio / 5);
+      setError(null); // Clear error message if all fields are filled
+      console.log(data);
+      navigate("/submit");
+    } else {
+      setError("Please answer all questions before proceeding.");
+    }
   };
 
   // Handle previous function to navigate with updated state
@@ -127,6 +141,9 @@ const TargetAudience: React.FC = () => {
         setTargetGroup={setTargetGroup}
         questionNumber={5}
       />
+
+      {/* Display error message if present */}
+      {error && <p className="text-red-500 mb-4">{error}</p>}
 
       <SingleSlider
         label="Which gender does your business primarily cater to?"

@@ -19,6 +19,10 @@ const BusinessDetails: React.FC = () => {
   const [budget, setBudget] = useState<number>(23); // Default budget value
   // State for rent budget, default set to 3000
   const [rentBudget, setRentBudget] = useState<number>(3000);
+  
+  // State for error message
+  const [error, setError] = useState<string | null>(null);
+
   const { answerQuestion } = useQuestionnaire();
 
   // setting steps for progress indicator
@@ -29,12 +33,17 @@ const BusinessDetails: React.FC = () => {
 
   // handle next function to navigate to the next page with state
   const handleNext = () => {
-    answerQuestion("businessType", businessType);
-    answerQuestion("openHour", openHour);
-    answerQuestion("closeHour", closeHour);
-    answerQuestion("budget", budget);
-    answerQuestion("rentBudget", rentBudget / 5);
-    navigate("/locality");
+    if (businessType && openHour && closeHour && budget && rentBudget) {
+      answerQuestion("businessType", businessType);
+      answerQuestion("openHour", openHour);
+      answerQuestion("closeHour", closeHour);
+      answerQuestion("budget", budget);
+      answerQuestion("rentBudget", rentBudget / 5);
+      setError(null); // Clear error message if all fields are filled
+      navigate("/locality");
+    } else {
+      setError("Please answer all questions before proceeding.");
+    }
   };
 
   // handle previous function to navigate to previous page with state
@@ -156,6 +165,9 @@ const BusinessDetails: React.FC = () => {
         type="money"
         questionNumber={4}
       />
+        {/* Display error message if present */}
+        {error && <p className="text-red-500 mb-4">{error}</p>}
+        
         {/* Navigation button component*/}
         <NavigationButtons
           currentStep={currentStep}
