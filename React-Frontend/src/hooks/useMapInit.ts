@@ -10,9 +10,7 @@ export const useMapInit = (lat: number, lng: number, zoom: number) => {
     
     useEffect(() => {
         if (mapRef.current && !map) {
-            let mapInstance: mapboxgl.Map | null = null;
-
-            mapInstance = new mapboxgl.Map({
+            const mapInstance = new mapboxgl.Map({
                 container: mapRef.current,
                 center: [lng, lat],
                 zoom,
@@ -29,9 +27,6 @@ export const useMapInit = (lat: number, lng: number, zoom: number) => {
             return () => {
                 if (mapInstance) {
                     mapInstance.remove();
-                }
-                if (map) {
-                    (map as mapboxgl.Map).remove();
                 }
             };
             }  

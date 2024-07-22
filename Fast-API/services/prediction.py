@@ -122,8 +122,10 @@ def question_to_inputs(request):
     
     if question.areaType == 'Residential':
         business_count = 0.25
+    elif question.areaType == 'Business Oriented':
+        business_count = 0.75
     else:
-        business_count = 0.75    # Footfall
+        business_count = 0.5
     opening_hour = question.openHour
     closing_hour = question.closeHour
     footfall = [0 for _ in range(24)]
@@ -210,7 +212,10 @@ def question_to_inputs(request):
         fam_list = [1, 0.6, 0, 0]
     elif question.targetGroup == ['Singles']:
         print("sing")
-        fam_list = [0, 0.4, 1, 1]    # Industry mapping
+        fam_list = [0, 0.4, 1, 1]
+    else:
+        fam_list = [.5,.5,.5,.5]
+
     industry_options = [
         'Industry_Amusement Arcade', 'Industry_Amusement Device Permanent',
         'Industry_Amusement Device Portable', 'Industry_Amusement Device Temporary',

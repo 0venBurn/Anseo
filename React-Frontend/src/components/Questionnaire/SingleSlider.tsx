@@ -45,6 +45,27 @@ const SingleSlider: React.FC<SingleSliderProps> = (
                 },
               ];
         }
+        if (type === 'gender') {
+            return [
+                {
+                    value: 0,
+                    label: 'All Men'
+                },
+                {
+                    value: 0.25,
+                },
+                {
+                    value: 0.5,
+                },
+                {
+                    value: 0.75,
+                },
+                {
+                    value: 1,
+                    label: 'All Women'
+                },
+            ]
+        }
         return [
             {
                 value: min,
@@ -71,7 +92,7 @@ const SingleSlider: React.FC<SingleSliderProps> = (
             max={max}   
             step={steps}
             valueLabelFormat={valueText(type, value)}
-            valueLabelDisplay='auto'
+            valueLabelDisplay={type === 'gender' ? 'off' : 'auto'}
             sx={{
                 color: '#3B447A',
                 flex: 1,    

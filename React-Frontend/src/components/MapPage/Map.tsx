@@ -31,7 +31,9 @@ const Map: React.FC<MapProps> = ({
 
   const [center, setCenter] = useState<[number, number]>(defaultCenter);
   const [zoom, setZoom] = useState<number>(defaultZoom);
-
+  
+  const { mapRef, map } = useMapInit(center[1], center[0], zoom);
+  
   useEffect(() => {
     const fetchBoroughCoordinates = async (borough: string) => {
       try {
@@ -66,7 +68,6 @@ const Map: React.FC<MapProps> = ({
     updateMapCenter();
   }, [selectedBoroughs]);
 
-  const { mapRef, map } = useMapInit(center[1], center[0], zoom);
 
   useEffect(() => {
     if (map) {

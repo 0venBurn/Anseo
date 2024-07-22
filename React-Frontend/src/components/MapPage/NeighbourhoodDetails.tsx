@@ -123,7 +123,7 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 100 }}
           transition={{ duration: 0.5 }}
-          className={` bg-user-sidebar-purple-light shadow-lg p-6 z-50 overflow-y-auto`}
+          className="p-6"
         >
           <div className="flex justify-end">
             <IconButton onClick={onClose}>

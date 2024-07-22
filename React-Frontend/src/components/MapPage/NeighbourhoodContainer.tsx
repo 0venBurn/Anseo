@@ -51,7 +51,7 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
           transition={{ duration: 0.5 }}
           className="flex flex-col h-full w-full overflow-y-scroll no-scrollbar md:scrollbar px-2"
           >  
-        
+
         {selectedNeighbourhood && 
             <NeighbourhoodDetails
             neighbourhood={selectedNeighbourhood}
@@ -64,19 +64,19 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
             /> 
           }
            
-        {activeBtn === 'Results' &&
+        {!selectedNeighbourhood ? activeBtn === 'Results' &&
         <NeighbourhoodCardGrid
         neighbourhoods={neighbourhoods}
         handleLearnMore={handleLearnMore}
-        />}
+        /> : ''}
 
-        {activeBtn === 'Favourites' &&
-        <UserFavourites />}
+        {!selectedNeighbourhood ? activeBtn === 'Favourites' &&
+        <UserFavourites /> : ''}
 
-        {activeBtn === 'History' && 
+        {!selectedNeighbourhood ? activeBtn === 'History' && 
         <UserHistory 
         userHistory={userHistory}
-        />}
+        /> : ''}
 
         </motion.div>
           </div>

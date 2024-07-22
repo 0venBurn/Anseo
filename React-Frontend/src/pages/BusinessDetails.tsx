@@ -147,7 +147,7 @@ const BusinessDetails: React.FC = () => {
         questionNumber={3}
       />
       <SingleSlider
-        label="What is your budget for monthly rent (including utilities) for your business location?"
+        label="What is your monthly budget for rent and utilities?"
         min={1000}
         max={5000}
         steps={100}
