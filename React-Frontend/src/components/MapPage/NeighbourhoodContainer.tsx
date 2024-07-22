@@ -40,7 +40,7 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
     }
 
     return (
-        <div className="flex flex-col w-full lg:w-[50%] min-h[calc(100vh-5rem)] bg-user-sidebar-purple-light overflow-auto">
+        <div className="flex flex-col w-full lg:w-[50%] min-h[calc(100vh-5rem)] bg-user-sidebar-purple-light overflow-auto shadow-md">
           <UserOptionsHeader 
           activeBtn={activeBtn}
           handleClick={handleClick} />

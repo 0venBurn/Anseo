@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { UserResult } from "../../utils/types";
 import { motion } from "framer-motion";
 import { Rating } from "@mui/material";
+import { SignedIn, SignedOut } from "@clerk/clerk-react";
 
 interface UserHistoryProps {
     userHistory: UserResult[] | null;
@@ -55,7 +56,12 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userHistory }) => {
     }
     
     return (
-        <div className="flex flex-col gap-6 p-4">
+        <>
+        <SignedOut>
+            <h1>Sign in to view your history</h1>
+            </SignedOut>
+            <SignedIn>
+            <div className="flex flex-col gap-6 p-4">
         {userHistory && userHistory.map( userResult => {
             const selectedBoroughs = userResult.results.data.selectedBoroughs
             console.log(userResult.clerkUserId)
@@ -106,6 +112,8 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userHistory }) => {
             );
         })}
         </div>
+            </SignedIn>
+            </>
     );
 }
 export default UserHistory;
