@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Indexes, Listing, Neighbourhood, Rankings } from "../../utils/types";
+import { Indexes, Listing, Neighbourhood, Rankings, UserResult } from "../../utils/types";
 import UserOptionsHeader from "./UserOptionsHeader";
 import NeighbourhoodCardGrid from "./NeighbourhoodCardGrid";
 import NeighbourhoodDetails from "./NeighbourhoodDetails";
+import UserFavourites from "./UserFavourites";
+import UserHistory from "./UserHistory";
 
 interface NeighbourhoodContainerProps {
     neighbourhoods: Neighbourhood[]
@@ -12,6 +15,7 @@ interface NeighbourhoodContainerProps {
     filteredRankings: Rankings | undefined
     filteredIndexes: Indexes | undefined    
     isClosing: boolean
+    userHistory: UserResult[] | null
     handleClose: () => void
     handleListingClick: (listing: Listing) => void
 }
@@ -26,11 +30,20 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
         filteredIndexes,
         isClosing,
         handleClose,
-        handleListingClick
+        handleListingClick,
+        userHistory
      }) => {
+    const [activeBtn, setActiveBtn] = useState<string | null>('Results');
+
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      setActiveBtn(e?.currentTarget.textContent);
+    }
+
     return (
         <div className="flex flex-col w-full lg:w-[50%] min-h[calc(100vh-5rem)] bg-user-sidebar-purple-light overflow-auto">
-          <UserOptionsHeader />
+          <UserOptionsHeader 
+          activeBtn={activeBtn}
+          handleClick={handleClick} />
         <motion.div
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
@@ -38,7 +51,8 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
           transition={{ duration: 0.5 }}
           className="flex flex-col h-full w-full overflow-y-scroll no-scrollbar md:scrollbar px-2"
           >  
-        {selectedNeighbourhood ? 
+        
+        {selectedNeighbourhood && 
             <NeighbourhoodDetails
             neighbourhood={selectedNeighbourhood}
             listings={filteredListings} 
@@ -47,12 +61,23 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
             isClosing={isClosing}
             onClose={handleClose}
             onListingClick={handleListingClick}
-            /> :
-            <NeighbourhoodCardGrid
-            neighbourhoods={neighbourhoods}
-            handleLearnMore={handleLearnMore}
-            />
-          } 
+            /> 
+          }
+           
+        {activeBtn === 'Results' &&
+        <NeighbourhoodCardGrid
+        neighbourhoods={neighbourhoods}
+        handleLearnMore={handleLearnMore}
+        />}
+
+        {activeBtn === 'Favourites' &&
+        <UserFavourites />}
+
+        {activeBtn === 'History' && 
+        <UserHistory 
+        userHistory={userHistory}
+        />}
+
         </motion.div>
           </div>
       )

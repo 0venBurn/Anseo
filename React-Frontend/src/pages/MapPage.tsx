@@ -6,7 +6,7 @@ import Header from "../components/General/Header";
 import "../index.css";
 import { environment } from "../../mapbox.config";
 import Map from "../components/MapPage/Map";
-import { Listing, Neighbourhood, PredictionResponse, Rankings, Indexes, HighlightedLocation } from "../utils/types";
+import { Listing, Neighbourhood, PredictionResponse, Rankings, Indexes, HighlightedLocation, UserResult } from "../utils/types";
 import NeighbourhoodContainer from "../components/MapPage/NeighbourhoodContainer";
 import usePredictions from "../hooks/usePredictions";
 
@@ -18,6 +18,7 @@ const MapPage: React.FC = () => {
   const [predictions, setPredictions] = useState<PredictionResponse>({
     predictions: {},
   });
+  const [userHistory, setUserHistory] = useState<UserResult[] | null>([]);
   const [neighbourhoods, setNeighbourhoods] = useState<Neighbourhood[]>([]);
   const [selectedNeighbourhood, setSelectedNeighbourhood] =
     useState<Neighbourhood | null>(null);
@@ -33,9 +34,12 @@ const MapPage: React.FC = () => {
   usePredictions(
     setPredictions, 
     setIsPageLoaded,
-    setSelectedBoroughs
+    setSelectedBoroughs,
+    setUserHistory
   )
 
+  console.log(`User History: ${userHistory}`)
+  
   useEffect(() => {
     const fetchPage = async (page: number) => {
       try {
@@ -303,6 +307,7 @@ const MapPage: React.FC = () => {
           isClosing={isClosing}
           handleClose={handleClose}
           handleListingClick={handleListingClick}
+          userHistory={userHistory}
         />
         <Map 
           selectedBoroughs={selectedBoroughs}

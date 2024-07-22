@@ -1,15 +1,14 @@
-import { useState } from "react";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import { useUser } from '@clerk/clerk-react';
 import UserOptionBtn from "./UserOptionBtn";
 
-const UserOptionsHeader: React.FC = () => {
-  const { user } = useUser();
-  const [activeBtn, setActiveBtn] = useState<string | null>('Favourites');
+interface UserOptionsHeaderProps {
+  activeBtn: string | null
+  handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void
+} 
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setActiveBtn(e?.currentTarget.textContent);
-  }
+const UserOptionsHeader: React.FC<UserOptionsHeaderProps> = ({ activeBtn, handleClick}) => {
+  const { user } = useUser();
 
     return (
         <div
@@ -20,12 +19,16 @@ const UserOptionsHeader: React.FC = () => {
                 </SignedIn>
               <div className="flex items-center justify-evenly md:justify-end w-full h-full md:gap-4">
                 <UserOptionBtn 
+                  title="Results" 
+                  isActive={activeBtn === 'Results'}
+                  handleClick={handleClick}/>
+                <UserOptionBtn 
                   title="Favourites" 
                   isActive={activeBtn === 'Favourites'}
                   handleClick={handleClick}/>
                 <UserOptionBtn 
                   title="History" 
-                  isActive={activeBtn === 'Previous Searches'}
+                  isActive={activeBtn === 'History'}
                   handleClick={handleClick}/>
               </div>
             <SignedOut></SignedOut>

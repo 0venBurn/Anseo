@@ -91,3 +91,10 @@ export interface Data {
 export interface Payload {
   data: Data
 }
+
+export interface UserResult {
+  resultId: number;
+  clerkUserId: string;
+  results: Payload;
+  timestamp: number;
+}

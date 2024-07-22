@@ -83,7 +83,6 @@ const NeighbourhoodCard: React.FC<NeighbourhoodCardProps> = ({ neighbourhood, on
                     precision={0.1} 
                     readOnly
                     sx={{
-                      fontFamily: 'Commissioner',
                       color: '#2D345D',
                     }}
                   />
