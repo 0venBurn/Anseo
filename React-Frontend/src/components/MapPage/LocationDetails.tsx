@@ -130,6 +130,25 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({
     return stars;
   };
 
+  const topRankings = [];
+  if (rankings) {
+    if (rankings.population_density_Rank <= 20) topRankings.push("Population Density");
+    if (rankings.index_percPop_0_5_Rank <= 20) topRankings.push("Young People");
+    if (rankings.index_percPop_6_11_Rank <= 20) topRankings.push("Middle Aged People");
+    if (rankings.index_percPop_12_17_Rank <= 20) topRankings.push("Older People");
+    if (rankings.male_index_Rank <= 20) topRankings.push("Male Index");
+    if (rankings.female_index_Rank <= 20) topRankings.push("Female Index");
+    if (rankings.age_evenness_index_Rank <= 20) topRankings.push("Age Diversity");
+    if (rankings.gender_diversity_index_Rank <= 20) topRankings.push("Gender Diversity");
+    if (rankings.Normalized_Employment_Health_Index_Rank <= 20) topRankings.push("Employment Health");
+    if (rankings.Annual_Earnings_Index_Rank <= 20) topRankings.push("Annual Earnings");
+    if (rankings.Housing_Affordability_Index_Rank <= 20) topRankings.push("Housing Affordability");
+    if (rankings.Safety_Index_Rank <= 20) topRankings.push("Safety");
+    if (rankings.business_index_Rank <= 20) topRankings.push("Business Index");
+  }
+
+  const topRankingText = topRankings.length > 0 ? `It ranks highly in: ${topRankings.join(", ")}` : "This neighbourhood does not rank within the top 20 for any category.";
+
   const demographicData = {
     labels: [
       "Population Density",
@@ -143,24 +162,24 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({
     ],
     datasets: [
       {
-        label: "Demographic Rankings",
-        data: rankings
+        label: "Demographic Indexes",
+        data: indexes
           ? [
-              rankings.population_density_Rank,
-              rankings.index_percPop_0_5_Rank,
-              rankings.index_percPop_6_11_Rank,
-              rankings.index_percPop_12_17_Rank,
-              rankings.male_index_Rank,
-              rankings.female_index_Rank,
-              rankings.age_evenness_index_Rank,
-              rankings.gender_diversity_index_Rank,
+              indexes.population_density,
+              indexes.index_percPop_0_5,
+              indexes.index_percPop_6_11,
+              indexes.index_percPop_12_17,
+              indexes.male_index,
+              indexes.female_index,
+              indexes.age_evenness_index,
+              indexes.gender_diversity_index,
             ]
           : [],
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
     ],
   };
-
+  
   const economicData = {
     labels: [
       "Employment Health",
@@ -171,14 +190,14 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({
     ],
     datasets: [
       {
-        label: "Economic and Social Rankings",
-        data: rankings
+        label: "Economic and Social Indexes",
+        data: indexes
           ? [
-              rankings.Normalized_Employment_Health_Index_Rank,
-              rankings.Annual_Earnings_Index_Rank,
-              rankings.Housing_Affordability_Index_Rank,
-              rankings.Safety_Index_Rank,
-              rankings.business_index_Rank,
+              indexes.Normalized_Employment_Health_Index,
+              indexes.Annual_Earnings_Index,
+              indexes.Housing_Affordability_Index,
+              indexes.Safety_Index,
+              indexes.business_index,
             ]
           : [],
         backgroundColor: "rgba(53, 162, 235, 0.5)",
@@ -248,6 +267,8 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({
     ],
   };
 
+  
+
   return (
     <AnimatePresence>
       {!isClosing && (
@@ -277,18 +298,10 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({
             {renderStars(location.rating)}
           </Box>
           <Typography variant="body1" paragraph>
-            {location.description}
+            {location.description} {topRankingText}
           </Typography>
-          <Typography variant="body2" paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed
-            ullamcorper morbi tincidunt ornare. Est placerat in egestas erat
-            imperdiet sed. In arcu cursus euismod quis viverra nibh. Scelerisque
-            viverra mauris in aliquam. Sodales neque sodales ut etiam sit. Sed
-            augue lacus viverra vitae congue. Consectetur lorem donec massa
-            sapien. Nisl purus in mollis nunc sed id semper. Semper feugiat nibh
-            sed pulvinar. Sem viverra aliquet eget sit amet tellus. Nulla at
-            volutpat diam ut.
+          <Typography variant="body1" paragraph>
+            {topRankingText}
           </Typography>
           <Typography variant="h5" component="h3" gutterBottom>
             Why this location?
@@ -303,13 +316,13 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({
               justifyContent: "space-between",
             }}
           >
-            <Box sx={{ width: "45%" }}>
+            <Box sx={{ width: "48%" }}>
               <Bar
                 data={demographicData}
                 options={{ maintainAspectRatio: false }}
               />
             </Box>
-            <Box sx={{ width: "45%" }}>
+            <Box sx={{ width: "48%" }}>
               <Radar
                 data={demographicRadarData}
                 options={{ maintainAspectRatio: false }}
@@ -328,13 +341,13 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({
               justifyContent: "space-between",
             }}
           >
-            <Box sx={{ width: "45%" }}>
+            <Box sx={{ width: "48%" }}>
               <Bar
                 data={economicData}
                 options={{ maintainAspectRatio: false }}
               />
             </Box>
-            <Box sx={{ width: "45%" }}>
+            <Box sx={{ width: "48%" }}>
               <Radar
                 data={economicRadarData}
                 options={{ maintainAspectRatio: false }}
@@ -372,7 +385,7 @@ const LocationDetails: React.FC<LocationDetailsProps> = ({
                           height: "150px",
                           objectFit: "cover",
                         }}
-                        onClick={() => onListingClick(listing)} // Add onClick callback
+                        onClick={() => onListingClick(listing)} 
                       />
                       <Typography
                         variant="body2"
