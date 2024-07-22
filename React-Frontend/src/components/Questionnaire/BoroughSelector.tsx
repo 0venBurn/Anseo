@@ -37,7 +37,7 @@ const BoroughSelector: React.FC<BoroughSelectorProps> = ({
 
   return (
     <div className="mb-6 ">
-      <QuestionLabel label="Which boroughs are you most interested in for your business location?" questionNumber={questionNumber} />
+      <QuestionLabel label="In which borough would you like to start your business? (You may select more than one)" questionNumber={questionNumber} />
       <div className="grid place-items-center grid-cols-1 md:grid-cols-2 gap-4 mb-6 w-full whitespace-nowrap">
         {options.map((option) => (
           <button

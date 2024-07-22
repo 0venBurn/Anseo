@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
           <div className="flex space-x-4"></div>
         </div>
       </div>
-      <div className="w-full bg-gray-100 py-4 text-center text-gray-600">
+      <div className="w-full bg-gray-100 py-4 text-center text-shaded-grey">
         © 2024, Anseo.
       </div>
     </>

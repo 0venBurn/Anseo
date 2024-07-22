@@ -10,8 +10,8 @@ interface SectionProps {
 const Section: React.FC<SectionProps> = ({ title, content }) => {
   return (
     <>
-      <h2 className="text-3xl font-bold mt-10 mb-10">{title}</h2>
-      <p className="w-4/5 mb-10">{content}</p>
+      <h2 className="text-3xl font-bold mt-10 mb-10 font">{title}</h2>
+      <p className="w-4/5 mb-10 font-commissioner">{content}</p>
       <Divider className="w-4/5 my-6" />
     </>
   );

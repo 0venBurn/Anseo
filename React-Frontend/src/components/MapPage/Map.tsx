@@ -5,7 +5,7 @@ import { useMapInit } from '../../hooks/useMapInit';
 import { useAddMapLayers } from '../../hooks/useAddMapLayers';
 import mapboxgl from 'mapbox-gl';
 import '../../index.css';
-import { Listing, Neighbourhood, HighlightedLocation, PredictionResponse } from '../../pages/MapPage';
+import { Listing, Neighbourhood, HighlightedLocation, PredictionResponse } from '../../utils/types';
 
 interface MapProps {
   selectedBoroughs: string[];
@@ -31,7 +31,9 @@ const Map: React.FC<MapProps> = ({
 
   const [center, setCenter] = useState<[number, number]>(defaultCenter);
   const [zoom, setZoom] = useState<number>(defaultZoom);
-
+  
+  const { mapRef, map } = useMapInit(center[1], center[0], zoom);
+  
   useEffect(() => {
     const fetchBoroughCoordinates = async (borough: string) => {
       try {
@@ -66,7 +68,6 @@ const Map: React.FC<MapProps> = ({
     updateMapCenter();
   }, [selectedBoroughs]);
 
-  const { mapRef, map } = useMapInit(center[1], center[0], zoom);
 
   useEffect(() => {
     if (map) {
@@ -77,7 +78,7 @@ const Map: React.FC<MapProps> = ({
   // Custom hook to add map layers including highlighted location
   useAddMapLayers(map, selectedBoroughs, predictions, listings, handleSelectNeighbourhood, handleGetLocation, highlightedLocation);
 
-  return <div ref={mapRef} className="map w-full h-full md:h-screen" />;
+  return <div ref={mapRef} className="flex-1 min-h-[50vh] w-full" />;
 };
 
 export default Map;

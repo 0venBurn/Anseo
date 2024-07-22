@@ -7,6 +7,10 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body,
 #root {
@@ -25,6 +29,46 @@ body,
   html,
   body {
     overflow: visible;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
+
+@media (max-width: 1023px) {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
+
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    scrollbar-width: thin;
+    height: auto;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: #E8EAF6;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #3B447A;
+    border-radius: 100vh;
+    border: 1px solid #E8EAF6;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #3B447A;
   }
 }
 

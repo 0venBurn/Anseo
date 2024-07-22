@@ -12,7 +12,7 @@ const AreaTypeSelector: React.FC<AreaTypeSelectorProps> = ({
   handleSelectAreaType,
   questionNumber
 }) => {
-  const options = ["Residential", "Business oriented", "No preference"];
+  const options = ["Residential", "Business Oriented", "No preference"];
 
   const handleSelection = (type: string) => {
     if (type === "No preference") {
@@ -27,7 +27,7 @@ const AreaTypeSelector: React.FC<AreaTypeSelectorProps> = ({
 
   return (
     <div className="mb-6 ">
-      <QuestionLabel label="What type of area would you like to set up in?" questionNumber={questionNumber} />
+      <QuestionLabel label="What type of area would you prefer to set up your business in?" questionNumber={questionNumber} />
       <div className="grid place-items-center grid-cols-1 md:grid-cols-3 gap-4 mb-6 w-full whitespace-nowrap">
         {options.map((option) => (
           <button

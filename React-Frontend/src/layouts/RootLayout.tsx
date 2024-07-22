@@ -1,6 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { ClerkProvider } from "@clerk/clerk-react";
 import QuestionnaireProvider from "../context/QuestionnaireProvider";
+import ScrollToTop from "../utils/scrollToTop";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 const SIGN_IN_URL = import.meta.env.VITE_CLERK_SIGN_IN_URL;
@@ -30,6 +31,7 @@ export default function RootLayout() {
       afterSignOutUrl={SIGN_OUT_URL}
     >
       <QuestionnaireProvider>
+        <ScrollToTop />
         <Outlet />
       </QuestionnaireProvider>
     </ClerkProvider>

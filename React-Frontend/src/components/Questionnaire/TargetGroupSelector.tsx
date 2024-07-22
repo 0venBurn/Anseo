@@ -33,7 +33,7 @@ const TargetGroupSelector: React.FC<TargetGroupSelectorProps> = ({
 
   return (
     <div className="mb-6 ">
-      <QuestionLabel label="Is your business targeting families, singles, or no preference?" questionNumber={questionNumber} />
+      <QuestionLabel label="Is your business specifically aimed at families, single individuals, or does it not have a particular preference?" questionNumber={questionNumber} />
       <div className="grid place-items-center grid-cols-1 md:grid-cols-3 gap-4">
         {options.map((option) => (
           <button

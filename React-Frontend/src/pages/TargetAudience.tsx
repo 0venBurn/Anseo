@@ -79,7 +79,7 @@ const TargetAudience: React.FC = () => {
     <QuestionnaireLayout>
         <QuestionPageHeader title={'Target Audience Demographics'} pageNumber={3}/>
       <RangeSlider
-        label="What age range is your target customers within?"
+        label="What is the age range of your target audience?"
         min={4}
         max={65}
         minDistance={1}
@@ -91,7 +91,7 @@ const TargetAudience: React.FC = () => {
       />
 
       <SingleSlider
-        label="How important is the age of your target customers?"
+        label="On a scale of 1 to 5, with 1 being not important at all and 5 being extremely important, how would you rate the importance of your target customer's age demographic?"
         min={1}
         max={5}
         steps={1}
@@ -101,7 +101,7 @@ const TargetAudience: React.FC = () => {
       />
 
       <RangeSlider
-        label="What is your target customer's income level? "
+        label="What is the income bracket of your target customers?"
         min={10000}
         max={100000}
         minDistance={1000}
@@ -113,7 +113,7 @@ const TargetAudience: React.FC = () => {
       />
 
       <SingleSlider
-        label="How important is the income of your target customers?"
+        label="On a scale of 1 to 5, with 1 being not important at all and 5 being extremely important, how would you rate the importance of your target customer's yearly earning demographic? "
         min={1}
         max={5}
         steps={1}
@@ -128,14 +128,15 @@ const TargetAudience: React.FC = () => {
         questionNumber={5}
       />
 
-    <SingleSlider
-        label="What gender is your business tailored towards?"
-        min={1}
-        max={5}
-        steps={1}
+      <SingleSlider
+        label="Which gender does your business primarily cater to?"
+        min={0}
+        max={1}
+        steps={0.01}
         value={genderRatio}
         setValue={setGenderRatio}
-        questionNumber={1}
+        type='gender'
+        questionNumber={6}
       />
 
         <NavigationButtons

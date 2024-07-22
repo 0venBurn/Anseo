@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import MistralClient from "@mistralai/mistralai";
 import InputBar from "./InputBar";
+import ChatIcon from "@mui/icons-material/Chat";
 
 //Retrieve API key from environment variables
 const apiKey = import.meta.env.VITE_MISTRAL_API_KEY as string;
@@ -128,12 +129,12 @@ const Chat: React.FC = () => {
           onClick={() => setIsExpanded(true)}
           style={{ width: "65px", height: "65px", borderRadius: "50%" }}
         >
-          <h3
-            className="text-3xl font-regular text-primary-light text-center pt-0 pb-5 rounded"
+          <div
+            className="text-primary-light text-center"
             style={{ fontFamily: "Commissioner" }}
           >
-            ...
-          </h3>
+            <ChatIcon />
+          </div>
         </button>
       )}
     </>

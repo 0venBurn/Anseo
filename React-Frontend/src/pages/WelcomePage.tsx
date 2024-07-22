@@ -28,7 +28,7 @@ const WelcomePage: React.FC = () => {
         className="relative min-h-screen flex flex-col items-center lg:items-start justify-between text-primary-text-dark bg-bk-grey"
       >
         {/* Text on main page */}
-        <div className="flex flex-col items-center text-center lg:items-start lg:text-left mt-28 lg:mt-32 mb-8 max-w-[75%] xl:max-w-[80%] lg:px-20">
+        <div className="flex flex-col items-center text-center lg:items-start lg:text-left mt-16 mb-8 max-w-[75%] xl:max-w-[80%] lg:px-20">
           <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold font-alegreya mb-4">
             Welcome to Anseo, the place to be.
           </h1>
