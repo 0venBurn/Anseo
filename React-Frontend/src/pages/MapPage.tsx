@@ -296,7 +296,7 @@ const MapPage: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="flex flex-col-reverse lg:flex-row h-[calc(100vh-5rem)]">
+      <div className="flex flex-col-reverse lg:flex-row min-h-[calc(100vh-5rem)]">
         <NeighbourhoodContainer 
           neighbourhoods={neighbourhoods}
           handleLearnMore={handleLearnMore}
