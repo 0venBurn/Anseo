@@ -29,6 +29,7 @@ options = Options()
 options.headless = True
 options.binary_location = "/opt/chrome/chrome-linux64/chrome" 
 options.add_argument("--headless") 
+options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36')
 options.add_argument("--no-sandbox") 
 options.add_argument("--disable-dev-shm-usage") 
 options.add_argument("start-maximized")  
