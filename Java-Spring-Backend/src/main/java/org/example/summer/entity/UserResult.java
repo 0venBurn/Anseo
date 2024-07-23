@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.summer.config.ResultsConverter;
 
 import java.sql.Timestamp;
 
@@ -25,9 +24,17 @@ public class UserResult {
     @Column(name = "clerk_user_id")
     private String clerkUserId;
 
-    @Convert(converter = ResultsConverter.class)
-    @Column(name = "results")
-    private Results results;
+    @Column(name = "predictions")
+    private String predictions;
+
+    @Column(name = "selected_boroughs")
+    private String selectedBoroughs;
+
+    @Column(name = "top_neighbourhood_name")
+    private String topNeighbourhoodName;
+
+    @Column(name = "top_neighbourhood_rating")
+    private int topNeighbourhoodRating;
 
     @Column(columnDefinition = "timestamp with time zone", insertable = false, updatable = false)
     private Timestamp timestamp;

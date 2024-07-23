@@ -1,4 +1,4 @@
-import { Payload, Neighbourhood } from "../utils/types";
+import { Payload, Neighbourhood, Predictions } from "../utils/types";
 
 const fastURL = import.meta.env.VITE_FAST_URL;
 const backendURL = import.meta.env.VITE_BACKEND_URL;
@@ -14,11 +14,34 @@ export const fetchMLPredictions = async (results: Payload) => {
   return response.json();
 };
 
-export const saveUserResultsToDB = async (clerkUserId: string, results: Payload) => {
+export const saveUserResultsToDB = async (
+  clerkUserId: string, 
+  predictions: Predictions,
+  selectedBoroughs: string[],
+  topNeighbourhoodName: string,
+  topNeighbourhoodRating: number
+) => {
+  console.log(JSON.stringify(
+    { 
+      clerkUserId, 
+      predictions,
+      selectedBoroughs,
+      topNeighbourhoodName,
+      topNeighbourhoodRating
+    }
+  ))
   const response = await fetch(`${backendURL}/api/v1/user-results/${clerkUserId}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ clerkUserId, results }),
+    body: JSON.stringify(
+      { 
+        clerkUserId, 
+        predictions,
+        selectedBoroughs,
+        topNeighbourhoodName,
+        topNeighbourhoodRating
+      }
+    ),
   });
   if (!response.ok) throw new Error("API response from DB was not ok.");
 };

@@ -6,7 +6,7 @@ import Header from "../components/General/Header";
 import "../index.css";
 import { environment } from "../../mapbox.config";
 import Map from "../components/MapPage/Map";
-import { Listing, Neighbourhood, PredictionResponse, Rankings, Indexes, HighlightedLocation, UserResult } from "../utils/types";
+import { Listing, Neighbourhood, Predictions, Rankings, Indexes, HighlightedLocation, UserHistory } from "../utils/types";
 import NeighbourhoodContainer from "../components/MapPage/NeighbourhoodContainer";
 import useSetQuestionnaireData from "../hooks/useSetQuestionnaireData";
 import useGetNeighbourhoods from "../hooks/useGetNeighbourhoods";
@@ -18,11 +18,9 @@ mapboxgl.accessToken = environment.mapbox.accessToken;
 
 const MapPage: React.FC = () => {
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
-  const [predictions, setPredictions] = useState<PredictionResponse>({
-    predictions: {},
-  });
+  const [predictions, setPredictions] = useState<Predictions>({});
   const [userFavourites, setUserFavourites] = useState<Neighbourhood[]>([]);
-  const [userHistory, setUserHistory] = useState<UserResult[] | null>([]);
+  const [userHistory, setUserHistory] = useState<UserHistory[] | null>([]);
   const [neighbourhoods, setNeighbourhoods] = useState<Neighbourhood[]>([]);
   const [selectedNeighbourhood, setSelectedNeighbourhood] =
     useState<Neighbourhood | null>(null);
@@ -162,6 +160,8 @@ const MapPage: React.FC = () => {
           userFavourites={userFavourites}
           setUserFavourites={setUserFavourites}
           userHistory={userHistory}
+          setPredictions={setPredictions}
+          setSelectedBoroughs={setSelectedBoroughs}
         />
         <Map 
           selectedBoroughs={selectedBoroughs}

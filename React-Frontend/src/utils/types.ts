@@ -53,8 +53,8 @@ gender_diversity_index: number;
 business_index: number;
 }
 
-export interface PredictionResponse {
-predictions: { [zipcode: string]: number };
+export interface Predictions {
+  [zipcode: string]: number 
 }
 
 export interface HighlightedLocation {
@@ -92,9 +92,12 @@ export interface Payload {
   data: Data
 }
 
-export interface UserResult {
+export interface UserHistory {
   resultId: number;
   clerkUserId: string;
-  results: Payload;
+  predictions: Predictions;
+  topNeighbourhoodName: string
+  topNeighbourhoodRating: number;
+  selectedBoroughs: string[];
   timestamp: number;
 }

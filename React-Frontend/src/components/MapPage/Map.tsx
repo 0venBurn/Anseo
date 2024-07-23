@@ -5,11 +5,11 @@ import { useMapInit } from '../../hooks/useMapInit';
 import { useAddMapLayers } from '../../hooks/useAddMapLayers';
 import mapboxgl from 'mapbox-gl';
 import '../../index.css';
-import { Listing, Neighbourhood, HighlightedLocation, PredictionResponse } from '../../utils/types';
+import { Listing, Neighbourhood, HighlightedLocation, Predictions } from '../../utils/types';
 
 interface MapProps {
   selectedBoroughs: string[];
-  predictions: PredictionResponse | null;
+  predictions: Predictions | null;
   listings: Listing[];
   handleSelectNeighbourhood: (location: Neighbourhood) => Promise<void>
   handleGetLocation: (name: string) => Neighbourhood

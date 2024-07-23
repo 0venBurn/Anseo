@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Indexes, Listing, Neighbourhood, Rankings, UserResult } from "../../utils/types";
+import { Indexes, Listing, Neighbourhood, Predictions, Rankings, UserHistory as UserHistoryType } from "../../utils/types";
 import UserOptionsHeader from "./UserOptionsHeader";
 import NeighbourhoodCardGrid from "./NeighbourhoodCardGrid";
 import NeighbourhoodDetails from "./NeighbourhoodDetails";
@@ -15,11 +15,13 @@ interface NeighbourhoodContainerProps {
     filteredRankings: Rankings | undefined
     filteredIndexes: Indexes | undefined    
     isClosing: boolean
-    userHistory: UserResult[] | null
+    userHistory: UserHistoryType[] | null
     handleClose: () => void
     handleListingClick: (listing: Listing) => void
     userFavourites: Neighbourhood[]
     setUserFavourites: React.Dispatch<React.SetStateAction<Neighbourhood[]>>
+    setPredictions: React.Dispatch<React.SetStateAction<Predictions>>
+    setSelectedBoroughs: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = ( 
@@ -35,7 +37,9 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
         handleListingClick,
         userHistory,
         userFavourites,
-        setUserFavourites
+        setUserFavourites,
+        setPredictions,
+        setSelectedBoroughs
      }) => {
     const [activeBtn, setActiveBtn] = useState<string | null>('Results');
 
@@ -86,6 +90,8 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
         {!selectedNeighbourhood ? activeBtn === 'History' && 
         <UserHistory 
         userHistory={userHistory}
+        setPredictions={setPredictions}
+        setSelectedBoroughs={setSelectedBoroughs}
         /> : ''}
 
         </motion.div>

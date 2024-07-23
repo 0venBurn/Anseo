@@ -1,11 +1,13 @@
 import { useEffect } from "react";
-import { UserResult } from "../../utils/types";
+import { Predictions, UserHistory as UserHistoryType } from "../../utils/types";
 import { motion } from "framer-motion";
-import { Rating } from "@mui/material";
+import { Button, Rating } from "@mui/material";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
 
 interface UserHistoryProps {
-    userHistory: UserResult[] | null;
+    userHistory: UserHistoryType[] | null;
+    setPredictions: React.Dispatch<React.SetStateAction<Predictions>>;
+    setSelectedBoroughs: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 interface UserHistoryContainerProps {
@@ -43,7 +45,8 @@ const UserHistoryItem: React.FC<UserHistoryItemProps> = ({content}) => {
     )
 }
 
-const UserHistory: React.FC<UserHistoryProps> = ({ userHistory }) => {
+const UserHistory: React.FC<UserHistoryProps> = ({ userHistory, setPredictions, setSelectedBoroughs }) => {
+    console.log(userHistory)
     useEffect(() => {
         console.log('userHistory changed:', userHistory);
     }, [userHistory]);
@@ -62,25 +65,28 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userHistory }) => {
             </SignedOut>
             <SignedIn>
             <div className="flex flex-col gap-6 p-4">
-        {userHistory && userHistory.map( userResult => {
-            const selectedBoroughs = userResult.results.data.selectedBoroughs
-            console.log(userResult.clerkUserId)
-            console.log(selectedBoroughs)
+        {userHistory && userHistory.map( (
+            { resultId, 
+                predictions, 
+                selectedBoroughs, 
+                topNeighbourhoodName, 
+                topNeighbourhoodRating, 
+                timestamp }) => {
             return (
                 <motion.div whileHover={{ scale: 1.02 }}
-                key={userResult.resultId} 
+                key={resultId} 
                 className="flex bg-white p-4 border-b-[1px] gap-4 
                 items-center justify-evenly border-b-primary-text-dark  
                 shadow-md cursor-pointer rounded-lg">
                 
                 <UserHistoryContainer>
                     <UserHistoryHeading title="Date"/>
-                    <UserHistoryItem content={new Date(userResult.timestamp).toLocaleString().slice(0,10)}/>
+                    <UserHistoryItem content={new Date(timestamp).toLocaleString().slice(0,10)}/>
                 </UserHistoryContainer>
 
                 <UserHistoryContainer>
                 <UserHistoryHeading title="Selected Boroughs"/>
-                    {selectedBoroughs.map( borough => {
+                    {selectedBoroughs.map( (borough: string) => {
                         return (
                             <>
                                 <UserHistoryItem content={borough} /> 
@@ -91,12 +97,17 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userHistory }) => {
                 </UserHistoryContainer>
 
                 <UserHistoryContainer col>
+                    <UserHistoryHeading title="Top Neighbourhood"/>
+                    <UserHistoryItem content={topNeighbourhoodName}/>
+                </UserHistoryContainer>
+
+                <UserHistoryContainer col>
                     <UserHistoryHeading title="Best Match"/>
                     <div className="flex items-center gap-1"> 
-                        <UserHistoryItem content="4.5"/>
+                        <UserHistoryItem content={`${topNeighbourhoodRating}`}/>
                     <Rating 
                     name="highest-rating" 
-                    value={4.5}
+                    value={topNeighbourhoodRating}
                     precision={0.1} 
                     readOnly
                     size="small"
@@ -106,7 +117,11 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userHistory }) => {
                     }} />
                     </div>
                 </UserHistoryContainer>
-
+                    <Button onClick={() => {
+                        console.log(resultId)
+                        console.log(predictions)
+                        setSelectedBoroughs(selectedBoroughs)
+                        setPredictions(predictions)}}>View Again</Button>
                     <UserHistoryHeading title="View Again" />
                 </motion.div>
             );

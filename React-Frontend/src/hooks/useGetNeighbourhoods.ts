@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { fetchAllPages } from "../utils/apiFunctions";
-import { Neighbourhood, PredictionResponse } from "../utils/types";
+import { Neighbourhood, Predictions } from "../utils/types";
 
 const useGetNeighbourhoods = (
-    predictions: PredictionResponse,
+    predictions: Predictions,
     selectedBoroughs: string[],
     setNeighbourhoods: React.Dispatch<React.SetStateAction<Neighbourhood[]>>,
 ) => {
@@ -31,15 +31,15 @@ const useGetNeighbourhoods = (
                     selectedBoroughs.includes(neighbourhood.borough),
                     );        
                 // normalize the value
-                const predictionValues: number[] = Object.values(predictions?.predictions || {});
+                const predictionValues: number[] = Object.values(predictions || {});
                 const minPrediction = Math.min(...predictionValues);
                 const maxPrediction = Math.max(...predictionValues);
 
                 const neighbourhoodsWithPredictionScores = filteredNeighbourhoods
                     .map((neighbourhood) => {
                         const normalizedValue =
-                            predictions?.predictions[neighbourhood.zipcode] !== undefined
-                            ? (predictions.predictions[neighbourhood.zipcode] - minPrediction) /
+                            predictions[neighbourhood.zipcode] !== undefined
+                            ? (predictions[neighbourhood.zipcode] - minPrediction) /
                                 (maxPrediction - minPrediction)
                             : 0;
                         return { ...neighbourhood, rating: normalizedValue * 5 };

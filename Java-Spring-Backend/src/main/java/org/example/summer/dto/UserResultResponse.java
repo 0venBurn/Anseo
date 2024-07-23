@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.summer.entity.UserResult;
 
 import java.util.List;
 
@@ -13,5 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserResultResponse {
-    private List<UserResult> results;
+    private List<UserResultResponseData> results;
 }

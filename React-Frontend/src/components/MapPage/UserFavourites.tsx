@@ -19,7 +19,7 @@ const UserFavourites: React.FC<UserFavouritesProps> = ({ userFavourites, handleL
         <NeighbourhoodCardGrid
             neighbourhoods={userFavourites}
             handleLearnMore={handleLearnMore}
-            userFavourites={userFavourites}
+            userFavourites={userFavourites.sort((a, b) => b.rating - a.rating)}
             setUserFavourites={setUserFavourites}
         /> 
         </div>

@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
-import { Neighbourhood, Listing, HighlightedLocation, PredictionResponse, ZipProbability } from '../utils/types'
+import { Neighbourhood, Listing, HighlightedLocation, Predictions, ZipProbability } from '../utils/types'
 
 export const useAddMapLayers = (
   map: mapboxgl.Map | null,
   selectedBoroughs: string[],
-  predictions: PredictionResponse | null,
+  predictions: Predictions | null,
   listings: Listing[],
   handleSelectNeighbourhood: (location: Neighbourhood) => Promise<void>,
   handleGetLocation: (name: string) => Neighbourhood,
@@ -15,15 +15,21 @@ export const useAddMapLayers = (
   const highlightMarkerRef = useRef<mapboxgl.Marker | null>(null);
 
   const zipProbabilities: ZipProbability[] = [];
-  if (predictions) {
-    for (const [zipcode, probability] of Object.entries(predictions.predictions)) {
+  console.log("zipProbabilities", zipProbabilities)
+  console.log(selectedBoroughs, predictions)
+  if (selectedBoroughs.length > 0 && predictions) {
+    console.log("predictions", predictions)
+    console.log("selectedBoroughs", selectedBoroughs)
+    for (const [zipcode, probability] of Object.entries(predictions)) {
       zipProbabilities.push({ zipcode, probability });
     }
     zipProbabilities.sort((a, b) => a.probability - b.probability);
   }
 
+  console.log(zipProbabilities[0])
   const sortedZipCodes: number[] = zipProbabilities.map((zip) => parseInt(zip.zipcode));
 
+  console.log(sortedZipCodes)
   useEffect(() => {
     if (!map) return;
 
