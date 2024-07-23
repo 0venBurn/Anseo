@@ -7,28 +7,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.summer.config.ResultsConverter;
 
-import java.sql.Timestamp;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users_results")
-public class UserResult {
+@Table(name = "users_favourites")
+public class UserFavourite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "result_id")
-    private int resultId;
+    @Column(name = "id")
+    private int id;
 
     @Column(name = "clerk_user_id")
     private String clerkUserId;
 
-    @Convert(converter = ResultsConverter.class)
-    @Column(name = "results")
-    private Results results;
-
-    @Column(columnDefinition = "timestamp with time zone", insertable = false, updatable = false)
-    private Timestamp timestamp;
+    @Column(name = "neighbourhood_id")
+    private int neighbourhoodId;
 }
