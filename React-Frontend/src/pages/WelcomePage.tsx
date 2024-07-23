@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Header from "../components/General/Header";
+import Chat from "../components/Chatbox/Chat";
 import "../index.css";
 import LinearGradientCircle from "../components/Questionnaire/LinearGradientCircle";
 import NavigationButtons from "../components/Questionnaire/NavigationButtons";
@@ -84,6 +85,7 @@ const WelcomePage: React.FC = () => {
         </div>
         <LinearGradientCircle />
       </motion.div>
+      <Chat />
     </>
   );
 };

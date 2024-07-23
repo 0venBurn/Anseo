@@ -4,6 +4,7 @@ import Header from "../components/General/Header";
 import Mission from "../components/AboutPage/Mission";
 import Section from "../components/AboutPage/SectionComponent";
 import Footer from "../components/AboutPage/Footer";
+import Chat from "../components/Chatbox/Chat";
 import "../index.css";
 
 const AboutPage: React.FC = () => {
@@ -46,6 +47,7 @@ const AboutPage: React.FC = () => {
         ))}
       </motion.div>
       <Footer />
+      <Chat />
     </div>
   );
 };

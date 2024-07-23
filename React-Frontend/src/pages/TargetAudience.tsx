@@ -8,6 +8,7 @@ import { useQuestionnaire } from "../context/QuestionnaireProvider";
 import RangeSlider from "../components/Questionnaire/RangeSlider";
 import SingleSlider from "../components/Questionnaire/SingleSlider";
 import QuestionPageHeader from "../components/Questionnaire/QuestionPageHeader";
+import Chat from "../components/Chatbox/Chat";
 
 // step setting for the progress indicator props
 const currentStep = 4;
@@ -90,71 +91,75 @@ const TargetAudience: React.FC = () => {
   };
 
   return (
-    <QuestionnaireLayout>
-        <QuestionPageHeader title={'Target Audience Demographics'} pageNumber={3}/>
-      <RangeSlider
-        label="What is the age range of your target audience?"
-        min={4}
-        max={65}
-        minDistance={1}
-        steps={1}
-        type="age"
-        value={selectedAgeGroup}
-        setValue={handleSetSelectedAgeGroup}
-        questionNumber={1}
-      />
+    <>
+      <QuestionnaireLayout>
+        <QuestionPageHeader
+          title={"Target Audience Demographics"}
+          pageNumber={3}
+        />
+        <RangeSlider
+          label="What is the age range of your target audience?"
+          min={4}
+          max={65}
+          minDistance={1}
+          steps={1}
+          type="age"
+          value={selectedAgeGroup}
+          setValue={handleSetSelectedAgeGroup}
+          questionNumber={1}
+        />
 
-      <SingleSlider
-        label="On a scale of 1 to 5, with 1 being not important at all and 5 being extremely important, how would you rate the importance of your target customer's age demographic?"
-        min={1}
-        max={5}
-        steps={1}
-        value={ageImportance}
-        setValue={setAgeImportance}
-        questionNumber={2}
-      />
+        <SingleSlider
+          label="On a scale of 1 to 5, with 1 being not important at all and 5 being extremely important, how would you rate the importance of your target customer's age demographic?"
+          min={1}
+          max={5}
+          steps={1}
+          value={ageImportance}
+          setValue={setAgeImportance}
+          questionNumber={2}
+        />
 
-      <RangeSlider
-        label="What is the income bracket of your target customers?"
-        min={10000}
-        max={100000}
-        minDistance={1000}
-        steps={1000}
-        type="income"
-        value={selectedIncomeLevel}
-        setValue={handleSetSelectedIncomeLevel}
-        questionNumber={3}
-      />
+        <RangeSlider
+          label="What is the income bracket of your target customers?"
+          min={10000}
+          max={100000}
+          minDistance={1000}
+          steps={1000}
+          type="income"
+          value={selectedIncomeLevel}
+          setValue={handleSetSelectedIncomeLevel}
+          questionNumber={3}
+        />
 
-      <SingleSlider
-        label="On a scale of 1 to 5, with 1 being not important at all and 5 being extremely important, how would you rate the importance of your target customer's yearly earning demographic? "
-        min={1}
-        max={5}
-        steps={1}
-        value={incomeImportance}
-        setValue={setIncomeImportance}
-        questionNumber={4}
-      />
+        <SingleSlider
+          label="On a scale of 1 to 5, with 1 being not important at all and 5 being extremely important, how would you rate the importance of your target customer's yearly earning demographic? "
+          min={1}
+          max={5}
+          steps={1}
+          value={incomeImportance}
+          setValue={setIncomeImportance}
+          questionNumber={4}
+        />
 
-      <TargetGroupSelector
-        targetGroup={targetGroup}
-        setTargetGroup={setTargetGroup}
-        questionNumber={5}
-      />
+        <TargetGroupSelector
+          targetGroup={targetGroup}
+          setTargetGroup={setTargetGroup}
+          questionNumber={5}
+        />
 
-      {/* Display error message if present */}
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+        {/* Display error message if present */}
+        {error && <p className="text-red-500 mb-4">{error}</p>}
 
-      <SingleSlider
-        label="Which gender does your business primarily cater to?"
-        min={0}
-        max={1}
-        steps={0.01}
-        value={genderRatio}
-        setValue={setGenderRatio}
-        type='gender'
-        questionNumber={6}
-      />
+        <SingleSlider
+          label="Which gender does your business primarily cater to?"
+          min={0}
+          max={1}
+          steps={0.01}
+          value={genderRatio}
+          setValue={setGenderRatio}
+          type="gender"
+          questionNumber={6}
+        />
 
         <NavigationButtons
           currentStep={currentStep}
@@ -162,7 +167,9 @@ const TargetAudience: React.FC = () => {
           handleNext={handleNext}
           handlePrev={handlePrev}
         />
-    </QuestionnaireLayout>
+      </QuestionnaireLayout>
+      <Chat />
+    </>
   );
 };
 

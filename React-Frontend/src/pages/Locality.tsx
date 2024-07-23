@@ -8,6 +8,7 @@ import QuestionnaireLayout from "../layouts/QuestionnaireLayout";
 import { useQuestionnaire } from "../context/QuestionnaireProvider";
 import QuestionPageHeader from "../components/Questionnaire/QuestionPageHeader";
 import SingleSlider from "../components/Questionnaire/SingleSlider";
+import Chat from "../components/Chatbox/Chat";
 
 // Define the current step and total steps for the questionnaire progress
 const currentStep = 3;
@@ -97,9 +98,10 @@ const Locality: React.FC = () => {
   };
 
   return (
-    <QuestionnaireLayout>
-        <QuestionPageHeader title={'Locality and Environment'} pageNumber={2}/>
-      {/* Borough selection component */}
+    <>
+      <QuestionnaireLayout>
+        <QuestionPageHeader title={"Locality and Environment"} pageNumber={2} />
+        {/* Borough selection component */}
         <BoroughSelector
           selectedBoroughs={selectedBoroughs}
           handleSelectBorough={handleSelectBorough}
@@ -158,8 +160,10 @@ const Locality: React.FC = () => {
           handleNext={handleNext}
           handlePrev={handlePrev}
         />
-      {/* </div> */}
-    </QuestionnaireLayout>
+        {/* </div> */}
+      </QuestionnaireLayout>
+      <Chat />
+    </>
   );
 };
 
