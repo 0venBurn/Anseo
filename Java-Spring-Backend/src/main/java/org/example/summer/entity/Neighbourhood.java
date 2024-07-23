@@ -1,5 +1,6 @@
 package org.example.summer.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,7 @@ public class Neighbourhood {
 
     @Id
     @Column(name="neighbourhood_id")
-    private int id;
+    private int neighbourhoodId;
 
     @Column(name="borough")
     private String borough;
@@ -34,7 +35,4 @@ public class Neighbourhood {
 
     @Column(name="landmarks", columnDefinition="VARCHAR(255)[]")
     private List<String> landmarks;
-
-    @Column(name="photo_path")
-    private String photo_path;
 }

@@ -161,7 +161,7 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
             Why this neighbourhood?
           </Typography>
           <Typography variant="h5" component="h3" gutterBottom>Demographic Rankings</Typography>
-          <Box sx={{ height: 300, display: 'flex', justifyContent: 'space-between' }}>
+          <Box sx={{ minHeight: 300, display: 'flex', justifyContent: 'space-between' }}>
             <Box sx={{ width: '45%' }}>
               <Bar data={demographicData} options={{ maintainAspectRatio: false }} />
             </Box>
@@ -183,7 +183,7 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
 
           {/* Economic and Social Rankings with Radar Chart */}
           <Typography variant="h5" component="h3" gutterBottom>Economic and Social Rankings</Typography>
-          <Box sx={{ height: 300, display: 'flex', justifyContent: 'space-between' }}>
+          <Box sx={{ minHeight: 300, display: 'flex', justifyContent: 'space-between' }}>
             <Box sx={{ width: '45%' }}>
               <Bar data={economicData} options={{ maintainAspectRatio: false }} />
             </Box>
@@ -207,11 +207,11 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
             Available listings
           </Typography>
           {listings.length > 0 ? (
-            <Box display="flex" overflow="auto">
+            <Box display="flex">
               <Grid
                 container
                 spacing={2}
-                style={{ flexWrap: "nowrap", overflowX: "auto" }}
+                style={{ flexWrap: "nowrap"}}
               >
                 {listings.map((listing) => (
                   <Listing listing={listing} onListingClick={onListingClick} />

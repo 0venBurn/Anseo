@@ -1,16 +1,16 @@
-import { Slider } from '@mui/material';
-import { alpha } from '@mui/material/styles';
-import QuestionLabel from './QuestionLabel';
+import { Slider } from "@mui/material";
+import { alpha } from "@mui/material/styles";
+import QuestionLabel from "./QuestionLabel";
 
 interface SingleSliderProps {
-    label: string 
-    min: number
-    max: number
-    steps: number
-    value: number
-    setValue: (value: number) => void
-    type?: string
-    questionNumber: number
+  label: string;
+  min: number;
+  max: number;
+  steps: number;
+  value: number;
+  setValue: (value: number) => void;
+  type?: string;
+  questionNumber: number;
 }
 
 const SingleSlider: React.FC<SingleSliderProps> = (
@@ -135,3 +135,4 @@ const SingleSlider: React.FC<SingleSliderProps> = (
 }
 
 export default SingleSlider;
+
