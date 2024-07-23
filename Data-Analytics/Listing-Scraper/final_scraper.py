@@ -60,7 +60,8 @@ def go_to_next_page(driver):
     except Exception as e:
         print("No more pages or error navigating to the next page:", e)
         return False
-
+map_pins_data = []
+listing_details = []
 
 # Loop through each url
 for url in urls:
@@ -77,7 +78,7 @@ for url in urls:
     )
 
     # Extract id, lat, and lon for each map pin div
-    map_pins_data = []
+    
     for map_pin in map_pin_divs:
         pin_id = map_pin.get("id")
         lat = map_pin.get("lat")
@@ -85,7 +86,7 @@ for url in urls:
         map_pins_data.append({"id": pin_id, "lat": lat, "lon": lon})
         print(f"Map pin ID: {pin_id}, Latitude: {lat}, Longitude: {lon}")
 
-    listing_details = []
+    
     page_number = 1
     while True:
 
