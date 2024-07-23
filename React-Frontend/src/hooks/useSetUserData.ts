@@ -10,16 +10,17 @@ const useSetUserData = (
     setUserFavourites: React.Dispatch<React.SetStateAction<Neighbourhood[]>>,
     setUserHistory: React.Dispatch<React.SetStateAction<UserResult[] | null>>,
     neighbourhoods: Neighbourhood[],
-    predictions: PredictionResponse
+    predictions: PredictionResponse,
+    selectedBoroughs: string[],
 ) => {
     const { isSignedIn, isLoaded } = useAuth();
     const { user } = useUser();
-    const { data, isQuestionnaireCompleted, setQuestionnaireDefault } = useQuestionnaire();
+    const { isQuestionnaireCompleted } = useQuestionnaire();
     const navigate = useNavigate();
 
   useEffect(() => {
     const setUserData = async () => {
-      if (isLoaded && predictions && neighbourhoods) {        
+      if (isLoaded && predictions && neighbourhoods && selectedBoroughs) {        
         try {
           // continue as guest
           if (!isSignedIn && isQuestionnaireCompleted()) {

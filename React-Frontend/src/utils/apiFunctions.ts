@@ -31,9 +31,11 @@ export const fetchUserResultsFromDB = async (clerkUserId: string) => {
 
 export const fetchUserFavouritesFromDB = async (clerkUserId: string, neighbourhoods: Neighbourhood[]) => {
   const response = await fetch(`${backendURL}/api/v1/user-favourites/${clerkUserId}`);
-  const userFavourites: number[] = await response.json();
+  if (!response.ok) throw new Error("API response from DB was not ok when fetching favourites.");
+  const userFavourites = await response.json();
+  if (!userFavourites.hasFavourites) return [];
   console.log(userFavourites);
-  return neighbourhoods.filter(neighbourhoods => userFavourites.includes(neighbourhoods.neighbourhood_id));
+  return neighbourhoods.filter(neighbourhood => userFavourites.favourites.includes(neighbourhood.neighbourhood_id));
 };
 
 export const saveUserFavouriteToDB = async (clerkUserId: string, neighbourhoodId: number) => {

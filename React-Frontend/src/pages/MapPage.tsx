@@ -58,6 +58,7 @@ const MapPage: React.FC = () => {
     setUserHistory,
     neighbourhoods,
     predictions,
+    selectedBoroughs
   )
 
   // function to convert zipcode to lat and lng

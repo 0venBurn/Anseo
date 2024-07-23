@@ -3,7 +3,6 @@ import { useAuth, useUser } from '@clerk/clerk-react'
 import { useQuestionnaire } from "../context/QuestionnaireProvider";
 import { fetchMLPredictions, fetchUserResultsFromDB } from '../utils/apiFunctions';
 import { PredictionResponse } from '../utils/types';
-import { s } from 'vite/dist/node/types.d-aGj9QkWt';
 
 const useSetQuestionnaireData = (
     setPredictions: React.Dispatch<React.SetStateAction<PredictionResponse>>,
@@ -29,6 +28,7 @@ const useSetQuestionnaireData = (
             setSelectedBoroughs(dbResults.results[0].results.data.selectedBoroughs);
             const predictions = await fetchMLPredictions(dbResults.results[0].results);
             setPredictions(predictions);
+            console.log(predictions)
             setQuestionnaireDefault();
           }
         } catch (error) {
