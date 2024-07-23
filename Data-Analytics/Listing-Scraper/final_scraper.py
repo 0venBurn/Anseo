@@ -12,13 +12,16 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
 import geopandas as gpd
 from shapely.geometry import Point
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import SQLAlchemyError
+
+from pyvirtualdisplay import Display
+
+# Initialize virtual display
+display = Display(visible=0, size=(1920, 1080))
+display.start()
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, filename='scraper.log', filemode='a',
@@ -29,14 +32,8 @@ options = Options()
 options.headless = True
 options.binary_location = "/opt/chrome/chrome-linux64/chrome" 
 options.add_argument("--headless") 
-options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36')
 options.add_argument("--no-sandbox") 
 options.add_argument("--disable-dev-shm-usage") 
-options.add_argument("start-maximized")  
-options.add_argument("disable-infobars")  
-options.add_argument("--disable-extensions") 
-options.add_argument("--disable-gpu")
-
 
 # Set location urls 
 urls = [
@@ -68,10 +65,6 @@ def go_to_next_page(driver):
 # Loop through each url
 for url in urls:
     driver.get(url)
-    # Wait for the placards div to be loaded in the DOM
-    WebDriverWait(driver, 20).until(
-        EC.presence_of_element_located((By.CLASS_NAME, "placards"))
-    )
     time.sleep(5)
     # Get map tacks in bulk
     page_source = driver.page_source
@@ -144,6 +137,7 @@ for url in urls:
         page_number += 1
 
 driver.quit()
+display.stop()
 
 map_pins_df = pd.DataFrame(map_pins_data)
 
