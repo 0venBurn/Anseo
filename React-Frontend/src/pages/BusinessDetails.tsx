@@ -10,7 +10,8 @@ import "../index.css";
 import QuestionnaireLayout from "../layouts/QuestionnaireLayout";
 import { useQuestionnaire } from "../context/QuestionnaireProvider";
 import SingleSlider from "../components/Questionnaire/SingleSlider";
-import QuestionPageHeader from "../components/Questionnaire/QuestionPageHeader"
+import QuestionPageHeader from "../components/Questionnaire/QuestionPageHeader";
+import Chat from "../components/Chatbox/Chat";
 
 const BusinessDetails: React.FC = () => {
   const [businessType, setBusinessType] = useState<string>("");
@@ -128,8 +129,9 @@ const BusinessDetails: React.FC = () => {
   ];
 
   return (
-    <QuestionnaireLayout>
-      <QuestionPageHeader title={'Business Details'} pageNumber={1}/>
+    <>
+      <QuestionnaireLayout>
+        <QuestionPageHeader title={"Business Details"} pageNumber={1} />
         {/* Business type selector component */}
         <BusinessTypeSelector
           businessType={businessType}
@@ -175,7 +177,9 @@ const BusinessDetails: React.FC = () => {
           handleNext={handleNext}
           handlePrev={handlePrev}
         />
-    </QuestionnaireLayout>
+      </QuestionnaireLayout>
+      <Chat />
+    </>
   );
 };
 

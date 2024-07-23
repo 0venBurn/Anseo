@@ -12,6 +12,7 @@ import useSetQuestionnaireData from "../hooks/useSetQuestionnaireData";
 import useGetNeighbourhoods from "../hooks/useGetNeighbourhoods";
 import useGetNeighbourhoodDetails from "../hooks/useGetNeighbourhoodDetails";
 import useSetUserData from "../hooks/useSetUserData";
+import LoadingPage from "./LoadingPage";
 
 mapboxgl.accessToken = environment.mapbox.accessToken;
 
@@ -140,11 +141,7 @@ const MapPage: React.FC = () => {
     : undefined;
 
   if (!isPageLoaded) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="text-2xl">Loading...</div>
-      </div>
-    );
+    return <LoadingPage />;
   }
 
   return (

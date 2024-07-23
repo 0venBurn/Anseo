@@ -8,6 +8,8 @@ import '../index.css';
 import LinearGradientCircle from '../components/Questionnaire/LinearGradientCircle';
 import NavigationButtons from '../components/Questionnaire/NavigationButtons';
 import { useQuestionnaire } from '../context/QuestionnaireProvider';
+import Chat from "../components/Chatbox/Chat";
+
 const SubmitPage: React.FC = () => {
   const { isQuestionnaireCompleted } = useQuestionnaire();
   const navigate = useNavigate();
@@ -61,6 +63,7 @@ const SubmitPage: React.FC = () => {
         </div>
         <LinearGradientCircle />
       </motion.div>
+      <Chat />
     </>
   );
 };
