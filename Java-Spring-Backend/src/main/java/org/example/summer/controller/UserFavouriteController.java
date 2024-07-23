@@ -34,10 +34,10 @@ public class UserFavouriteController {
         return ResponseEntity.ok(userFavouriteService.saveUserFavourite(userFavouriteRequest));
     }
 
-    @DeleteMapping(value = "/{clerkUserId}")
+    @DeleteMapping(value = "/{clerkUserId}/{neighbourhoodId}")
     public ResponseEntity<Void> deleteUserFavourite(@PathVariable("clerkUserId") String clerkUserId,
-                                                    @RequestBody UserFavouriteRequest userFavouriteRequest) throws Exception {
-        userFavouriteService.deleteUserFavourite(userFavouriteRequest);
+                                                    @PathVariable("neighbourhoodId") Integer neighbourhoodId) throws Exception {
+        userFavouriteService.deleteUserFavourite(clerkUserId, neighbourhoodId);
         return ResponseEntity.noContent().build();
     }
 }

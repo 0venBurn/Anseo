@@ -46,10 +46,10 @@ public class UserFavouriteService {
     }
 
     @Transactional
-    public void deleteUserFavourite(UserFavouriteRequest userFavouriteRequest) {
+    public void deleteUserFavourite(String clerkUserId, Integer neighbourhoodId) {
         userFavouriteRepository.deleteByClerkUserIdAndNeighbourhoodId(
-                userFavouriteRequest.getClerkUserId(),
-                userFavouriteRequest.getNeighbourhoodId());
+                clerkUserId,
+                neighbourhoodId);
     }
 
 
