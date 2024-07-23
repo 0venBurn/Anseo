@@ -9,6 +9,7 @@ import Map from "../components/MapPage/Map";
 import { Listing, Neighbourhood, PredictionResponse, Rankings, Indexes, HighlightedLocation, UserResult } from "../utils/types";
 import NeighbourhoodContainer from "../components/MapPage/NeighbourhoodContainer";
 import usePredictions from "../hooks/usePredictions";
+import LoadingPage from "./LoadingPage";
 
 mapboxgl.accessToken = environment.mapbox.accessToken;
 
@@ -286,11 +287,7 @@ const MapPage: React.FC = () => {
     : undefined;
 
   if (!isPageLoaded) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="text-2xl">Loading...</div>
-      </div>
-    );
+    return <LoadingPage />;
   }
 
   return (
