@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.summer.entity.UserFavourite;
 
 import java.util.List;
 
@@ -13,6 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserFavouriteResponse {
-    private List<UserFavourite> favourites;
+    private List<Integer> favourites;
     private boolean hasFavourites;
 }

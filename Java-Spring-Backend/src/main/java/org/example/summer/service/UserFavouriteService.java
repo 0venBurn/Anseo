@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -26,8 +25,12 @@ public class UserFavouriteService {
     public UserFavouriteResponse getAllUserFavourites(String id) {
         User user = userService.findUserById(id);
         List<UserFavourite> favourites = userFavouriteRepository.findByClerkUserId(user.getClerkUserId());
+        List<Integer> neighbourhoodIds = favourites.stream()
+                .map(UserFavourite::getNeighbourhoodId)
+                .toList();
+
         return UserFavouriteResponse.builder()
-                .favourites(favourites)
+                .favourites(neighbourhoodIds)
                 .hasFavourites(!favourites.isEmpty())
                 .build();
     }
