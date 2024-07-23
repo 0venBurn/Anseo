@@ -88,17 +88,21 @@ for url in urls:
     listing_details = []
     page_number = 1
     while True:
-        print(f"Currently on page {page_number} of {url}")
-        page_source = driver.page_source
-        soup = BeautifulSoup(page_source, "html.parser")
 
-        placard_event_model = soup.find("div", class_="placards").get(
-            "placard-event-model"
-        )
-        placard_data = json.loads(placard_event_model)
+        try:
+            print(f"Currently on page {page_number} of {url}")
+            page_source = driver.page_source
+            soup = BeautifulSoup(page_source, "html.parser")
 
-        listings = soup.find_all("article", class_="placard")
+            placard_event_model = soup.find("div", class_="placards").get(
+                "placard-event-model"
+            )
+            placard_data = json.loads(placard_event_model)
 
+            listings = soup.find_all("article", class_="placard")
+        except Exception as e:
+            print("Error extracting data from page:", e)
+            break
         
         # Extract data from each listing
         for listing in listings:
