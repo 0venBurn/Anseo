@@ -29,9 +29,7 @@ logging.basicConfig(level=logging.INFO, filename='scraper.log', filemode='a',
 
 # Set Chrome options for headless operation
 options = Options()
-options.headless = True
-options.binary_location = "/opt/chrome/chrome-linux64/chrome" 
-options.add_argument("--headless") 
+options.binary_location = "/opt/chrome/chrome-linux64/chrome"  
 options.add_argument("--no-sandbox") 
 options.add_argument("--disable-dev-shm-usage") 
 
