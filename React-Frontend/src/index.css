@@ -92,3 +92,7 @@ body,
 .MuiInputBase-root, .MuiOutlinedInput-root, .MuiInputBase-colorPrimary, .css-8ik405-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
   border: none;
   }
+  
+.bookmarkBtn:hover {
+  background-color: inherit !important;
+}

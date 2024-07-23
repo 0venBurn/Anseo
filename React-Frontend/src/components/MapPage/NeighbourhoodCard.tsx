@@ -1,15 +1,35 @@
 import React from 'react';
-import { Card, CardContent, Typography, Grid, Box, Rating } from '@mui/material';
+import { Card, CardContent, Typography, Grid, Box, Rating, IconButton } from '@mui/material';
+import { useUser } from '@clerk/clerk-react';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { Neighbourhood } from '../../utils/types';
+import { saveUserFavouriteToDB, deleteUserFavouriteFromDB } from '../../utils/apiFunctions';
 
 interface NeighbourhoodCardProps {
   neighbourhood: Neighbourhood;
   onLearnMore: (neighbourhood: Neighbourhood) => void;
   isBestMatch: boolean;
+  userFavourites: Neighbourhood[]
+  setUserFavourites: React.Dispatch<React.SetStateAction<Neighbourhood[]>>
 }
 
-const NeighbourhoodCard: React.FC<NeighbourhoodCardProps> = ({ neighbourhood, onLearnMore, isBestMatch }) => {
+const NeighbourhoodCard: React.FC<NeighbourhoodCardProps> = ({ neighbourhood, onLearnMore, isBestMatch, userFavourites, setUserFavourites }) => {
+  const { user } = useUser()
+  let isBookmarked = userFavourites?.includes(neighbourhood) ? true : false;
+
+  const handleClickBookmark = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    if (isBookmarked) {
+      await deleteUserFavouriteFromDB(`${user && user.id}`, neighbourhood.neighbourhood_id)
+      setUserFavourites((prev) => prev.filter( prev => prev !== neighbourhood))
+      isBookmarked = false;
+    } else {
+      await saveUserFavouriteToDB(`${user && user.id}`, neighbourhood.neighbourhood_id)
+      setUserFavourites((prev) => [...prev, neighbourhood])
+      isBookmarked = true;
+    }
+
+  }
   return (
     <Grid item>
         <Card
@@ -24,6 +44,7 @@ const NeighbourhoodCard: React.FC<NeighbourhoodCardProps> = ({ neighbourhood, on
             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
             transition: 'transform 0.2s',
             position: 'relative', 
+            zIndex: 1,
             overflow: 'hidden', 
           }}
           onClick={() => onLearnMore(neighbourhood)}
@@ -96,9 +117,15 @@ const NeighbourhoodCard: React.FC<NeighbourhoodCardProps> = ({ neighbourhood, on
                }} mb={2}>{neighbourhood.description}</Typography>
             </div>
             <div className='flex items-center justify-end'>
-            <BookmarkIcon style={{ 
-              fontSize: '2rem',
-              color: '#3B447A' }} />
+            <IconButton 
+              onClick={handleClickBookmark} 
+              className={'bookmarkBtn'}
+            >
+              <BookmarkIcon style={{ 
+                fontSize: '2rem',
+                padding: 0,
+                color: `${isBookmarked ? '#3B447A' : '#ABB0B4'}` }}  />
+              </IconButton>
               </div>
           </CardContent>
         </Card>

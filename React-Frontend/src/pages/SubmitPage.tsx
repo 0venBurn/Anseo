@@ -7,14 +7,15 @@ import Header from '../components/General/Header';
 import '../index.css';
 import LinearGradientCircle from '../components/Questionnaire/LinearGradientCircle';
 import NavigationButtons from '../components/Questionnaire/NavigationButtons';
-
+import { useQuestionnaire } from '../context/QuestionnaireProvider';
 const SubmitPage: React.FC = () => {
+  const { isQuestionnaireCompleted } = useQuestionnaire();
   const navigate = useNavigate();
   
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (e.currentTarget.textContent === 'Continue as Guest') {
-      navigate('/map');
+      isQuestionnaireCompleted() && navigate('/map');
     } else {
       navigate('/sign-up');
     } 

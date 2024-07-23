@@ -18,6 +18,8 @@ interface NeighbourhoodContainerProps {
     userHistory: UserResult[] | null
     handleClose: () => void
     handleListingClick: (listing: Listing) => void
+    userFavourites: Neighbourhood[]
+    setUserFavourites: React.Dispatch<React.SetStateAction<Neighbourhood[]>>
 }
 
 const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = ( 
@@ -31,7 +33,9 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
         isClosing,
         handleClose,
         handleListingClick,
-        userHistory
+        userHistory,
+        userFavourites,
+        setUserFavourites
      }) => {
     const [activeBtn, setActiveBtn] = useState<string | null>('Results');
 
@@ -68,10 +72,16 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
         <NeighbourhoodCardGrid
         neighbourhoods={neighbourhoods}
         handleLearnMore={handleLearnMore}
+        userFavourites={userFavourites}
+        setUserFavourites={setUserFavourites}
         /> : ''}
 
         {!selectedNeighbourhood ? activeBtn === 'Favourites' &&
-        <UserFavourites /> : ''}
+        <UserFavourites 
+          userFavourites={userFavourites}
+          handleLearnMore={handleLearnMore}
+          setUserFavourites={setUserFavourites}
+        /> : ''}
 
         {!selectedNeighbourhood ? activeBtn === 'History' && 
         <UserHistory 

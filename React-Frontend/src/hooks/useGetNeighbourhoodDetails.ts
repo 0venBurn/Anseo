@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { fetchAllPages } from "../utils/apiFunctions";
 import { Listing, Indexes, Rankings } from "../utils/types";
 
-const useSetNeighbourhoodDetails = (
+const useGetNeighbourhoodDetails = (
     setIndexData: React.Dispatch<React.SetStateAction<Indexes[]>>,
     setListings: React.Dispatch<React.SetStateAction<Listing[]>>,
     setRankingsData: React.Dispatch<React.SetStateAction<Rankings[]>>,
@@ -63,4 +63,4 @@ const useSetNeighbourhoodDetails = (
       }, []);
 }
 
-export default useSetNeighbourhoodDetails;
+export default useGetNeighbourhoodDetails;

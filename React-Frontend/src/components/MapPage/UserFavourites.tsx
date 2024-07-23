@@ -1,6 +1,14 @@
-import { SignedIn, SignedOut } from "@clerk/clerk-react";
+import { SignedIn, SignedOut } from "@clerk/clerk-react"
+import NeighbourhoodCardGrid from "./NeighbourhoodCardGrid";
+import { Neighbourhood } from "../../utils/types";
 
-const UserFavourites = () => {
+interface UserFavouritesProps {
+    userFavourites: Neighbourhood[]
+    handleLearnMore: (neighbourhood: Neighbourhood) => void
+    setUserFavourites: React.Dispatch<React.SetStateAction<Neighbourhood[]>>
+}
+
+const UserFavourites: React.FC<UserFavouritesProps> = ({ userFavourites, handleLearnMore, setUserFavourites }) => {
     return (
         <>
         <SignedOut>
@@ -8,6 +16,12 @@ const UserFavourites = () => {
         </SignedOut>
         <SignedIn>
         <div>
+        <NeighbourhoodCardGrid
+            neighbourhoods={userFavourites}
+            handleLearnMore={handleLearnMore}
+            userFavourites={userFavourites}
+            setUserFavourites={setUserFavourites}
+        /> 
         </div>
         </SignedIn>
         </>

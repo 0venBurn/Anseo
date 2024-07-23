@@ -1,4 +1,4 @@
-import { Payload } from "../utils/types";
+import { Payload, Neighbourhood } from "../utils/types";
 
 const fastURL = import.meta.env.VITE_FAST_URL;
 const backendURL = import.meta.env.VITE_BACKEND_URL;
@@ -29,11 +29,11 @@ export const fetchUserResultsFromDB = async (clerkUserId: string) => {
   return response.json();
 };
 
-export const fetchUserFavouritesFromDB = async (clerkUserId: string) => {
-  const allNeighbourhoods = await fetch(`${backendURL}/api/v1/neighbourhoods`);
-  const userFavourites = await fetch(`${backendURL}/api/v1/user-favourites/${clerkUserId}`);
-  const favouriteNeighbourhoods = userFavourites.json();
-
+export const fetchUserFavouritesFromDB = async (clerkUserId: string, neighbourhoods: Neighbourhood[]) => {
+  const response = await fetch(`${backendURL}/api/v1/user-favourites/${clerkUserId}`);
+  const userFavourites: number[] = await response.json();
+  console.log(userFavourites);
+  return neighbourhoods.filter(neighbourhoods => userFavourites.includes(neighbourhoods.neighbourhood_id));
 };
 
 export const saveUserFavouriteToDB = async (clerkUserId: string, neighbourhoodId: number) => {

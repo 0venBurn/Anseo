@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -8,19 +8,19 @@ import { environment } from "../../mapbox.config";
 import Map from "../components/MapPage/Map";
 import { Listing, Neighbourhood, PredictionResponse, Rankings, Indexes, HighlightedLocation, UserResult } from "../utils/types";
 import NeighbourhoodContainer from "../components/MapPage/NeighbourhoodContainer";
-import usePredictions from "../hooks/usePredictions";
+import useSetQuestionnaireData from "../hooks/useSetQuestionnaireData";
 import useGetNeighbourhoods from "../hooks/useGetNeighbourhoods";
-import useSetNeighbourhoodDetails from "../hooks/useSetNeighbourhoodDetails";
+import useGetNeighbourhoodDetails from "../hooks/useGetNeighbourhoodDetails";
+import useSetUserData from "../hooks/useSetUserData";
 
 mapboxgl.accessToken = environment.mapbox.accessToken;
 
 const MapPage: React.FC = () => {
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
   const [predictions, setPredictions] = useState<PredictionResponse>({
     predictions: {},
   });
-  const [userFavouriteIds, setUserFavouriteIds] = useState<Neighbourhood[]>([]);
+  const [userFavourites, setUserFavourites] = useState<Neighbourhood[]>([]);
   const [userHistory, setUserHistory] = useState<UserResult[] | null>([]);
   const [neighbourhoods, setNeighbourhoods] = useState<Neighbourhood[]>([]);
   const [selectedNeighbourhood, setSelectedNeighbourhood] =
@@ -34,11 +34,9 @@ const MapPage: React.FC = () => {
     useState<HighlightedLocation | null>(null);
   const [indexData, setIndexData] = useState<Indexes[]>([]);
 
-  usePredictions(
+  useSetQuestionnaireData(
     setPredictions, 
-    setIsPageLoaded,
     setSelectedBoroughs,
-    setUserHistory
   )
   
   useGetNeighbourhoods(
@@ -47,10 +45,18 @@ const MapPage: React.FC = () => {
     setNeighbourhoods
   )
 
-  useSetNeighbourhoodDetails(
+  useGetNeighbourhoodDetails(
     setIndexData,
     setListings,
     setRankingsData,
+  )
+
+  useSetUserData(
+    setIsPageLoaded, 
+    setUserFavourites,
+    setUserHistory,
+    neighbourhoods,
+    predictions,
   )
 
   // function to convert zipcode to lat and lng
@@ -155,6 +161,8 @@ const MapPage: React.FC = () => {
           isClosing={isClosing}
           handleClose={handleClose}
           handleListingClick={handleListingClick}
+          userFavourites={userFavourites}
+          setUserFavourites={setUserFavourites}
           userHistory={userHistory}
         />
         <Map 
