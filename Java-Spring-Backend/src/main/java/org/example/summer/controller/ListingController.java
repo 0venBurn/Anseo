@@ -4,7 +4,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.summer.dao.ListingRepository;
 import org.example.summer.entity.Listing;
-import org.example.summer.entity.Neighbourhood;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
