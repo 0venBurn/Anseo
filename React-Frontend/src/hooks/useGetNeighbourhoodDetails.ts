@@ -26,6 +26,9 @@ const useGetNeighbourhoodDetails = (
         try {
           const response = await fetch ("/final_index_data.json");
           const data = await response.json(); 
+          console.log(data)
+          // sortedRankings =
+          console.log(Array.isArray(data))
           if (Array.isArray(data)) {
             setRankingsData(data);
           } else {

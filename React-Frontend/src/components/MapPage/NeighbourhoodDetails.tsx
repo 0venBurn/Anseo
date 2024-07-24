@@ -45,7 +45,6 @@ interface NeighbourhoodDetailsProps {
 }
 
 const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourhood, listings, rankings, indexes, isClosing, onClose, onListingClick }) => {
-
   const demographicData = {
     labels: [
       'Population Density', 
@@ -56,14 +55,14 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
     datasets: [{
       label: 'Demographic Rankings',
       data: rankings ? [
-        rankings.population_density_Rank,
-        rankings.index_percPop_0_5_Rank,
-        rankings.index_percPop_6_11_Rank,
-        rankings.index_percPop_12_17_Rank,
-        rankings.male_index_Rank,
-        rankings.female_index_Rank,
-        rankings.age_evenness_index_Rank,
-        rankings.gender_diversity_index_Rank,
+        rankings.population_density,
+        rankings.index_percPop_0_5,
+        rankings.index_percPop_6_11,
+        rankings.index_percPop_12_17,
+        rankings.male_index,
+        rankings.female_index,
+        rankings.age_evenness_index,
+        rankings.gender_diversity_index,
         
       ] : [],
       backgroundColor: 'rgba(255, 99, 132, 0.5)',
@@ -75,11 +74,11 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
     datasets: [{
       label: 'Economic and Social Rankings',
       data: rankings ? [
-        rankings.Normalized_Employment_Health_Index_Rank,
-        rankings.Annual_Earnings_Index_Rank,
-        rankings.Housing_Affordability_Index_Rank,
-        rankings.Safety_Index_Rank,
-        rankings.business_index_Rank
+        rankings.Normalized_Employment_Health_Index,
+        rankings.Annual_Earnings_Index,
+        rankings.Housing_Affordability_Index,
+        rankings.Safety_Index,
+        rankings.business_index
       ] : [],
       backgroundColor: 'rgba(53, 162, 235, 0.5)',
     }]
@@ -205,7 +204,7 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
           {listings.length > 0 ? (
             <div className="flex gap-2 p-2 pb-4 overflow-x-scroll scrollbar">              
                 {listings.map((listing) => (
-                  <Listing listing={listing} onListingClick={onListingClick} />
+                  <Listing key={listing.id} listing={listing} onListingClick={onListingClick} />
                 ))}
               </div>
           ) : (

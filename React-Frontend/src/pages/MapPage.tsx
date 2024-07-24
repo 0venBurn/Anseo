@@ -95,8 +95,6 @@ const MapPage: React.FC = () => {
     setIsClosing(false);
     // function for zoom in when clicked learn more
     const coordinates = await getCoordinatesByZipcode(neighbourhood.zipcode);
-    console.log(coordinates);
-    console.log(neighbourhood.zipcode);
     if (coordinates && map) {
       map.flyTo({ center: coordinates, zoom: 12 });
     }
@@ -138,14 +136,14 @@ const MapPage: React.FC = () => {
           ranking.neighbourhood_id === selectedNeighbourhood.neighbourhood_id,
       )
     : undefined;
-
+  
   const filteredIndexes = selectedNeighbourhood
     ? indexData.find(
         (index) =>
           index.neighbourhood_id === selectedNeighbourhood.neighbourhood_id,
       )
     : undefined;
-
+  
   if (!isPageLoaded) {
     return <LoadingPage />;
   }
