@@ -30,5 +30,5 @@ public class UserResultRequest {
 
     private String topNeighbourhoodName;
 
-    private int topNeighbourhoodRating;
+    private double topNeighbourhoodRating;
 }

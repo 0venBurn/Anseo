@@ -1,9 +1,10 @@
 import React from 'react';
-import { Card, CardContent, Typography, Grid, Box, Rating, IconButton } from '@mui/material';
+import { Card, CardContent, Typography, IconButton } from '@mui/material';
 import { useUser } from '@clerk/clerk-react';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { Neighbourhood } from '../../utils/types';
 import { saveUserFavouriteToDB, deleteUserFavouriteFromDB } from '../../utils/apiFunctions';
+import NeighbourhoodRating from './NeighbourhoodRating';
 
 interface NeighbourhoodCardProps {
   neighbourhood: Neighbourhood;
@@ -31,13 +32,11 @@ const NeighbourhoodCard: React.FC<NeighbourhoodCardProps> = ({ neighbourhood, on
 
   }
   return (
-    <Grid item>
         <Card
           style={{
             display: 'flex',
             flexDirection: 'column',
-            height:' 450px',
-            maxWidth: '300px',
+            minHeight: '350px',
             cursor: 'pointer',
             backgroundColor: '#FFFFFF',
             borderRadius: '12px',
@@ -46,10 +45,12 @@ const NeighbourhoodCard: React.FC<NeighbourhoodCardProps> = ({ neighbourhood, on
             position: 'relative', 
             zIndex: 1,
             overflow: 'hidden', 
+            border: '1px solid #D1D6F5',
           }}
           onClick={() => onLearnMore(neighbourhood)}
           onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.02)')}
           onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+          className="max-w-[85%] sm:max-w-[48%]"
         >
           {isBestMatch && (
           <div style={{
@@ -68,68 +69,59 @@ const NeighbourhoodCard: React.FC<NeighbourhoodCardProps> = ({ neighbourhood, on
             Best Match
           </div>
         )}
+        <div className='w-full'>
           <img
             src={neighbourhood.photoPath}
             alt={neighbourhood.name}
             style={{
               height: 160,
+              width: '100%',
               objectFit: 'cover',
-              borderTopLeftRadius: '12px',
-              borderTopRightRadius: '12px',
+              overflow: 'hidden',
+              borderBottom: '1px solid #D1D6F5',
             }}
-          />
+            className='shadow-md'
+            />
+          </div>
           <CardContent
-            style={{
-              flex: '1 0 auto',
-              padding: '16px 24px',
-              borderBottomLeftRadius: '12px',
-              borderBottomRightRadius: '12px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              backgroundColor: '#F5F5F5',
-            }}
+          className='flex flex-col justify-between'
           >
             <div>
                 <Typography variant="body2" color="textSecondary" style={{ fontFamily: 'Commissioner', fontSize: '16px' }}>{neighbourhood.borough}</Typography>
-                <Box display="flex" alignItems="center">
-                <Typography variant="body2" style={{ 
-                  fontWeight: 500,  
-                  color: '#2D345D',
-                  fontFamily: 'Commissioner', }}>{neighbourhood.rating.toFixed(2)}
-                  </Typography>
-                  <Rating 
-                    name="Neighbourhood Rating" 
-                    value={neighbourhood.rating} 
-                    precision={0.1} 
-                    readOnly
-                    sx={{
-                      color: '#2D345D',
-                    }}
-                  />
-              </Box>
-              <Typography variant="h6" style={{ fontWeight: 'bold', color: '#3B447A', fontFamily: 'Alegreya' }}>{neighbourhood.name}</Typography>
-              <Typography variant="body2" style={{ 
+                <NeighbourhoodRating rating={neighbourhood.rating} primary />
+              <Typography variant="h6" style={{ 
+                fontWeight: 'bold', 
+                color: '#3B447A', 
+                fontFamily: 'Alegreya',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                width: '200px',
+                whiteSpace: 'nowrap' }}>{neighbourhood.name}</Typography>
+              <Typography className="cardEllipsis" variant="body2" style={{ 
                 color: '#3B447A', 
                 fontFamily: 'Commissioner', 
                 fontSize: '16px',
-                flexGrow: 1,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                flex: 'none'
                }} mb={2}>{neighbourhood.description}</Typography>
             </div>
+          </CardContent>
             <div className='flex items-center justify-end'>
             <IconButton 
               onClick={handleClickBookmark} 
-              className={'bookmarkBtn'}
-            >
-              <BookmarkIcon style={{ 
-                fontSize: '2rem',
-                padding: 0,
-                color: `${isBookmarked ? '#3B447A' : '#ABB0B4'}` }}  />
+                sx={{
+                        fontSize: '2rem',
+                        margin: '0.5rem 1rem',
+                        color: `${isBookmarked ? '#3B447A' : '#ABB0B4'}`,
+                        "&:hover": {
+                                backgroundColor: "#E8EAF6",
+                        }
+                }}>            
+              <BookmarkIcon fontSize="inherit" />
               </IconButton>
               </div>
-          </CardContent>
         </Card>
-    </Grid>
   );
 };
 

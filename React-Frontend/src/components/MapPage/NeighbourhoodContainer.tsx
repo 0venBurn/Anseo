@@ -46,7 +46,7 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
     }
 
     return (
-        <div className="flex flex-col w-full lg:w-[50%] bg-user-sidebar-purple-light overflow-auto shadow-md">
+        <div className="flex flex-col w-full lg:max-w-[50%] bg-user-sidebar-purple-light overflow-auto shadow-md">
           <UserOptionsHeader 
           activeBtn={activeBtn}
           handleClick={handleClick} />
@@ -55,7 +55,7 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 100 }}
           transition={{ duration: 0.5 }}
-          className="flex flex-col h-full w-full overflow-y-scroll no-scrollbar md:scrollbar px-2"
+          className="flex flex-col h-full w-full overflow-y-scroll no-scrollbar md:scrollbar p-2"
           >  
 
         {selectedNeighbourhood && 

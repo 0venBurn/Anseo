@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { IconButton, Typography, Box, Grid, Rating } from '@mui/material';
+import { IconButton, Typography, Box } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Bar, Radar } from 'react-chartjs-2';
 import { 
@@ -18,6 +18,7 @@ import {
 } from 'chart.js';
 import { Listing as ListingType, Rankings, Indexes, Neighbourhood } from '../../utils/types';
 import Listing from './Listing';
+import NeighbourhoodRating from './NeighbourhoodRating';
 
 // Register all necessary Chart.js components at once
 ChartJS.register(
@@ -123,44 +124,39 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 100 }}
           transition={{ duration: 0.5 }}
-          className="p-6"
+          className="p-6 font-commissioner"
         >
           <div className="flex justify-end">
-            <IconButton onClick={onClose}>
+            <IconButton 
+            onClick={onClose}
+             sx={{
+              fontSize: '2rem',
+              color: '#3B447A',
+              "&:hover": {
+                backgroundColor: "#D1D6F5",
+              }
+          }}>
               <CloseIcon />
             </IconButton>
           </div>
           <Typography variant="h4" component="h2" gutterBottom style={{ fontWeight: 'bold', color: '#3B447A', fontFamily: 'Alegreya' }}>
             {neighbourhood.name}
           </Typography>
-          <Typography variant="h6" color="textSecondary" gutterBottom>
+          <Typography variant="h6" component="h6" style={{fontFamily: 'Commissioner', fontWeight: 400}} gutterBottom>
             {neighbourhood.borough}
           </Typography>
-          <Box display="flex" alignItems="center" mt={1} mb={2} gap={1}>
-            <Rating 
-              name="Neighbourhood Rating" 
-              value={neighbourhood.rating} 
-              precision={0.1} 
-              readOnly
-              sx={{
-                fontFamily: 'Commissioner',
-                color: '#2D345D',
-              }}
-             />
-              <Typography variant="body2" style={{ 
-                color: '#2D345D',
-                fontFamily: 'Commissioner',
-                fontWeight: 500
-              }}>{neighbourhood.rating.toFixed(2)}
-               </Typography>
-              </Box>
-          <Typography variant="body1" paragraph>
+            <NeighbourhoodRating rating={neighbourhood.rating} primary/>
+          <Typography variant="body1" paragraph
+          style={{
+            fontFamily: 'Commissioner',
+            color: '#2D345D',
+          }}>
             {neighbourhood.description}
           </Typography>
-          <Typography variant="h5" component="h3" gutterBottom>
+          <Typography variant="h5" component="h3" style={{ fontWeight: 'bold', color: '#3B447A', fontFamily: 'Alegreya' }} gutterBottom>
             Why this neighbourhood?
           </Typography>
-          <Typography variant="h5" component="h3" gutterBottom>Demographic Rankings</Typography>
+          <Typography variant="h5" component="h3" style={{ fontWeight: 'bold', color: '#3B447A', fontFamily: 'Alegreya' }} gutterBottom>Demographic Rankings</Typography>
           <Box sx={{ minHeight: 300, display: 'flex', justifyContent: 'space-between' }}>
             <Box sx={{ width: '45%' }}>
               <Bar data={demographicData} options={{ maintainAspectRatio: false }} />
@@ -182,7 +178,7 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
           </Box>
 
           {/* Economic and Social Rankings with Radar Chart */}
-          <Typography variant="h5" component="h3" gutterBottom>Economic and Social Rankings</Typography>
+          <Typography variant="h5" component="h3" style={{ fontWeight: 'bold', color: '#3B447A', fontFamily: 'Alegreya' }} gutterBottom>Economic and Social Rankings</Typography>
           <Box sx={{ minHeight: 300, display: 'flex', justifyContent: 'space-between' }}>
             <Box sx={{ width: '45%' }}>
               <Bar data={economicData} options={{ maintainAspectRatio: false }} />
@@ -203,23 +199,20 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
             </Box>
           </Box>
 
-          <Typography variant="h5" component="h3" gutterBottom>
+          <Typography variant="h5" component="h3" style={{ fontWeight: 'bold', color: '#3B447A', fontFamily: 'Alegreya', padding: 0, marginBottom: 0 }} gutterBottom>
             Available listings
           </Typography>
           {listings.length > 0 ? (
-            <Box display="flex">
-              <Grid
-                container
-                spacing={2}
-                style={{ flexWrap: "nowrap"}}
-              >
+            <div className="flex gap-2 p-2 pb-4 overflow-x-scroll scrollbar">              
                 {listings.map((listing) => (
                   <Listing listing={listing} onListingClick={onListingClick} />
                 ))}
-              </Grid>
-            </Box>
+              </div>
           ) : (
-            <Typography variant="body2">
+            <Typography variant="body2" style={{
+              fontFamily: 'Commissioner',
+              color: '#2D345D',
+            }}>
               {" "}
               Currently no listings available
             </Typography>

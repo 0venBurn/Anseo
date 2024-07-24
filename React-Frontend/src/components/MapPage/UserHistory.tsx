@@ -1,7 +1,9 @@
 import { Predictions, UserHistory as UserHistoryType } from "../../utils/types";
 import { motion } from "framer-motion";
-import { Button, Rating } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
+import { Replay } from "@mui/icons-material";
+import NeighbourhoodRating from "./NeighbourhoodRating";
 
 interface UserHistoryProps {
     userHistory: UserHistoryType[] | null;
@@ -97,44 +99,23 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userHistory, handleReRenderPo
 
                 <UserHistoryContainer col>
                     <UserHistoryHeading title="Best Match"/>
-                    <div className="flex items-center gap-1"> 
-                        <UserHistoryItem content={`${topNeighbourhoodRating}`}/>
-                    <Rating 
-                    name="highest-rating" 
-                    value={topNeighbourhoodRating}
-                    precision={0.1} 
-                    readOnly
-                    size="small"
-                    sx={{
-                        padding: 0,
-                      color: '#2D345D',
-                    }} />
-                    </div>
+                    <NeighbourhoodRating rating={topNeighbourhoodRating} />
                 </UserHistoryContainer>
-                    <Button 
-                        onClick={() => handleReRenderPolygons(selectedBoroughs, predictions)}
-                        // style={{
-                        //     backgroundColor: "transparent", 
-                        //     color: "#3B447A",
-                        //     fontSize: "1.125rem",
-                        //     lineHeight: "1.75rem",
-                        //     fontWeight: 600,
-                        //     fontFamily: "Commissioner",
-                        //     textTransform: "none"
-                        // }} 
-                        sx={{
-                            backgroundColor: "transparent", 
-                            color: "#3B447A",
-                            fontSize: "1.125rem",
-                            lineHeight: "1.75rem",
-                            fontWeight: 600,
-                            fontFamily: "Commissioner",
-                            textTransform: "none",
-                            "&:hover": {
-                                backgroundColor: "#D1D6F5",
-                            }
-                        }}   
-                        >View Again</Button>
+                
+                <UserHistoryContainer>
+
+                <IconButton 
+                onClick={() => handleReRenderPolygons(selectedBoroughs, predictions)}
+                sx={{
+                    fontSize: '2rem',
+                        color: '#3B447A',
+                        "&:hover": {
+                                backgroundColor: "#E8EAF6",
+                        }
+                }}>
+                    <Replay />
+                    </IconButton>
+                </UserHistoryContainer>
                 </motion.div>
             );
         })}

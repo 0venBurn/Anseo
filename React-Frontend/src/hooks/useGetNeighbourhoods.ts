@@ -46,8 +46,7 @@ const useGetNeighbourhoods = (
                     })
                     .sort((a, b) => b.rating - a.rating)
                     .slice(0, 10);
-
-                    
+                console.log(neighbourhoodsWithPredictionScores)
                 setNeighbourhoods(neighbourhoodsWithPredictionScores);
             } catch(error) {
                 console.error(error)

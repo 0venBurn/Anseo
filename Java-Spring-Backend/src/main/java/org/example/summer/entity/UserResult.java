@@ -34,7 +34,7 @@ public class UserResult {
     private String topNeighbourhoodName;
 
     @Column(name = "top_neighbourhood_rating")
-    private int topNeighbourhoodRating;
+    private double topNeighbourhoodRating;
 
     @Column(columnDefinition = "timestamp with time zone", insertable = false, updatable = false)
     private Timestamp timestamp;
