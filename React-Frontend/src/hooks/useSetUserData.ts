@@ -56,12 +56,6 @@ const useSetUserData = (
             setUserFavourites(dbFavouritesResponse);
           }
 
-          // not signed in and questionnaire not completed
-          if (!isSignedIn && !isQuestionnaireCompleted()) {
-            console.log("test: not signed in and questionnaire not completed");
-            navigate("/welcome");
-          }
-
           setIsPageLoaded(true);
 
       } catch (error) {
