@@ -29,9 +29,7 @@ logging.basicConfig(level=logging.INFO, filename='scraper.log', filemode='a',
 
 # Set Chrome options for headless operation
 options = Options()
-options.headless = True
-options.binary_location = "/opt/chrome/chrome-linux64/chrome" 
-options.add_argument("--headless") 
+options.binary_location = "/opt/chrome/chrome-linux64/chrome"  
 options.add_argument("--no-sandbox") 
 options.add_argument("--disable-dev-shm-usage") 
 
@@ -60,7 +58,8 @@ def go_to_next_page(driver):
     except Exception as e:
         print("No more pages or error navigating to the next page:", e)
         return False
-
+map_pins_data = []
+listing_details = []
 
 # Loop through each url
 for url in urls:
@@ -77,7 +76,7 @@ for url in urls:
     )
 
     # Extract id, lat, and lon for each map pin div
-    map_pins_data = []
+    
     for map_pin in map_pin_divs:
         pin_id = map_pin.get("id")
         lat = map_pin.get("lat")
@@ -85,20 +84,24 @@ for url in urls:
         map_pins_data.append({"id": pin_id, "lat": lat, "lon": lon})
         print(f"Map pin ID: {pin_id}, Latitude: {lat}, Longitude: {lon}")
 
-    listing_details = []
+    
     page_number = 1
     while True:
-        print(f"Currently on page {page_number} of {url}")
-        page_source = driver.page_source
-        soup = BeautifulSoup(page_source, "html.parser")
 
-        placard_event_model = soup.find("div", class_="placards").get(
-            "placard-event-model"
-        )
-        placard_data = json.loads(placard_event_model)
+        try:
+            print(f"Currently on page {page_number} of {url}")
+            page_source = driver.page_source
+            soup = BeautifulSoup(page_source, "html.parser")
 
-        listings = soup.find_all("article", class_="placard")
+            placard_event_model = soup.find("div", class_="placards").get(
+                "placard-event-model"
+            )
+            placard_data = json.loads(placard_event_model)
 
+            listings = soup.find_all("article", class_="placard")
+        except Exception as e:
+            print("Error extracting data from page:", e)
+            break
         
         # Extract data from each listing
         for listing in listings:
