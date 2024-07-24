@@ -28,7 +28,7 @@ const TargetAudience: React.FC = () => {
   // State for target group description
   const [targetGroup, setTargetGroup] = useState<string[]>([]);
    // State for gender ratio (1 = All Men, 5 = All Women)
-   const [genderRatio, setGenderRatio] = useState<number>(3);
+   const [genderRatio, setGenderRatio] = useState<number>(0.5);
 
    // State for error message
   const [error, setError] = useState<string | null>(null); 
