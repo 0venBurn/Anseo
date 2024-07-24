@@ -57,10 +57,10 @@ const useSetUserData = (
           }
 
           // not signed in and questionnaire not completed
-          if (!isSignedIn && !isQuestionnaireCompleted()) {
-            console.log("test: not signed in and questionnaire not completed");
-            navigate("/welcome");
-          }
+          // if (!isSignedIn && !isQuestionnaireCompleted()) {
+          //   console.log("test: not signed in and questionnaire not completed");
+          //   navigate("/welcome");
+          // }
 
           setIsPageLoaded(true);
 
