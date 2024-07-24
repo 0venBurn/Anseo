@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Predictions, UserHistory as UserHistoryType } from "../../utils/types";
 import { motion } from "framer-motion";
 import { Button, Rating } from "@mui/material";
@@ -6,8 +5,7 @@ import { SignedIn, SignedOut } from "@clerk/clerk-react";
 
 interface UserHistoryProps {
     userHistory: UserHistoryType[] | null;
-    setPredictions: React.Dispatch<React.SetStateAction<Predictions>>;
-    setSelectedBoroughs: React.Dispatch<React.SetStateAction<string[]>>
+    handleReRenderPolygons: (selectedBoroughs: string[], predictions: Predictions) => void;
 }
 
 interface UserHistoryContainerProps {
@@ -45,11 +43,7 @@ const UserHistoryItem: React.FC<UserHistoryItemProps> = ({content}) => {
     )
 }
 
-const UserHistory: React.FC<UserHistoryProps> = ({ userHistory, setPredictions, setSelectedBoroughs }) => {
-    console.log(userHistory)
-    useEffect(() => {
-        console.log('userHistory changed:', userHistory);
-    }, [userHistory]);
+const UserHistory: React.FC<UserHistoryProps> = ({ userHistory, handleReRenderPolygons }) => {
     if (!userHistory) {
         return (
             <div>
@@ -117,12 +111,30 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userHistory, setPredictions, 
                     }} />
                     </div>
                 </UserHistoryContainer>
-                    <Button onClick={() => {
-                        console.log(resultId)
-                        console.log(predictions)
-                        setSelectedBoroughs(selectedBoroughs)
-                        setPredictions(predictions)}}>View Again</Button>
-                    <UserHistoryHeading title="View Again" />
+                    <Button 
+                        onClick={() => handleReRenderPolygons(selectedBoroughs, predictions)}
+                        // style={{
+                        //     backgroundColor: "transparent", 
+                        //     color: "#3B447A",
+                        //     fontSize: "1.125rem",
+                        //     lineHeight: "1.75rem",
+                        //     fontWeight: 600,
+                        //     fontFamily: "Commissioner",
+                        //     textTransform: "none"
+                        // }} 
+                        sx={{
+                            backgroundColor: "transparent", 
+                            color: "#3B447A",
+                            fontSize: "1.125rem",
+                            lineHeight: "1.75rem",
+                            fontWeight: 600,
+                            fontFamily: "Commissioner",
+                            textTransform: "none",
+                            "&:hover": {
+                                backgroundColor: "#D1D6F5",
+                            }
+                        }}   
+                        >View Again</Button>
                 </motion.div>
             );
         })}

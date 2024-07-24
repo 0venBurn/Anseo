@@ -1,13 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import mapboxgl from 'mapbox-gl';
-import { environment } from '../../mapbox.config';
 
-mapboxgl.accessToken = environment.mapbox.accessToken
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API;
 
-export const useMapInit = (lat: number, lng: number, zoom: number) => {
-    const mapRef = useRef<HTMLDivElement | null>(null);
-    const [map, setMap] = useState<mapboxgl.Map | null>(null);
-    
+export const useMapInit = (
+    mapRef:  React.RefObject<HTMLDivElement>,
+    map: mapboxgl.Map | null,
+    setMap: (map: mapboxgl.Map) => void,
+    lat: number, 
+    lng: number, 
+    zoom: number
+) => {    
     useEffect(() => {
         if (mapRef.current && !map) {
             const mapInstance = new mapboxgl.Map({
@@ -22,15 +25,7 @@ export const useMapInit = (lat: number, lng: number, zoom: number) => {
 
             mapInstance.on('load', () => {
                 setMap(mapInstance);
-            })
-            
-            return () => {
-                if (mapInstance) {
-                    mapInstance.remove();
-                }
-            };
-            }  
-    }, [lat, lng, zoom]);
-    
-    return { mapRef, map };
+            })        
+    }  
+    }, [lat, lng, zoom]);    
 };

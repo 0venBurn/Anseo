@@ -1,30 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { useMapInit } from '../../hooks/useMapInit';
 import { useAddMapLayers } from '../../hooks/useAddMapLayers';
 import mapboxgl from 'mapbox-gl';
 import '../../index.css';
 import { Listing, Neighbourhood, HighlightedLocation, Predictions } from '../../utils/types';
+import { useMapInit } from '../../hooks/useMapInit';
 
 interface MapProps {
+  mapRef: React.RefObject<HTMLDivElement>;
+  map: mapboxgl.Map | null;
+  setMap: React.Dispatch<React.SetStateAction<mapboxgl.Map | null>>
   selectedBoroughs: string[];
   predictions: Predictions | null;
   listings: Listing[];
   handleSelectNeighbourhood: (location: Neighbourhood) => Promise<void>
   handleGetLocation: (name: string) => Neighbourhood
   highlightedLocation: HighlightedLocation | null;
-  setMapInstance: (map: mapboxgl.Map | null) => void;
+  reRenderPolygons: boolean;
+  setReRenderPolygons: (reRenderPolygons: boolean) => void;
 }
 
 const Map: React.FC<MapProps> = ({
+  mapRef,
+  map, 
+  setMap,
   selectedBoroughs,
   predictions,
   listings,
   handleSelectNeighbourhood,
   handleGetLocation,
   highlightedLocation,
-  setMapInstance
+  reRenderPolygons,
+  setReRenderPolygons
 }) => {
   const defaultCenter: [number, number] = [-74.0060, 40.7128];
   const defaultZoom: number = 9;
@@ -32,7 +40,7 @@ const Map: React.FC<MapProps> = ({
   const [center, setCenter] = useState<[number, number]>(defaultCenter);
   const [zoom, setZoom] = useState<number>(defaultZoom);
   
-  const { mapRef, map } = useMapInit(center[1], center[0], zoom);
+  useMapInit(mapRef, map, setMap, center[1], center[0], zoom);
   
   useEffect(() => {
     const fetchBoroughCoordinates = async (borough: string) => {
@@ -62,21 +70,24 @@ const Map: React.FC<MapProps> = ({
       } else {
         setCenter(defaultCenter);
         setZoom(defaultZoom);
-      }
+      } 
     };
 
     updateMapCenter();
   }, [selectedBoroughs]);
-
-
-  useEffect(() => {
-    if (map) {
-      setMapInstance(map);
-    }
-  }, [map]);
   
   // Custom hook to add map layers including highlighted location
-  useAddMapLayers(map, selectedBoroughs, predictions, listings, handleSelectNeighbourhood, handleGetLocation, highlightedLocation);
+  useAddMapLayers(
+    map, 
+    selectedBoroughs, 
+    predictions, 
+    listings, 
+    handleSelectNeighbourhood, 
+    handleGetLocation, 
+    highlightedLocation,
+    reRenderPolygons,
+    setReRenderPolygons,
+  );
 
   return <div ref={mapRef} className="flex-1 min-h-[50vh] w-full" />;
 };

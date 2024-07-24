@@ -20,8 +20,6 @@ const useSetUserData = (
 
   useEffect(() => {
     const setUserData = async () => {
-      console.log(isLoaded, !!predictions, neighbourhoods.length > 0, selectedBoroughs.length > 0)
-      console.log(isLoaded, predictions, neighbourhoods, selectedBoroughs)
       if (isLoaded && predictions && neighbourhoods.length > 0 && selectedBoroughs.length > 0) {        
         try {
           // continue as guest
@@ -33,17 +31,10 @@ const useSetUserData = (
         // signed in and completed questionnaire
         if (isSignedIn && user && isQuestionnaireCompleted()) {
             console.log("test: signed in and completed questionnaire");
-            console.log(neighbourhoods)
-            console.log(neighbourhoods[0])
-            console.log(neighbourhoods[0].name)
-            console.log(neighbourhoods[0].rating)
-            console.log(user.id)
 
             await saveUserResultsToDB(user.id, predictions, selectedBoroughs, neighbourhoods[0].name, neighbourhoods[0].rating)
             const dbResultsResponse = await fetchUserResultsFromDB(user.id);
             const dbFavouritesResponse = await fetchUserFavouritesFromDB(user.id, neighbourhoods)
-            console.log(dbResultsResponse);
-            console.log(dbFavouritesResponse);
             setUserHistory(dbResultsResponse.results);
             setUserFavourites(dbFavouritesResponse);
             setQuestionnaireDefault()
@@ -54,8 +45,6 @@ const useSetUserData = (
             console.log("test: signed in and questionnaire not completed");
             const dbResultsResponse = await fetchUserResultsFromDB(user.id);
             const dbFavouritesResponse = await fetchUserFavouritesFromDB(user.id, neighbourhoods)
-            console.log(dbResultsResponse)
-            console.log(dbFavouritesResponse)
             
             // If user has no saved results in the database, redirect to welcome page
             if (dbResultsResponse.results.length === 0) {

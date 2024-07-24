@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Header from "../components/General/Header";
 import "../index.css";
-import { environment } from "../../mapbox.config";
 import Map from "../components/MapPage/Map";
 import { Listing, Neighbourhood, Predictions, Rankings, Indexes, HighlightedLocation, UserHistory } from "../utils/types";
 import NeighbourhoodContainer from "../components/MapPage/NeighbourhoodContainer";
@@ -14,9 +13,11 @@ import useGetNeighbourhoodDetails from "../hooks/useGetNeighbourhoodDetails";
 import useSetUserData from "../hooks/useSetUserData";
 import LoadingPage from "./LoadingPage";
 
-mapboxgl.accessToken = environment.mapbox.accessToken;
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API;
 
 const MapPage: React.FC = () => {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const [map, setMap] = useState<mapboxgl.Map | null>(null);
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
   const [predictions, setPredictions] = useState<Predictions>({});
   const [userFavourites, setUserFavourites] = useState<Neighbourhood[]>([]);
@@ -26,12 +27,12 @@ const MapPage: React.FC = () => {
     useState<Neighbourhood | null>(null);
   const [listings, setListings] = useState<Listing[]>([]);
   const [isClosing, setIsClosing] = useState(false);
-  const [mapInstance, setMapInstance] = useState<mapboxgl.Map | null>(null);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [rankingsData, setRankingsData] = useState<Rankings[]>([]);
   const [highlightedLocation, setHighlightedLocation] =
     useState<HighlightedLocation | null>(null);
   const [indexData, setIndexData] = useState<Indexes[]>([]);
+  const [reRenderPolygons, setReRenderPolygons] = useState(false);
 
   useSetQuestionnaireData(
     setPredictions, 
@@ -59,6 +60,12 @@ const MapPage: React.FC = () => {
     selectedBoroughs
   )
 
+  const handleReRenderPolygons = (selectedBoroughs: string[], predictions: Predictions) => {
+    setReRenderPolygons(true);
+    setSelectedBoroughs(selectedBoroughs);
+    setPredictions(predictions)
+    setMap(null)
+  }
   // function to convert zipcode to lat and lng
   const getCoordinatesByZipcode = async (zipcode: string) => {
     try {
@@ -90,8 +97,8 @@ const MapPage: React.FC = () => {
     const coordinates = await getCoordinatesByZipcode(neighbourhood.zipcode);
     console.log(coordinates);
     console.log(neighbourhood.zipcode);
-    if (coordinates && mapInstance) {
-      mapInstance.flyTo({ center: coordinates, zoom: 12 });
+    if (coordinates && map) {
+      map.flyTo({ center: coordinates, zoom: 12 });
     }
   };
 
@@ -104,8 +111,8 @@ const MapPage: React.FC = () => {
       lat: parseFloat(listing.lat),
       lng: parseFloat(listing.lng),
     });
-    if (mapInstance) {
-      mapInstance.flyTo({
+    if (map) {
+      map.flyTo({
         center: [parseFloat(listing.lng), parseFloat(listing.lat)],
         zoom: 14,
       });
@@ -160,17 +167,20 @@ const MapPage: React.FC = () => {
           userFavourites={userFavourites}
           setUserFavourites={setUserFavourites}
           userHistory={userHistory}
-          setPredictions={setPredictions}
-          setSelectedBoroughs={setSelectedBoroughs}
+          handleReRenderPolygons={handleReRenderPolygons}
         />
         <Map 
+          mapRef={mapRef}
+          map={map}
+          setMap={setMap}
           selectedBoroughs={selectedBoroughs}
           predictions={predictions}
           handleSelectNeighbourhood={handleLearnMore}
           handleGetLocation={handleGetLocation}
           listings={filteredListings}
           highlightedLocation={highlightedLocation}
-          setMapInstance={setMapInstance}
+          reRenderPolygons={reRenderPolygons}
+          setReRenderPolygons={setReRenderPolygons}
         />
       </div>
      </>

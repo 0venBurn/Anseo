@@ -20,8 +20,7 @@ interface NeighbourhoodContainerProps {
     handleListingClick: (listing: Listing) => void
     userFavourites: Neighbourhood[]
     setUserFavourites: React.Dispatch<React.SetStateAction<Neighbourhood[]>>
-    setPredictions: React.Dispatch<React.SetStateAction<Predictions>>
-    setSelectedBoroughs: React.Dispatch<React.SetStateAction<string[]>>
+    handleReRenderPolygons: (selectedBoroughs: string[], predictions: Predictions) => void
 }
 
 const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = ( 
@@ -38,8 +37,7 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
         userHistory,
         userFavourites,
         setUserFavourites,
-        setPredictions,
-        setSelectedBoroughs
+        handleReRenderPolygons
      }) => {
     const [activeBtn, setActiveBtn] = useState<string | null>('Results');
 
@@ -90,8 +88,7 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
         {!selectedNeighbourhood ? activeBtn === 'History' && 
         <UserHistory 
         userHistory={userHistory}
-        setPredictions={setPredictions}
-        setSelectedBoroughs={setSelectedBoroughs}
+        handleReRenderPolygons={handleReRenderPolygons}
         /> : ''}
 
         </motion.div>

@@ -9,27 +9,23 @@ export const useAddMapLayers = (
   listings: Listing[],
   handleSelectNeighbourhood: (location: Neighbourhood) => Promise<void>,
   handleGetLocation: (name: string) => Neighbourhood,
-  highlightedLocation: HighlightedLocation | null
+  highlightedLocation: HighlightedLocation | null,
+  reRenderPolygons: boolean,
+  setReRenderPolygons: (reRenderPolygons: boolean) => void
 ) => {
   const markersRef = useRef<mapboxgl.Marker[]>([]);
   const highlightMarkerRef = useRef<mapboxgl.Marker | null>(null);
 
   const zipProbabilities: ZipProbability[] = [];
-  console.log("zipProbabilities", zipProbabilities)
-  console.log(selectedBoroughs, predictions)
   if (selectedBoroughs.length > 0 && predictions) {
-    console.log("predictions", predictions)
-    console.log("selectedBoroughs", selectedBoroughs)
     for (const [zipcode, probability] of Object.entries(predictions)) {
       zipProbabilities.push({ zipcode, probability });
     }
     zipProbabilities.sort((a, b) => a.probability - b.probability);
   }
 
-  console.log(zipProbabilities[0])
   const sortedZipCodes: number[] = zipProbabilities.map((zip) => parseInt(zip.zipcode));
 
-  console.log(sortedZipCodes)
   useEffect(() => {
     if (!map) return;
 
@@ -38,7 +34,17 @@ export const useAddMapLayers = (
       ? ['in', ['get', 'borough'], ['literal', ['Manhattan', 'Brooklyn', 'Queens', 'Bronx', 'Staten Island']]]
       : ['in', ['get', 'borough'], ['literal', selectedBoroughs]];
 
+    console.log("filter", filter)
+    console.log(reRenderPolygons)
+    if (reRenderPolygons) {
+      map.getLayer('LayersFill') && map.removeLayer('LayersFill');
+      map.getLayer('LayersOutline') && map.removeLayer('LayersOutline');
+      map.getSource('Layers') && map.removeSource('Layers');
+      console.log(map.getLayer('LayersFill'), map.getLayer('LayersOutline'), map.getSource('Layers'))
+      setReRenderPolygons(false)
+    }
     if (!map.getSource('Layers')) {
+      console.log("adding source")
       map.addSource('Layers', {
         type: 'vector',
         url: 'mapbox://tadghp.0lsjggwr'
@@ -46,6 +52,8 @@ export const useAddMapLayers = (
     }
 
     if (!map.getLayer('LayersFill')) {
+      console.log('adding layer')
+      console.log(filter)
       map.addLayer({
         id: 'LayersFill',
         type: 'fill',
@@ -145,5 +153,5 @@ export const useAddMapLayers = (
         highlightMarkerRef.current = null;
       }
     };
-  }, [map, selectedBoroughs, predictions, listings, highlightedLocation]);
+  }, [map, selectedBoroughs, predictions, listings, highlightedLocation, reRenderPolygons]);
 };
