@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../../public/img/loading.svg'; 
+import logo from '/img/loading.svg'; 
 import Header from '../components/General/Header';
 
 const LoadingPage: React.FC = () => {

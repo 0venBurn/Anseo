@@ -92,6 +92,7 @@ const MapPage: React.FC = () => {
 
   const handleLearnMore = async (neighbourhood: Neighbourhood) => {
     setSelectedNeighbourhood(neighbourhood);
+    console.log(neighbourhood)
     setIsClosing(false);
     // function for zoom in when clicked learn more
     const coordinates = await getCoordinatesByZipcode(neighbourhood.zipcode);
