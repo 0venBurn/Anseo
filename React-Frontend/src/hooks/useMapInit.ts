@@ -9,7 +9,8 @@ export const useMapInit = (
     setMap: (map: mapboxgl.Map) => void,
     lat: number, 
     lng: number, 
-    zoom: number
+    zoom: number,
+    pitch: number,
 ) => {    
     useEffect(() => {
         if (mapRef.current && !map) {
@@ -17,6 +18,7 @@ export const useMapInit = (
                 container: mapRef.current,
                 center: [lng, lat],
                 zoom,
+                pitch,
                 pitchWithRotate: false,
                 style: 'mapbox://styles/tadghp/clxbpfz0f025901pce9n78onm/draft',
             }); 
@@ -27,5 +29,5 @@ export const useMapInit = (
                 setMap(mapInstance);
             })        
     }  
-    }, [lat, lng, zoom]);    
+    }, [lat, lng, zoom, pitch]);    
 };

@@ -36,11 +36,13 @@ const Map: React.FC<MapProps> = ({
 }) => {
   const defaultCenter: [number, number] = [-74.0060, 40.7128];
   const defaultZoom: number = 9;
+  const defaultPitch: number = 55;
 
   const [center, setCenter] = useState<[number, number]>(defaultCenter);
   const [zoom, setZoom] = useState<number>(defaultZoom);
+  const [pitch, setPitch] = useState<number>(defaultPitch);
   
-  useMapInit(mapRef, map, setMap, center[1], center[0], zoom);
+  useMapInit(mapRef, map, setMap, center[1], center[0], zoom, pitch);
   
   useEffect(() => {
     const fetchBoroughCoordinates = async (borough: string) => {
