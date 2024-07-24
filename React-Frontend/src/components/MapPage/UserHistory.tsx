@@ -32,7 +32,7 @@ const UserHistoryContainer: React.FC<UserHistoryContainerProps> = ({ children })
 const UserHistoryHeading: React.FC<UserHistoryHeadingProps> = ({title}) => {
     return (
         <>
-        <h4 className="font-alegreya text-primary-text-dark text-lg">{title}</h4>
+        <h4 className="font-alegreya text-primary-text-dark md:text-lg">{title}</h4>
         </>
     )
 }
@@ -40,7 +40,7 @@ const UserHistoryHeading: React.FC<UserHistoryHeadingProps> = ({title}) => {
 const UserHistoryItem: React.FC<UserHistoryItemProps> = ({content}) => {
     return (
         <>
-        <span className="font-commissioner font-[500] text-shaded-grey" >{content}</span>
+        <span className="font-commissioner font-[500] text-sm md:text-base text-shaded-grey" >{content}</span>
         </>
     )
 }
@@ -93,12 +93,12 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userHistory, handleReRenderPo
                 </UserHistoryContainer>
 
                 <UserHistoryContainer col>
-                    <UserHistoryHeading title="Top Neighbourhood"/>
+                    <UserHistoryHeading title="Top Location"/>
                     <UserHistoryItem content={topNeighbourhoodName}/>
                 </UserHistoryContainer>
 
                 <UserHistoryContainer col>
-                    <UserHistoryHeading title="Best Match"/>
+                    <UserHistoryHeading title="Highest Rating"/>
                     <NeighbourhoodRating rating={topNeighbourhoodRating} />
                 </UserHistoryContainer>
                 
