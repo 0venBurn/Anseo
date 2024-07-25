@@ -26,6 +26,7 @@ const useSetUserData = (
           if (!isSignedIn && isQuestionnaireCompleted()) {
             console.log("test: continue as guest");
             setQuestionnaireDefault()
+            setIsPageLoaded(true);
           }
           
         // signed in and completed questionnaire
