@@ -11,7 +11,7 @@ import useSetQuestionnaireData from "../hooks/useSetQuestionnaireData";
 import useGetNeighbourhoods from "../hooks/useGetNeighbourhoods";
 import useGetNeighbourhoodDetails from "../hooks/useGetNeighbourhoodDetails";
 import useSetUserData from "../hooks/useSetUserData";
-import LoadingPage from "./LoadingPage";
+import Loading from "../components/MapPage/Loading";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API;
 
@@ -146,7 +146,7 @@ const MapPage: React.FC = () => {
     : undefined;
   
   if (!isPageLoaded) {
-    return <LoadingPage />;
+    return <Loading />;
   }
 
   return (
