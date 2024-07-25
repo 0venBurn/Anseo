@@ -34,7 +34,7 @@ const BusinessDetails: React.FC = () => {
 
   // handle next function to navigate to the next page with state
   const handleNext = () => {
-    if (businessType && openHour && closeHour && budget && rentBudget) {
+    if (businessType && budget && rentBudget) {
       answerQuestion("businessType", businessType);
       answerQuestion("openHour", openHour);
       answerQuestion("closeHour", closeHour);

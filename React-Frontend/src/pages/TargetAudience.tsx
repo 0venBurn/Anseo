@@ -46,8 +46,7 @@ const TargetAudience: React.FC = () => {
       ageImportance &&
       selectedIncomeLevel.length > 0 &&
       incomeImportance &&
-      targetGroup.length > 0 &&
-      genderRatio
+      targetGroup.length > 0 
     ) {
       answerQuestion("selectedAgeGroup", selectedAgeGroup);
       answerQuestion("ageImportance", ageImportance / 5);

@@ -90,7 +90,7 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({
       if (Array.isArray(ans)) {
         return ans.length > 0;
       }
-      return ans;
+      return ans !== null && ans !== undefined && ans !== '';
     });
 
     console.log("filteredAnswers", filteredAnswers);
