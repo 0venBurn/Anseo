@@ -9,6 +9,7 @@ import RangeSlider from "../components/Questionnaire/RangeSlider";
 import SingleSlider from "../components/Questionnaire/SingleSlider";
 import QuestionPageHeader from "../components/Questionnaire/QuestionPageHeader";
 import Chat from "../components/Chatbox/Chat";
+import IncompletePageWarning from "../components/Questionnaire/IncompletePageWarning";
 
 // step setting for the progress indicator props
 const currentStep = 4;
@@ -146,8 +147,6 @@ const TargetAudience: React.FC = () => {
           questionNumber={5}
         />
 
-        {/* Display error message if present */}
-        {error && <p className="text-red-500 mb-4">{error}</p>}
 
         <SingleSlider
           label="Which gender does your business primarily cater to?"
@@ -158,16 +157,19 @@ const TargetAudience: React.FC = () => {
           setValue={setGenderRatio}
           type="gender"
           questionNumber={6}
-        />
+          />
+
+        {/* Display error message if present */}
+        {error && <IncompletePageWarning error={error} />}
 
         <NavigationButtons
           currentStep={currentStep}
           totalSteps={totalSteps}
           handleNext={handleNext}
           handlePrev={handlePrev}
-        />
-      </QuestionnaireLayout>
+          />
       <Chat />
+      </QuestionnaireLayout>
     </>
   );
 };

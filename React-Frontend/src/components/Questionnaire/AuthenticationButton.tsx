@@ -9,7 +9,6 @@ const AuthenticationButton: React.FC<AuthenticationButtonProps> = ({ text, handl
     return (
         <Button
               variant="contained"
-              fullWidth
               sx={{
                 backgroundColor: '#DEDA6D',
                 color: 'black',
@@ -18,7 +17,7 @@ const AuthenticationButton: React.FC<AuthenticationButtonProps> = ({ text, handl
                 padding: '10px',
                 fontFamily: 'Inter',
                 mb: 2,
-                width: '100%',
+                width: '75%',
                 textTransform: 'none', 
                 '&:hover': {
                   backgroundColor: '#3B447A',

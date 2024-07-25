@@ -19,8 +19,11 @@ const useSetQuestionnaireData = (
           if (isQuestionnaireCompleted()) {
             console.log("test: questionnaire completed");
             const payload = { data };
+            console.log(payload)
             setSelectedBoroughs(data.selectedBoroughs);
             const predictions = await fetchMLPredictions(payload);
+            console.log("predictions", predictions);
+            console.log("predictions.predictions", predictions.predictions);
             setPredictions(predictions.predictions);
           }
           if (isSignedIn && user && !isQuestionnaireCompleted()) {

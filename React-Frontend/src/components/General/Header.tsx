@@ -10,7 +10,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <div className="sticky z-40 top-0 min-h-20 left-0 w-full bg-primary-dark text-white flex justify-between flex-none items-center py-4 px-4 md:px-20 shadow-md">
+      <div className="sticky z-40 flex-shrink-0 top-0 min-h-20 left-0 w-full bg-primary-dark text-white flex justify-between flex-none items-center py-4 px-4 md:px-20 shadow-md">
         <div className="flex">
           <motion.div
             whileHover={{

@@ -12,7 +12,6 @@ interface QuestionnaireContext {
     answer: string | number | string[] | number[],
   ) => void;
   isQuestionnaireCompleted: () => boolean;
-  setQuestionnaireDefault: () => void;
   dummyData: boolean;
   sendDummyData: () => boolean;
 }
@@ -39,7 +38,6 @@ const QuestionnaireContext = createContext<QuestionnaireContext>({
   },
   answerQuestion: () => {},
   isQuestionnaireCompleted: () => false,
-  setQuestionnaireDefault: () => {},
   dummyData: false,
   sendDummyData: () => false,
 });
@@ -104,36 +102,12 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({
     }
   };
 
-  const setQuestionnaireDefault = () => {
-    setData({
-      businessType: "",
-      openHour: "",
-      closeHour: "",
-      budget: 0,
-      selectedAgeGroup: [4, 65],
-      ageImportance: 0,
-      selectedIncomeLevel: [10000, 100000],
-      incomeImportance: 0,
-      targetGroup: [],
-      proximityImportance: 0,
-      footfallImportance: 0,
-      surroundingBusinessesImportance: 0,
-      rentBudget: 0,
-      genderRatio: "",
-      employmentStatus: ["Full Time"],
-      populationDensity: 1,
-      selectedBoroughs: [],
-      areaType: [],
-    });
-  };
-
   return (
     <QuestionnaireContext.Provider
       value={{
         data,
         answerQuestion,
         isQuestionnaireCompleted,
-        setQuestionnaireDefault,
         dummyData,
         sendDummyData,
       }}

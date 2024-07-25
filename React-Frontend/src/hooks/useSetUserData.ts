@@ -15,7 +15,7 @@ const useSetUserData = (
 ) => {
     const { isSignedIn, isLoaded } = useAuth();
     const { user } = useUser();
-    const { isQuestionnaireCompleted, setQuestionnaireDefault } = useQuestionnaire();
+    const { isQuestionnaireCompleted } = useQuestionnaire();
     const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,7 +25,6 @@ const useSetUserData = (
           // continue as guest
           if (!isSignedIn && isQuestionnaireCompleted()) {
             console.log("test: continue as guest");
-            setQuestionnaireDefault()
             setIsPageLoaded(true);
           }
           
@@ -38,7 +37,6 @@ const useSetUserData = (
             const dbFavouritesResponse = await fetchUserFavouritesFromDB(user.id, neighbourhoods)
             setUserHistory(dbResultsResponse.results);
             setUserFavourites(dbFavouritesResponse);
-            setQuestionnaireDefault()
             setIsPageLoaded(true);
         }
         

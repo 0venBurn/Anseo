@@ -1,7 +1,6 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useQuestionnaire } from "../../context/QuestionnaireProvider";
 import { motion } from "framer-motion";
 /**
  * ActionButtons Component
@@ -17,12 +16,6 @@ import { motion } from "framer-motion";
 
 const ActionButtons: React.FC = () => {
   const navigate = useNavigate();
-  const { answerQuestion, setQuestionnaireDefault, sendDummyData } = useQuestionnaire();
-  // useNavigate is a hook from react-router-dom for navigation to different pages or programs
-  const handleClick = () => {
-    sendDummyData();
-    navigate("/map")
-  }
 
   return (
     // Container div for the action buttons with utility classes for styling
@@ -50,19 +43,6 @@ const ActionButtons: React.FC = () => {
           Start Now
         </Button>    
         </motion.div>
-      {/* <Button
-        variant="contained"
-        sx={{
-          fontFamily: "DM Mono",
-          backgroundColor: "yellow", // Red background colour
-          color: "black", // White text colour
-          borderRadius: "50px", // Rounded Corners
-          padding: "0.5rem 2rem", // Padding inside the button
-        }}
-        onClick={handleClick} // Navigate to welcome on click
-      >
-        Dummy submit
-      </Button> */}
       <motion.div
         whileHover={{
           scale: 1.1,

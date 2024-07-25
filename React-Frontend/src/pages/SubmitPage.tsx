@@ -42,7 +42,7 @@ const SubmitPage: React.FC = () => {
             Create an account to save your results and access additional features or continue as a guest.
           </p>
           <div>
-          <div className="flex flex-col md:flex-row md:gap-8 max-w-2xl">
+          <div className="flex flex-col items-center md:flex-row md:gap-8 max-w-2xl">
             <AuthenticationButton text='Continue as Guest' handleSubmit={handleSubmit} />
             <AuthenticationButton text='Create an Account' handleSubmit={handleSubmit} />
           </div>
