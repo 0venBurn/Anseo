@@ -18,17 +18,17 @@ import { motion } from "framer-motion";
 const LandingPageHeader: React.FC = () => {
   return (
     // Container div for the header buttons with absolute positioning and spacing
-    <div className="flex py-8 items-center w-full">
+    <div className="flex py-8 items-center justify-around w-full">
       <motion.div
         whileHover={{
           color: "#fef840"
         }}
-        className="text-4xl md:text5-xl font-bold flex-1 justify-self-start text-center"
+        className="text-4xl md:text5-xl font-bold text-center px-4 md:w-full"
         style={{ fontFamily: "Fredoka One", color: "#DEDA6D" }}
         >
         <h1 className="text-center">ANSEO</h1>
       </motion.div>
-      <div className="flex items-center justify-end flex-grow flex-shrink basis-0 gap-4 px-2 md:px-20">
+      <div className="self-end flex items-center w-full justify-end md:gap-4 px-2 ">
       <SignedIn>
           <UserButton 
             appearance={{

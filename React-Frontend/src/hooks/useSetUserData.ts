@@ -39,6 +39,7 @@ const useSetUserData = (
             setUserHistory(dbResultsResponse.results);
             setUserFavourites(dbFavouritesResponse);
             setQuestionnaireDefault()
+            setIsPageLoaded(true);
         }
         
         // signed in and questionnaire not completed
@@ -55,9 +56,9 @@ const useSetUserData = (
             
             setUserHistory(dbResultsResponse.results);
             setUserFavourites(dbFavouritesResponse);
+            setIsPageLoaded(true);
           }
 
-          setIsPageLoaded(true);
 
       } catch (error) {
         console.error("Error fetching predictions:", error);
@@ -66,7 +67,7 @@ const useSetUserData = (
   }
 
     setUserData();
-  }, [isLoaded, isSignedIn, user, neighbourhoods, predictions]);
+  }, [isLoaded, isSignedIn, user, neighbourhoods, predictions, selectedBoroughs]);
 
   return 
 };

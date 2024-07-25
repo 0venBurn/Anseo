@@ -38,7 +38,7 @@ const TargetGroupSelector: React.FC<TargetGroupSelectorProps> = ({
         {options.map((option) => (
           <button
             key={option}
-            className={`w-[50%] md:w-[100%] py-4 px-8 rounded-lg md:text-xl font-bold flex items-center justify-center border-2 ${
+            className={`w-[75%] md:w-[100%] py-4 px-8 rounded-lg md:text-xl font-bold flex items-center justify-center border-2 ${
               targetGroup.includes(option)
                 ? "bg-primary-dark text-white"
                 : "bg-primary-light text-primary-text-dark"

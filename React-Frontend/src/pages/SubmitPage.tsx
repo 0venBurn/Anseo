@@ -31,22 +31,22 @@ const SubmitPage: React.FC = () => {
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: 100 }}
         transition={{ duration: 0.5 }}      
-        className="relative min-h-screen flex items-center lg:items-start justify-between text-primary-text-dark bg-bk-grey"
+        className="relative min-h-[calc(100vh-5rem)] flex items-center lg:items-start justify-between text-primary-text-dark bg-bk-grey"
       >
-        <div className='flex flex-col items-center lg:items-start text-center lg:text-left min-h-screen'>
-        <div className="flex flex-col flex-1 mt-28 lg:mt-32 lg:ml-20 max-w-[80%]">
-          <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold font-alegreya mb-4">
+        <div className='flex flex-col items-center justify-between lg:items-start text-center lg:text-left min-h-[calc(100vh-5rem)]'>
+        <div className="flex flex-col gap-4 md:gap-8 mt-16 lg:ml-20 max-w-[80%]">
+          <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold font-alegreya">
             Ready to view your results?
           </h1>
-          <p className="text-2xl lg:text-3xl font-commissioner mb-12">
+          <p className="text-2xl lg:text-3xl font-commissioner">
             Create an account to save your results and access additional features or continue as a guest.
           </p>
           <div>
-          <div className="flex gap-8 max-w-2xl">
+          <div className="flex flex-col md:flex-row md:gap-8 max-w-2xl">
             <AuthenticationButton text='Continue as Guest' handleSubmit={handleSubmit} />
             <AuthenticationButton text='Create an Account' handleSubmit={handleSubmit} />
           </div>
-            <p className="font-inter text-sm mt-2">
+            <p className="font-inter text-sm">
               By continuing, you agree to our{' '}
               <a href="/terms" className="text-blue-500">Terms of Service</a> and{' '}
               <a href="/privacy" className="text-blue-500">Privacy Policy</a>
