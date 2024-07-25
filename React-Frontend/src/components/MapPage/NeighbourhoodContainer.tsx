@@ -87,6 +87,7 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
 
         {!selectedNeighbourhood ? activeBtn === 'History' && 
         <UserHistory 
+        key={userHistory?.length}
         userHistory={userHistory}
         handleReRenderPolygons={handleReRenderPolygons}
         /> : ''}
