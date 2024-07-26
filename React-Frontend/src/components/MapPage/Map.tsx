@@ -31,7 +31,7 @@ const Map: React.FC<MapProps> = ({
   setReRenderPolygons
 }) => {
   const center: [number, number] = [-74.0060, 40.7128];
-  const zoom: number = 9;
+  const zoom: number = 10;
   const pitch: number = 55;
 
   console.log(filteredListings.length)
