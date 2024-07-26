@@ -29,6 +29,7 @@ const MapPage: React.FC = () => {
   const [selectedNeighbourhood, setSelectedNeighbourhood] =
     useState<Neighbourhood | null>(null);
   const [listings, setListings] = useState<Listing[]>([]);
+  const [filteredListings, setFilteredListings] = useState<Listing[]>([]);
   const [isClosing, setIsClosing] = useState(false);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [rankingsData, setRankingsData] = useState<Rankings[]>([]);
@@ -98,19 +99,16 @@ const MapPage: React.FC = () => {
   };
 
   const handleLearnMore = async (neighbourhood: Neighbourhood) => {
-    setSelectedNeighbourhood(neighbourhood);
-    setActiveBtn('')
-    console.log(neighbourhood)
-    setIsClosing(false);
-    // function for zoom in when clicked learn more
-    const coordinates = await getCoordinatesByZipcode(neighbourhood.zipcode);
-    if (coordinates && map) {
-      map.flyTo({ center: coordinates, zoom: 12 });
+      setSelectedNeighbourhood(neighbourhood);
+      setActiveBtn('')
+      const neighbourhoodListings = listings.filter(listing => listing.neighbourhoodId === neighbourhood.neighbourhood_id)
+      setFilteredListings(neighbourhoodListings)
+      setIsClosing(false);
+      // function for zoom in when clicked learn more
+      const coordinates = await getCoordinatesByZipcode(neighbourhood.zipcode);
+      if (coordinates && map) {
+        map.flyTo({ center: coordinates, zoom: 12 });
     }
-  };
-
-  const handleGetLocation = (name: string): Neighbourhood => {
-    return neighbourhoods.find((neighbourhood) => neighbourhood.name === name)!;
   };
 
   const handleListingClick = (listing: Listing) => {
@@ -129,17 +127,12 @@ const MapPage: React.FC = () => {
 
   const handleClose = () => {
     setIsClosing(true);
+    setSelectedNeighbourhood(null);
+    setFilteredListings([]);
     setActiveBtn('Results')
     setTimeout(() => setHighlightedLocation(null), 500);
     setTimeout(() => setSelectedNeighbourhood(null), 500);
   };
-
-  const filteredListings = selectedNeighbourhood
-    ? listings.filter(
-        (listing) =>
-          listing.neighbourhoodId === selectedNeighbourhood.neighbourhood_id,
-      )
-    : [];
 
   const filteredRankings = selectedNeighbourhood
     ? rankingsData.find(
@@ -187,9 +180,7 @@ const MapPage: React.FC = () => {
           setMap={setMap}
           selectedBoroughs={selectedBoroughs}
           predictions={predictions}
-          handleSelectNeighbourhood={handleLearnMore}
-          handleGetLocation={handleGetLocation}
-          listings={filteredListings}
+          filteredListings={filteredListings}
           highlightedLocation={highlightedLocation}
           reRenderPolygons={reRenderPolygons}
           setReRenderPolygons={setReRenderPolygons}

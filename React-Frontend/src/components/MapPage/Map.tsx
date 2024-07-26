@@ -4,7 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useAddMapLayers } from '../../hooks/useAddMapLayers';
 import mapboxgl from 'mapbox-gl';
 import '../../index.css';
-import { Listing, Neighbourhood, HighlightedLocation, Predictions } from '../../utils/types';
+import { Listing, HighlightedLocation, Predictions } from '../../utils/types';
 import { useMapInit } from '../../hooks/useMapInit';
 
 interface MapProps {
@@ -13,9 +13,7 @@ interface MapProps {
   setMap: React.Dispatch<React.SetStateAction<mapboxgl.Map | null>>
   selectedBoroughs: string[];
   predictions: Predictions;
-  listings: Listing[];
-  handleSelectNeighbourhood: (location: Neighbourhood) => Promise<void>
-  handleGetLocation: (name: string) => Neighbourhood
+  filteredListings: Listing[];
   highlightedLocation: HighlightedLocation | null;
   reRenderPolygons: boolean;
   setReRenderPolygons: (reRenderPolygons: boolean) => void;
@@ -27,9 +25,7 @@ const Map: React.FC<MapProps> = ({
   setMap,
   selectedBoroughs,
   predictions,
-  listings,
-  handleSelectNeighbourhood,
-  handleGetLocation,
+  filteredListings,
   highlightedLocation,
   reRenderPolygons,
   setReRenderPolygons
@@ -38,7 +34,7 @@ const Map: React.FC<MapProps> = ({
   const zoom: number = 9;
   const pitch: number = 55;
 
-  console.log(listings.length)
+  console.log(filteredListings.length)
   useMapInit(mapRef, map, setMap, center[1], center[0], zoom, pitch);
   
   useEffect(() => {
@@ -78,9 +74,7 @@ const Map: React.FC<MapProps> = ({
     map, 
     selectedBoroughs, 
     predictions, 
-    listings, 
-    handleSelectNeighbourhood, 
-    handleGetLocation, 
+    filteredListings, 
     highlightedLocation,
     reRenderPolygons,
     setReRenderPolygons,
