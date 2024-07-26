@@ -30,6 +30,7 @@ export const useAddMapLayers = (
     console.log(listings.length)
     console.log(map, selectedBoroughs.length > 0, Object.keys(predictions).length > 0, listings.length > 0)
     if (map && selectedBoroughs.length > 0 && Object.keys(predictions).length > 0) {
+      console.log('Done')
       // Add or update LayersFill
     const filter = selectedBoroughs.includes('No preference')
     ? ['in', ['get', 'borough'], ['literal', ['Manhattan', 'Brooklyn', 'Queens', 'Bronx', 'Staten Island']]]

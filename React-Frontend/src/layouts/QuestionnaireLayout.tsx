@@ -10,8 +10,8 @@ const QuestionnaireLayout: React.FC<QuestionnaireLayoutProps> = ({ children }) =
     return (
       <>
         <Header />
-        <div className="flex h-[calc(100vh-5rem)] flex-col no-scrollbar md:scrollbar text-center text-primary-text-dark font-alegreya bg-bk-grey 
-        px-8 overflow-y-scroll">
+        <div className="flex h-[calc(100vh-5rem)] flex-col text-center text-primary-text-dark font-alegreya bg-bk-grey 
+        px-8 no-scrollbar md:scrollbar overflow-y-scroll">
           <motion.div
             initial={{ opacity: 0, x: -100 }}
             animate={{ opacity: 1, x: 0 }}

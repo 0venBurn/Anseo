@@ -18,7 +18,7 @@ const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <>
+    <div className='bg-bk-grey'>
       <Header />
       {/* Animated Main Content */}
       <motion.div
@@ -26,7 +26,7 @@ const WelcomePage: React.FC = () => {
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: 100 }}
         transition={{ duration: 0.5 }}
-        className="relative min-h-[calc(100vh-5rem)] flex flex-col items-center lg:items-start justify-between text-primary-text-dark bg-bk-grey"
+        className="relative h-[calc(100vh-5rem)] no-scrollbar md:scrollbar overflow-y-scroll flex flex-col items-center lg:items-start justify-between text-primary-text-dark bg-bk-grey"
       >
         {/* Text on main page */}
         <div className="flex flex-col items-center text-center lg:items-start lg:text-left mt-16 mb-8 max-w-[75%] xl:max-w-[80%] lg:px-20">
@@ -86,7 +86,7 @@ const WelcomePage: React.FC = () => {
         <LinearGradientCircle />
       </motion.div>
       <Chat />
-    </>
+    </div>
   );
 };
 
