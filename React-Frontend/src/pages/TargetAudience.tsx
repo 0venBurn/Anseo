@@ -110,7 +110,7 @@ const TargetAudience: React.FC = () => {
         />
 
         <SingleSlider
-          label="On a scale of 1 to 5, with 1 being not important at all and 5 being extremely important, how would you rate the importance of your target customer's age demographic?"
+          label="How would you rate the importance of your target customer's age demographic?"
           min={1}
           max={5}
           steps={1}
