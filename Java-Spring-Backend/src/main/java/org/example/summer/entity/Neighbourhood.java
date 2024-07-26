@@ -1,11 +1,12 @@
 package org.example.summer.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class Neighbourhood {
     @Column(name="description")
     private String description;
 
-    @Column(name="landmarks", columnDefinition="VARCHAR(255)[]")
+    @JdbcTypeCode(SqlTypes.ARRAY)
+    @Column(name = "landmarks", columnDefinition = "text[]")
     private List<String> landmarks;
 }

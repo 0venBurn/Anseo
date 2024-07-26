@@ -24,14 +24,14 @@ const SubmitPage: React.FC = () => {
   }
 
   return (
-    <>
+    <div className='bg-bk-grey'>
       <Header />
       <motion.div
         initial={{ opacity: 0, x: -100 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: 100 }}
         transition={{ duration: 0.5 }}      
-        className="relative min-h-[calc(100vh-5rem)] flex items-center lg:items-start justify-between text-primary-text-dark bg-bk-grey"
+        className="relative h-[calc(100vh-5rem)] no-scrollbar md:scrollbar overflow-y-scroll flex items-center lg:items-start justify-between text-primary-text-dark bg-bk-grey"
       >
         <div className='flex flex-col items-center justify-between lg:items-start text-center lg:text-left min-h-[calc(100vh-5rem)]'>
         <div className="flex flex-col gap-4 md:gap-8 mt-16 lg:ml-20 max-w-[80%]">
@@ -64,7 +64,7 @@ const SubmitPage: React.FC = () => {
         <LinearGradientCircle />
       </motion.div>
       <Chat />
-    </>
+    </div>
   );
 };
 
