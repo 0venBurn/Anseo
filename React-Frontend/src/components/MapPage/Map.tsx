@@ -48,7 +48,7 @@ const Map: React.FC<MapProps> = ({
           params: {
             access_token: mapboxgl.accessToken,
             proximity: '-74.0060,40.7128', // New York City coordinates
-            limit: 1 // Limit the results to 1 to ensure you get the closest match
+            //limit: 1 // Limit the results to 1 to ensure you get the closest match
           }
         });
         const coordinates = response.data.features[0].center;
