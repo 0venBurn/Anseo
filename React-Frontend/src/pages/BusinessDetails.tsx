@@ -151,7 +151,7 @@ const BusinessDetails: React.FC = () => {
       <SingleSlider
         label="What is your budget for paying employees? (Specify hourly rates)"
         min={10}
-        max={35}
+        max={50}
         steps={1}
         value={budget}
         setValue={setBudget}

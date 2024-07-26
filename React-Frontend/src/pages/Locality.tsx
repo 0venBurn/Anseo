@@ -120,7 +120,7 @@ const Locality: React.FC = () => {
 
  {/* Importance slider for proximity to public transportation */}
  <SingleSlider
-        label="On a scale of 1 to 5, with 1 being not at all important and 5 being extremely important, how crucial is the proximity of your business to public transportation?"
+        label="How important is the proximity of your business to public transportation?"
         min={1}
         max={5}
         steps={1}
@@ -131,7 +131,7 @@ const Locality: React.FC = () => {
 
       {/* Importance slider for high footfall */}
       <SingleSlider
-        label="On a scale of 1 to 5, with 1 being not at all important and 5 being extremely important, how crucial is a high footfall for your business?"
+        label="Is a high footfall important for your business?"
         min={1}
         max={5}
         steps={1}
@@ -142,7 +142,7 @@ const Locality: React.FC = () => {
 
       {/* Importance slider for being surrounded by similar businesses */}
       <SingleSlider
-        label="On a scale of 1 to 5, with 1 being not at all important and 5 being extremely important, how crucial is it for your business to be located near similar businesses?"
+        label="How important is it for your business to be located near similar businesses?"
         min={1}
         max={5}
         steps={1}
