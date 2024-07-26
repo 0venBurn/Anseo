@@ -52,7 +52,7 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
       'Age Diversity', 'Gender Diversity'
     ],
     datasets: [{
-      label: 'Demographic Rankings',
+      label: 'Demographic Rankings %',
       data: indexes ? [
         indexes.population_density,
         indexes.index_percPop_0_5,
@@ -71,7 +71,7 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
   const economicData = {
     labels: ['Employment Health', 'Annual Earnings', 'Housing Affordability', 'Safety', 'Business Index'],
     datasets: [{
-      label: 'Economic and Social Rankings',
+      label: 'Economic and Social Rankings %',
       data: indexes ? [
         indexes.Normalized_Employment_Health_Index,
         indexes.Annual_Earnings_Index,
@@ -87,7 +87,7 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
     labels: ['Population Density', 'Young People', 'Middle Aged People', 'Older People', 
              'Male Index', 'Female Index', 'Age Diversity', 'Gender Diversity'],
     datasets: [{
-      label: 'Demographic Indexes',
+      label: 'Demographic Radar',
       data: indexes ? [
         indexes.population_density, indexes.index_percPop_0_5, indexes.index_percPop_6_11, indexes.index_percPop_12_17,
         indexes.male_index, indexes.female_index, indexes.age_evenness_index, indexes.gender_diversity_index
@@ -102,7 +102,7 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
   const economicRadarData = {
     labels: ['Employment Health', 'Annual Earnings', 'Housing Affordability', 'Safety', 'Business Index'],
     datasets: [{
-      label: 'Economic and Social Indexes',
+      label: 'Economic and Social Radar',
       data: indexes ? [
         indexes.Normalized_Employment_Health_Index, indexes.Annual_Earnings_Index,
         indexes.Housing_Affordability_Index, indexes.Safety_Index, indexes.business_index
