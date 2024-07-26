@@ -5,7 +5,7 @@ import { Neighbourhood, Listing, HighlightedLocation, Predictions, ZipProbabilit
 export const useAddMapLayers = (
   map: mapboxgl.Map | null,
   selectedBoroughs: string[],
-  predictions: Predictions | null,
+  predictions: Predictions,
   listings: Listing[],
   handleSelectNeighbourhood: (location: Neighbourhood) => Promise<void>,
   handleGetLocation: (name: string) => Neighbourhood,
@@ -27,30 +27,23 @@ export const useAddMapLayers = (
   const sortedZipCodes: number[] = zipProbabilities.map((zip) => parseInt(zip.zipcode));
 
   useEffect(() => {
-    if (!map) return;
-
-    // Add or update LayersFill
+    console.log(listings.length)
+    console.log(map, selectedBoroughs.length > 0, Object.keys(predictions).length > 0, listings.length > 0)
+    if (map && selectedBoroughs.length > 0 && Object.keys(predictions).length > 0) {
+      // Add or update LayersFill
     const filter = selectedBoroughs.includes('No preference')
-      ? ['in', ['get', 'borough'], ['literal', ['Manhattan', 'Brooklyn', 'Queens', 'Bronx', 'Staten Island']]]
+    ? ['in', ['get', 'borough'], ['literal', ['Manhattan', 'Brooklyn', 'Queens', 'Bronx', 'Staten Island']]]
       : ['in', ['get', 'borough'], ['literal', selectedBoroughs]];
 
     console.log("filter", filter)
     console.log(reRenderPolygons)
     if (reRenderPolygons) {
+      console.log(map.getLayer('LayersFill'), map.getLayer('LayersOutline'), map.getSource('Layers'))
       map.getLayer('LayersFill') && map.removeLayer('LayersFill');
       map.getLayer('LayersOutline') && map.removeLayer('LayersOutline');
-      map.getSource('Layers') && map.removeSource('Layers');
-      console.log(map.getLayer('LayersFill'), map.getLayer('LayersOutline'), map.getSource('Layers'))
       setReRenderPolygons(false)
     }
-    if (!map.getSource('Layers')) {
-      console.log("adding source")
-      map.addSource('Layers', {
-        type: 'vector',
-        url: 'mapbox://tadghp.0lsjggwr'
-      });
-    }
-
+    
     if (!map.getLayer('LayersFill')) {
       console.log('adding layer')
       console.log(filter)
@@ -82,8 +75,8 @@ export const useAddMapLayers = (
     } else {
       map.setFilter('LayersFill', filter);
     }
-
-        // Add or update LayersOutline
+    
+    // Add or update LayersOutline
     if (!map.getLayer('LayersOutline')) {
       map.addLayer({
         id: 'LayersOutline',
@@ -101,13 +94,13 @@ export const useAddMapLayers = (
     } else {
       map.setFilter('LayersOutline', filter);
     }
-
+    
     map.on('click', 'LayersFill', (e) => {
       const neighbourhood = e.features && e.features[0].properties?.neighbourhood;
       const location = handleGetLocation(neighbourhood);
       handleSelectNeighbourhood(location);
     });
-
+    
     map.on('mouseenter', 'neighbourhoods', () => {
       map.getCanvas().style.cursor = 'pointer';
     });
@@ -115,43 +108,44 @@ export const useAddMapLayers = (
     map.on('mouseleave', 'LayersFill', () => {
       map.getCanvas().style.cursor = '';
     });
-
-        // Handle markers
+    
+    // Handle markers
     markersRef.current.forEach(marker => marker.remove());
     markersRef.current = [];
-
+    
     if (listings.length > 0) {
       listings.forEach((listing) => {
         const marker = new mapboxgl.Marker()
-          .setLngLat([parseFloat(listing.lng), parseFloat(listing.lat)])
-          .addTo(map);
+        .setLngLat([parseFloat(listing.lng), parseFloat(listing.lat)])
+        .addTo(map);
         markersRef.current.push(marker);
       });
     }
-
-        // Handle highlighted location marker
+    
+    // Handle highlighted location marker
     if (highlightedLocation) {
       if (highlightMarkerRef.current) {
         highlightMarkerRef.current.remove();
       }
-
+      
       const { lat, lng } = highlightedLocation;
       const highlightMarker = new mapboxgl.Marker({ color: 'red' })
-        .setLngLat([lng, lat])
-        .addTo(map);
-
+      .setLngLat([lng, lat])
+      .addTo(map);
+      
       highlightMarkerRef.current = highlightMarker;
     }
-
-        // Cleanup
+    
+    // Cleanup
     return () => {
       markersRef.current.forEach(marker => marker.remove());
       markersRef.current = [];
-
+      
       if (highlightMarkerRef.current) {
         highlightMarkerRef.current.remove();
         highlightMarkerRef.current = null;
       }
     };
+  } 
   }, [map, selectedBoroughs, predictions, listings, highlightedLocation, reRenderPolygons]);
 };

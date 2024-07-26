@@ -14,13 +14,14 @@ const Listing: React.FC<ListingProps> = ({ listing, onListingClick }) => {
         <motion.div 
         whileHover={{ scale: 1.02 }}
         className="flex flex-col min-w-52 justify-between items-center bg-white 
-        border border-solid border-user-sidebar-purple-dark shadow-md rounded-lg">
+        border border-solid border-user-sidebar-purple-dark shadow-md rounded-lg"
+        onClick={() => onListingClick(listing)} 
+        >
             <div className="flex flex-col gap-4 overflow-hidden rounded-lg">
                 <img 
                 src={listing.imageUrl} 
                 alt={listing.listingDetails} 
                 className="w-full h-32 object-cover overflow-hidden border-b border-b-solid border-b-user-sidebar-purple-dark"
-                onClick={() => onListingClick(listing)} // Add onClick callback
                 />
                 <p className="font-commissioner text-primary-text-dark text-center px-2">{listing.listingDetails}</p>
             </div>

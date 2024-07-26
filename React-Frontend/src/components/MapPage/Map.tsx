@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useAddMapLayers } from '../../hooks/useAddMapLayers';
@@ -12,7 +12,7 @@ interface MapProps {
   map: mapboxgl.Map | null;
   setMap: React.Dispatch<React.SetStateAction<mapboxgl.Map | null>>
   selectedBoroughs: string[];
-  predictions: Predictions | null;
+  predictions: Predictions;
   listings: Listing[];
   handleSelectNeighbourhood: (location: Neighbourhood) => Promise<void>
   handleGetLocation: (name: string) => Neighbourhood
@@ -34,14 +34,11 @@ const Map: React.FC<MapProps> = ({
   reRenderPolygons,
   setReRenderPolygons
 }) => {
-  const defaultCenter: [number, number] = [-74.0060, 40.7128];
-  const defaultZoom: number = 9;
-  const defaultPitch: number = 55;
+  const center: [number, number] = [-74.0060, 40.7128];
+  const zoom: number = 9;
+  const pitch: number = 55;
 
-  const [center, setCenter] = useState<[number, number]>(defaultCenter);
-  const [zoom, setZoom] = useState<number>(defaultZoom);
-  const [pitch, setPitch] = useState<number>(defaultPitch);
-  
+  console.log(listings.length)
   useMapInit(mapRef, map, setMap, center[1], center[0], zoom, pitch);
   
   useEffect(() => {
@@ -66,12 +63,10 @@ const Map: React.FC<MapProps> = ({
       if (selectedBoroughs.length === 1 && selectedBoroughs[0] !== 'No preference') {
         const coordinates = await fetchBoroughCoordinates(selectedBoroughs[0]);
         if (coordinates) {
-          setCenter(coordinates);
-          setZoom(11);
+          map && map.flyTo({ center: coordinates, zoom: 11 });
         }
       } else {
-        setCenter(defaultCenter);
-        setZoom(defaultZoom);
+        map && map.flyTo({ center, zoom });
       } 
     };
 
