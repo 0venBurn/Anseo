@@ -1,14 +1,12 @@
 import { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
-import { Neighbourhood, Listing, HighlightedLocation, Predictions, ZipProbability } from '../utils/types'
+import { Listing, HighlightedLocation, Predictions, ZipProbability } from '../utils/types'
 
 export const useAddMapLayers = (
   map: mapboxgl.Map | null,
   selectedBoroughs: string[],
   predictions: Predictions,
-  listings: Listing[],
-  handleSelectNeighbourhood: (location: Neighbourhood) => Promise<void>,
-  handleGetLocation: (name: string) => Neighbourhood,
+  filteredListings: Listing[],
   highlightedLocation: HighlightedLocation | null,
   reRenderPolygons: boolean,
   setReRenderPolygons: (reRenderPolygons: boolean) => void
@@ -27,9 +25,9 @@ export const useAddMapLayers = (
   const sortedZipCodes: number[] = zipProbabilities.map((zip) => parseInt(zip.zipcode));
 
   useEffect(() => {
-    console.log(listings.length)
-    console.log(map, selectedBoroughs.length > 0, Object.keys(predictions).length > 0)
-    if (map && selectedBoroughs.length > 0 && Object.keys(predictions).length > 0) {
+    console.log(filteredListings.length)
+    console.log(map, selectedBoroughs.length > 0, Object.keys(predictions).length > 0, filteredListings.length)
+    if (map && selectedBoroughs.length > 0 && Object.keys(predictions).length > 0 && filteredListings.length > 0) {
       // Add or update LayersFill
     const filter = selectedBoroughs.includes('No preference')
     ? ['in', ['get', 'borough'], ['literal', ['Manhattan', 'Brooklyn', 'Queens', 'Bronx', 'Staten Island']]]
@@ -95,28 +93,15 @@ export const useAddMapLayers = (
       map.setFilter('LayersOutline', filter);
     }
     
-    map.on('click', 'LayersFill', (e) => {
-      const neighbourhood = e.features && e.features[0].properties?.neighbourhood;
-      const location = handleGetLocation(neighbourhood);
-      handleSelectNeighbourhood(location);
-    });
-    
-    map.on('mouseenter', 'neighbourhoods', () => {
-      map.getCanvas().style.cursor = 'pointer';
-    });
-
-    map.on('mouseleave', 'LayersFill', () => {
-      map.getCanvas().style.cursor = '';
-    });
     
     // Handle markers
     markersRef.current.forEach(marker => marker.remove());
     markersRef.current = [];
     
-    if (listings.length > 0) {
-      listings.forEach((listing) => {
+    if (filteredListings.length > 0) {
+      filteredListings.forEach((filteredListing) => {
         const marker = new mapboxgl.Marker()
-        .setLngLat([parseFloat(listing.lng), parseFloat(listing.lat)])
+        .setLngLat([parseFloat(filteredListing.lng), parseFloat(filteredListing.lat)])
         .addTo(map);
         markersRef.current.push(marker);
       });
@@ -147,5 +132,5 @@ export const useAddMapLayers = (
       }
     };
   } 
-  }, [map, selectedBoroughs, predictions, listings, highlightedLocation, reRenderPolygons]);
+  }, [map, selectedBoroughs, predictions, filteredListings, highlightedLocation, reRenderPolygons]);
 };
