@@ -27,7 +27,7 @@ export const useAddMapLayers = (
   useEffect(() => {
     console.log(filteredListings.length)
     console.log(map, selectedBoroughs.length > 0, Object.keys(predictions).length > 0, filteredListings.length)
-    if (map && selectedBoroughs.length > 0 && Object.keys(predictions).length > 0 && filteredListings.length > 0) {
+    if (map && selectedBoroughs.length > 0 && Object.keys(predictions).length > 0) {
       // Add or update LayersFill
     const filter = selectedBoroughs.includes('No preference')
     ? ['in', ['get', 'borough'], ['literal', ['Manhattan', 'Brooklyn', 'Queens', 'Bronx', 'Staten Island']]]
