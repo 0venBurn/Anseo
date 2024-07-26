@@ -24,7 +24,7 @@ const SubmitPage: React.FC = () => {
   }
 
   return (
-    <>
+    <div className='bg-bk-grey'>
       <Header />
       <motion.div
         initial={{ opacity: 0, x: -100 }}
@@ -64,7 +64,7 @@ const SubmitPage: React.FC = () => {
         <LinearGradientCircle />
       </motion.div>
       <Chat />
-    </>
+    </div>
   );
 };
 

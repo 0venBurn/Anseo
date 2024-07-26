@@ -18,7 +18,7 @@ const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <>
+    <div className='bg-bk-grey'>
       <Header />
       {/* Animated Main Content */}
       <motion.div
@@ -86,7 +86,7 @@ const WelcomePage: React.FC = () => {
         <LinearGradientCircle />
       </motion.div>
       <Chat />
-    </>
+    </div>
   );
 };
 
