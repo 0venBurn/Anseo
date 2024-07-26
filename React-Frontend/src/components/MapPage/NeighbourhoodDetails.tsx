@@ -16,7 +16,7 @@ import {
   LineElement, 
   Filler 
 } from 'chart.js';
-import { Listing as ListingType, Rankings, Indexes, Neighbourhood } from '../../utils/types';
+import { Listing as ListingType, Indexes, Neighbourhood } from '../../utils/types';
 import Listing from './Listing';
 import NeighbourhoodRating from './NeighbourhoodRating';
 
@@ -37,14 +37,13 @@ ChartJS.register(
 interface NeighbourhoodDetailsProps {
   neighbourhood: Neighbourhood
   listings: ListingType[];
-  rankings: Rankings | undefined;
   indexes: Indexes | undefined;
   isClosing: boolean;
   onClose: () => void;
   onListingClick: (listing: ListingType) => void;
 }
 
-const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourhood, listings, rankings, indexes, isClosing, onClose, onListingClick }) => {
+const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourhood, listings, indexes, isClosing, onClose, onListingClick }) => {
   const demographicData = {
     labels: [
       'Population Density', 
@@ -54,15 +53,15 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
     ],
     datasets: [{
       label: 'Demographic Rankings',
-      data: rankings ? [
-        rankings.population_density,
-        rankings.index_percPop_0_5,
-        rankings.index_percPop_6_11,
-        rankings.index_percPop_12_17,
-        rankings.male_index,
-        rankings.female_index,
-        rankings.age_evenness_index,
-        rankings.gender_diversity_index,
+      data: indexes ? [
+        indexes.population_density,
+        indexes.index_percPop_0_5,
+        indexes.index_percPop_6_11,
+        indexes.index_percPop_12_17,
+        indexes.male_index,
+        indexes.female_index,
+        indexes.age_evenness_index,
+        indexes.gender_diversity_index,
         
       ] : [],
       backgroundColor: 'rgb(255, 201, 14, 0.7)',
@@ -73,12 +72,12 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
     labels: ['Employment Health', 'Annual Earnings', 'Housing Affordability', 'Safety', 'Business Index'],
     datasets: [{
       label: 'Economic and Social Rankings',
-      data: rankings ? [
-        rankings.Normalized_Employment_Health_Index,
-        rankings.Annual_Earnings_Index,
-        rankings.Housing_Affordability_Index,
-        rankings.Safety_Index,
-        rankings.business_index
+      data: indexes ? [
+        indexes.Normalized_Employment_Health_Index,
+        indexes.Annual_Earnings_Index,
+        indexes.Housing_Affordability_Index,
+        indexes.Safety_Index,
+        indexes.business_index
       ] : [],
       backgroundColor: 'rgba(125, 218, 255, 0.8)',
     }]
