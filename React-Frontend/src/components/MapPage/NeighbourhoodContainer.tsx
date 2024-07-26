@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { Indexes, Listing, Neighbourhood, Predictions, Rankings, UserHistory as UserHistoryType } from "../../utils/types";
 import UserOptionsHeader from "./UserOptionsHeader";
@@ -8,6 +7,9 @@ import UserFavourites from "./UserFavourites";
 import UserHistory from "./UserHistory";
 
 interface NeighbourhoodContainerProps {
+    activeBtn: string | null
+    setActiveBtn: React.Dispatch<React.SetStateAction<string | null>>
+    setSelectedNeighbourhood: React.Dispatch<React.SetStateAction<Neighbourhood | null>>
     neighbourhoods: Neighbourhood[]
     handleLearnMore: (neighbourhood: Neighbourhood) => void
     selectedNeighbourhood: Neighbourhood | null
@@ -25,6 +27,9 @@ interface NeighbourhoodContainerProps {
 
 const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = ( 
     { 
+        activeBtn, 
+        setActiveBtn,
+        setSelectedNeighbourhood,
         neighbourhoods, 
         handleLearnMore,
         selectedNeighbourhood,
@@ -39,10 +44,10 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
         setUserFavourites,
         handleReRenderPolygons
      }) => {
-    const [activeBtn, setActiveBtn] = useState<string | null>('Results');
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       setActiveBtn(e?.currentTarget.textContent);
+      setSelectedNeighbourhood(null);
     }
 
     return (
@@ -58,7 +63,7 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
           className="flex flex-col h-full w-full overflow-y-scroll no-scrollbar md:scrollbar p-2"
           >  
 
-        {selectedNeighbourhood && 
+        {!activeBtn && selectedNeighbourhood && 
             <NeighbourhoodDetails
             neighbourhood={selectedNeighbourhood}
             listings={filteredListings} 
@@ -87,6 +92,7 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
 
         {!selectedNeighbourhood ? activeBtn === 'History' && 
         <UserHistory 
+        key={userHistory?.length}
         userHistory={userHistory}
         handleReRenderPolygons={handleReRenderPolygons}
         /> : ''}

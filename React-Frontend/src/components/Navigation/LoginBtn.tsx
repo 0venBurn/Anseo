@@ -17,6 +17,7 @@ const LoginBtn = () => {
             variant="outlined"
             sx={{
                 borderColor: "white", 
+                fontFamily: "Inter",
                 color: "white", 
                 borderRadius: "20px", 
                 padding: "0.33rem 1.25rem", 

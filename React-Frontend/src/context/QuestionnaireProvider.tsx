@@ -13,8 +13,6 @@ interface QuestionnaireContext {
   ) => void;
   isQuestionnaireCompleted: () => boolean;
   setQuestionnaireDefault: () => void;
-  dummyData: boolean;
-  sendDummyData: () => boolean;
 }
 const QuestionnaireContext = createContext<QuestionnaireContext>({
   data: {
@@ -38,10 +36,8 @@ const QuestionnaireContext = createContext<QuestionnaireContext>({
     areaType: [],
   },
   answerQuestion: () => {},
-  isQuestionnaireCompleted: () => false,
   setQuestionnaireDefault: () => {},
-  dummyData: false,
-  sendDummyData: () => false,
+  isQuestionnaireCompleted: () => false,
 });
 
 const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({
@@ -67,7 +63,6 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({
     selectedBoroughs: [],
     areaType: [],
   });
-  const [dummyData, setDummyData] = useState<boolean>(false);
 
   const answerQuestion = (
     question: string,
@@ -79,18 +74,13 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({
     }));
   };
 
-  const sendDummyData = () => {
-    setDummyData(true);
-    return dummyData;
-  };
-
   const isQuestionnaireCompleted = () => {
     const answers = Object.values(data);
     const filteredAnswers = answers.filter((ans) => {
       if (Array.isArray(ans)) {
         return ans.length > 0;
       }
-      return ans;
+      return ans !== null && ans !== undefined && ans !== '';
     });
 
     console.log("filteredAnswers", filteredAnswers);
@@ -121,11 +111,12 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({
       rentBudget: 0,
       genderRatio: "",
       employmentStatus: ["Full Time"],
-      populationDensity: 1,
+      populationDensity: 0,
       selectedBoroughs: [],
       areaType: [],
     });
   };
+
 
   return (
     <QuestionnaireContext.Provider
@@ -134,8 +125,6 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({
         answerQuestion,
         isQuestionnaireCompleted,
         setQuestionnaireDefault,
-        dummyData,
-        sendDummyData,
       }}
     >
       {children}

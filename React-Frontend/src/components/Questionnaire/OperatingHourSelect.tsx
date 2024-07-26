@@ -19,9 +19,9 @@ const OperatingHoursSelector: React.FC<OperatingHoursSelectorProps> = ({
 }) => (
   <div className="mb-6 flex flex-col items-center lg:w-[90%]">
     <QuestionLabel label="What are your business's operating hours?" questionNumber={questionNumber} />
-    <div className="grid md:place-items-center grid-cols-2 sm:grid-cols-2 gap-4 md:text-xl max-w-[75%]">
+    <div className="grid md:place-items-center grid-cols-1 sm:grid-cols-2 gap-4 md:text-xl max-w-[75%]">
       <div>
-        <label className="block mb-2">Opening Time</label>
+        <label className="block mb-2 ">Opening Time</label>
         <Select
           value={openHour}
           onChange={(e) => setOpenHour(parseInt(String(e.target.value)))}

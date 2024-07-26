@@ -62,7 +62,7 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userHistory, handleReRenderPo
             <SignedIn>
             <div className="flex flex-col gap-6 p-4">
         {userHistory && userHistory.map( (
-            { resultId, 
+            {   resultId, 
                 predictions, 
                 selectedBoroughs, 
                 topNeighbourhoodName, 
@@ -82,10 +82,10 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userHistory, handleReRenderPo
 
                 <UserHistoryContainer>
                 <UserHistoryHeading title="Selected Boroughs"/>
-                    {selectedBoroughs.map( (borough: string) => {
+                    {selectedBoroughs.map( (borough: string, index) => {
                         return (
                             <>
-                                <UserHistoryItem content={borough} /> 
+                                <UserHistoryItem key={`${resultId}-borough-${index}-${Math.random()}`} content={borough} /> 
                             </>
                         )
                     })

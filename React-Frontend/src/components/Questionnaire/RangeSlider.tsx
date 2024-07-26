@@ -84,7 +84,7 @@ const RangeSlider: React.FC<RangeSliderProps> = (
     };
 
     return (    
-        <div className='mb-6'>
+        <div className='mb-6 slider-container'>
         <QuestionLabel label={label} questionNumber={questionNumber}/>
         <Slider 
             min={min}
@@ -130,7 +130,7 @@ const RangeSlider: React.FC<RangeSliderProps> = (
                     color: '#3B447A',
                 }
             }}
-            className="max-w-[75%] lg:max-w-[65%]"
+            className="slider-root"
             />
         </div>
     )

@@ -23,7 +23,7 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
 
   if (isMobile) {
     return (
-      <div className="flex flex-col justify-center items-center gap-4 px-4 mb-12 w-full">
+      <div className="flex flex-col justify-center items-center gap-4 px-4 mb-4 w-full">
        <ProgressIndicator
           currentStep={currentStep}
           totalSteps={totalSteps}

@@ -21,14 +21,14 @@ export default function RootLayout() {
 
   return (
     <ClerkProvider
-      routerPush={(to) => navigate(to)}
-      routerReplace={(to) => navigate(to, { replace: true })}
-      publishableKey={PUBLISHABLE_KEY}
-      signInUrl={SIGN_IN_URL}
-      signUpUrl={SIGN_UP_URL}
-      signInFallbackRedirectUrl={SIGN_IN_REDIRECT_URL}
-      signUpFallbackRedirectUrl={SIGN_UP_REDIRECT_URL}
-      afterSignOutUrl={SIGN_OUT_URL}
+    routerPush={(to) => navigate(to)}
+    routerReplace={(to) => navigate(to, { replace: true })}
+    publishableKey={PUBLISHABLE_KEY}
+    signInUrl={SIGN_IN_URL}
+    signUpUrl={SIGN_UP_URL}
+    signInFallbackRedirectUrl={SIGN_IN_REDIRECT_URL}
+    signUpFallbackRedirectUrl={SIGN_UP_REDIRECT_URL}
+    afterSignOutUrl={SIGN_OUT_URL}
     >
       <QuestionnaireProvider>
         <ScrollToTop />

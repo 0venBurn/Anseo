@@ -11,11 +11,14 @@ import useSetQuestionnaireData from "../hooks/useSetQuestionnaireData";
 import useGetNeighbourhoods from "../hooks/useGetNeighbourhoods";
 import useGetNeighbourhoodDetails from "../hooks/useGetNeighbourhoodDetails";
 import useSetUserData from "../hooks/useSetUserData";
-import LoadingPage from "./LoadingPage";
+import Loading from "../components/MapPage/Loading";
+import { useQuestionnaire } from "../context/QuestionnaireProvider";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API;
 
 const MapPage: React.FC = () => {
+  const { isQuestionnaireCompleted, setQuestionnaireDefault } = useQuestionnaire();
+
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<mapboxgl.Map | null>(null);
   const [selectedBoroughs, setSelectedBoroughs] = useState<string[]>([]);
@@ -33,6 +36,7 @@ const MapPage: React.FC = () => {
     useState<HighlightedLocation | null>(null);
   const [indexData, setIndexData] = useState<Indexes[]>([]);
   const [reRenderPolygons, setReRenderPolygons] = useState(false);
+  const [activeBtn, setActiveBtn] = useState<string | null>('Results');
 
   useSetQuestionnaireData(
     setPredictions, 
@@ -52,6 +56,7 @@ const MapPage: React.FC = () => {
   )
 
   useSetUserData(
+    isPageLoaded,
     setIsPageLoaded, 
     setUserFavourites,
     setUserHistory,
@@ -61,10 +66,12 @@ const MapPage: React.FC = () => {
   )
 
   const handleReRenderPolygons = (selectedBoroughs: string[], predictions: Predictions) => {
+    if (isQuestionnaireCompleted()) {
+      setQuestionnaireDefault();
+    }
     setReRenderPolygons(true);
     setSelectedBoroughs(selectedBoroughs);
     setPredictions(predictions)
-    setMap(null)
   }
   // function to convert zipcode to lat and lng
   const getCoordinatesByZipcode = async (zipcode: string) => {
@@ -92,6 +99,7 @@ const MapPage: React.FC = () => {
 
   const handleLearnMore = async (neighbourhood: Neighbourhood) => {
     setSelectedNeighbourhood(neighbourhood);
+    setActiveBtn('')
     console.log(neighbourhood)
     setIsClosing(false);
     // function for zoom in when clicked learn more
@@ -106,6 +114,7 @@ const MapPage: React.FC = () => {
   };
 
   const handleListingClick = (listing: Listing) => {
+    console.log(listing)
     setHighlightedLocation({
       lat: parseFloat(listing.lat),
       lng: parseFloat(listing.lng),
@@ -120,6 +129,7 @@ const MapPage: React.FC = () => {
 
   const handleClose = () => {
     setIsClosing(true);
+    setActiveBtn('Results')
     setTimeout(() => setHighlightedLocation(null), 500);
     setTimeout(() => setSelectedNeighbourhood(null), 500);
   };
@@ -146,7 +156,7 @@ const MapPage: React.FC = () => {
     : undefined;
   
   if (!isPageLoaded) {
-    return <LoadingPage />;
+    return <Loading />;
   }
 
   return (
@@ -154,6 +164,9 @@ const MapPage: React.FC = () => {
       <Header />
       <div className="flex flex-col-reverse lg:flex-row h-[calc(100vh-5rem)]">
         <NeighbourhoodContainer 
+          activeBtn={activeBtn}
+          setActiveBtn={setActiveBtn}
+          setSelectedNeighbourhood={setSelectedNeighbourhood}
           neighbourhoods={neighbourhoods}
           handleLearnMore={handleLearnMore}
           selectedNeighbourhood={selectedNeighbourhood}

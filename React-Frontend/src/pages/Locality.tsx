@@ -9,6 +9,7 @@ import { useQuestionnaire } from "../context/QuestionnaireProvider";
 import QuestionPageHeader from "../components/Questionnaire/QuestionPageHeader";
 import SingleSlider from "../components/Questionnaire/SingleSlider";
 import Chat from "../components/Chatbox/Chat";
+import IncompletePageWarning from "../components/Questionnaire/IncompletePageWarning";
 
 // Define the current step and total steps for the questionnaire progress
 const currentStep = 3;
@@ -115,8 +116,6 @@ const Locality: React.FC = () => {
           questionNumber={2}
         />
       
-      {/* Error message display */}
-      {error && <p className="text-red-500 mb-4">{error}</p>}
 
 
  {/* Importance slider for proximity to public transportation */}
@@ -128,7 +127,7 @@ const Locality: React.FC = () => {
         value={proximityImportance}
         setValue={setProximityImportance}
         questionNumber={3}
-      />
+        />
 
       {/* Importance slider for high footfall */}
       <SingleSlider
@@ -139,7 +138,7 @@ const Locality: React.FC = () => {
         value={footfallImportance}
         setValue={setFootfallImportance}
         questionNumber={4}
-      />
+        />
 
       {/* Importance slider for being surrounded by similar businesses */}
       <SingleSlider
@@ -150,19 +149,20 @@ const Locality: React.FC = () => {
         value={surroundingBusinessesImportance}
         setValue={setSurroundingBusinessesImportance}
         questionNumber={5}
-      />
+        />
+
+      {/* Error message display */}
+      {error && <IncompletePageWarning error={error} />}
 
       {/* Navigation buttons */}
-        {/* <div className="absolute bottom-0"> */}
         <NavigationButtons
           currentStep={currentStep}
           totalSteps={totalSteps}
           handleNext={handleNext}
           handlePrev={handlePrev}
-        />
-        {/* </div> */}
-      </QuestionnaireLayout>
+          />
       <Chat />
+      </QuestionnaireLayout>
     </>
   );
 };

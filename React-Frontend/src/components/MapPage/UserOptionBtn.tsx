@@ -16,7 +16,7 @@ const UserOptionBtn: React.FC<UserOptionBtnProps> = ({ title, isActive, handleCl
             scale: 1.05 ,
         }}
         animate={{
-            backgroundColor: isActive ? '#D1D6F5' : 'inherit',
+            backgroundColor: isActive ? '#D1D6F5' : '#FFFFFF',
             color: isActive ? '#3B447A' : '#ABB0B4',
             transition: { duration: 0.1, ease: "easeInOut" },
         }}

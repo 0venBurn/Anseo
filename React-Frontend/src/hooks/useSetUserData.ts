@@ -6,6 +6,7 @@ import { Predictions, UserHistory, Neighbourhood } from '../utils/types';
 import { useNavigate } from 'react-router-dom';
 
 const useSetUserData = (
+    isPageLoaded: boolean,
     setIsPageLoaded: React.Dispatch<React.SetStateAction<boolean>>, 
     setUserFavourites: React.Dispatch<React.SetStateAction<Neighbourhood[]>>,
     setUserHistory: React.Dispatch<React.SetStateAction<UserHistory[] | null>>,
@@ -15,17 +16,17 @@ const useSetUserData = (
 ) => {
     const { isSignedIn, isLoaded } = useAuth();
     const { user } = useUser();
-    const { isQuestionnaireCompleted, setQuestionnaireDefault } = useQuestionnaire();
+    const { isQuestionnaireCompleted } = useQuestionnaire();
     const navigate = useNavigate();
 
   useEffect(() => {
     const setUserData = async () => {
-      if (isLoaded && predictions && neighbourhoods.length > 0 && selectedBoroughs.length > 0) {        
+      if (!isPageLoaded && isLoaded && Object.keys(predictions).length > 0 && neighbourhoods.length > 0 && selectedBoroughs.length > 0) {        
         try {
           // continue as guest
           if (!isSignedIn && isQuestionnaireCompleted()) {
             console.log("test: continue as guest");
-            setQuestionnaireDefault()
+            setIsPageLoaded(true);
           }
           
         // signed in and completed questionnaire
@@ -37,7 +38,7 @@ const useSetUserData = (
             const dbFavouritesResponse = await fetchUserFavouritesFromDB(user.id, neighbourhoods)
             setUserHistory(dbResultsResponse.results);
             setUserFavourites(dbFavouritesResponse);
-            setQuestionnaireDefault()
+            setIsPageLoaded(true);
         }
         
         // signed in and questionnaire not completed
@@ -54,9 +55,9 @@ const useSetUserData = (
             
             setUserHistory(dbResultsResponse.results);
             setUserFavourites(dbFavouritesResponse);
+            setIsPageLoaded(true);
           }
 
-          setIsPageLoaded(true);
 
       } catch (error) {
         console.error("Error fetching predictions:", error);
@@ -65,7 +66,7 @@ const useSetUserData = (
   }
 
     setUserData();
-  }, [isLoaded, isSignedIn, user, neighbourhoods, predictions]);
+  }, [isLoaded, isSignedIn, user, neighbourhoods, predictions, selectedBoroughs]);
 
   return 
 };

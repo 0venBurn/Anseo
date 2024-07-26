@@ -42,7 +42,7 @@ const BoroughSelector: React.FC<BoroughSelectorProps> = ({
         {options.map((option) => (
           <button
             key={option}
-            className={`w-[50%] md:w-[75%] py-4 px-8 rounded-lg md:text-xl font-bold flex items-center justify-center border-2 ${
+            className={`w-[75%] py-4 px-8 rounded-lg md:text-xl font-bold flex items-center text-center justify-center border-2 ${
               selectedBoroughs.includes(option) ||
               (option === "No preference" &&
                 selectedBoroughs.length === 1 &&
@@ -52,7 +52,7 @@ const BoroughSelector: React.FC<BoroughSelectorProps> = ({
             }`}
             onClick={() => handleSelection(option)}
           >
-            <span className="ml-2">{option}</span>
+            <span>{option}</span>
           </button>
         ))}
       </div>

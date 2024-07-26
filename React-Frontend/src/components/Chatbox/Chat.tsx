@@ -71,7 +71,7 @@ const Chat: React.FC = () => {
 
   //Rendered Chat component
   return (
-    <>
+    <div className="h-20 md:h-0 bg-bk-grey">
       {isExpanded ? (
         <div
           className={`transform transition-transform duration-300 ease-in-out w-11/12 md:w-6/12 lg:w-4/12 bg-white rounded-lg fixed bottom-4 right-4 ${
@@ -125,7 +125,7 @@ const Chat: React.FC = () => {
         </div>
       ) : (
         <button
-          className="transform transition-transform duration-300 ease-in-out bg-primary-dark text-white shadow-md fixed bottom-4 right-4"
+          className="transform transition-transform duration-300 ease-in-out bg-primary-dark text-white shadow-md fixed bottom-4 right-4 md:bottom-8 md:right-12"
           onClick={() => setIsExpanded(true)}
           style={{ width: "65px", height: "65px", borderRadius: "50%" }}
         >
@@ -137,7 +137,7 @@ const Chat: React.FC = () => {
           </div>
         </button>
       )}
-    </>
+    </div>
   );
 };
 

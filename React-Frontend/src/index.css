@@ -113,3 +113,35 @@ body,
   height: 50px;
   width: 100%;
 }
+
+
+/* Global slider container styles */
+.slider-container {
+  width: 90vw; 
+  max-width: 80vw; 
+}
+
+@media (min-width: 640px) {
+  .slider-container {
+    max-width: 70vw; 
+  }
+}
+
+@media (min-width: 1024px) {
+  .slider-container {
+    max-width: 60vw; 
+  }
+}
+
+/* Global slider styles */
+.slider-root {
+  width: 60%; 
+  max-width: 600px; 
+}
+
+@media (max-width: 640px) {
+  .slider-root {
+    width: 70%; 
+    max-width: 400px;
+  }
+}
