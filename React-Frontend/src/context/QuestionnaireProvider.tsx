@@ -12,8 +12,7 @@ interface QuestionnaireContext {
     answer: string | number | string[] | number[],
   ) => void;
   isQuestionnaireCompleted: () => boolean;
-  dummyData: boolean;
-  sendDummyData: () => boolean;
+  setQuestionnaireDefault: () => void;
 }
 const QuestionnaireContext = createContext<QuestionnaireContext>({
   data: {
@@ -37,9 +36,8 @@ const QuestionnaireContext = createContext<QuestionnaireContext>({
     areaType: [],
   },
   answerQuestion: () => {},
+  setQuestionnaireDefault: () => {},
   isQuestionnaireCompleted: () => false,
-  dummyData: false,
-  sendDummyData: () => false,
 });
 
 const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({
@@ -65,7 +63,6 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({
     selectedBoroughs: [],
     areaType: [],
   });
-  const [dummyData, setDummyData] = useState<boolean>(false);
 
   const answerQuestion = (
     question: string,
@@ -75,11 +72,6 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({
       ...prev,
       [question]: answer,
     }));
-  };
-
-  const sendDummyData = () => {
-    setDummyData(true);
-    return dummyData;
   };
 
   const isQuestionnaireCompleted = () => {
@@ -102,14 +94,37 @@ const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({
     }
   };
 
+  const setQuestionnaireDefault = () => {
+    setData({
+      businessType: "",
+      openHour: "",
+      closeHour: "",
+      budget: 0,
+      selectedAgeGroup: [4, 65],
+      ageImportance: 0,
+      selectedIncomeLevel: [10000, 100000],
+      incomeImportance: 0,
+      targetGroup: [],
+      proximityImportance: 0,
+      footfallImportance: 0,
+      surroundingBusinessesImportance: 0,
+      rentBudget: 0,
+      genderRatio: "",
+      employmentStatus: ["Full Time"],
+      populationDensity: 0,
+      selectedBoroughs: [],
+      areaType: [],
+    });
+  };
+
+
   return (
     <QuestionnaireContext.Provider
       value={{
         data,
         answerQuestion,
         isQuestionnaireCompleted,
-        dummyData,
-        sendDummyData,
+        setQuestionnaireDefault,
       }}
     >
       {children}

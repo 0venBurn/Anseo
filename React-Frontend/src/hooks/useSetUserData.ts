@@ -6,6 +6,7 @@ import { Predictions, UserHistory, Neighbourhood } from '../utils/types';
 import { useNavigate } from 'react-router-dom';
 
 const useSetUserData = (
+    isPageLoaded: boolean,
     setIsPageLoaded: React.Dispatch<React.SetStateAction<boolean>>, 
     setUserFavourites: React.Dispatch<React.SetStateAction<Neighbourhood[]>>,
     setUserHistory: React.Dispatch<React.SetStateAction<UserHistory[] | null>>,
@@ -20,7 +21,7 @@ const useSetUserData = (
 
   useEffect(() => {
     const setUserData = async () => {
-      if (isLoaded && predictions && neighbourhoods.length > 0 && selectedBoroughs.length > 0) {        
+      if (!isPageLoaded && isLoaded && Object.keys(predictions).length > 0 && neighbourhoods.length > 0 && selectedBoroughs.length > 0) {        
         try {
           // continue as guest
           if (!isSignedIn && isQuestionnaireCompleted()) {

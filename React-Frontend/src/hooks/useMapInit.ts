@@ -26,8 +26,15 @@ export const useMapInit = (
             mapInstance.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
 
             mapInstance.on('load', () => {
+                if (!mapInstance.getSource('Layers')) {
+                    console.log("adding source")
+                    mapInstance.addSource('Layers', {
+                      type: 'vector',
+                      url: 'mapbox://tadghp.0lsjggwr'
+                    });
+                  }
                 setMap(mapInstance);
             })        
     }  
-    }, [lat, lng, zoom, pitch]);    
+    }, []);    
 };

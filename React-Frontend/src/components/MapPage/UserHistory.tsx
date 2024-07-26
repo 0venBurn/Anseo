@@ -85,7 +85,7 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userHistory, handleReRenderPo
                     {selectedBoroughs.map( (borough: string, index) => {
                         return (
                             <>
-                                <UserHistoryItem key={`${resultId}-borough-${index}`} content={borough} /> 
+                                <UserHistoryItem key={`${resultId}-borough-${index}-${Math.random()}`} content={borough} /> 
                             </>
                         )
                     })
