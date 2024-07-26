@@ -171,8 +171,11 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
                 maintainAspectRatio: false,
                 scales: {
                   r: {
+                    min: 0,
+                    max: 100,
                     ticks: {
-                      display: false
+                      display: false,
+                      stepSize: 15,
                     }
                   }
                 },
@@ -197,8 +200,11 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
                 maintainAspectRatio: false,
                 scales: {
                   r: {
+                    min: 0,
+                    max: 100,
                     ticks: {
-                      display: false
+                      display: false,
+                      stepSize: 15,
                     }
                   }
                 },
