@@ -65,7 +65,7 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
         rankings.gender_diversity_index,
         
       ] : [],
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      backgroundColor: 'rgb(255, 201, 14, 0.7)',
     }]
   };
 
@@ -80,7 +80,7 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
         rankings.Safety_Index,
         rankings.business_index
       ] : [],
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      backgroundColor: 'rgba(125, 218, 255, 0.8)',
     }]
   };
 
@@ -93,8 +93,8 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
         indexes.population_density, indexes.index_percPop_0_5, indexes.index_percPop_6_11, indexes.index_percPop_12_17,
         indexes.male_index, indexes.female_index, indexes.age_evenness_index, indexes.gender_diversity_index
       ] : [],
-      backgroundColor: 'rgba(255, 99, 132, 0.2)',
-      borderColor: 'rgba(255, 99, 132, 1)',
+      backgroundColor: 'rgba(255, 201, 14, 0.2)',
+      borderColor: 'rgba(255, 201, 14, 1)',
       borderWidth: 2,
       fill: true
     }]
@@ -108,8 +108,8 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
         indexes.Normalized_Employment_Health_Index, indexes.Annual_Earnings_Index,
         indexes.Housing_Affordability_Index, indexes.Safety_Index, indexes.business_index
       ] : [],
-      backgroundColor: 'rgba(53, 162, 235, 0.2)',
-      borderColor: 'rgba(53, 162, 235, 1)',
+      backgroundColor: 'rgba(125, 218, 255, 0.3)',
+      borderColor: 'rgba(125, 218, 255, 1)',
       borderWidth: 2,
       fill: true
     }]
