@@ -33,7 +33,7 @@ const LandingPage: React.FC = () => {
       </div>
       <Chat />
       <ToastContainer
-        position="top-left"
+        position={window.innerWidth <= 767 ? "bottom-left" : "top-left"}
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}

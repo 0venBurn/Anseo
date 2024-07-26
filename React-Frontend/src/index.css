@@ -49,9 +49,8 @@ body,
 
 @media (max-width: 767px) {
   .custom-toast {
-    width: 250px; 
-    margin-left: 15px; 
-    margin-top: 15px; 
+    width: 220px;
+    font-size: 12px; 
   }
 }
 
