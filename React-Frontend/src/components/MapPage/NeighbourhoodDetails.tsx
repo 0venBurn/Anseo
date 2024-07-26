@@ -163,10 +163,10 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
             justifyContent: 'space-between',
             gap: 2
           }}>
-            <Box sx={{ width: { xs: '100%', md: '45%' } }}>
+            <Box sx={{ width: { xs: '100%', md: '45%' }, maxWidth: { xs: 500, md: 'none' } }}>
               <Bar data={demographicData} options={{ maintainAspectRatio: false }} />
             </Box>
-            <Box sx={{ width: { xs: '100%', md: '45%' } }}>
+            <Box sx={{ width: { xs: '100%', md: '45%' }, maxWidth: { xs: 500, md: 'none' } }}>
               <Radar data={demographicRadarData} options={{
                 maintainAspectRatio: false,
                 scales: {
@@ -189,10 +189,10 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
             justifyContent: 'space-between',
             gap: 2
           }}>
-            <Box sx={{ width: { xs: '100%', md: '45%' } }}>
+            <Box sx={{ width: { xs: '100%', md: '45%' }, maxWidth: { xs: 500, md: 'none' } }}>
               <Bar data={economicData} options={{ maintainAspectRatio: false }} />
             </Box>
-            <Box sx={{ width: { xs: '100%', md: '45%' } }}>
+            <Box sx={{ width: { xs: '100%', md: '45%' }, maxWidth: { xs: 500, md: 'none' } }}>
               <Radar data={economicRadarData} options={{
                 maintainAspectRatio: false,
                 scales: {
