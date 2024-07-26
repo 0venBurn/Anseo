@@ -19,6 +19,7 @@ body,
   padding: 0;
   box-sizing: border-box;
 }
+
 @media (min-width: 768px) {
   html,
   body {
@@ -38,6 +39,19 @@ body,
   .no-scrollbar {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+  }
+}
+
+
+.custom-toast {
+  width: 500px; 
+}
+
+@media (max-width: 767px) {
+  .custom-toast {
+    width: 250px; 
+    margin-left: 15px; 
+    margin-top: 15px; 
   }
 }
 

@@ -12,24 +12,10 @@ import "react-toastify/dist/ReactToastify.css";
 //Main component for the landing page
 const LandingPage: React.FC = () => {
   useEffect(() => {
-    toast("Welcome to Anseo! We're glad to have you here.", {
+    toast("Welcome to Anseo! To check out our AI chat assistant click the expandable widget on the bottom right of the screen.", {
       toastId: "welcome-toast",
+      className: "custom-toast",
     });
-
-    setTimeout(() => {
-      toast("Get started by clicking the 'Start Now' button!", {
-        toastId: "start-now-toast",
-      });
-    }, 2000);
-
-    setTimeout(() => {
-      toast(
-        "To check out our AI chat assistant click the expandable widget on the bottom right of the screen.",
-        {
-          toastId: "chat-assistant-toast",
-        }
-      );
-    }, 4000);
   }, []);
 
   return (
