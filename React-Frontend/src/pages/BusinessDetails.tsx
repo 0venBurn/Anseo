@@ -18,7 +18,7 @@ const BusinessDetails: React.FC = () => {
   const [businessType, setBusinessType] = useState<string>("");
   const [openHour, setOpenHour] = useState<number>(8); // Default to 8 AM
   const [closeHour, setCloseHour] = useState<number>(18); // Default to 6 PM
-  const [budget, setBudget] = useState<number>(23); // Default budget value
+  const [budget, setBudget] = useState<number>(30); // Default budget value
   // State for rent budget, default set to 3000
   const [rentBudget, setRentBudget] = useState<number>(3000);
   
