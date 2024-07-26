@@ -156,45 +156,53 @@ const NeighbourhoodDetails: React.FC<NeighbourhoodDetailsProps> = ({ neighbourho
             Why this neighbourhood?
           </Typography>
           <Typography variant="h5" component="h3" style={{ fontWeight: 'bold', color: '#3B447A', fontFamily: 'Alegreya' }} gutterBottom>Demographic Rankings</Typography>
-          <Box sx={{ minHeight: 300, display: 'flex', justifyContent: 'space-between' }}>
-            <Box sx={{ width: '45%' }}>
+          <Box sx={{ 
+            minHeight: 300, 
+            display: 'flex', 
+            flexDirection: { xs: 'column', md: 'row' },
+            justifyContent: 'space-between',
+            gap: 2
+          }}>
+            <Box sx={{ width: { xs: '100%', md: '45%' } }}>
               <Bar data={demographicData} options={{ maintainAspectRatio: false }} />
             </Box>
-            <Box sx={{ width: '45%' }}>
-              <Radar data={demographicRadarData} options={
-                { 
-                  maintainAspectRatio: false,
-                  scales: {
-                    r: {
-                      ticks: {
-                        display: false
-                      }
+            <Box sx={{ width: { xs: '100%', md: '45%' } }}>
+              <Radar data={demographicRadarData} options={{
+                maintainAspectRatio: false,
+                scales: {
+                  r: {
+                    ticks: {
+                      display: false
                     }
-                  },
-                }
-                } />
+                  }
+                },
+              }} />
             </Box>
           </Box>
 
           {/* Economic and Social Rankings with Radar Chart */}
           <Typography variant="h5" component="h3" style={{ fontWeight: 'bold', color: '#3B447A', fontFamily: 'Alegreya' }} gutterBottom>Economic and Social Rankings</Typography>
-          <Box sx={{ minHeight: 300, display: 'flex', justifyContent: 'space-between' }}>
-            <Box sx={{ width: '45%' }}>
+          <Box sx={{ 
+            minHeight: 300, 
+            display: 'flex', 
+            flexDirection: { xs: 'column', md: 'row' },
+            justifyContent: 'space-between',
+            gap: 2
+          }}>
+            <Box sx={{ width: { xs: '100%', md: '45%' } }}>
               <Bar data={economicData} options={{ maintainAspectRatio: false }} />
             </Box>
-            <Box sx={{ width: '45%' }}>
-              <Radar data={economicRadarData} options={
-                { 
-                  maintainAspectRatio: false,
-                  scales: {
-                    r: {
-                      ticks: {
-                        display: false
-                      }
+            <Box sx={{ width: { xs: '100%', md: '45%' } }}>
+              <Radar data={economicRadarData} options={{
+                maintainAspectRatio: false,
+                scales: {
+                  r: {
+                    ticks: {
+                      display: false
                     }
-                  },
-                }
-              } />
+                  }
+                },
+              }} />
             </Box>
           </Box>
 
