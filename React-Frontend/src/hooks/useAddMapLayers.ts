@@ -71,8 +71,6 @@ export const useAddMapLayers = (
         },
         filter
       });
-    } else {
-      map.setFilter('LayersFill', filter);
     }
     
     // Add or update LayersOutline
@@ -90,9 +88,7 @@ export const useAddMapLayers = (
         },
         filter
       });
-    } else {
-      map.setFilter('LayersOutline', filter);
-    }
+    } 
     
     
     // Handle markers
@@ -100,11 +96,13 @@ export const useAddMapLayers = (
     markersRef.current = [];
     
     if (filteredListings.length > 0) {
+      console.log(filteredListings)
       filteredListings.forEach((filteredListing) => {
         const marker = new mapboxgl.Marker()
         .setLngLat([parseFloat(filteredListing.lng), parseFloat(filteredListing.lat)])
         .addTo(map);
         markersRef.current.push(marker);
+        console.log(markersRef.current)
       });
     }
     
@@ -133,5 +131,5 @@ export const useAddMapLayers = (
       }
     };
   } 
-  }, [map, selectedBoroughs, predictions, filteredListings, highlightedLocation, reRenderPolygons]);
+  }, [map, selectedBoroughs, predictions, filteredListings, highlightedLocation, reRenderPolygons, setReRenderPolygons, sortedZipCodes]);
 };

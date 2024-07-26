@@ -13,8 +13,9 @@ export const useMapInit = (
     pitch: number,
 ) => {    
     useEffect(() => {
+        let mapInstance: mapboxgl.Map | null = null;
         if (mapRef.current && !map) {
-            const mapInstance = new mapboxgl.Map({
+            mapInstance = new mapboxgl.Map({
                 container: mapRef.current,
                 center: [lng, lat],
                 zoom,
@@ -26,15 +27,23 @@ export const useMapInit = (
             mapInstance.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
 
             mapInstance.on('load', () => {
-                if (!mapInstance.getSource('Layers')) {
-                    console.log("adding source")
+                if (mapInstance) {
+                    if (!mapInstance.getSource('Layers')) {
+                        console.log("adding source")
                     mapInstance.addSource('Layers', {
                       type: 'vector',
                       url: 'mapbox://tadghp.0lsjggwr'
                     });
                   }
                 setMap(mapInstance);
+            }
             })        
     }  
+    return () => {
+        if (mapInstance) {
+          mapInstance.remove(); // Clean up on component unmount
+          mapInstance = null;
+        }
+      };
     }, []);    
 };

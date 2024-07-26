@@ -105,9 +105,12 @@ const MapPage: React.FC = () => {
       setFilteredListings(neighbourhoodListings)
       setIsClosing(false);
       // function for zoom in when clicked learn more
+      console.log(neighbourhood)
+      console.log(neighbourhood.zipcode)
       const coordinates = await getCoordinatesByZipcode(neighbourhood.zipcode);
+      console.log(map)  
       if (coordinates && map) {
-        map.flyTo({ center: coordinates, zoom: 12 });
+        map && map.flyTo({ center: coordinates as [number, number], zoom: 12 });
     }
   };
 

@@ -40,17 +40,21 @@ const Map: React.FC<MapProps> = ({
   useEffect(() => {
     const fetchBoroughCoordinates = async (borough: string) => {
       try {
-        const response = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${borough}.json`, {
+        const response = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${borough.toLowerCase()}.json`, {
           params: {
             access_token: mapboxgl.accessToken,
-            proximity: '-74.0060,40.7128', // New York City coordinates
-            //limit: 1 // Limit the results to 1 to ensure you get the closest match
+            proximity: '-74.0060,40.7128', 
           }
         });
+        console.log(response)
+        if (response.status !== 200) {
+          throw new Error(response.statusText);
+        }
+        
         const coordinates = response.data.features[0].center;
         return coordinates;
       } catch (error) {
-        console.error(`Error fetching coordinates for borough ${borough}:`, error);
+        console.error(`Error fetching coordinates for borough ${borough}: `, error);
         return null;
       }
     };
@@ -58,10 +62,12 @@ const Map: React.FC<MapProps> = ({
     const updateMapCenter = async () => {
       if (selectedBoroughs.length === 1 && selectedBoroughs[0] !== 'No preference') {
         const coordinates = await fetchBoroughCoordinates(selectedBoroughs[0]);
+        console.log('coords ' + coordinates)
         if (coordinates) {
           map && map.flyTo({ center: coordinates, zoom: 11 });
         }
       } else {
+        console.log('center' + center)
         map && map.flyTo({ center, zoom });
       } 
     };
