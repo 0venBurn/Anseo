@@ -83,7 +83,7 @@ const SingleSlider: React.FC<SingleSliderProps> = (
     }
  
     return (    
-        <div className='mb-6 '>
+        <div className='mb-6 slider-container'>
         <QuestionLabel label={label} questionNumber={questionNumber}/>
         <Slider 
             value={value} 
@@ -127,7 +127,7 @@ const SingleSlider: React.FC<SingleSliderProps> = (
                 }
             }}
             marks={marksGenerator(type)}
-            className="max-w-[75%] lg:max-w-[65%]"
+            className="slider-root"
             />
         </div>
     )
