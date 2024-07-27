@@ -58,7 +58,6 @@ const useSetUserData = (
             setIsPageLoaded(true);
           }
 
-
       } catch (error) {
         console.error("Error fetching predictions:", error);
       }

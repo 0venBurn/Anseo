@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Indexes, Listing, Neighbourhood, Predictions, Rankings, UserHistory as UserHistoryType } from "../../utils/types";
+import { Indexes, Listing, Neighbourhood, Predictions, UserHistory as UserHistoryType } from "../../utils/types";
 import UserOptionsHeader from "./UserOptionsHeader";
 import NeighbourhoodCardGrid from "./NeighbourhoodCardGrid";
 import NeighbourhoodDetails from "./NeighbourhoodDetails";
@@ -14,7 +14,6 @@ interface NeighbourhoodContainerProps {
     handleLearnMore: (neighbourhood: Neighbourhood) => void
     selectedNeighbourhood: Neighbourhood | null
     filteredListings: Listing[]
-    filteredRankings: Rankings | undefined
     filteredIndexes: Indexes | undefined    
     isClosing: boolean
     userHistory: UserHistoryType[] | null
@@ -34,7 +33,6 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
         handleLearnMore,
         selectedNeighbourhood,
         filteredListings,
-        filteredRankings,
         filteredIndexes,
         isClosing,
         handleClose,
@@ -67,7 +65,6 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
             <NeighbourhoodDetails
             neighbourhood={selectedNeighbourhood}
             listings={filteredListings} 
-            rankings={filteredRankings}
             indexes={filteredIndexes}
             isClosing={isClosing}
             onClose={handleClose}

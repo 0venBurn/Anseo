@@ -5,7 +5,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import Header from "../components/General/Header";
 import "../index.css";
 import Map from "../components/MapPage/Map";
-import { Listing, Neighbourhood, Predictions, Rankings, Indexes, HighlightedLocation, UserHistory } from "../utils/types";
+import { Listing, Neighbourhood, Predictions, Indexes, HighlightedLocation, UserHistory } from "../utils/types";
 import NeighbourhoodContainer from "../components/MapPage/NeighbourhoodContainer";
 import useSetQuestionnaireData from "../hooks/useSetQuestionnaireData";
 import useGetNeighbourhoods from "../hooks/useGetNeighbourhoods";
@@ -32,7 +32,6 @@ const MapPage: React.FC = () => {
   const [filteredListings, setFilteredListings] = useState<Listing[]>([]);
   const [isClosing, setIsClosing] = useState(false);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
-  const [rankingsData, setRankingsData] = useState<Rankings[]>([]);
   const [highlightedLocation, setHighlightedLocation] =
     useState<HighlightedLocation | null>(null);
   const [indexData, setIndexData] = useState<Indexes[]>([]);
@@ -53,7 +52,6 @@ const MapPage: React.FC = () => {
   useGetNeighbourhoodDetails(
     setIndexData,
     setListings,
-    setRankingsData,
   )
 
   useSetUserData(
@@ -136,13 +134,6 @@ const MapPage: React.FC = () => {
     setTimeout(() => setHighlightedLocation(null), 500);
     setTimeout(() => setSelectedNeighbourhood(null), 500);
   };
-
-  const filteredRankings = selectedNeighbourhood
-    ? rankingsData.find(
-        (ranking) =>
-          ranking.neighbourhood_id === selectedNeighbourhood.neighbourhood_id,
-      )
-    : undefined;
   
   const filteredIndexes = selectedNeighbourhood
     ? indexData.find(
@@ -167,7 +158,6 @@ const MapPage: React.FC = () => {
           handleLearnMore={handleLearnMore}
           selectedNeighbourhood={selectedNeighbourhood}
           filteredListings={filteredListings} 
-          filteredRankings={filteredRankings}
           filteredIndexes={filteredIndexes}
           isClosing={isClosing}
           handleClose={handleClose}

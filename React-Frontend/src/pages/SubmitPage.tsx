@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../index.css';
 import AuthenticationButton from '../components/Questionnaire/AuthenticationButton';
 import { motion } from 'framer-motion';
+import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import Header from '../components/General/Header';
 import '../index.css';
 import LinearGradientCircle from '../components/Questionnaire/LinearGradientCircle';
@@ -16,7 +17,8 @@ const SubmitPage: React.FC = () => {
   
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (e.currentTarget.textContent === 'Continue as Guest') {
+    if (e.currentTarget.textContent === 'Continue as Guest' || 
+      e.currentTarget.textContent === 'Continue to Map Page') {
       isQuestionnaireCompleted() && navigate('/map');
     } else {
       navigate('/sign-up');
@@ -38,20 +40,29 @@ const SubmitPage: React.FC = () => {
           <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold font-alegreya">
             Ready to view your results?
           </h1>
+          <SignedIn>
           <p className="text-2xl lg:text-3xl font-commissioner">
-            Create an account to save your results and access additional features or continue as a guest.
+            Continue to find the best location to set up your new business in New York.
           </p>
-          <div>
+          <div className="flex items-center justify-center self-center w-5/6 md:w-4/6 max-w-md">
+            <AuthenticationButton text='Continue to Map Page' handleSubmit={handleSubmit} />
+          </div>
+          </SignedIn>
+          <SignedOut>
+          <p className="text-2xl lg:text-3xl font-commissioner">
+            Create an account to save your results and access additional features or continue as a guest 
+            to find the best location to set up your new business in New York.
+          </p>
           <div className="flex flex-col items-center md:flex-row md:gap-8 max-w-2xl">
             <AuthenticationButton text='Continue as Guest' handleSubmit={handleSubmit} />
             <AuthenticationButton text='Create an Account' handleSubmit={handleSubmit} />
           </div>
+          </SignedOut>
             <p className="font-inter text-sm">
               By continuing, you agree to our{' '}
               <a href="/terms" className="text-blue-500">Terms of Service</a> and{' '}
               <a href="/privacy" className="text-blue-500">Privacy Policy</a>
             </p>
-          </div>
           </div>
           <div className="flex items-center justify-center w-full">
             <NavigationButtons 

@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 import { fetchAllPages } from "../utils/apiFunctions";
-import { Listing, Indexes, Rankings } from "../utils/types";
+import { Listing, Indexes } from "../utils/types";
 
 const useGetNeighbourhoodDetails = (
     setIndexData: React.Dispatch<React.SetStateAction<Indexes[]>>,
     setListings: React.Dispatch<React.SetStateAction<Listing[]>>,
-    setRankingsData: React.Dispatch<React.SetStateAction<Rankings[]>>,
 ) => {
     const fetchIndexesData = async () => {
         try {
@@ -19,23 +18,6 @@ const useGetNeighbourhoodDetails = (
           }
         } catch (error) {
           console.error("Failed to fetch or parse indexes data:", error);
-        }
-      };
-
-      const fetchRankingsData = async () => {
-        try {
-          const response = await fetch ("/final_index_data.json");
-          const data = await response.json(); 
-          console.log(data)
-          // sortedRankings =
-          console.log(Array.isArray(data))
-          if (Array.isArray(data)) {
-            setRankingsData(data);
-          } else {
-            throw new Error("Fetched data is not an array");
-          }
-        } catch (error) {
-          console.error("Failed to fetch or parse rankings data:", error);
         }
       };
 
@@ -57,7 +39,6 @@ const useGetNeighbourhoodDetails = (
                   });
                 await fetchIndexesData();
                 setListings(allListings);
-                await fetchRankingsData();
             } catch(error) {
                 console.error(error)
             }

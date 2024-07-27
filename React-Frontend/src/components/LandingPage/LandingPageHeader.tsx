@@ -30,6 +30,7 @@ const LandingPageHeader: React.FC = () => {
       </motion.div>
       <div className="self-end flex items-center w-full justify-end md:gap-4 px-2 ">
       <SignedIn>
+        <div className="px-4 md:px-20">
           <UserButton 
             appearance={{
               elements: {
@@ -37,10 +38,11 @@ const LandingPageHeader: React.FC = () => {
                 userButtonPopoverMain: "font-inter",
               }
             }} 
-          />
+            />
+            </div>
         </SignedIn>
         <SignedOut>
-        <div className="flex space-x-4 items-center">
+        <div className="flex space-x-4 md:px-16 items-center">
           <LoginBtn />
           <SignUpBtn />
         </div>
