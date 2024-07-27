@@ -3,6 +3,134 @@ import pandas as pd
 import numpy as np
 import re
 from scipy import stats
+from sentence_transformers import SentenceTransformer
+import umap
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+import seaborn as sns
+import torch
+import umap.umap_ as umap
+from scipy.spatial.distance import cosine
+import os
+
+industries = ['Sightseeing Guide', 'Tow Truck Driver', 'Ticket Seller', 'Pedicab Driver', 'Auctioneer', 'Home Improvement Salesperson', 
+              'Garage', 'Tobacco Retail Dealer', 'Laundries', 'Sidewalk Cafe', 'Secondhand Dealer - General', 
+              'Electronic & Appliance Service', 'Secondhand Dealer - Auto', 'General Vendor', 'Employment Agency', 
+              'Home Improvement Contractor', 'Electronic Cigarette Dealer', 'Newsstand', 'Electronics Store', 'Stoop Line Stand', 
+              'Tow Truck Company', 'Garage and Parking Lot', 'Process Server Individual', 'Bingo Game Operator', 'Parking Lot', 
+              'Laundry', 'Locksmith', 'Process Serving Agency', 'Dealer In Products', 'Horse Drawn Driver', 'Laundry Jobber', 
+              'Pawnbroker', 'Construction Labor Provider', 'Pedicab Business', 'Car Wash', 'Special Sale', 'Third Party Food Delivery', 
+              'Pool or Billiard Room', 'Debt Collection Agency', 'Scrap Metal Processor', 'Catering Establishment', 
+              'Amusement Device Portable', 'Tow Truck Exemption', 'Ticket Seller Business', 'Horse Drawn Cab Owner', 
+              'Auction House Premises', 'Amusement Device Temporary', 'Games of Chance', 'Amusement Device Permanent', 'Sightseeing Bus', 
+              'Gaming Cafe', 'Amusement Arcade', 'Cabaret', 'Booting Company', 'Commercial Lessor', 'Scale Dealer Repairer', 
+              'Storage Warehouse', 'Locksmith Apprentice', 'General Vendor Distributor', 'Secondhand Dealer - Firearms', 
+              'Motion Picture Projectionist']
+
+definitions = ["A person who guides tourists, providing information about places of interest.",
+               "A person who operates a tow truck, assisting in the removal and transport of disabled vehicles.",
+               "An individual who sells tickets for events, transportation, or attractions.",
+               "A person who drives a pedal-powered or electric rickshaw, transporting passengers.",
+               "A person who conducts auctions by accepting bids and declaring goods sold.",
+               "A person who sells products and services related to home renovations and improvements.",
+               "A facility where vehicles are stored, serviced, or repaired.",
+               "A business that sells tobacco products to consumers.",
+               "Establishments that provide laundry services, including washing, drying, and ironing clothes.",
+               "An outdoor dining area located on a sidewalk adjacent to a restaurant or cafe.",
+               "A business that buys and sells used goods of various types.",
+               "A service that repairs and maintains electronic devices and household appliances.",
+               "A business that buys and sells used automobiles.",
+               "An individual or business that sells a variety of goods, often in a market or street setting.",
+               "A business that helps individuals find employment and employers find workers.",
+               "A professional who performs construction, repairs, and renovations on residential properties.",
+               "A business that sells electronic cigarettes and related products.",
+               "A stand or kiosk where newspapers, magazines, and other periodicals are sold.",
+               "A retail store that sells electronic devices and accessories.",
+               "A small outdoor retail stand that sells fruits, vegetables, or other goods.",
+               "A business that provides towing services for vehicles.",
+               "A facility that offers parking spaces for vehicles and may provide additional services such as car washes or repairs.",
+               "A person who serves legal documents to individuals involved in court proceedings.",
+               "A person or business that organizes and operates bingo games.",
+               "A designated area where vehicles can be parked.",
+               "An establishment that washes, dries, and irons clothes and other textiles.",
+               "A professional who repairs and installs locks, keys, and security systems.",
+               "A business that employs individuals to serve legal documents.",
+               "A business that sells specific products, often in bulk or wholesale.",
+               "A person who drives a horse-drawn carriage or wagon.",
+               "A business that provides bulk laundry services, often to other businesses.",
+               "A person or business that lends money in exchange for personal property as collateral.",
+               "A business that supplies labor for construction projects.",
+               "A business that operates pedal-powered or electric rickshaws for transporting passengers.",
+               "An establishment that cleans the exterior and interior of motor vehicles.",
+               "A temporary sale event, often for discounted goods or services.",
+               "A service that delivers food from restaurants to customers, typically operated by an independent company.",
+               "An establishment where pool or billiards games are played.",
+               "A business that collects overdue payments on behalf of creditors.",
+               "A business that collects, processes, and recycles scrap metal.",
+               "A business that provides food services for events and gatherings.",
+               "A mobile amusement ride or attraction that can be set up temporarily.",
+               "A special status for tow trucks exempting them from certain regulations.",
+               "A business that sells tickets for various events, transportation, or attractions.",
+               "A person or business that owns horse-drawn carriages for transporting passengers.",
+               "A location where auctions are regularly held.",
+               "A temporary amusement ride or attraction set up for a short duration.",
+               "Gambling games where the outcome is largely influenced by luck rather than skill.",
+               "A permanent amusement ride or attraction installed at a fixed location.",
+               "A bus service that provides tours to various points of interest.",
+               "An establishment where patrons can play video games and computer games.",
+               "A facility with various coin-operated games and amusements.",
+               "A nightclub or restaurant where entertainment, such as music or dancing, is performed.",
+               "A business that places wheel clamps (boots) on vehicles for parking violations.",
+               "A business that leases commercial property to tenants.",
+               "A business that sells and repairs weighing scales.",
+               "A facility where goods are stored for short or long-term periods.",
+               "An individual who is training to become a locksmith.",
+               "A business that distributes goods to various vendors for resale.",
+               "A business that buys and sells used firearms.",
+               "A person who operates movie projectors in a theater."]
+
+data = {'Industry': industries, 'Definition': definitions}
+df = pd.DataFrame(data)
+# Load a pre-trained model
+
+print("Loading pre-trained model...")
+
+os.environ["CUDA_VISIBLE_DEVICES"] = ""  # This disables CUDA
+
+# Check if CUDA (GPU) is available and set the device accordingly
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+# Load a pre-trained model on CPU
+model = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')
+
+# Create embeddings
+embeddings = model.encode(df['Definition'].tolist())
+
+# Add embeddings to DataFrame
+df['Embedding'] = list(embeddings)
+
+# Perform UMAP dimensionality reduction
+reducer = umap.UMAP(n_neighbors=15, min_dist=0.1, n_components=2, random_state=42)
+embedding_2d = reducer.fit_transform(embeddings)
+
+model = SentenceTransformer('all-MiniLM-L6-v2', device=device)
+
+industry_embeddings = model.encode(industries, device=device)
+
+def find_closest_industry(input_embedding, industry_embeddings, industries):
+    similarities = [1 - cosine(input_embedding, ind_emb) for ind_emb in industry_embeddings]
+    closest_index = np.argmax(similarities)
+    return industries[closest_index]
+def process_user_input(user_input, model):
+    user_embedding = model.encode([user_input], device=device)[0]
+    
+    word_similarities = [1 - cosine(user_embedding, emb) for emb in df['Embedding']]
+    closest_word_index = np.argmax(word_similarities)
+    closest_word = df.iloc[closest_word_index]['Industry']
+    closest_word_embedding = df.iloc[closest_word_index]['Embedding']
+    
+    closest_industry = find_closest_industry(closest_word_embedding, industry_embeddings, industries)
+    return closest_industry
 
 def get_age_category_index(age):
     age_categories = [
@@ -244,7 +372,7 @@ def question_to_inputs(request):
         'Industry_Tow Truck Driver', 'Industry_Tow Truck Exemption'
     ]
     industry_sparse_array = np.zeros(len(industry_options))
-    industry_input = question.businessType
+    industry_input = process_user_input(question.businessType, model)
     for i, industry in enumerate(industry_options):
         if industry == industry_input:
             industry_sparse_array[i] = 1
