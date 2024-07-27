@@ -8,8 +8,7 @@ import UserHistory from "./UserHistory";
 
 interface NeighbourhoodContainerProps {
     activeBtn: string | null
-    setActiveBtn: React.Dispatch<React.SetStateAction<string | null>>
-    setSelectedNeighbourhood: React.Dispatch<React.SetStateAction<Neighbourhood | null>>
+    handleTabClick: (e: React.MouseEvent<HTMLButtonElement>) => void
     neighbourhoods: Neighbourhood[]
     handleLearnMore: (neighbourhood: Neighbourhood) => void
     selectedNeighbourhood: Neighbourhood | null
@@ -27,8 +26,7 @@ interface NeighbourhoodContainerProps {
 const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = ( 
     { 
         activeBtn, 
-        setActiveBtn,
-        setSelectedNeighbourhood,
+        handleTabClick,
         neighbourhoods, 
         handleLearnMore,
         selectedNeighbourhood,
@@ -43,16 +41,11 @@ const NeighbourhoodContainer: React.FC<NeighbourhoodContainerProps> = (
         handleReRenderPolygons
      }) => {
 
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      setActiveBtn(e?.currentTarget.textContent);
-      setSelectedNeighbourhood(null);
-    }
-
     return (
         <div className="flex flex-col w-full lg:max-w-[50%] bg-user-sidebar-purple-light overflow-auto shadow-md">
           <UserOptionsHeader 
           activeBtn={activeBtn}
-          handleClick={handleClick} />
+          handleTabClick={handleTabClick} />
         <motion.div
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}

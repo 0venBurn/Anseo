@@ -4,10 +4,10 @@ import UserOptionBtn from "./UserOptionBtn";
 
 interface UserOptionsHeaderProps {
   activeBtn: string | null
-  handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void
+  handleTabClick: (e: React.MouseEvent<HTMLButtonElement>) => void
 } 
 
-const UserOptionsHeader: React.FC<UserOptionsHeaderProps> = ({ activeBtn, handleClick}) => {
+const UserOptionsHeader: React.FC<UserOptionsHeaderProps> = ({ activeBtn, handleTabClick}) => {
   const { user } = useUser();
 
     return (
@@ -21,15 +21,15 @@ const UserOptionsHeader: React.FC<UserOptionsHeaderProps> = ({ activeBtn, handle
                 <UserOptionBtn 
                   title="Results" 
                   isActive={activeBtn === 'Results'}
-                  handleClick={handleClick}/>
+                  handleClick={handleTabClick}/>
                 <UserOptionBtn 
                   title="Favourites" 
                   isActive={activeBtn === 'Favourites'}
-                  handleClick={handleClick}/>
+                  handleClick={handleTabClick}/>
                 <UserOptionBtn 
                   title="History" 
                   isActive={activeBtn === 'History'}
-                  handleClick={handleClick}/>
+                  handleClick={handleTabClick}/>
               </div>
             <SignedOut></SignedOut>
       </div>

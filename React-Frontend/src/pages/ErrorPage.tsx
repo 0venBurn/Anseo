@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import errorImg from '/img/errorImg.svg';
-import { useRouteError, isRouteErrorResponse } from 'react-router-dom';
+import { useRouteError } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 
 const ErrorPage: React.FC = () => {

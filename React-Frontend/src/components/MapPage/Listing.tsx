@@ -3,6 +3,7 @@ import { motion } from "framer-motion"
 import { OpenInNew } from "@mui/icons-material"
 import { Listing as ListingType } from "../../utils/types"
 import React from "react"
+import InfoTool from "./Infotool"
 
 interface ListingProps {
     listing: ListingType
@@ -26,19 +27,21 @@ const Listing: React.FC<ListingProps> = ({ listing, onListingClick }) => {
                 <p className="font-commissioner text-primary-text-dark text-center px-2">{listing.listingDetails}</p>
             </div>
             <div className="flex items-center justify-end self-start w-full flex-grow-0 flex-shrink-0" >
-                <IconButton 
-                    onClick={() => window.open(listing.link, '_blank')}
-                    sx={{
-                        fontSize: '2rem',
-                        margin: '0 1rem',
-                        color: '#3B447A',
-                        "&:hover": {
+                <InfoTool title="Load previous results">
+                    <IconButton 
+                        onClick={() => window.open(listing.link, '_blank')}
+                        sx={{
+                            fontSize: '2rem',
+                            margin: '0 1rem',
+                            color: '#3B447A',
+                            "&:hover": {
                                 backgroundColor: "#E8EAF6",
-                        }
-                    }}
-                    >
-                    <OpenInNew />
-                </IconButton>
+                            }
+                        }}
+                        >
+                        <OpenInNew />
+                    </IconButton>
+                </InfoTool>
             </div>
         </motion.div>
     )

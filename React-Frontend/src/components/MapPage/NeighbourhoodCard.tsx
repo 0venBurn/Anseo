@@ -5,6 +5,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { Neighbourhood } from '../../utils/types';
 import { saveUserFavouriteToDB, deleteUserFavouriteFromDB } from '../../utils/apiFunctions';
 import NeighbourhoodRating from './NeighbourhoodRating';
+import InfoTool from './Infotool';
 
 interface NeighbourhoodCardProps {
   neighbourhood: Neighbourhood;
@@ -108,6 +109,9 @@ const NeighbourhoodCard: React.FC<NeighbourhoodCardProps> = ({ neighbourhood, on
             </div>
           </CardContent>
             <div className='flex items-center justify-end'>
+              <InfoTool
+              title={isBookmarked ? 'Remove from your favourites' : 'Add to your favourites'}
+              >
             <IconButton 
               onClick={handleClickBookmark} 
                 sx={{
@@ -120,6 +124,7 @@ const NeighbourhoodCard: React.FC<NeighbourhoodCardProps> = ({ neighbourhood, on
                 }}>            
               <BookmarkIcon fontSize="inherit" />
               </IconButton>
+              </InfoTool>
               </div>
         </Card>
   );

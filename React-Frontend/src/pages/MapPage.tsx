@@ -134,6 +134,12 @@ const MapPage: React.FC = () => {
     setTimeout(() => setHighlightedLocation(null), 500);
     setTimeout(() => setSelectedNeighbourhood(null), 500);
   };
+
+  const handleTabClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setActiveBtn(e?.currentTarget.textContent);
+    setSelectedNeighbourhood(null);
+    setFilteredListings([]);
+  }
   
   const filteredIndexes = selectedNeighbourhood
     ? indexData.find(
@@ -152,8 +158,7 @@ const MapPage: React.FC = () => {
       <div className="flex flex-col-reverse lg:flex-row h-[calc(100vh-5rem)]">
         <NeighbourhoodContainer 
           activeBtn={activeBtn}
-          setActiveBtn={setActiveBtn}
-          setSelectedNeighbourhood={setSelectedNeighbourhood}
+          handleTabClick={handleTabClick}
           neighbourhoods={neighbourhoods}
           handleLearnMore={handleLearnMore}
           selectedNeighbourhood={selectedNeighbourhood}

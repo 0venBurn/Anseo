@@ -4,6 +4,7 @@ import { IconButton } from "@mui/material";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import { Replay } from "@mui/icons-material";
 import NeighbourhoodRating from "./NeighbourhoodRating";
+import InfoTool from "./Infotool";
 
 interface UserHistoryProps {
     userHistory: UserHistoryType[] | null;
@@ -105,7 +106,7 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userHistory, handleReRenderPo
                 </UserHistoryContainer>
                 
                 <UserHistoryContainer>
-
+                <InfoTool title="Load previous results"> 
                 <IconButton 
                 onClick={() => handleReRenderPolygons(selectedBoroughs, predictions)}
                 sx={{
@@ -117,6 +118,7 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userHistory, handleReRenderPo
                 }}>
                     <Replay />
                     </IconButton>
+                </InfoTool>
                 </UserHistoryContainer>
                 </motion.div>
             );
@@ -124,6 +126,6 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userHistory, handleReRenderPo
         </div>
             </SignedIn>
             </>
-    );
+        );
 }
 export default UserHistory;
