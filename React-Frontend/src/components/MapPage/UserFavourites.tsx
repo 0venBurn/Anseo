@@ -12,7 +12,9 @@ const UserFavourites: React.FC<UserFavouritesProps> = ({ userFavourites, handleL
     return (
         <>
         <SignedOut>
-            <h1>Sign in to view your favourites</h1>
+            <div className="flex items-center justify-center w-full h-full p-4">
+            <h1 className="font-alegreya text-shaded-grey text-4xl text-center italic font-light">Create an account to save your favourite neighbourhoods</h1>
+            </div>
         </SignedOut>
         <SignedIn>
         <div>
