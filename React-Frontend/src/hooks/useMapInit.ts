@@ -21,7 +21,7 @@ export const useMapInit = (
                 zoom,
                 pitch,
                 pitchWithRotate: false,
-                style: 'mapbox://styles/tadghp/clxbpfz0f025901pce9n78onm/draft',
+                style: 'mapbox://styles/tadghp/clz5dccnk00og01r2gejp9qto',
             }); 
 
             mapInstance.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
