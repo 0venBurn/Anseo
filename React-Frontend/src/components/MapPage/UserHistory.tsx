@@ -56,7 +56,10 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userHistory, handleReRenderPo
     }
     
     return (
-        <>
+        <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.2 }}>
         <SignedOut>
             <div className="flex items-center justify-center w-full h-full p-4">
             <h1 className="font-alegreya text-shaded-grey text-4xl text-center italic font-light">Create an account to access data from previous questionnaire results</h1>
@@ -72,9 +75,10 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userHistory, handleReRenderPo
                 topNeighbourhoodRating, 
                 timestamp }) => {
             return (
-                <motion.div whileHover={{ scale: 1.02 }}
+                <motion.div 
+                whileHover={{ scale: 1.02 }}
                 key={resultId} 
-                className="flex bg-white p-4 border-b-[1px] gap-4 
+                className="flex flex-col md:flex-row bg-white p-4 border-b-[1px] gap-4 
                 items-center justify-evenly border-b-primary-text-dark  
                 shadow-md cursor-pointer rounded-lg">
                 
@@ -125,7 +129,7 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userHistory, handleReRenderPo
         })}
         </div>
             </SignedIn>
-            </>
+            </motion.div>
         );
 }
 export default UserHistory;
