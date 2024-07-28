@@ -1,5 +1,4 @@
 import React from "react";
-import { FormControl, TextField } from "@mui/material";
 import QuestionLabel from "./QuestionLabel";
 
 interface BusinessTypeSelectorProps {
@@ -14,29 +13,12 @@ const BusinessTypeSelector: React.FC<BusinessTypeSelectorProps> = ({
   return (
     <div className="mb-6 ">
       <QuestionLabel label="What type of business are you planning to start?" questionNumber={questionNumber} />
-      <FormControl className="w-[75%] lg:w-[65%]">
-        <TextField 
-        onInput={handleBusinessTypeInput}
-        sx={{
-          color: "#3B447A",
-          "&:MuiInputBase-root": {
-            fontFamily: "Commissioner",
-            color: "#3B447A",
-          },
-          borderColor: "#3B447A",
-          "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-              borderColor: "#3B447A",
-            },
-            "&:hover fieldset": {
-              borderColor: "#3B447A",
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: "#3B447A",
-            },
-          },
-        }}className="h-40 text-2xl bg-bk-grey outline-none border-4 border-primary-text-dark"/>
-      </FormControl>
+    <input 
+    type="text"
+    placeholder="Enter your business type..."
+    className="w-5/6 bg-bk-grey outline-none font-commissioner md:text-2xl border-b-2
+     border-primary-text-dark text-primary-dark pb-2"
+     onChange={handleBusinessTypeInput}/>
     </div>
   );
 };
