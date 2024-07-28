@@ -21,7 +21,7 @@ const useSetUserData = (
 
   useEffect(() => {
     const setUserData = async () => {
-      if (!isPageLoaded && isLoaded && Object.keys(predictions).length > 0 && neighbourhoods.length > 0 && selectedBoroughs.length > 0) {        
+      if (!isPageLoaded && isLoaded && Object.keys(predictions).length > 0 && neighbourhoods.length > 0 && selectedBoroughs.length > 0 && neighbourhoods[0].rating > 0) {        
         try {
           // continue as guest
           if (!isSignedIn && isQuestionnaireCompleted()) {
@@ -30,7 +30,7 @@ const useSetUserData = (
           }
           
         // signed in and completed questionnaire
-        if (isSignedIn && user && isQuestionnaireCompleted()) {
+        if (isSignedIn && user && isQuestionnaireCompleted() && !isPageLoaded) {
             console.log("test: signed in and completed questionnaire");
 
             await saveUserResultsToDB(user.id, predictions, selectedBoroughs, neighbourhoods[0].name, neighbourhoods[0].rating)
