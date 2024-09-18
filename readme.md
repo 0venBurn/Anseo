@@ -41,13 +41,10 @@ Anseo is an innovative application designed to help business owners, entrepreneu
 - **Sklearn**
 - **Tensorflow**
 
-### Developer Tools
+### Deployment
 - **Docker:** For developing and deploying the application.
-- **Linters & Formatters:**
-  - **Python:** Black, Flake8, Ruff
-  - **Java:** Google Java Format, Checkstyle
-  - **TypeScript:** Prettier, ESLint
-
+- **AWS EC2:** For hosting the project
+- - **AWS RDS:** For hosting the database
 ## Project Management
 - **JIRA**
 - **Slack**
