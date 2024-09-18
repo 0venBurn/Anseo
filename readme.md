@@ -49,10 +49,6 @@ Anseo is an innovative application designed to help business owners, entrepreneu
   - **TypeScript:** Prettier, ESLint
 
 ## Project Management
--**JIRA**
--**Slack**
--**Scrum/Agile**
-We will handle sprints with the following approach:
-- **Sprint Planning:** Held at the beginning of each sprint to discuss tasks and goals.
-- **Daily Scrum Meetings:** Held at 10 am every weekday for quick updates.
-- **Sprint Retrospective:** Held at the end of each sprint to review progress and challenges.
+- **JIRA**
+- **Slack**
+- **Scrum/Agile**
